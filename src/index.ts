@@ -1,4 +1,5 @@
 import { inspect } from "util";
+import { IdaHelper } from "./idaExport";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -21,6 +22,12 @@ const getEntity = sharedModule.getExportByName(
 
 const sendGameData = k2Module.getExportByName(
   "_ZN11CHostClient12SendGameDataERK7IBufferb"
+);
+
+const idaHelper = new IdaHelper();
+idaHelper.addIdaInfo(
+  "libk2-x86_64.so",
+  "/home/detuks/Projects/hon/hon-frida/ida_data/libk2-x86_64.json"
 );
 
 Interceptor.attach(zoomOut, {
@@ -54,11 +61,25 @@ Interceptor.attach(zoomOut, {
 //   console.log("g: "+ e.name);
 // });
 
-function logCallTrace(context: CpuContext, backtracer: Backtracer = Backtracer.FUZZY) {
+function logCallTrace(
+  context: CpuContext,
+  backtracer: Backtracer = Backtracer.FUZZY
+) {
   const returnAdrs = Thread.backtrace(context, backtracer);
   returnAdrs.forEach(a => {
     const mod = Process.findModuleByAddress(a);
-    if (mod) console.log(`${mod.name} + ${a.sub(mod.base)} `);
+    if (!mod) return;
+    const modAddress = a.sub(mod.base);
+    const func = idaHelper.getFunctionAt(mod.name, modAddress);
+    if (func) {
+      console.log(
+        `${mod.name} + ${
+          func.demangledName ? `${func.demangledName} + ${modAddress.sub(func.address as number)}` : modAddress
+        } `
+      );
+    } else {
+      console.log(`${mod.name} + ${modAddress} `);
+    }
   });
 }
 

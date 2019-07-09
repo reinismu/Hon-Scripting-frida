@@ -1,4 +1,4 @@
-import { decode } from "./idaExpoert";
+import { decode } from "./idaExport";
 
 test("Loading bin expoert test", () => {
     const k2 = decode("/home/detuks/Projects/hon/binaries/4.7.7.DUNNO/libk2-x86_64.BinExport");

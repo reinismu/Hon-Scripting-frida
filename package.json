@@ -10,11 +10,12 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "test-watch-mem": "export NODE_OPTIONS=--max_old_space_size=4096; npm run test-watch",
-    "notebook": "its"
+    "export-funcs": "export NODE_OPTIONS=--max_old_space_size=4096; ts-node scripts/idaExpoertGetNeeded.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@flatten-js/interval-tree": "^1.0.7",
     "@types/frida-gum": "^13.1.0",
     "@types/node": "^12.0.10",
     "frida-compile": "^8.0.4",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.15",
     "jest": "^24.8.0",
-    "ts-jest": "^24.0.2"
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.3.0"
   }
 }
