@@ -17,3 +17,5 @@ function exportIdaInfo(filePath: string) {
 }
 
 exportIdaInfo("/home/detuks/Projects/hon/binaries/4.7.7.DUNNO/libk2-x86_64.BinExport");
+exportIdaInfo("/home/detuks/Projects/hon/binaries/4.7.7.DUNNO/cgame-x86_64.BinExport");
+exportIdaInfo("/home/detuks/Projects/hon/binaries/4.7.7.DUNNO/libgame_shared-x86_64.BinExport");

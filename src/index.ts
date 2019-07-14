@@ -29,7 +29,17 @@ idaHelper.addIdaInfo(
   "libk2-x86_64.so",
   "/home/detuks/Projects/hon/hon-frida/ida_data/libk2-x86_64.json"
 );
+idaHelper.addIdaInfo(
+  "cgame-x86_64.so",
+  "/home/detuks/Projects/hon/hon-frida/ida_data/cgame-x86_64.json"
+);
+idaHelper.addIdaInfo(
+  "libgame_shared-x86_64.so",
+  "/home/detuks/Projects/hon/hon-frida/ida_data/libgame_shared-x86_64.json"
+);
 
+
+const iGame = new NativePointer(gameModule.base.add(0x804320));
 Interceptor.attach(zoomOut, {
   onEnter: function(args) {
     console.log(`arg 0 : ${args[0]}`);
@@ -42,16 +52,17 @@ Interceptor.attach(zoomOut, {
 
 // console.log(`sendPacket : ${sendPacket}`);
 
-// Interceptor.attach(sendGameData, {
-//   onEnter: function(args) {
-//     if (args[1].toString() === "0x7ffeb07a9e10") return;
-//     console.log(`CHostClient : ${args[0]}`);
-//     const buffer = new IBuffer(args[1]);
-//     console.log(`IBuffer : ${args[1]}`);
-//     console.log(`IBuffer : ${buffer.toJSON()}`);
-//     console.log(`flag : ${args[2]}`);
-//   }
-// });
+Interceptor.attach(sendGameData, {
+  onEnter: function(args) {
+    if (args[1].toString() === "0x7ffd8a42fdd0") return;
+    console.log(`CHostClient : ${args[0]}`);
+    const buffer = new IBuffer(args[1]);
+    console.log(`IBuffer : ${args[1]}`);
+    console.log(`IBuffer : ${buffer.toJSON()}`);
+    console.log(`flag : ${args[2]}`);
+    logCallTrace(this.context);
+  }
+});
 
 // Process.enumerateModules().forEach(m => {
 //   if (m.name.includes("game")) console.log(m.name + " -> " + m.base);
@@ -84,14 +95,10 @@ function logCallTrace(
 }
 
 class CObj {
-  private ptr: NativePointer;
+  public ptr: NativePointer;
 
   constructor(ptr: NativePointer) {
     this.ptr = ptr;
-  }
-
-  get pointer(): number {
-    return 123;
   }
 
   protected align(amount: number): NativePointer {
