@@ -1,5 +1,6 @@
 import { inspect } from "util";
 import { IdaHelper } from "./idaExport";
+import { CObj, CGameEvent, CPlayer, IGame } from "./honIdaStructs";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -18,6 +19,10 @@ const allocateNewEntity = sharedModule.getExportByName(
 );
 const getEntity = sharedModule.getExportByName(
   "_ZN16CWorldEntityList9GetEntityEjb"
+);
+
+const gameEventSpawn = sharedModule.getExportByName(
+  "_ZN10CGameEvent5SpawnEv"
 );
 
 const sendGameData = k2Module.getExportByName(
@@ -39,27 +44,38 @@ idaHelper.addIdaInfo(
 );
 
 
-const iGame = new NativePointer(gameModule.base.add(0x804320));
+const iGame = new IGame(gameModule.base.add(0x804320).readPointer());
+const logAllocationsByte = gameModule.base.add(0x7EB969);
+
 Interceptor.attach(zoomOut, {
   onEnter: function(args) {
-    console.log(`arg 0 : ${args[0]}`);
-    const player = new CPlayer(args[0]);
-    console.log(`keys: ${Object.keys(player)}`);
-    console.log(`player: ${player.toJSON()}`);
-    logCallTrace(this.context);
+    logAllocationsByte.writeS8(0x1);
+    console.log(`allocation byte: ${logAllocationsByte.readS8()}`);
+    // const player = new CPlayer(args[0]);
+    // console.log(`keys: ${Object.keys(player)}`);
+    // console.log(`player: ${player.toJSON()}`);
+    // logCallTrace(this.context);
   }
 });
 
 // console.log(`sendPacket : ${sendPacket}`);
 
-Interceptor.attach(sendGameData, {
+// Interceptor.attach(sendGameData, {
+//   onEnter: function(args) {
+//     if (args[1].toString() === "0x7ffd8a42fdd0") return;
+//     console.log(`CHostClient : ${args[0]}`);
+//     const buffer = new IBuffer(args[1]);
+//     console.log(`IBuffer : ${args[1]}`);
+//     console.log(`IBuffer : ${buffer.toJSON()}`);
+//     console.log(`flag : ${args[2]}`);
+//     logCallTrace(this.context);
+//   }
+// });
+
+Interceptor.attach(gameEventSpawn, {
   onEnter: function(args) {
-    if (args[1].toString() === "0x7ffd8a42fdd0") return;
-    console.log(`CHostClient : ${args[0]}`);
-    const buffer = new IBuffer(args[1]);
-    console.log(`IBuffer : ${args[1]}`);
-    console.log(`IBuffer : ${buffer.toJSON()}`);
-    console.log(`flag : ${args[2]}`);
+    const event = new CGameEvent(args[0]);
+    console.log(`CGameEvent : ${event.toJSON()}`);
     logCallTrace(this.context);
   }
 });
@@ -94,25 +110,6 @@ function logCallTrace(
   });
 }
 
-class CObj {
-  public ptr: NativePointer;
-
-  constructor(ptr: NativePointer) {
-    this.ptr = ptr;
-  }
-
-  protected align(amount: number): NativePointer {
-    return this.ptr.add(amount);
-  }
-
-  public toJSON(): string {
-    let obj = Object.assign(this);
-    let keys = Object.keys(this.constructor.prototype);
-    obj.toJSON = undefined;
-    return JSON.stringify(obj, keys);
-  }
-}
-
 class IBuffer extends CObj {
   get vtable(): number {
     return this.align(0x0).readInt();
@@ -136,24 +133,6 @@ class IBuffer extends CObj {
 
   get flag(): number {
     return this.align(0x14).readInt();
-  }
-}
-
-class CPlayer extends CObj {
-  get heroEntityId(): number {
-    return this.align(0x80).readInt();
-  }
-
-  get currentCameraZoom(): number {
-    return this.align(0x128).readFloat();
-  }
-
-  get nextCameraZoom(): number {
-    return this.align(0x130).readFloat();
-  }
-
-  get minCameraZoom(): number {
-    return this.align(0x1bc).readFloat();
   }
 }
 

@@ -1,5 +1,6 @@
 from tempfile import NamedTemporaryFile
 
+from clang import cindex
 from clang.cindex import Index, CursorKind
 
 
@@ -29,23 +30,34 @@ class ClassCreator:
             "double": {"return": "number", "read": "readDouble"},
         }
 
+    def isValidStruct(self, structName):
+        return len(structName) > 0 and structName[0] != "$"
+
     def generateClass(self):
         c = self.cursor
         class_string = ""
-        if c.type.get_size() <= 0:
+        # if c.type.get_size() <= 0:
+        #     return ""
+        if not self.isValidStruct(c.spelling):
             return ""
         classType = self.cursor.type.spelling.replace("struct ", "")
-        class_string += f"class {classType} extends CObj " + "{\n\n"
+        class_string += f"export class {classType} extends CObj " + "{\n\n"
         for f in c.type.get_fields():
             # Ignore arrays and gaps
-            if "[" in f.type.spelling or "gap" in f.spelling:
+            class_string += f"// {f.spelling} -> type: {f.type.spelling} met: {f.type} \n"
+            if "[" in f.type.spelling or "gap" in f.spelling or f.spelling == "align":
                 continue
-            offset = int(c.type.get_offset(f.spelling)/8)
+            offset = int(c.type.get_offset(f.spelling) / 8)
+            if self.is_valid_type(f.type.get_pointee()):
+                class_string += self.createFunctionCall(f, offset)
+                continue
+
             if "struct" in f.type.spelling:
                 struct = f.type.spelling.replace("struct ", "")
-                class_string += f"\tget {f.spelling}(): {struct} " + "{\n"
-                class_string += f"\t\treturn new {struct}(this.align({hex(offset)}));\n"
-                class_string += "\t}\n\n"
+                if "*" in struct:
+                    class_string += self.createPointerStructGetter(f, offset)
+                else:
+                    class_string += self.createStructGetter(f, offset)
                 continue
             if f.type.spelling not in self.typeDictionary:
                 continue
@@ -59,7 +71,40 @@ class ClassCreator:
         class_string += "}\n"
         return class_string
 
-    # def getReturnType(self, type):
+    def createFunctionCall(self, f, offset):
+        argTypes = self.getArgumentsTypes(f)
+        returnType = f.type.get_pointee().get_result()
+        getter_string = f"// args: {' '.join(map(lambda t: t.spelling, argTypes))} -> ret: {returnType.spelling} \n"
+        getter_string += f"\tpublic {f.spelling}() " + "{\n"
+        getter_string += f"\t\treturn null;\n"
+        getter_string += "\t}\n\n"
+        return getter_string
+
+    def getArgumentsTypes(self, f):
+        argsTypes = []
+        for c in f.get_children():
+            if c.kind == CursorKind.PARM_DECL:
+                argsTypes.append(c.type)
+        return argsTypes
+
+    def createStructGetter(self, f, offset):
+        struct = f.type.spelling.replace("struct ", "")
+        getter_string = ""
+        getter_string += f"\tget {f.spelling}(): {struct} " + "{\n"
+        getter_string += f"\t\treturn new {struct}(this.align({hex(offset)}));\n"
+        getter_string += "\t}\n\n"
+        return getter_string
+
+    def createPointerStructGetter(self, f, offset):
+        struct = f.type.spelling.replace("struct ", "").replace(" *", "")
+        getter_string = ""
+        getter_string += f"\tget {f.spelling}(): {struct} " + "{\n"
+        getter_string += f"\t\treturn new {struct}(this.align({hex(offset)}).readPointer());\n"
+        getter_string += "\t}\n\n"
+        return getter_string
+
+    def is_valid_type(self, t):
+        return t.kind != cindex.TypeKind.INVALID
 
     def printEnum(self):
         print("enum class %s\r\n{" % self.className)
@@ -70,18 +115,18 @@ class ClassCreator:
 
 # tu = index.parse(None, "/home/detuks/ida/IDA 7.2/plugins/defs.h")
 filenames = ['/home/detuks/ida/IDA 7.2/plugins/defs.h',
-             '/home/detuks/Projects/hon/binaries/4.7.7.DUNNO/libgame_shared-x86_64.so.h']
+             '/home/detuks/Projects/hon/binaries/4.7.8/libgame_shared-x86_64.so.h']
 # filenames = ['/home/detuks/Projects/hon/binaries/4.7.7.DUNNO/cgame-x86_64.so.h']
-outfile = NamedTemporaryFile(mode="w", suffix="hed.h")
+outfile = NamedTemporaryFile(mode="w", suffix="hed.cpp")
 
 for fname in filenames:
     with open(fname) as infile:
         for line in infile:
-            outfile.write(line)
+            outfile.write(line.replace("__cppobj ", ""))
 
 index = Index.create()
 
-tu = index.parse(outfile.name)
+tu = index.parse(outfile.name, args=['-std=c++11'])
 
 #
 # for c in tu.cursor.get_children():
@@ -91,11 +136,12 @@ tu = index.parse(outfile.name)
 #             print(" -> (" + f.type.spelling + ") " + f.spelling + " : " + str(c.type.get_offset(f.spelling)))
 
 # codecomplete = tu.codeComplete(outfile.name, 9, 1)
-# for r in tu.diagnostics:
-#     print(r)
+for r in tu.diagnostics:
+    if r.severity > 2:
+        print(r)
 
 print("""
-class CObj {
+export class CObj {
   public ptr: NativePointer;
 
   constructor(ptr: NativePointer) {
@@ -116,8 +162,13 @@ class CObj {
 
 """)
 
+seenStructs = set()
+
 for c in tu.cursor.get_children():
     if c.kind == CursorKind.STRUCT_DECL:
+        if c.spelling in seenStructs:
+            continue
+        seenStructs.add(c.spelling)
         cString = ClassCreator(c).generateClass()
         if cString != "":
             print(cString)

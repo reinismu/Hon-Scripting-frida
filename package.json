@@ -11,7 +11,7 @@
     "test-watch": "jest --watch",
     "test-watch-mem": "export NODE_OPTIONS=--max_old_space_size=4096; npm run test-watch",
     "export-funcs": "export NODE_OPTIONS=--max_old_space_size=4096; ts-node scripts/idaExpoertGetNeeded.ts",
-    "generate-ida-structs": "python scripts/header-parse.py > types/honIdaStructs.ts"
+    "generate-ida-structs": "python scripts/header-parse.py > src/honIdaStructs.ts"
   },
   "author": "",
   "license": "ISC",
