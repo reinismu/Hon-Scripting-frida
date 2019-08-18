@@ -32,6 +32,7 @@ class ClassCreator:
             "wchar_t": {"return": "NativePointer", "read": "readPointer"},
             "const wchar_t": {"return": "NativePointer", "read": "readPointer"},
         }
+        self.allowedStructs = ["CVec3"]
 
     def isValidStruct(self, structName):
         return len(structName) > 0 and structName[0] != "$"
@@ -67,7 +68,7 @@ class ClassCreator:
                     class_string += self.createFunctionCall(f, offset)
                 continue
 
-            if "struct" in f.type.spelling:
+            if "struct" in f.type.spelling or f.type.spelling in self.allowedStructs:
                 struct = f.type.spelling.replace("struct ", "")
                 if "*" in struct:
                     class_string += self.createPointerStructGetter(f, offset)
