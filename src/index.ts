@@ -2,6 +2,7 @@ import { inspect } from "util";
 import { IdaHelper } from "./idaExport";
 import { CObj, CGameEvent, CPlayer, IGame } from "./honIdaStructs";
 import { ObjectManager } from "./objects/ObjectManager";
+import { tryGetTypeInfo } from "./objects/RTTI";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -38,18 +39,11 @@ const objectManager = new ObjectManager(clientEntityArray.readPointer(), clientE
 
 Interceptor.attach(zoomOut, {
     onEnter: function(args) {
-        logAllocationsByte.writeS8(0x1);
-        let i = 0;
-        console.log(`Enitty count: ${objectManager.entitiesCount}`);
-        console.log(`Enitty max: ${clientEntityArrayMaxSize.readInt()}`);
-        for (const entity of objectManager.clientEntities()) {
-            console.log(`Entity ${i}: ${entity.gameEntity2.typeName}`);
-            i++;
+        objectManager.refreshCache();
+        console.log(`Hero count: ${objectManager.heroes.length}`);
+        for (const hero of objectManager.heroes) {
+            console.log(`Pos: ${hero.position.x}`);
         }
-        // const player = new CPlayer(args[0]);
-        // console.log(`keys: ${Object.keys(player)}`);
-        // console.log(`player: ${player.toJSON()}`);
-        // logCallTrace(this.context);
     }
 });
 
@@ -67,13 +61,13 @@ Interceptor.attach(zoomOut, {
 //   }
 // });
 
-Interceptor.attach(gameEventSpawn, {
-    onEnter: function(args) {
-        const event = new CGameEvent(args[0]);
-        console.log(`CGameEvent : ${event.toJSON()}`);
-        logCallTrace(this.context);
-    }
-});
+// Interceptor.attach(gameEventSpawn, {
+//     onEnter: function(args) {
+//         const event = new CGameEvent(args[0]);
+//         console.log(`CGameEvent : ${event.toJSON()}`);
+//         logCallTrace(this.context);
+//     }
+// });
 
 // Process.enumerateModules().forEach(m => {
 //   if (m.name.includes("game")) console.log(m.name + " -> " + m.base);
