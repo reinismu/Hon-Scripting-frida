@@ -1,5 +1,7 @@
 import { CClientEntity } from "../honIdaStructs";
 
+const CLIENT_ENTITY_SIZE = 0x930;
+
 export class ObjectManager {
     private arrayPtr: NativePointer;
     private arraySizePtr: NativePointer;
@@ -9,13 +11,22 @@ export class ObjectManager {
         this.arraySizePtr = arraySizePtr;
     }
 
-    public entities(): CClientEntity[] {
-        var i = 0;
-        var size = this.arraySizePtr.readInt();
+    get entitiesCount(): number {
+		return this.arraySizePtr.readInt();
+	}
+
+    public clientEntities(): CClientEntity[] {
+        let i = 0;
+        let size = this.arraySizePtr.readInt();
         const entities = [];
         while (i < size) {
-            entities.push(new CClientEntity(this.arrayPtr.add(i * 8).readPointer()));
+            entities.push(new CClientEntity(this.arrayPtr.add(i * CLIENT_ENTITY_SIZE)));
+            i++;
         }
         return entities;
     }
+
+    // public heroes():  {
+
+    // }
 }

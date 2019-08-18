@@ -28,6 +28,9 @@ class ClassCreator:
 
             "float": {"return": "number", "read": "readFloat"},
             "double": {"return": "number", "read": "readDouble"},
+            "void": {"return": "number", "read": "readPointer"},
+            "wchar_t": {"return": "NativePointer", "read": "readPointer"},
+            "const wchar_t": {"return": "NativePointer", "read": "readPointer"},
         }
 
     def isValidStruct(self, structName):
@@ -41,7 +44,9 @@ class ClassCreator:
         if not self.isValidStruct(c.spelling):
             return ""
         classType = self.cursor.type.spelling.replace("struct ", "")
-        class_string += f"export class {classType} extends CObj " + "{\n\n"
+        inheritence = self.getInheritence(c)
+        class_string = f"// inheritence: {inheritence }\n"
+        class_string += f"export class {classType} extends {inheritence} " + "{\n\n"
         for f in c.type.get_fields():
             # Ignore arrays and gaps
             class_string += f"// {f.spelling} -> type: {f.type.spelling} met: {f.type} \n"
@@ -49,7 +54,17 @@ class ClassCreator:
                 continue
             offset = int(c.type.get_offset(f.spelling) / 8)
             if self.is_valid_type(f.type.get_pointee()):
-                class_string += self.createFunctionCall(f, offset)
+                if f.type.spelling.endswith(" *"):
+                    if f.type.spelling == "wchar_t *":
+                        class_string += self.createWCharPtrGetter(f, offset)
+                        continue
+                    if f.type.spelling.replace(" *", "") in self.typeDictionary:
+                        class_string += self.createFunctionCall(f, offset)
+                    else:
+                        class_string += self.createPointerStructGetter(f, offset)
+                else:
+                    class_string += "// function \n"
+                    class_string += self.createFunctionCall(f, offset)
                 continue
 
             if "struct" in f.type.spelling:
@@ -71,12 +86,33 @@ class ClassCreator:
         class_string += "}\n"
         return class_string
 
+    def getInheritence(self, cls):
+        for c in cls.get_children():
+            if c.kind == CursorKind.CXX_BASE_SPECIFIER:
+                return c.get_definition().displayname
+        return "CObj"
+
+
     def createFunctionCall(self, f, offset):
         argTypes = self.getArgumentsTypes(f)
         returnType = f.type.get_pointee().get_result()
         getter_string = f"// args: {' '.join(map(lambda t: t.spelling, argTypes))} -> ret: {returnType.spelling} \n"
         getter_string += f"\tpublic {f.spelling}() " + "{\n"
         getter_string += f"\t\treturn null;\n"
+        getter_string += "\t}\n\n"
+        return getter_string
+
+    def createWCharPtrGetter(self, f, offset):
+        getter_string = ""
+        getter_string += f"\tget {f.spelling}(): string " + "{\n"
+        getter_string += f"\t\t const bytes = new Uint32Array(this.align({hex(offset)}).readPointer().readByteArray(200) || []);\n"
+        getter_string += "\t\t let str = \"\";\n"
+        getter_string += "\t\t for (let i = 0; i < bytes.length; i++) {;\n"
+        getter_string += "\t\t\t if(bytes[i] === 0) return str;\n"
+        getter_string += "\t\t\t str += String.fromCharCode(bytes[i]);\n"
+        getter_string += "\t\t}\n"
+
+        getter_string += "\t return str; \n"
         getter_string += "\t}\n\n"
         return getter_string
 
