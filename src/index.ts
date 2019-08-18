@@ -1,6 +1,7 @@
 import { inspect } from "util";
 import { IdaHelper } from "./idaExport";
 import { CObj, CGameEvent, CPlayer, IGame } from "./honIdaStructs";
+import { ObjectManager } from "./objects/ObjectManager";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -47,10 +48,19 @@ idaHelper.addIdaInfo(
 const iGame = new IGame(gameModule.base.add(0x804320).readPointer());
 const logAllocationsByte = gameModule.base.add(0x7EB969);
 
+const clientEntityArray = gameModule.base.add(0x7EBB48);
+const clientEntityArraySize = gameModule.base.add(0x7EBB54);
+const clientEntityArrayMaxSize = gameModule.base.add(0x7EBB50);
+
+const objectManager = new ObjectManager(clientEntityArray, clientEntityArraySize)
+
 Interceptor.attach(zoomOut, {
   onEnter: function(args) {
     logAllocationsByte.writeS8(0x1);
-    console.log(`allocation byte: ${logAllocationsByte.readS8()}`);
+
+    for(const entity of objectManager.entities()) {
+        console.log(`Entity: ${entity.}`)
+    }
     // const player = new CPlayer(args[0]);
     // console.log(`keys: ${Object.keys(player)}`);
     // console.log(`player: ${player.toJSON()}`);

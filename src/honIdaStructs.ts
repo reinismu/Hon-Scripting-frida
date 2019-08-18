@@ -1,5 +1,3 @@
-/tmp/tmp6qj9sw9hhed.cpp:211:10: fatal error: 'stddef.h' file not found
-
 export class CObj {
   public ptr: NativePointer;
 
@@ -3193,8 +3191,8 @@ export class CGameEvent extends CObj {
 	}
 
 // targetPosition -> type: long long met: <clang.cindex.Type object at 0x7fb16db30158> 
-	get targetPosition(): Int64 {
-		return this.align(0x48).readS64();
+	get targetPosition(): CVec3 {
+		return new CVec3(this.align(0x48));
 	}
 
 // gap_50 -> type: uint8 [8] met: <clang.cindex.Type object at 0x7fb16db301e0> 
