@@ -51,6 +51,7 @@ console.log(`onMainLoop: ${onMainLoop}`);
 Interceptor.attach(zoomOut, {
     onEnter: function(args) {
         objectManager.refreshCache();
+        input.getCursorPos();
         console.log(`Hero count: ${objectManager.heroes.length}`);
         for (const hero of objectManager.heroes) {
             console.log(`Pos: ${hero.position.x}`);
@@ -62,7 +63,8 @@ Interceptor.attach(onSceneRender, {
     onLeave: function(args) {
         if (input.isControlDown()) {
             // graphics.drawRect(50, 50, 100, 100);
-            action.move(2000,2000);
+            // action.move(2000,2000);
+            input.getCursorPos();
         }
         // console.log(`render`);
         // objectManager.refreshCache();

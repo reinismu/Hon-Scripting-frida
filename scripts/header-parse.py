@@ -50,7 +50,7 @@ class ClassCreator:
         class_string += f"export class {classType} extends {inheritence} " + "{\n\n"
         for f in c.type.get_fields():
             # Ignore arrays and gaps
-            class_string += f"// {f.spelling} -> type: {f.type.spelling} met: {f.type} \n"
+            class_string += f"// {f.spelling} -> type: {f.type.spelling} \n"
             if "[" in f.type.spelling or "gap" in f.spelling or f.spelling == "align":
                 continue
             offset = int(c.type.get_offset(f.spelling) / 8)
@@ -173,9 +173,9 @@ tu = index.parse(outfile.name, args=['-std=c++11'])
 #             print(" -> (" + f.type.spelling + ") " + f.spelling + " : " + str(c.type.get_offset(f.spelling)))
 
 # codecomplete = tu.codeComplete(outfile.name, 9, 1)
-for r in tu.diagnostics:
-    if r.severity > 2:
-        print(r)
+# for r in tu.diagnostics:
+#     if r.severity > 2:
+#         print(r)
 
 print("""
 export class CObj {
