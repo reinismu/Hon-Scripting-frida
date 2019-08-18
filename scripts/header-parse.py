@@ -159,7 +159,7 @@ outfile = NamedTemporaryFile(mode="w", suffix="hed.cpp")
 for fname in filenames:
     with open(fname) as infile:
         for line in infile:
-            outfile.write(line.replace("__cppobj ", ""))
+            outfile.write(line.replace("__cppobj ", "").replace("_OWORD", "__int128"))
 
 index = Index.create()
 

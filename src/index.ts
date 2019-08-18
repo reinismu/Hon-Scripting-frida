@@ -5,6 +5,7 @@ import { ObjectManager } from "./objects/ObjectManager";
 import { tryGetTypeInfo } from "./objects/RTTI";
 import { Graphics } from "./graphics/Graphics";
 import { Input } from "./input/Input";
+import { Action } from "./actions/Action";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -33,16 +34,17 @@ idaHelper.addIdaInfo("libk2-x86_64.so", "/home/detuks/Projects/hon/hon-frida/ida
 idaHelper.addIdaInfo("cgame-x86_64.so", "/home/detuks/Projects/hon/hon-frida/ida_data/cgame-x86_64.json");
 idaHelper.addIdaInfo("libgame_shared-x86_64.so", "/home/detuks/Projects/hon/hon-frida/ida_data/libgame_shared-x86_64.json");
 
-const iGame = new IGame(gameModule.base.add(0x804320).readPointer());
 const logAllocationsByte = gameModule.base.add(0x7eb969);
 
 const clientEntityArray = gameModule.base.add(0x7ebb48);
 const clientEntityArraySize = gameModule.base.add(0x7ebb54);
 const clientEntityArrayMaxSize = gameModule.base.add(0x7ebb50);
 
+const iGame = new IGame(gameModule.base.add(0x804320).readPointer());
 const objectManager = new ObjectManager(clientEntityArray.readPointer(), clientEntityArraySize);
 const graphics = new Graphics();
 const input = new Input();
+const action = new Action(iGame.hostClient);
 
 console.log(`onMainLoop: ${onMainLoop}`);
 
@@ -59,7 +61,8 @@ Interceptor.attach(zoomOut, {
 Interceptor.attach(onSceneRender, {
     onLeave: function(args) {
         if (input.isControlDown()) {
-            graphics.drawRect(50, 50, 100, 100);
+            // graphics.drawRect(50, 50, 100, 100);
+            action.move(2000,2000);
         }
         // console.log(`render`);
         // objectManager.refreshCache();
