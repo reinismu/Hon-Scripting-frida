@@ -3,6 +3,8 @@ import { IdaHelper } from "./idaExport";
 import { CObj, CGameEvent, CPlayer, IGame } from "./honIdaStructs";
 import { ObjectManager } from "./objects/ObjectManager";
 import { tryGetTypeInfo } from "./objects/RTTI";
+import { Graphics } from "./graphics/Graphics";
+import { Input } from "./input/Input";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -11,6 +13,9 @@ const baseModule = Process.enumerateModules()[0];
 const sharedModule = Process.getModuleByName("libgame_shared-x86_64.so");
 const gameModule = Process.getModuleByName("cgame-x86_64.so");
 const k2Module = Process.getModuleByName("libk2-x86_64.so");
+
+const onMainLoop = k2Module.base.add(0x0005dae30); //  CHost::Execute contains main loop in K2
+const onSceneRender = k2Module.getExportByName("_ZN13CSceneManager6RenderEv");
 
 const onAction = sharedModule.getExportByName(
     "_ZN11IUnitEntity6ActionE19EEntityActionScriptPS_P11IGameEntityP12CCombatEventP12CDamageEvent"
@@ -36,6 +41,10 @@ const clientEntityArraySize = gameModule.base.add(0x7ebb54);
 const clientEntityArrayMaxSize = gameModule.base.add(0x7ebb50);
 
 const objectManager = new ObjectManager(clientEntityArray.readPointer(), clientEntityArraySize);
+const graphics = new Graphics();
+const input = new Input();
+
+console.log(`onMainLoop: ${onMainLoop}`);
 
 Interceptor.attach(zoomOut, {
     onEnter: function(args) {
@@ -44,6 +53,20 @@ Interceptor.attach(zoomOut, {
         for (const hero of objectManager.heroes) {
             console.log(`Pos: ${hero.position.x}`);
         }
+    }
+});
+
+Interceptor.attach(onSceneRender, {
+    onLeave: function(args) {
+        if (input.isControlDown()) {
+            graphics.drawRect(50, 50, 100, 100);
+        }
+        // console.log(`render`);
+        // objectManager.refreshCache();
+        // // console.log(`Hero count: ${objectManager.heroes.length}`);
+        // for (const hero of objectManager.heroes) {
+        //     console.log(`Pos: ${hero.position.x}`);
+        // }
     }
 });
 
