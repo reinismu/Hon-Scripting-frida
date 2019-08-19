@@ -5,7 +5,7 @@ import { ObjectManager } from "./objects/ObjectManager";
 import { tryGetTypeInfo } from "./objects/RTTI";
 import { Graphics } from "./graphics/Graphics";
 import { Input } from "./input/Input";
-import { Action } from "./actions/Action";
+import { Action, MyBuffer } from "./actions/Action";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -46,8 +46,6 @@ const graphics = new Graphics();
 const input = new Input();
 const action = new Action(iGame.hostClient);
 
-console.log(`onMainLoop: ${onMainLoop}`);
-
 Interceptor.attach(zoomOut, {
     onEnter: function(args) {
         objectManager.refreshCache();
@@ -56,6 +54,23 @@ Interceptor.attach(zoomOut, {
         for (const hero of objectManager.heroes) {
             console.log(`Pos: ${hero.position.x}`);
         }
+    }
+});
+
+Interceptor.attach(onMainLoop, {
+    onLeave: function(args) {
+        if (input.isControlDown()) {
+            // graphics.drawRect(50, 50, 100, 100);
+            // action.move(2000,2000);
+            const mousePos = iGame.mysteriousStruct.mousePosition;
+            action.move(mousePos.x, mousePos.y);
+        }
+        // console.log(`render`);
+        // objectManager.refreshCache();
+        // // console.log(`Hero count: ${objectManager.heroes.length}`);
+        // for (const hero of objectManager.heroes) {
+        //     console.log(`Pos: ${hero.position.x}`);
+        // }
     }
 });
 
@@ -77,17 +92,21 @@ Interceptor.attach(onSceneRender, {
 
 // console.log(`sendPacket : ${sendPacket}`);
 
-// Interceptor.attach(sendGameData, {
-//   onEnter: function(args) {
-//     if (args[1].toString() === "0x7ffd8a42fdd0") return;
-//     console.log(`CHostClient : ${args[0]}`);
-//     const buffer = new IBuffer(args[1]);
-//     console.log(`IBuffer : ${args[1]}`);
-//     console.log(`IBuffer : ${buffer.toJSON()}`);
-//     console.log(`flag : ${args[2]}`);
-//     logCallTrace(this.context);
-//   }
-// });
+Interceptor.attach(sendGameData, {
+    onEnter: function(args) {
+        // if (!input.isControlDown()) {
+        //     return;
+        // }
+        const buffer = new MyBuffer(args[1]);
+        const data = new Uint8Array(buffer.dataBuffer);
+        if (data[0] == 18) return;
+
+        console.log(`CHostClient : ${args[0]}`);
+        console.log(`data : ${data}`);
+        console.log(`flag : ${args[2]}`);
+        logCallTrace(this.context);
+    }
+});
 
 // Interceptor.attach(gameEventSpawn, {
 //     onEnter: function(args) {

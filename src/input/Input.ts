@@ -10,7 +10,7 @@ export class Input {
         return this.inputDown(this.input.ptr) as boolean;
     }
 
-    public getCursorPos() {
-        console.log(`cursorPos ${this.input.cursorPosX} ${this.input.cursorPosY}`);
+    public getCursorPos(): { x: number; y: number } {
+        return { x: this.input.cursorPosX, y: this.input.cursorPosY };
     }
 }

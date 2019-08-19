@@ -1,6 +1,6 @@
 import { CHostClient, IBuffer } from "../honIdaStructs";
 
-class MyBuffer extends IBuffer {
+export class MyBuffer extends IBuffer {
 
     get myVtable(): NativePointer {
         return this.align(0x0).readPointer();
@@ -9,6 +9,10 @@ class MyBuffer extends IBuffer {
     set myData(p: NativePointer) {
         this.align(0x8).writePointer(p);
     }
+
+	get allocatedSize(): number {
+		return this.align(0x10).readS32();
+	}
 
     set allocatedSize(v: number) {
         this.align(0x10).writeS32(v);
@@ -24,6 +28,10 @@ class MyBuffer extends IBuffer {
 
     set someFlag(v: number) {
         this.align(0x1c).writeS32(v);
+    }
+
+    get dataBuffer(): ArrayBuffer {
+        return this.align(0x8).readPointer().readByteArray(this.allocatedSize) || new ArrayBuffer(0);
     }
 }
 
