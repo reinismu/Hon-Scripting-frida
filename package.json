@@ -19,6 +19,7 @@
     "@flatten-js/interval-tree": "^1.0.7",
     "@types/frida-gum": "^13.1.0",
     "@types/node": "^12.0.10",
+    "eventbus-ts": "^1.1.2",
     "frida-compile": "^8.0.4",
     "protobufjs": "^6.8.8"
   },
