@@ -6,6 +6,7 @@ import { tryGetTypeInfo } from "./objects/RTTI";
 import { Graphics } from "./graphics/Graphics";
 import { Input } from "./input/Input";
 import { Action, MyBuffer } from "./actions/Action";
+import { Client } from "./game/Client";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -30,7 +31,6 @@ const getEntity = sharedModule.getExportByName("_ZN16CWorldEntityList9GetEntityE
 
 const gameEventSpawn = sharedModule.getExportByName("_ZN10CGameEvent5SpawnEv");
 
-
 const idaHelper = new IdaHelper();
 idaHelper.addIdaInfo("libk2-x86_64.so", "/home/detuks/Projects/hon/hon-frida/ida_data/libk2-x86_64.json");
 idaHelper.addIdaInfo("cgame-x86_64.so", "/home/detuks/Projects/hon/hon-frida/ida_data/cgame-x86_64.json");
@@ -47,6 +47,9 @@ const objectManager = new ObjectManager(clientEntityArray.readPointer(), clientE
 const graphics = new Graphics();
 const input = new Input();
 const action = new Action(iGame.hostClient);
+const client = new Client(iGame);
+
+let shot = false;
 
 Interceptor.attach(zoomOut, {
     onEnter: function(args) {
@@ -62,12 +65,20 @@ Interceptor.attach(zoomOut, {
 Interceptor.attach(onMainLoop, {
     onLeave: function(args) {
         if (input.isControlDown()) {
+            const mousePos = iGame.mysteriousStruct.clientStateMousePos;
+
+            console.log(`${mousePos.x}, ${mousePos.y}`);
             objectManager.refreshCache();
-            // graphics.drawRect(50, 50, 100, 100);
-            // action.move(2000,2000);
-            const mousePos = iGame.mysteriousStruct.mousePosition;
-            // action.move(mousePos.x, mousePos.y);
-            action.castSpellPosition(objectManager.heroes[0], 1, mousePos.x, mousePos.y);
+            //     // graphics.drawRect(50, 50, 100, 100);
+            //     // action.move(2000,2000);
+            //     // action.move(mousePos.x, mousePos.y);
+            if (!shot) {
+                client.sendFakeMousePosToServer(2000, 2000, 0);
+                action.castSpell(objectManager.heroes[0], 0);
+                shot = true;
+            }
+        } else {
+            shot = false;
         }
         // console.log(`render`);
         // objectManager.refreshCache();
@@ -111,14 +122,17 @@ Interceptor.attach(sendGameData, {
 
 Interceptor.attach(sendClientSnapshot, {
     onEnter: function(args) {
-        const buffer = new MyBuffer(args[1]);
-        const data = new Uint8Array(buffer.dataBuffer);
-        if (data[0] == 18) return;
-
-        console.log(`CHostClient : ${args[0]}`);
-        console.log(`data : ${data}`);
-        console.log(`flag : ${args[2]}`);
-        logCallTrace(this.context);
+        // if (input.isControlDown()) {
+        //     const buffer = new MyBuffer(args[1]);
+        //     const data = new Uint8Array(buffer.dataBuffer);
+        //     buffer.size = 0;
+        //     buffer.allocatedSize = 0;
+        //     // if (data[0] == 18) return;
+        //     console.log(`CHostClient : ${args[0]}`);
+        //     console.log(`data : ${data}`);
+        //     console.log(`flag : ${args[2]}`);
+        //     logCallTrace(this.context);
+        // }
     }
 });
 

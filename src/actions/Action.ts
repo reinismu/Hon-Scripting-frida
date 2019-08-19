@@ -1,7 +1,6 @@
 import { CHostClient, IBuffer, IGameEntity } from "../honIdaStructs";
 
 export class MyBuffer extends IBuffer {
-
     get myVtable(): NativePointer {
         return this.align(0x0).readPointer();
     }
@@ -10,9 +9,9 @@ export class MyBuffer extends IBuffer {
         this.align(0x8).writePointer(p);
     }
 
-	get allocatedSize(): number {
-		return this.align(0x10).readS32();
-	}
+    get allocatedSize(): number {
+        return this.align(0x10).readS32();
+    }
 
     set allocatedSize(v: number) {
         this.align(0x10).writeS32(v);
@@ -31,7 +30,11 @@ export class MyBuffer extends IBuffer {
     }
 
     get dataBuffer(): ArrayBuffer {
-        return this.align(0x8).readPointer().readByteArray(this.allocatedSize) || new ArrayBuffer(0);
+        return (
+            this.align(0x8)
+                .readPointer()
+                .readByteArray(this.allocatedSize) || new ArrayBuffer(0)
+        );
     }
 }
 
@@ -42,14 +45,15 @@ export class Action {
     private buffer = Buffer.alloc(2000);
 
     private bufferConstruct = new NativeFunction(this.k2Module.getExportByName("_ZN7IBufferC2Ev"), "void", ["pointer"]);
-    private sendGameData = new NativeFunction(this.k2Module.getExportByName("_ZN11CHostClient12SendGameDataERK7IBufferb"), "pointer", [
+    private sendGameData = new NativeFunction(
+        this.k2Module.getExportByName("_ZN11CHostClient12SendGameDataERK7IBufferb"),
         "pointer",
-        "pointer",
-        "bool"
-    ]);
-    private isLeaver = new NativeFunction(this.k2Module.getExportByName("_ZN11CHostClient8IsLeaverEv"), "bool", [
-        "pointer"
-    ]);
+        ["pointer", "pointer", "bool"],
+        {
+            scheduling: "exclusive"
+        }
+    );
+    private isLeaver = new NativeFunction(this.k2Module.getExportByName("_ZN11CHostClient8IsLeaverEv"), "bool", ["pointer"]);
 
     private hostClient: CHostClient;
 
@@ -70,7 +74,7 @@ export class Action {
         this.myBuffer.allocatedSize = 0x12;
         this.myBuffer.currentOffset = 0;
         this.myBuffer.someFlag = 0;
-        
+
         this.buffer[0] = 0x1e;
         this.buffer[1] = flag & 255;
         this.buffer.writeFloatLE(x, 2);
@@ -91,12 +95,12 @@ export class Action {
         this.myBuffer.allocatedSize = 0x6;
         this.myBuffer.currentOffset = 0;
         this.myBuffer.someFlag = 0;
-        
+
         this.buffer[0] = 27;
         this.buffer.writeUInt32LE(entity.networkId, 1);
         this.buffer[5] = slot;
 
-        console.log(`move buffer: ${new Uint8Array(this.buffer.slice(0,0x12))}`);
+        console.log(`move buffer: ${new Uint8Array(this.buffer.slice(0, 0x12))}`);
         console.log(`this.hostClient.ptr: ${this.hostClient.ptr}`);
         console.log(`this.myBuffer.ptr: ${this.myBuffer.ptr}`);
 
@@ -110,7 +114,7 @@ export class Action {
         this.myBuffer.allocatedSize = 14;
         this.myBuffer.currentOffset = 0;
         this.myBuffer.someFlag = 0;
-        
+
         this.buffer[0] = 28;
         this.buffer.writeUInt16LE(entity.networkId, 1);
         this.buffer[3] = slot;
@@ -119,7 +123,7 @@ export class Action {
         this.buffer.writeFloatLE(x, 6);
         this.buffer.writeFloatLE(y, 10);
 
-        console.log(`move buffer: ${new Uint8Array(this.buffer.slice(0,0x12))}`);
+        console.log(`move buffer: ${new Uint8Array(this.buffer.slice(0, 0x12))}`);
         console.log(`this.hostClient.ptr: ${this.hostClient.ptr}`);
         console.log(`this.myBuffer.ptr: ${this.myBuffer.ptr}`);
 

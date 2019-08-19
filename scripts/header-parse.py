@@ -32,7 +32,7 @@ class ClassCreator:
             "wchar_t": {"return": "NativePointer", "read": "readPointer"},
             "const wchar_t": {"return": "NativePointer", "read": "readPointer"},
         }
-        self.allowedStructs = ["CVec3"]
+        self.allowedStructs = ["CVec3", "CClientState", "CClientSnapshot"]
 
     def isValidStruct(self, structName):
         return len(structName) > 0 and structName[0] != "$"
