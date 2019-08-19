@@ -1,4 +1,4 @@
-import { CHostClient, IBuffer } from "../honIdaStructs";
+import { CHostClient, IBuffer, IGameEntity } from "../honIdaStructs";
 
 export class MyBuffer extends IBuffer {
 
@@ -76,6 +76,48 @@ export class Action {
         this.buffer.writeFloatLE(x, 2);
         this.buffer.writeFloatLE(y, 6);
         this.buffer.write("\x00\x00\x00\x00\x00\xFF\xFF\x00", 10, 8, "ascii");
+
+        // console.log(`move buffer: ${new Uint8Array(this.buffer.slice(0,0x12))}`);
+        // console.log(`this.hostClient.ptr: ${this.hostClient.ptr}`);
+        // console.log(`this.myBuffer.ptr: ${this.myBuffer.ptr}`);
+
+        this.rawBuffer.writeByteArray(this.buffer);
+
+        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+    }
+
+    public castSpell(entity: IGameEntity, slot: number) {
+        this.myBuffer.size = 0x6;
+        this.myBuffer.allocatedSize = 0x6;
+        this.myBuffer.currentOffset = 0;
+        this.myBuffer.someFlag = 0;
+        
+        this.buffer[0] = 27;
+        this.buffer.writeUInt32LE(entity.networkId, 1);
+        this.buffer[5] = slot;
+
+        console.log(`move buffer: ${new Uint8Array(this.buffer.slice(0,0x12))}`);
+        console.log(`this.hostClient.ptr: ${this.hostClient.ptr}`);
+        console.log(`this.myBuffer.ptr: ${this.myBuffer.ptr}`);
+
+        this.rawBuffer.writeByteArray(this.buffer);
+
+        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+    }
+
+    public castSpellPosition(entity: IGameEntity, slot: number, x: number, y: number) {
+        this.myBuffer.size = 14;
+        this.myBuffer.allocatedSize = 14;
+        this.myBuffer.currentOffset = 0;
+        this.myBuffer.someFlag = 0;
+        
+        this.buffer[0] = 28;
+        this.buffer.writeUInt16LE(entity.networkId, 1);
+        this.buffer[3] = slot;
+        this.buffer[4] = 0; //Modifier if shift or ctr pressed
+        this.buffer[5] = 0; //dunno
+        this.buffer.writeFloatLE(x, 6);
+        this.buffer.writeFloatLE(y, 10);
 
         console.log(`move buffer: ${new Uint8Array(this.buffer.slice(0,0x12))}`);
         console.log(`this.hostClient.ptr: ${this.hostClient.ptr}`);

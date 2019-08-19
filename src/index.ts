@@ -18,6 +18,9 @@ const k2Module = Process.getModuleByName("libk2-x86_64.so");
 const onMainLoop = k2Module.base.add(0x0005dae30); //  CHost::Execute contains main loop in K2
 const onSceneRender = k2Module.getExportByName("_ZN13CSceneManager6RenderEv");
 
+const sendGameData = k2Module.getExportByName("_ZN11CHostClient12SendGameDataERK7IBufferb");
+const sendClientSnapshot = k2Module.getExportByName("_ZN11CHostClient18SendClientSnapshotERK7IBuffer");
+
 const onAction = sharedModule.getExportByName(
     "_ZN11IUnitEntity6ActionE19EEntityActionScriptPS_P11IGameEntityP12CCombatEventP12CDamageEvent"
 );
@@ -27,7 +30,6 @@ const getEntity = sharedModule.getExportByName("_ZN16CWorldEntityList9GetEntityE
 
 const gameEventSpawn = sharedModule.getExportByName("_ZN10CGameEvent5SpawnEv");
 
-const sendGameData = k2Module.getExportByName("_ZN11CHostClient12SendGameDataERK7IBufferb");
 
 const idaHelper = new IdaHelper();
 idaHelper.addIdaInfo("libk2-x86_64.so", "/home/detuks/Projects/hon/hon-frida/ida_data/libk2-x86_64.json");
@@ -60,10 +62,12 @@ Interceptor.attach(zoomOut, {
 Interceptor.attach(onMainLoop, {
     onLeave: function(args) {
         if (input.isControlDown()) {
+            objectManager.refreshCache();
             // graphics.drawRect(50, 50, 100, 100);
             // action.move(2000,2000);
             const mousePos = iGame.mysteriousStruct.mousePosition;
-            action.move(mousePos.x, mousePos.y);
+            // action.move(mousePos.x, mousePos.y);
+            action.castSpellPosition(objectManager.heroes[0], 1, mousePos.x, mousePos.y);
         }
         // console.log(`render`);
         // objectManager.refreshCache();
@@ -79,7 +83,7 @@ Interceptor.attach(onSceneRender, {
         if (input.isControlDown()) {
             // graphics.drawRect(50, 50, 100, 100);
             // action.move(2000,2000);
-            input.getCursorPos();
+            // input.getCursorPos();
         }
         // console.log(`render`);
         // objectManager.refreshCache();
@@ -94,9 +98,19 @@ Interceptor.attach(onSceneRender, {
 
 Interceptor.attach(sendGameData, {
     onEnter: function(args) {
-        // if (!input.isControlDown()) {
-        //     return;
-        // }
+        const buffer = new MyBuffer(args[1]);
+        const data = new Uint8Array(buffer.dataBuffer);
+        if (data[0] == 18) return;
+
+        console.log(`CHostClient : ${args[0]}`);
+        console.log(`data : ${data}`);
+        console.log(`flag : ${args[2]}`);
+        logCallTrace(this.context);
+    }
+});
+
+Interceptor.attach(sendClientSnapshot, {
+    onEnter: function(args) {
         const buffer = new MyBuffer(args[1]);
         const data = new Uint8Array(buffer.dataBuffer);
         if (data[0] == 18) return;
