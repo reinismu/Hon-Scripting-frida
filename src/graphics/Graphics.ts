@@ -17,3 +17,5 @@ export class Graphics {
         this.draw2dRect(this.draw2dPtr, x, y, width, height, 0, 0, 0xffffffff);
     }
 }
+
+export const GRAPHICS = new Graphics();

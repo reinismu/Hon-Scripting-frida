@@ -1,4 +1,5 @@
 import { IGame, CClientState } from "../honIdaStructs";
+import { GAME_MODULE, IGAME } from "./Globals";
 
 class WritableClientState extends CClientState {
     // mousePosX -> type: float
@@ -19,9 +20,8 @@ class WritableClientState extends CClientState {
 
 export class Client {
     iGame: IGame;
-    private gameClient = Process.getModuleByName("cgame-x86_64.so");
     // Only method in cgame that calls CHostClient::SendClientSnapshot
-    private sendClientSnapshot = new NativeFunction(this.gameClient.base.add(0x1fce60), "void", ["pointer", "pointer"], {
+    private sendClientSnapshot = new NativeFunction(GAME_MODULE.base.add(0x1fce60), "void", ["pointer", "pointer"], {
         scheduling: "exclusive"
     });
 
@@ -38,3 +38,5 @@ export class Client {
         this.sendClientSnapshot(this.iGame.ptr, new NativePointer(0));
     }
 }
+
+export const CLIENT = new Client(IGAME);

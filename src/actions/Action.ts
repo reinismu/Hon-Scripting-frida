@@ -1,4 +1,5 @@
 import { CHostClient, IBuffer, IGameEntity } from "../honIdaStructs";
+import { K2_MODULE, IGAME } from "../game/Globals";
 
 export class MyBuffer extends IBuffer {
     get myVtable(): NativePointer {
@@ -39,21 +40,20 @@ export class MyBuffer extends IBuffer {
 }
 
 export class Action {
-    private k2Module = Process.getModuleByName("libk2-x86_64.so");
     private myBuffer: MyBuffer;
     private rawBuffer: NativePointer;
     private buffer = Buffer.alloc(2000);
 
-    private bufferConstruct = new NativeFunction(this.k2Module.getExportByName("_ZN7IBufferC2Ev"), "void", ["pointer"]);
+    private bufferConstruct = new NativeFunction(K2_MODULE.getExportByName("_ZN7IBufferC2Ev"), "void", ["pointer"]);
     private sendGameData = new NativeFunction(
-        this.k2Module.getExportByName("_ZN11CHostClient12SendGameDataERK7IBufferb"),
+        K2_MODULE.getExportByName("_ZN11CHostClient12SendGameDataERK7IBufferb"),
         "pointer",
         ["pointer", "pointer", "bool"],
         {
             scheduling: "exclusive"
         }
     );
-    private isLeaver = new NativeFunction(this.k2Module.getExportByName("_ZN11CHostClient8IsLeaverEv"), "bool", ["pointer"]);
+    private isLeaver = new NativeFunction(K2_MODULE.getExportByName("_ZN11CHostClient8IsLeaverEv"), "bool", ["pointer"]);
 
     private hostClient: CHostClient;
 
@@ -132,3 +132,5 @@ export class Action {
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
     }
 }
+
+export const ACTION = new Action(IGAME.hostClient);

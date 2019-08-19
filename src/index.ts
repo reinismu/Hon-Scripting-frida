@@ -1,16 +1,12 @@
-import { inspect } from "util";
 import { IdaHelper } from "./idaExport";
-import { CObj, CGameEvent, CPlayer, IGame } from "./honIdaStructs";
-import { ObjectManager } from "./objects/ObjectManager";
-import { tryGetTypeInfo } from "./objects/RTTI";
-import { Graphics } from "./graphics/Graphics";
-import { Input } from "./input/Input";
-import { Action, MyBuffer } from "./actions/Action";
-import { Client } from "./game/Client";
+import { CObj } from "./honIdaStructs";
+import { OBJECT_MANAGER } from "./objects/ObjectManager";
+import { INPUT } from "./input/Input";
+import { MyBuffer, ACTION } from "./actions/Action";
+import { CLIENT } from "./game/Client";
+import { IGAME } from "./game/Globals";
 
 console.log("Hello from typescript. Process id: " + Process.id);
-
-const baseModule = Process.enumerateModules()[0];
 
 const sharedModule = Process.getModuleByName("libgame_shared-x86_64.so");
 const gameModule = Process.getModuleByName("cgame-x86_64.so");
@@ -36,27 +32,14 @@ idaHelper.addIdaInfo("libk2-x86_64.so", "/home/detuks/Projects/hon/hon-frida/ida
 idaHelper.addIdaInfo("cgame-x86_64.so", "/home/detuks/Projects/hon/hon-frida/ida_data/cgame-x86_64.json");
 idaHelper.addIdaInfo("libgame_shared-x86_64.so", "/home/detuks/Projects/hon/hon-frida/ida_data/libgame_shared-x86_64.json");
 
-const logAllocationsByte = gameModule.base.add(0x7eb969);
-
-const clientEntityArray = gameModule.base.add(0x7ebb48);
-const clientEntityArraySize = gameModule.base.add(0x7ebb54);
-const clientEntityArrayMaxSize = gameModule.base.add(0x7ebb50);
-
-const iGame = new IGame(gameModule.base.add(0x804320).readPointer());
-const objectManager = new ObjectManager(clientEntityArray.readPointer(), clientEntityArraySize);
-const graphics = new Graphics();
-const input = new Input();
-const action = new Action(iGame.hostClient);
-const client = new Client(iGame);
-
 let shot = false;
 
 Interceptor.attach(zoomOut, {
     onEnter: function(args) {
-        objectManager.refreshCache();
-        input.getCursorPos();
-        console.log(`Hero count: ${objectManager.heroes.length}`);
-        for (const hero of objectManager.heroes) {
+        OBJECT_MANAGER.refreshCache();
+        INPUT.getCursorPos();
+        console.log(`Hero count: ${OBJECT_MANAGER.heroes.length}`);
+        for (const hero of OBJECT_MANAGER.heroes) {
             console.log(`Pos: ${hero.position.x}`);
         }
     }
@@ -64,17 +47,17 @@ Interceptor.attach(zoomOut, {
 
 Interceptor.attach(onMainLoop, {
     onLeave: function(args) {
-        if (input.isControlDown()) {
-            const mousePos = iGame.mysteriousStruct.clientStateMousePos;
+        if (INPUT.isControlDown()) {
+            const mousePos = IGAME.mysteriousStruct.clientStateMousePos;
 
             console.log(`${mousePos.x}, ${mousePos.y}`);
-            objectManager.refreshCache();
+            OBJECT_MANAGER.refreshCache();
             //     // graphics.drawRect(50, 50, 100, 100);
             //     // action.move(2000,2000);
             //     // action.move(mousePos.x, mousePos.y);
             if (!shot) {
-                client.sendFakeMousePosToServer(2000, 2000, 0);
-                action.castSpell(objectManager.heroes[0], 0);
+                CLIENT.sendFakeMousePosToServer(2000, 2000, 0);
+                ACTION.castSpell(OBJECT_MANAGER.heroes[0], 0);
                 shot = true;
             }
         } else {
@@ -91,7 +74,7 @@ Interceptor.attach(onMainLoop, {
 
 Interceptor.attach(onSceneRender, {
     onLeave: function(args) {
-        if (input.isControlDown()) {
+        if (INPUT.isControlDown()) {
             // graphics.drawRect(50, 50, 100, 100);
             // action.move(2000,2000);
             // input.getCursorPos();
