@@ -80,11 +80,7 @@ export class Action {
         this.buffer.writeFloatLE(x, 2);
         this.buffer.writeFloatLE(y, 6);
         this.buffer.write("\x00\x00\x00\x00\x00\xFF\xFF\x00", 10, 8, "ascii");
-
-        // console.log(`move buffer: ${new Uint8Array(this.buffer.slice(0,0x12))}`);
-        // console.log(`this.hostClient.ptr: ${this.hostClient.ptr}`);
-        // console.log(`this.myBuffer.ptr: ${this.myBuffer.ptr}`);
-
+        
         this.rawBuffer.writeByteArray(this.buffer);
 
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
@@ -99,10 +95,6 @@ export class Action {
         this.buffer[0] = 27;
         this.buffer.writeUInt32LE(entity.networkId, 1);
         this.buffer[5] = slot;
-
-        console.log(`move buffer: ${new Uint8Array(this.buffer.slice(0, 0x12))}`);
-        console.log(`this.hostClient.ptr: ${this.hostClient.ptr}`);
-        console.log(`this.myBuffer.ptr: ${this.myBuffer.ptr}`);
 
         this.rawBuffer.writeByteArray(this.buffer);
 
@@ -122,10 +114,6 @@ export class Action {
         this.buffer[5] = 0; //dunno
         this.buffer.writeFloatLE(x, 6);
         this.buffer.writeFloatLE(y, 10);
-
-        console.log(`move buffer: ${new Uint8Array(this.buffer.slice(0, 0x12))}`);
-        console.log(`this.hostClient.ptr: ${this.hostClient.ptr}`);
-        console.log(`this.myBuffer.ptr: ${this.myBuffer.ptr}`);
 
         this.rawBuffer.writeByteArray(this.buffer);
 

@@ -6483,7 +6483,7 @@ export class IUnitEntity extends IVisualEntity {
 		return this.align(0x3fc).readS32();
 	}
 
-// abilities -> type: IEntityTool *[80] 
+// abilities -> type: ISlaveEntity *[80] 
 // field_680 -> type: long long 
 	get field_680(): Int64 {
 		return this.align(0x680).readS64();
@@ -8789,8 +8789,79 @@ export class CAchievementManager extends CObj {
 
 }
 
-// inheritence: CObj
-export class IEntityState extends CObj {
+// inheritence: ISlaveEntity
+export class IEntityState extends ISlaveEntity {
+
+// gap_E8 -> type: uint8 [8] 
+// field_F0 -> type: long long 
+	get field_F0(): Int64 {
+		return this.align(0xf0).readS64();
+	}
+
+// field_F8 -> type: long long 
+	get field_F8(): Int64 {
+		return this.align(0xf8).readS64();
+	}
+
+// gap_100 -> type: uint8 [4] 
+// field_104 -> type: long long 
+	get field_104(): Int64 {
+		return this.align(0x104).readS64();
+	}
+
+// gap_10C -> type: uint8 [4] 
+// field_110 -> type: int 
+	get field_110(): number {
+		return this.align(0x110).readS32();
+	}
+
+// field_114 -> type: short 
+	get field_114(): number {
+		return this.align(0x114).readS16();
+	}
+
+// field_116 -> type: char 
+	get field_116(): number {
+		return this.align(0x116).readS8();
+	}
+
+// gap_117 -> type: uint8 
+// field_118 -> type: int 
+	get field_118(): number {
+		return this.align(0x118).readS32();
+	}
+
+// gap_11C -> type: uint8 [4] 
+// field_120 -> type: long long 
+	get field_120(): Int64 {
+		return this.align(0x120).readS64();
+	}
+
+// gap_128 -> type: uint8 [8] 
+// field_130 -> type: long long 
+	get field_130(): Int64 {
+		return this.align(0x130).readS64();
+	}
+
+// field_138 -> type: long long 
+	get field_138(): Int64 {
+		return this.align(0x138).readS64();
+	}
+
+// field_140 -> type: int 
+	get field_140(): number {
+		return this.align(0x140).readS32();
+	}
+
+// field_144 -> type: long long 
+	get field_144(): Int64 {
+		return this.align(0x144).readS64();
+	}
+
+// field_14A -> type: long long 
+	get field_14A(): Int64 {
+		return this.align(0x14c).readS64();
+	}
 
 }
 
@@ -57868,48 +57939,6 @@ export class CBufferFixed_vtbl extends CObj {
 // function 
 // args: IBuffer * -> ret: long long 
 	public _ZNK7IBuffer8FindNextEc() {
-		return null;
-	}
-
-// _ZNK7IBuffer8FindNextEw -> type: long long (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: long long 
-	public _ZNK7IBuffer8FindNextEw() {
-		return null;
-	}
-
-// copyFrom -> type: void *(*)(IBuffer *, unsigned int, unsigned int) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * unsigned int unsigned int -> ret: void * 
-	public copyFrom() {
-		return null;
-	}
-
-// vfunc_5550432 -> type: void *(*)(IBuffer *, long long) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * long long -> ret: void * 
-	public vfunc_5550432() {
-		return null;
-	}
-
-// vfunc_5550448 -> type: long long (*)(unsigned int *) __attribute__((fastcall)) 
-// function 
-// args: unsigned int * -> ret: long long 
-	public vfunc_5550448() {
-		return null;
-	}
-
-// vfunc_5550464 -> type: char *(*)(IBuffer *, unsigned int) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * unsigned int -> ret: char * 
-	public vfunc_5550464() {
-		return null;
-	}
-
-// vfunc_5550480 -> type: long long (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: long long 
-	public vfunc_5550480() {
 		return null;
 	}
 

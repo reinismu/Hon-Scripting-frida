@@ -24,9 +24,10 @@ export class TypeInfo {
     }
 }
 
-export function tryGetTypeInfo(obj: CObj): TypeInfo | null {
+export function tryGetTypeInfo(obj: CObj | NativePointer): TypeInfo | null {
     try {
-        return new TypeInfo(obj.ptr.readPointer().sub(0x8).readPointer());
+        const ptr = (obj instanceof CObj) ? obj.ptr : obj;
+        return new TypeInfo(ptr.readPointer().sub(0x8).readPointer());
     } catch (error) {
         return null;
     }
