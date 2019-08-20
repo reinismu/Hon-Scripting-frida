@@ -27,6 +27,7 @@ declare module "../honIdaStructs" {
     interface IUnitEntity {
         getTool(index: number): ISlaveEntity;
         isEnemy(entity: IUnitEntity): boolean;
+        isDead(): boolean;
         getCurrentHealth(): number;
         getMaxHealth(): number;
         getHealthPercent(): number;
@@ -58,6 +59,11 @@ const isEnemy = new NativeFunction(SHARED_MODULE.getExportByName("_ZNK11IUnitEnt
 IUnitEntity.prototype.isEnemy = function(entity: IUnitEntity): boolean {
     const self = this as IUnitEntity;
     return isEnemy(self.ptr, entity.ptr) as boolean;
+};
+
+IUnitEntity.prototype.isDead = function(): boolean {
+    const self = this as IUnitEntity;
+    return self.isAlive != 1;
 };
 
 IUnitEntity.prototype.getCurrentHealth = function(): number {

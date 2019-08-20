@@ -9,9 +9,10 @@ export class ObjectManager {
     private arraySizePtr: NativePointer;
     private iGame: IGame;
 
-    private cachedEntities: IGameEntity[] = [];
-    private cachedHeroes: IHeroEntity[] = [];
     private cachedMyHero: IHeroEntity | null = null;
+
+    private cachedEntityMap: Map<number, IGameEntity> = new Map();
+    private cachedHeroMap: Map<number, IHeroEntity> = new Map();
 
     private entityInitMap = new Map([
         [
@@ -45,26 +46,57 @@ export class ObjectManager {
     }
 
     public refreshCache() {
-        this.cachedEntities = [];
-        this.cachedHeroes = [];
-        this.cachedMyHero = null;
-
+        let index = 0;
         for (const clientEntity of this.clientEntities()) {
-            let gameEntity = clientEntity.gameEntity2;
-            const typeInfo = tryGetTypeInfo(gameEntity);
-            if (typeInfo == null) continue;
+            this.checkEntity(clientEntity, index);
+            index++;
+        }
+    }
+
+    public checkEntity(clientEntity: CClientEntity, index: number) {
+        let gameEntityPtr = clientEntity.ptr.add(0x8e8).readPointer();
+        if (gameEntityPtr.isNull()) {
+            this.cachedEntityMap.delete(index);
+            this.cachedHeroMap.delete(index);
+            return;
+        }
+        const cachedEntity = this.cachedEntityMap.get(index);
+        if (!cachedEntity || !cachedEntity.ptr.equals(gameEntityPtr)) {
+            const newEntity = this.createGameEntity(gameEntityPtr);
+            if (newEntity != null) {
+                this.cachedEntityMap.set(index, newEntity);
+                if (newEntity instanceof IHeroEntity) {
+                    this.cachedHeroMap.set(index, newEntity);
+                    if (newEntity.networkId == this.iGame.myPlayer.heroNetworkId) {
+                        this.cachedMyHero = newEntity;
+                    }
+                }
+            } else {
+                this.cachedEntityMap.delete(index);
+                this.cachedHeroMap.delete(index);
+            }
+        }
+    }
+
+    public createGameEntity(gameEntityPtr: NativePointer): IGameEntity | null {
+        if (gameEntityPtr.isNull()) {
+            return null;
+        }
+        const typeInfo = tryGetTypeInfo(gameEntityPtr);
+        if (typeInfo == null) {
+            return null;
+        }
+        try {
             const entityCreator = this.entityInitMap.get(typeInfo.typeName);
             if (entityCreator !== undefined) {
-                gameEntity = entityCreator(gameEntity.ptr);
+                return entityCreator(gameEntityPtr);
+            } else {
+                return new IGameEntity(gameEntityPtr);
             }
-            if (gameEntity instanceof IHeroEntity) {
-                this.cachedHeroes.push(gameEntity);
-                if (gameEntity.networkId == this.iGame.myPlayer.heroNetworkId) {
-                    this.cachedMyHero = gameEntity;
-                }
-            }
-            this.cachedEntities.push(gameEntity);
+        } catch (ex) {
+            console.log(`Error creating entity with ptr: ${gameEntityPtr}`);
         }
+        return null;
     }
 
     public clientEntities(): CClientEntity[] {
@@ -72,14 +104,18 @@ export class ObjectManager {
         let size = this.arraySizePtr.readInt();
         const entities = [];
         while (i < size) {
-            entities.push(new CClientEntity(this.arrayPtr.add(i * CLIENT_ENTITY_SIZE)));
+            entities.push(new CClientEntity(this.arrayPtr.readPointer().add(i * CLIENT_ENTITY_SIZE)));
             i++;
         }
         return entities;
     }
 
     get heroes(): IHeroEntity[] {
-        return this.cachedHeroes;
+        return Array.from(this.cachedHeroMap.values());
+    }
+
+    get entities(): IGameEntity[] {
+        return Array.from(this.cachedEntityMap.values());
     }
 
     get myHero(): IHeroEntity {
@@ -88,10 +124,6 @@ export class ObjectManager {
         }
         return this.cachedMyHero;
     }
-
-    // public heroes():  {
-
-    // }
 }
 
-export const OBJECT_MANAGER = new ObjectManager(CLIENT_ENTITY_ARRAY.readPointer(), CLIENT_ENTITY_ARRAY_SIZE, IGAME);
+export const OBJECT_MANAGER = new ObjectManager(CLIENT_ENTITY_ARRAY, CLIENT_ENTITY_ARRAY_SIZE, IGAME);

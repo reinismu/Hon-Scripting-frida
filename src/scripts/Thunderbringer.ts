@@ -8,9 +8,8 @@ import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 
-export class TestScript extends Script {
-    private delayCastQ = false;
-    private forceSnapshotSend = false;
+export class Thunderbringer extends Script {
+    private lastCast = 0;
 
     constructor() {
         super();
@@ -18,6 +17,9 @@ export class TestScript extends Script {
     }
 
     doQLogic() {
+        if (this.lastCast + 100 > Date.now()) {
+            return;
+        }
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.isReady()) {
             return;
@@ -26,21 +28,32 @@ export class TestScript extends Script {
         if (!enemyHero) {
             return;
         }
-        if (enemyHero.position.distance2d(this.myHero.position) > 1750) {
+        if (enemyHero.position.distance2d(this.myHero.position) > 850) {
             return;
         }
-        if (this.delayCastQ) {
-            this.forceSnapshotSend = true;
-            CLIENT.sendFakeMousePosToServer(enemyHero.position.x, enemyHero.position.y, enemyHero.position.z);
-            this.forceSnapshotSend = false;
-            ACTION.castSpell(this.myHero, 0);
-            this.delayCastQ = false;
-        } else {
-            this.forceSnapshotSend = true;
-            CLIENT.sendFakeMousePosToServer(enemyHero.position.x, enemyHero.position.y, enemyHero.position.z);
-            this.forceSnapshotSend = false;
-            this.delayCastQ = true;
+        this.lastCast = Date.now();
+        console.log("now: " + this.lastCast);
+        ACTION.castSpellEntity(this.myHero, 0, enemyHero);
+    }
+
+    doWLogic() {
+        if (this.lastCast + 100 > Date.now()) {
+            return;
         }
+        const w = this.myHero.getTool(1) as IEntityAbility;
+        if (!w.isReady()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
+        if (!enemyHero) {
+            return;
+        }
+        if (enemyHero.position.distance2d(this.myHero.position) > 700) {
+            return;
+        }
+        this.lastCast = Date.now();
+        console.log("now: " + this.lastCast);
+        ACTION.castSpellEntity(this.myHero, 1, enemyHero);
     }
 
     @Subscribe("MainLoopEvent")
@@ -54,26 +67,12 @@ export class TestScript extends Script {
         //     console.log(`isAlive: ${h.isAlive}`);
         // });
         this.doQLogic();
+        // this.doWLogic();
     }
 
     @Subscribe("DrawEvent")
     onDraw() {
         // GRAPHICS.drawRect(0, 0, 100, 100);
         // console.log("draw");
-    }
-
-    @Subscribe("SendClientSnapshotEvent")
-    onSendClientSnapshot(args: NativePointer[]) {
-        if (!INPUT.isControlDown()) return;
-        // Dont update state if we are shooting
-
-        const buffer = new MyBuffer(args[1]);
-        const data = new Uint8Array(buffer.dataBuffer);
-
-        if (this.forceSnapshotSend) {
-            return;
-        }
-        buffer.size = 0;
-        buffer.allocatedSize = 0;
     }
 }
