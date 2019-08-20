@@ -7,6 +7,7 @@ import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { IGAME } from "../game/Globals";
 
 export class TestScript extends Script {
     private delayCastQ = false;
@@ -46,7 +47,8 @@ export class TestScript extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         if (!INPUT.isControlDown()) return;
-        // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
+        // IGAME.mysteriousStruct.drawIndicatorFlag = 0x101;
+        console.log(`drawIndicatorFlag:` + IGAME.mysteriousStruct.drawIndicatorFlag);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
         // console.log(`myHero:` + OBJECT_MANAGER.myHero);

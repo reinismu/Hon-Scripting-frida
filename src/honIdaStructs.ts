@@ -20,16 +20,11 @@ export class CObj {
 
 
 // inheritence: CObj
-export class CCamera extends CObj {
+export class CMessageSocket extends CObj {
 
-// field_0 -> type: int 
-	get field_0(): number {
-		return this.align(0x0).readS32();
-	}
-
-// field_4 -> type: int 
-	get field_4(): number {
-		return this.align(0x4).readS32();
+// field_0 -> type: long long 
+	get field_0(): Int64 {
+		return this.align(0x0).readS64();
 	}
 
 // field_8 -> type: int 
@@ -37,62 +32,63 @@ export class CCamera extends CObj {
 		return this.align(0x8).readS32();
 	}
 
-// field_C -> type: int 
-	get field_C(): number {
-		return this.align(0xc).readS32();
+// gap_C -> type: uint8 [4] 
+// field_10 -> type: uint64 
+	get field_10(): UInt64 {
+		return this.align(0x10).readU64();
 	}
 
-// field_10 -> type: int 
-	get field_10(): number {
-		return this.align(0x10).readS32();
+// field_18 -> type: long long 
+	get field_18(): Int64 {
+		return this.align(0x18).readS64();
 	}
 
-// field_14 -> type: int 
-	get field_14(): number {
-		return this.align(0x14).readS32();
+// field_20 -> type: uint64 
+	get field_20(): UInt64 {
+		return this.align(0x20).readU64();
 	}
 
-// field_18 -> type: int 
-	get field_18(): number {
-		return this.align(0x18).readS32();
+// field_28 -> type: uint32 
+	get field_28(): number {
+		return this.align(0x28).readU32();
 	}
 
-// field_1C -> type: long long 
-	get field_1C(): Int64 {
-		return this.align(0x1c).readS64();
+// field_2C -> type: uint16 
+	get field_2C(): number {
+		return this.align(0x2c).readU16();
 	}
 
-// field_24 -> type: long long 
-	get field_24(): Int64 {
-		return this.align(0x24).readS64();
+// gap_2E -> type: uint8 [2] 
+// field_30 -> type: uint64 
+	get field_30(): UInt64 {
+		return this.align(0x30).readU64();
 	}
 
-// gap_2C -> type: uint8 [8] 
-// field_34 -> type: long long 
-	get field_34(): Int64 {
-		return this.align(0x34).readS64();
+// gap_38 -> type: uint8 [2] 
+// field_3A -> type: long long 
+	get field_3A(): Int64 {
+		return this.align(0x3a).readS64();
 	}
 
-// gap_3C -> type: uint8 [8] 
-// field_44 -> type: long long 
-	get field_44(): Int64 {
-		return this.align(0x44).readS64();
+// gap_42 -> type: uint8 [14] 
+// field_50 -> type: long long 
+	get field_50(): Int64 {
+		return this.align(0x50).readS64();
 	}
 
-// gap_4C -> type: uint8 [24] 
-// field_64 -> type: int 
-	get field_64(): number {
-		return this.align(0x64).readS32();
+// field_58 -> type: uint64 
+	get field_58(): UInt64 {
+		return this.align(0x58).readU64();
 	}
 
-// field_68 -> type: int 
-	get field_68(): number {
-		return this.align(0x68).readS32();
+// field_60 -> type: long long 
+	get field_60(): Int64 {
+		return this.align(0x60).readS64();
 	}
 
-// field_6C -> type: int 
-	get field_6C(): number {
-		return this.align(0x6c).readS32();
+// field_68 -> type: uint64 
+	get field_68(): UInt64 {
+		return this.align(0x68).readU64();
 	}
 
 // field_70 -> type: int 
@@ -105,99 +101,31 @@ export class CCamera extends CObj {
 		return this.align(0x74).readS32();
 	}
 
-// field_78 -> type: int 
+// field_78 -> type: char 
 	get field_78(): number {
-		return this.align(0x78).readS32();
+		return this.align(0x78).readS8();
 	}
 
-// field_7C -> type: int 
-	get field_7C(): number {
-		return this.align(0x7c).readS32();
+// gap_79 -> type: uint8 [7] 
+// field_80 -> type: long long 
+	get field_80(): Int64 {
+		return this.align(0x80).readS64();
 	}
 
-// field_80 -> type: int 
-	get field_80(): number {
-		return this.align(0x80).readS32();
+// field_88 -> type: long long 
+	get field_88(): Int64 {
+		return this.align(0x88).readS64();
 	}
 
-// field_84 -> type: int 
-	get field_84(): number {
-		return this.align(0x84).readS32();
+// field_90 -> type: uint64 
+	get field_90(): UInt64 {
+		return this.align(0x90).readU64();
 	}
 
-// gap_88 -> type: uint8 [8] 
-// field_90 -> type: int 
-	get field_90(): number {
-		return this.align(0x90).readS32();
-	}
-
-// field_94 -> type: int 
-	get field_94(): number {
-		return this.align(0x94).readS32();
-	}
-
-// field_98 -> type: int 
-	get field_98(): number {
-		return this.align(0x98).readS32();
-	}
-
-// field_9C -> type: int 
-	get field_9C(): number {
-		return this.align(0x9c).readS32();
-	}
-
-// field_A0 -> type: int 
-	get field_A0(): number {
-		return this.align(0xa0).readS32();
-	}
-
-// field_A4 -> type: int 
-	get field_A4(): number {
-		return this.align(0xa4).readS32();
-	}
-
-// field_A8 -> type: int 
-	get field_A8(): number {
-		return this.align(0xa8).readS32();
-	}
-
-// field_AC -> type: long long 
-	get field_AC(): Int64 {
-		return this.align(0xac).readS64();
-	}
-
-// gap_B4 -> type: uint8 [8] 
-// field_BC -> type: long long 
-	get field_BC(): Int64 {
-		return this.align(0xbc).readS64();
-	}
-
-// gap_C4 -> type: uint8 [9] 
-// field_CD -> type: char 
-	get field_CD(): number {
-		return this.align(0xcd).readS8();
-	}
-
-// gap_CE -> type: uint8 [2] 
-// field_D0 -> type: int 
-	get field_D0(): number {
-		return this.align(0xd0).readS32();
-	}
-
-// field_D4 -> type: char 
-	get field_D4(): number {
-		return this.align(0xd4).readS8();
-	}
-
-// gap_D5 -> type: uint8 [99] 
-// field_138 -> type: long long 
-	get field_138(): Int64 {
-		return this.align(0x138).readS64();
-	}
-
-// field_140 -> type: long long 
-	get field_140(): Int64 {
-		return this.align(0x140).readS64();
+// field_98 -> type: IBuffer 
+// field_B8 -> type: long long 
+	get field_B8(): Int64 {
+		return this.align(0xb8).readS64();
 	}
 
 }
@@ -286,6 +214,1373 @@ export class CEntitySnapshot extends CObj {
 
 // inheritence: CObj
 export class CBufferDynamic extends CObj {
+
+}
+
+// inheritence: CObj
+export class ISlaveEntity extends CObj {
+
+// field_A0 -> type: int 
+	get field_A0(): number {
+		return this.align(0xa0).readS32();
+	}
+
+// field_A4 -> type: char 
+	get field_A4(): number {
+		return this.align(0xa4).readS8();
+	}
+
+// gap_A5 -> type: uint8 [3] 
+// field_A8 -> type: int 
+	get field_A8(): number {
+		return this.align(0xa8).readS32();
+	}
+
+// field_AC -> type: short 
+	get field_AC(): number {
+		return this.align(0xac).readS16();
+	}
+
+// field_AE -> type: char 
+	get field_AE(): number {
+		return this.align(0xae).readS8();
+	}
+
+// gap_AF -> type: uint8 
+// field_B0 -> type: long long 
+	get field_B0(): Int64 {
+		return this.align(0xb0).readS64();
+	}
+
+// gap_B8 -> type: uint8 [8] 
+// field_C0 -> type: long long 
+	get field_C0(): Int64 {
+		return this.align(0xc0).readS64();
+	}
+
+// field_C8 -> type: int 
+	get field_C8(): number {
+		return this.align(0xc8).readS32();
+	}
+
+// field_CC -> type: long long 
+	get field_CC(): Int64 {
+		return this.align(0xcc).readS64();
+	}
+
+// field_D4 -> type: int 
+	get field_D4(): number {
+		return this.align(0xd4).readS32();
+	}
+
+// field_D8 -> type: long long 
+	get field_D8(): Int64 {
+		return this.align(0xd8).readS64();
+	}
+
+// field_E0 -> type: uint64 
+	get field_E0(): UInt64 {
+		return this.align(0xe0).readU64();
+	}
+
+}
+
+// inheritence: CObj
+export class stat extends CObj {
+
+}
+
+// inheritence: CObj
+export class _XDisplay extends CObj {
+
+}
+
+// inheritence: CObj
+export class _XExtData extends CObj {
+
+}
+
+// inheritence: CObj
+export class _XSQEvent extends CObj {
+
+}
+
+// inheritence: CObj
+export class _XExten extends CObj {
+
+}
+
+// inheritence: CObj
+export class _xEvent extends CObj {
+
+}
+
+// inheritence: CObj
+export class _XInternalAsync extends CObj {
+
+}
+
+// inheritence: CObj
+export class _XLockPtrs extends CObj {
+
+// lock_display -> type: void (*)(Display *) __attribute__((fastcall)) 
+// function 
+// args: Display * -> ret: void 
+	public lock_display() {
+		return null;
+	}
+
+// unlock_display -> type: void (*)(Display *) __attribute__((fastcall)) 
+// function 
+// args: Display * -> ret: void 
+	public unlock_display() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
+export class _XConnectionInfo extends CObj {
+
+}
+
+// inheritence: CObj
+export class _XConnWatchInfo extends CObj {
+
+}
+
+// inheritence: CObj
+export class _XGC extends CObj {
+
+}
+
+// inheritence: CObj
+export class _Unwind_Exception extends CObj {
+
+// exception_class -> type: _Unwind_Exception_Class 
+// exception_cleanup -> type: _Unwind_Exception_Cleanup_Fn 
+// private_1 -> type: _Unwind_Word 
+// private_2 -> type: _Unwind_Word 
+}
+
+// inheritence: CObj
+export class Vtable_CGameCLient_vtbl extends CObj {
+
+}
+
+// inheritence: CObj
+export class Vtable_7CC230 extends CObj {
+
+// sub_2932C0 -> type: void (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void 
+	public sub_2932C0() {
+		return null;
+	}
+
+// sub_293500 -> type: void (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void 
+	public sub_293500() {
+		return null;
+	}
+
+// loc_0 -> type: void *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void * 
+	public loc_0() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
+export class CGameClient extends CObj {
+
+// vtable -> type: Vtable_CGameCLient_vtbl * 
+	get vtable(): Vtable_CGameCLient_vtbl {
+		return new Vtable_CGameCLient_vtbl(this.align(0x0).readPointer());
+	}
+
+// field_8 -> type: uint64 
+	get field_8(): UInt64 {
+		return this.align(0x8).readU64();
+	}
+
+// field_10 -> type: uint64 
+	get field_10(): UInt64 {
+		return this.align(0x10).readU64();
+	}
+
+// gap_18 -> type: uint8 [8] 
+// field_20 -> type: long long 
+	get field_20(): Int64 {
+		return this.align(0x20).readS64();
+	}
+
+// gap_28 -> type: uint8 [8] 
+// CEventDirectory -> type: char 
+	get CEventDirectory(): number {
+		return this.align(0x30).readS8();
+	}
+
+// gap_31 -> type: uint8 [7] 
+// field_38 -> type: long long 
+	get field_38(): Int64 {
+		return this.align(0x38).readS64();
+	}
+
+// gap_40 -> type: uint8 [16] 
+// field_50 -> type: long long 
+	get field_50(): Int64 {
+		return this.align(0x50).readS64();
+	}
+
+// gap_58 -> type: uint8 [16] 
+// field_68 -> type: long long 
+	get field_68(): Int64 {
+		return this.align(0x68).readS64();
+	}
+
+// gap_70 -> type: uint8 [16] 
+// field_80 -> type: long long 
+	get field_80(): Int64 {
+		return this.align(0x80).readS64();
+	}
+
+// scriptDirectory -> type: char 
+	get scriptDirectory(): number {
+		return this.align(0x88).readS8();
+	}
+
+// gap_89 -> type: uint8 [31] 
+// field_A8 -> type: long long 
+	get field_A8(): Int64 {
+		return this.align(0xa8).readS64();
+	}
+
+// field_B0 -> type: long long 
+	get field_B0(): Int64 {
+		return this.align(0xb0).readS64();
+	}
+
+// gap_B8 -> type: uint8 [16] 
+// field_C8 -> type: char 
+	get field_C8(): number {
+		return this.align(0xc8).readS8();
+	}
+
+// gap_C9 -> type: uint8 [7] 
+// game1 -> type: IGame * 
+	get game1(): IGame {
+		return new IGame(this.align(0xd0).readPointer());
+	}
+
+// game2 -> type: IGame * 
+	get game2(): IGame {
+		return new IGame(this.align(0xd8).readPointer());
+	}
+
+// field_E0 -> type: long long 
+	get field_E0(): Int64 {
+		return this.align(0xe0).readS64();
+	}
+
+// field_E8 -> type: uint64 * 
+// args:  -> ret:  
+	public field_E8() {
+		return null;
+	}
+
+// gap_F0 -> type: uint8 [8] 
+// field_F8 -> type: long long 
+	get field_F8(): Int64 {
+		return this.align(0xf8).readS64();
+	}
+
+// field_100 -> type: long long 
+	get field_100(): Int64 {
+		return this.align(0x100).readS64();
+	}
+
+// field_108 -> type: unsigned long long 
+	get field_108(): UInt64 {
+		return this.align(0x108).readU64();
+	}
+
+// field_110 -> type: long long 
+	get field_110(): Int64 {
+		return this.align(0x110).readS64();
+	}
+
+// field_118 -> type: uint64 * 
+// args:  -> ret:  
+	public field_118() {
+		return null;
+	}
+
+// field_120 -> type: long long 
+	get field_120(): Int64 {
+		return this.align(0x120).readS64();
+	}
+
+// field_128 -> type: char 
+	get field_128(): number {
+		return this.align(0x128).readS8();
+	}
+
+// gap_129 -> type: uint8 [7] 
+// field_130 -> type: char 
+	get field_130(): number {
+		return this.align(0x130).readS8();
+	}
+
+// gap_131 -> type: uint8 [15] 
+// field_140 -> type: uint64 
+	get field_140(): UInt64 {
+		return this.align(0x140).readU64();
+	}
+
+// field_148 -> type: char 
+	get field_148(): number {
+		return this.align(0x148).readS8();
+	}
+
+// gap_149 -> type: uint8 [15] 
+// field_158 -> type: uint64 
+	get field_158(): UInt64 {
+		return this.align(0x158).readU64();
+	}
+
+// gap_160 -> type: uint8 [4] 
+// field_164 -> type: long long 
+	get field_164(): Int64 {
+		return this.align(0x164).readS64();
+	}
+
+// field_16C -> type: wchar_t 
+	get field_16C(): NativePointer {
+		return this.align(0x16c).readPointer();
+	}
+
+// field_170 -> type: uint64 
+	get field_170(): UInt64 {
+		return this.align(0x170).readU64();
+	}
+
+// field_178 -> type: const wchar_t * 
+// args:  -> ret:  
+	public field_178() {
+		return null;
+	}
+
+// field_180 -> type: long long 
+	get field_180(): Int64 {
+		return this.align(0x180).readS64();
+	}
+
+// field_188 -> type: uint64 * 
+// args:  -> ret:  
+	public field_188() {
+		return null;
+	}
+
+// gap_190 -> type: uint8 [24] 
+// field_1A8 -> type: char 
+	get field_1A8(): number {
+		return this.align(0x1a8).readS8();
+	}
+
+// gap_1A9 -> type: uint8 [15] 
+// field_1B8 -> type: uint64 
+	get field_1B8(): UInt64 {
+		return this.align(0x1b8).readU64();
+	}
+
+// gap_1C0 -> type: uint8 [48] 
+// vtable_1F0 -> type: Vtable_7CC230 * 
+	get vtable_1F0(): Vtable_7CC230 {
+		return new Vtable_7CC230(this.align(0x1f0).readPointer());
+	}
+
+// field_1F8 -> type: uint64 
+	get field_1F8(): UInt64 {
+		return this.align(0x1f8).readU64();
+	}
+
+// field_200 -> type: uint64 * 
+// args:  -> ret:  
+	public field_200() {
+		return null;
+	}
+
+// field_208 -> type: uint64 
+	get field_208(): UInt64 {
+		return this.align(0x208).readU64();
+	}
+
+// field_210 -> type: long long 
+	get field_210(): Int64 {
+		return this.align(0x210).readS64();
+	}
+
+// field_218 -> type: uint64 * 
+// args:  -> ret:  
+	public field_218() {
+		return null;
+	}
+
+// gap_220 -> type: uint8 [8] 
+// field_228 -> type: long long 
+	get field_228(): Int64 {
+		return this.align(0x228).readS64();
+	}
+
+// field_230 -> type: long long 
+	get field_230(): Int64 {
+		return this.align(0x230).readS64();
+	}
+
+// gap_238 -> type: uint8 [16] 
+// field_248 -> type: long long 
+	get field_248(): Int64 {
+		return this.align(0x248).readS64();
+	}
+
+// field_250 -> type: long long 
+	get field_250(): Int64 {
+		return this.align(0x250).readS64();
+	}
+
+// gap_258 -> type: uint8 [72] 
+// field_2A0 -> type: long long 
+	get field_2A0(): Int64 {
+		return this.align(0x2a0).readS64();
+	}
+
+// field_2A8 -> type: long long 
+	get field_2A8(): Int64 {
+		return this.align(0x2a8).readS64();
+	}
+
+// gap_2B0 -> type: uint8 [8] 
+// field_2B8 -> type: long long 
+	get field_2B8(): Int64 {
+		return this.align(0x2b8).readS64();
+	}
+
+// field_2C0 -> type: long long 
+	get field_2C0(): Int64 {
+		return this.align(0x2c0).readS64();
+	}
+
+// gap_2C8 -> type: uint8 [8] 
+// field_2D0 -> type: long long 
+	get field_2D0(): Int64 {
+		return this.align(0x2d0).readS64();
+	}
+
+// field_2D8 -> type: uint64 * 
+// args:  -> ret:  
+	public field_2D8() {
+		return null;
+	}
+
+// gap_2E0 -> type: uint8 [8] 
+// field_2E8 -> type: long long 
+	get field_2E8(): Int64 {
+		return this.align(0x2e8).readS64();
+	}
+
+// field_2F0 -> type: long long 
+	get field_2F0(): Int64 {
+		return this.align(0x2f0).readS64();
+	}
+
+// gap_2F8 -> type: uint8 [8] 
+// field_300 -> type: long long 
+	get field_300(): Int64 {
+		return this.align(0x300).readS64();
+	}
+
+// field_308 -> type: long long 
+	get field_308(): Int64 {
+		return this.align(0x308).readS64();
+	}
+
+// gap_310 -> type: uint8 [16] 
+// field_320 -> type: IBuffer 
+// gap_340 -> type: uint8 [8] 
+// field_348 -> type: long long 
+	get field_348(): Int64 {
+		return this.align(0x348).readS64();
+	}
+
+// field_350 -> type: long long 
+	get field_350(): Int64 {
+		return this.align(0x350).readS64();
+	}
+
+// field_358 -> type: long long 
+	get field_358(): Int64 {
+		return this.align(0x358).readS64();
+	}
+
+// field_360 -> type: CMessageSocket ** 
+// function 
+// args:  -> ret:  
+	public field_360() {
+		return null;
+	}
+
+// gap_368 -> type: uint8 [56] 
+// field_3A0 -> type: CSnapshot 
+// field_450 -> type: long long 
+	get field_450(): Int64 {
+		return this.align(0x450).readS64();
+	}
+
+// field_458 -> type: long long 
+	get field_458(): Int64 {
+		return this.align(0x458).readS64();
+	}
+
+// gap_460 -> type: uint8 [8] 
+// field_468 -> type: CSnapshot * 
+	get field_468(): CSnapshot {
+		return new CSnapshot(this.align(0x468).readPointer());
+	}
+
+// gap_470 -> type: uint8 [240] 
+// field_560 -> type: long long 
+	get field_560(): Int64 {
+		return this.align(0x560).readS64();
+	}
+
+// field_568 -> type: uint64 
+	get field_568(): UInt64 {
+		return this.align(0x568).readU64();
+	}
+
+// gap_570 -> type: uint8 [8] 
+// field_578 -> type: uint64 
+	get field_578(): UInt64 {
+		return this.align(0x578).readU64();
+	}
+
+// gap_580 -> type: uint8 [8] 
+// field_588 -> type: long long 
+	get field_588(): Int64 {
+		return this.align(0x588).readS64();
+	}
+
+// field_590 -> type: uint64 
+	get field_590(): UInt64 {
+		return this.align(0x590).readU64();
+	}
+
+// gap_598 -> type: uint8 [24] 
+// field_5B0 -> type: long long 
+	get field_5B0(): Int64 {
+		return this.align(0x5b0).readS64();
+	}
+
+// gap_5B8 -> type: uint8 [8] 
+// field_5C0 -> type: uint64 * 
+// args:  -> ret:  
+	public field_5C0() {
+		return null;
+	}
+
+// gap_5C8 -> type: uint8 [8] 
+// field_5D0 -> type: long long 
+	get field_5D0(): Int64 {
+		return this.align(0x5d0).readS64();
+	}
+
+// field_5D8 -> type: long long 
+	get field_5D8(): Int64 {
+		return this.align(0x5d8).readS64();
+	}
+
+// gap_5E0 -> type: uint8 [16] 
+// field_5F0 -> type: long long 
+	get field_5F0(): Int64 {
+		return this.align(0x5f0).readS64();
+	}
+
+// field_5F8 -> type: long long 
+	get field_5F8(): Int64 {
+		return this.align(0x5f8).readS64();
+	}
+
+// gap_600 -> type: uint8 [16] 
+// field_610 -> type: long long 
+	get field_610(): Int64 {
+		return this.align(0x610).readS64();
+	}
+
+// field_618 -> type: long long 
+	get field_618(): Int64 {
+		return this.align(0x618).readS64();
+	}
+
+// gap_620 -> type: uint8 [8] 
+// field_628 -> type: IBuffer 
+// gap_648 -> type: uint8 [24] 
+// field_660 -> type: long long 
+	get field_660(): Int64 {
+		return this.align(0x660).readS64();
+	}
+
+// field_668 -> type: long long 
+	get field_668(): Int64 {
+		return this.align(0x668).readS64();
+	}
+
+// gap_670 -> type: uint8 [8] 
+// field_678 -> type: IBuffer 
+// gap_698 -> type: uint8 [168] 
+// field_740 -> type: IBuffer 
+// gap_760 -> type: uint8 [16] 
+// field_770 -> type: uint64 
+	get field_770(): UInt64 {
+		return this.align(0x770).readU64();
+	}
+
+// gap_778 -> type: uint8 [40] 
+// field_7A0 -> type: uint64 
+	get field_7A0(): UInt64 {
+		return this.align(0x7a0).readU64();
+	}
+
+// gap_7A8 -> type: uint8 [40] 
+// field_7D0 -> type: uint64 
+	get field_7D0(): UInt64 {
+		return this.align(0x7d0).readU64();
+	}
+
+// gap_7D8 -> type: uint8 [56] 
+// field_810 -> type: unsigned int 
+	get field_810(): number {
+		return this.align(0x810).readU32();
+	}
+
+// gap_814 -> type: uint8 [12] 
+// field_820 -> type: bool 
+// gap_821 -> type: uint8 [3] 
+// field_824 -> type: uint32 
+	get field_824(): number {
+		return this.align(0x824).readU32();
+	}
+
+// gap_828 -> type: uint8 [24] 
+// field_840 -> type: long long 
+	get field_840(): Int64 {
+		return this.align(0x840).readS64();
+	}
+
+// field_848 -> type: long long 
+	get field_848(): Int64 {
+		return this.align(0x848).readS64();
+	}
+
+// field_850 -> type: uint64 
+	get field_850(): UInt64 {
+		return this.align(0x850).readU64();
+	}
+
+// field_858 -> type: uint64 
+	get field_858(): UInt64 {
+		return this.align(0x858).readU64();
+	}
+
+// gap_860 -> type: uint8 [280] 
+// field_978 -> type: long long 
+	get field_978(): Int64 {
+		return this.align(0x978).readS64();
+	}
+
+// field_980 -> type: long long 
+	get field_980(): Int64 {
+		return this.align(0x980).readS64();
+	}
+
+// gap_988 -> type: uint8 [8] 
+// field_990 -> type: uint64 
+	get field_990(): UInt64 {
+		return this.align(0x990).readU64();
+	}
+
+// gap_998 -> type: uint8 [56] 
+// field_9D0 -> type: uint64 
+	get field_9D0(): UInt64 {
+		return this.align(0x9d0).readU64();
+	}
+
+// gap_9D8 -> type: uint8 [52] 
+// field_A0C -> type: long long 
+	get field_A0C(): Int64 {
+		return this.align(0xa0c).readS64();
+	}
+
+// gap_A14 -> type: uint8 [4] 
+// field_A18 -> type: long long 
+	get field_A18(): Int64 {
+		return this.align(0xa18).readS64();
+	}
+
+// field_A20 -> type: long long 
+	get field_A20(): Int64 {
+		return this.align(0xa20).readS64();
+	}
+
+// field_A28 -> type: long long 
+	get field_A28(): Int64 {
+		return this.align(0xa28).readS64();
+	}
+
+// gap_A30 -> type: uint8 [96] 
+// field_A90 -> type: char 
+	get field_A90(): number {
+		return this.align(0xa90).readS8();
+	}
+
+// gap_A91 -> type: uint8 [7] 
+// field_A98 -> type: uint64 
+	get field_A98(): UInt64 {
+		return this.align(0xa98).readU64();
+	}
+
+// field_AA0 -> type: uint64 
+	get field_AA0(): UInt64 {
+		return this.align(0xaa0).readU64();
+	}
+
+// gap_AA8 -> type: uint8 [8] 
+// field_AB0 -> type: long long 
+	get field_AB0(): Int64 {
+		return this.align(0xab0).readS64();
+	}
+
+// field_AB8 -> type: long long 
+	get field_AB8(): Int64 {
+		return this.align(0xab8).readS64();
+	}
+
+// field_AC0 -> type: unsigned long long 
+	get field_AC0(): UInt64 {
+		return this.align(0xac0).readU64();
+	}
+
+// gap_AC8 -> type: uint8 [8] 
+// field_AD0 -> type: int 
+	get field_AD0(): number {
+		return this.align(0xad0).readS32();
+	}
+
+// field_AD4 -> type: bool 
+// gap_AD5 -> type: uint8 [3] 
+// fiileHTTP -> type: char 
+	get fiileHTTP(): number {
+		return this.align(0xad8).readS8();
+	}
+
+// gap_AD9 -> type: uint8 [19] 
+// field_AEC -> type: uint32 
+	get field_AEC(): number {
+		return this.align(0xaec).readU32();
+	}
+
+// gap_AF0 -> type: uint8 [60] 
+// field_B2C -> type: char 
+	get field_B2C(): number {
+		return this.align(0xb2c).readS8();
+	}
+
+// gap_B2D -> type: uint8 
+// field_B2E -> type: char 
+	get field_B2E(): number {
+		return this.align(0xb2e).readS8();
+	}
+
+// gap_B2F -> type: uint8 [73] 
+// field_B78 -> type: long long 
+	get field_B78(): Int64 {
+		return this.align(0xb78).readS64();
+	}
+
+// field_B80 -> type: uint64 * 
+// args:  -> ret:  
+	public field_B80() {
+		return null;
+	}
+
+// gap_B88 -> type: uint8 [32] 
+// field_BA8 -> type: uint32 
+	get field_BA8(): number {
+		return this.align(0xba8).readU32();
+	}
+
+// field_BAC -> type: int 
+	get field_BAC(): number {
+		return this.align(0xbac).readS32();
+	}
+
+// gap_BB0 -> type: uint8 [4] 
+// field_BB4 -> type: uint32 
+	get field_BB4(): number {
+		return this.align(0xbb4).readU32();
+	}
+
+// field_BB8 -> type: CHTTPRequest * 
+	get field_BB8(): CHTTPRequest {
+		return new CHTTPRequest(this.align(0xbb8).readPointer());
+	}
+
+// gap_BC0 -> type: uint8 [8] 
+// field_BC8 -> type: CHTTPRequest * 
+	get field_BC8(): CHTTPRequest {
+		return new CHTTPRequest(this.align(0xbc8).readPointer());
+	}
+
+// field_BD0 -> type: CHTTPRequest * 
+	get field_BD0(): CHTTPRequest {
+		return new CHTTPRequest(this.align(0xbd0).readPointer());
+	}
+
+// field_BD8 -> type: CHTTPRequest * 
+	get field_BD8(): CHTTPRequest {
+		return new CHTTPRequest(this.align(0xbd8).readPointer());
+	}
+
+// field_BE0 -> type: CHTTPRequest * 
+	get field_BE0(): CHTTPRequest {
+		return new CHTTPRequest(this.align(0xbe0).readPointer());
+	}
+
+// gap_BE8 -> type: uint8 [16] 
+// field_BF8 -> type: CHTTPRequest * 
+	get field_BF8(): CHTTPRequest {
+		return new CHTTPRequest(this.align(0xbf8).readPointer());
+	}
+
+// field_C00 -> type: CHTTPRequest * 
+	get field_C00(): CHTTPRequest {
+		return new CHTTPRequest(this.align(0xc00).readPointer());
+	}
+
+// field_C08 -> type: CHTTPRequest * 
+	get field_C08(): CHTTPRequest {
+		return new CHTTPRequest(this.align(0xc08).readPointer());
+	}
+
+// gap_C10 -> type: uint8 [8] 
+// field_C18 -> type: long long 
+	get field_C18(): Int64 {
+		return this.align(0xc18).readS64();
+	}
+
+// field_C20 -> type: uint64 
+	get field_C20(): UInt64 {
+		return this.align(0xc20).readU64();
+	}
+
+// gap_C28 -> type: uint8 [24] 
+// field_C40 -> type: uint64 
+	get field_C40(): UInt64 {
+		return this.align(0xc40).readU64();
+	}
+
+// field_C48 -> type: uint64 
+	get field_C48(): UInt64 {
+		return this.align(0xc48).readU64();
+	}
+
+// gap_C50 -> type: uint8 [64] 
+// field_C90 -> type: long long 
+	get field_C90(): Int64 {
+		return this.align(0xc90).readS64();
+	}
+
+// field_C98 -> type: uint64 
+	get field_C98(): UInt64 {
+		return this.align(0xc98).readU64();
+	}
+
+// gap_CA0 -> type: uint8 [8] 
+// field_CA8 -> type: long long 
+	get field_CA8(): Int64 {
+		return this.align(0xca8).readS64();
+	}
+
+// field_CB0 -> type: uint64 * 
+// args:  -> ret:  
+	public field_CB0() {
+		return null;
+	}
+
+// gap_CB8 -> type: uint8 [8] 
+// field_CC0 -> type: long long 
+	get field_CC0(): Int64 {
+		return this.align(0xcc0).readS64();
+	}
+
+// field_CC8 -> type: long long 
+	get field_CC8(): Int64 {
+		return this.align(0xcc8).readS64();
+	}
+
+// field_CD0 -> type: uint64 
+	get field_CD0(): UInt64 {
+		return this.align(0xcd0).readU64();
+	}
+
+// field_CD8 -> type: long long 
+	get field_CD8(): Int64 {
+		return this.align(0xcd8).readS64();
+	}
+
+// field_CE0 -> type: long long 
+	get field_CE0(): Int64 {
+		return this.align(0xce0).readS64();
+	}
+
+// gap_CE8 -> type: uint8 [8] 
+// field_CF0 -> type: uint64 
+	get field_CF0(): UInt64 {
+		return this.align(0xcf0).readU64();
+	}
+
+// gap_CF8 -> type: uint8 [40] 
+// field_D20 -> type: uint64 
+	get field_D20(): UInt64 {
+		return this.align(0xd20).readU64();
+	}
+
+// field_D28 -> type: uint64 
+	get field_D28(): UInt64 {
+		return this.align(0xd28).readU64();
+	}
+
+// field_D30 -> type: uint64 
+	get field_D30(): UInt64 {
+		return this.align(0xd30).readU64();
+	}
+
+// field_D38 -> type: unsigned int 
+	get field_D38(): number {
+		return this.align(0xd38).readU32();
+	}
+
+// gap_D3C -> type: uint8 [4] 
+// field_D40 -> type: long long 
+	get field_D40(): Int64 {
+		return this.align(0xd40).readS64();
+	}
+
+// field_D48 -> type: long long 
+	get field_D48(): Int64 {
+		return this.align(0xd48).readS64();
+	}
+
+// gap_D50 -> type: uint8 [8] 
+// field_D58 -> type: long long 
+	get field_D58(): Int64 {
+		return this.align(0xd58).readS64();
+	}
+
+// field_D60 -> type: uint64 * 
+// args:  -> ret:  
+	public field_D60() {
+		return null;
+	}
+
+// gap_D68 -> type: uint8 [16] 
+// visibilityMap -> type: char 
+	get visibilityMap(): number {
+		return this.align(0xd78).readS8();
+	}
+
+// gap_D79 -> type: uint8 [3] 
+// field_D7C -> type: uint32 
+	get field_D7C(): number {
+		return this.align(0xd7c).readU32();
+	}
+
+// field_D80 -> type: uint64 
+	get field_D80(): UInt64 {
+		return this.align(0xd80).readU64();
+	}
+
+// gap_D88 -> type: uint8 [8] 
+// field_D90 -> type: unsigned int 
+	get field_D90(): number {
+		return this.align(0xd90).readU32();
+	}
+
+// field_D94 -> type: float 
+	get field_D94(): number {
+		return this.align(0xd94).readFloat();
+	}
+
+// gap_D98 -> type: uint8 [16] 
+// rasterBuffer1 -> type: char 
+	get rasterBuffer1(): number {
+		return this.align(0xda8).readS8();
+	}
+
+// gap_DA9 -> type: uint8 [39] 
+// rasterBuffer2 -> type: char 
+	get rasterBuffer2(): number {
+		return this.align(0xdd0).readS8();
+	}
+
+// gap_DD1 -> type: uint8 [47] 
+// field_E00 -> type: uint64 
+	get field_E00(): UInt64 {
+		return this.align(0xe00).readU64();
+	}
+
+// gap_E08 -> type: uint8 [8] 
+// field_E10 -> type: uint64 
+	get field_E10(): UInt64 {
+		return this.align(0xe10).readU64();
+	}
+
+// gap_E18 -> type: uint8 [8] 
+// field_E20 -> type: uint64 
+	get field_E20(): UInt64 {
+		return this.align(0xe20).readU64();
+	}
+
+// gap_E28 -> type: uint8 [8] 
+// field_E30 -> type: uint64 
+	get field_E30(): UInt64 {
+		return this.align(0xe30).readU64();
+	}
+
+// gap_E38 -> type: uint8 [8] 
+// field_E40 -> type: uint64 
+	get field_E40(): UInt64 {
+		return this.align(0xe40).readU64();
+	}
+
+// gap_E48 -> type: uint8 [8] 
+// field_E50 -> type: uint64 
+	get field_E50(): UInt64 {
+		return this.align(0xe50).readU64();
+	}
+
+// field_E58 -> type: long long 
+	get field_E58(): Int64 {
+		return this.align(0xe58).readS64();
+	}
+
+// field_E60 -> type: long long 
+	get field_E60(): Int64 {
+		return this.align(0xe60).readS64();
+	}
+
+// gap_E68 -> type: uint8 [8] 
+// field_E70 -> type: long long 
+	get field_E70(): Int64 {
+		return this.align(0xe70).readS64();
+	}
+
+// field_E78 -> type: long long 
+	get field_E78(): Int64 {
+		return this.align(0xe78).readS64();
+	}
+
+// gap_E80 -> type: uint8 [16] 
+// field_E90 -> type: uint64 
+	get field_E90(): UInt64 {
+		return this.align(0xe90).readU64();
+	}
+
+// gap_E98 -> type: uint8 [8] 
+// field_EA0 -> type: uint64 
+	get field_EA0(): UInt64 {
+		return this.align(0xea0).readU64();
+	}
+
+// gap_EA8 -> type: uint8 [8] 
+// field_EB0 -> type: uint64 
+	get field_EB0(): UInt64 {
+		return this.align(0xeb0).readU64();
+	}
+
+// gap_EB8 -> type: uint8 [8] 
+// field_EC0 -> type: uint64 
+	get field_EC0(): UInt64 {
+		return this.align(0xec0).readU64();
+	}
+
+// gap_EC8 -> type: uint8 [8] 
+// field_ED0 -> type: uint64 
+	get field_ED0(): UInt64 {
+		return this.align(0xed0).readU64();
+	}
+
+// gap_ED8 -> type: uint8 [8] 
+// field_EE0 -> type: uint64 
+	get field_EE0(): UInt64 {
+		return this.align(0xee0).readU64();
+	}
+
+// gap_EE8 -> type: uint8 [8] 
+// field_EF0 -> type: long long 
+	get field_EF0(): Int64 {
+		return this.align(0xef0).readS64();
+	}
+
+// field_EF8 -> type: long long 
+	get field_EF8(): Int64 {
+		return this.align(0xef8).readS64();
+	}
+
+// gap_F00 -> type: uint8 [16] 
+// field_F10 -> type: uint64 
+	get field_F10(): UInt64 {
+		return this.align(0xf10).readU64();
+	}
+
+// gap_F18 -> type: uint8 [16] 
+// field_F28 -> type: uint64 
+	get field_F28(): UInt64 {
+		return this.align(0xf28).readU64();
+	}
+
+// gap_F30 -> type: uint8 [8] 
+// field_F38 -> type: uint64 
+	get field_F38(): UInt64 {
+		return this.align(0xf38).readU64();
+	}
+
+// field_F40 -> type: long long 
+	get field_F40(): Int64 {
+		return this.align(0xf40).readS64();
+	}
+
+// gap_F48 -> type: uint8 [56] 
+// field_F80 -> type: long long 
+	get field_F80(): Int64 {
+		return this.align(0xf80).readS64();
+	}
+
+// field_F88 -> type: long long 
+	get field_F88(): Int64 {
+		return this.align(0xf88).readS64();
+	}
+
+// gap_F90 -> type: uint8 [8] 
+// field_F98 -> type: long long 
+	get field_F98(): Int64 {
+		return this.align(0xf98).readS64();
+	}
+
+// field_FA0 -> type: long long 
+	get field_FA0(): Int64 {
+		return this.align(0xfa0).readS64();
+	}
+
+// gap_FA8 -> type: uint8 [16] 
+// field_FB8 -> type: uint64 
+	get field_FB8(): UInt64 {
+		return this.align(0xfb8).readU64();
+	}
+
+// gap_FC0 -> type: uint8 [8] 
+// field_FC8 -> type: uint64 
+	get field_FC8(): UInt64 {
+		return this.align(0xfc8).readU64();
+	}
+
+// field_FD0 -> type: uint64 
+	get field_FD0(): UInt64 {
+		return this.align(0xfd0).readU64();
+	}
+
+// field_FD8 -> type: uint64 * 
+// args:  -> ret:  
+	public field_FD8() {
+		return null;
+	}
+
+// field_FE0 -> type: uint64 
+	get field_FE0(): UInt64 {
+		return this.align(0xfe0).readU64();
+	}
+
+// field_FE8 -> type: uint64 
+	get field_FE8(): UInt64 {
+		return this.align(0xfe8).readU64();
+	}
+
+// gap_FF0 -> type: uint8 [8] 
+// field_FF8 -> type: uint64 
+	get field_FF8(): UInt64 {
+		return this.align(0xff8).readU64();
+	}
+
+// gap_1000 -> type: uint8 [136] 
+// field_1088 -> type: long long 
+	get field_1088(): Int64 {
+		return this.align(0x1088).readS64();
+	}
+
+// gap_1090 -> type: uint8 [16] 
+// field_10A0 -> type: long long 
+	get field_10A0(): Int64 {
+		return this.align(0x10a0).readS64();
+	}
+
+// field_10A8 -> type: long long 
+	get field_10A8(): Int64 {
+		return this.align(0x10a8).readS64();
+	}
+
+// gap_10B0 -> type: uint8 [8] 
+// field_10B8 -> type: long long 
+	get field_10B8(): Int64 {
+		return this.align(0x10b8).readS64();
+	}
+
+// field_10C0 -> type: long long 
+	get field_10C0(): Int64 {
+		return this.align(0x10c0).readS64();
+	}
+
+// IMVPVote -> type: char 
+	get IMVPVote(): number {
+		return this.align(0x10c8).readS8();
+	}
+
+// gap_10C9 -> type: uint8 [63] 
+// field_1108 -> type: uint64 
+	get field_1108(): UInt64 {
+		return this.align(0x1108).readU64();
+	}
+
+// gap_1110 -> type: uint8 [8] 
+// field_1118 -> type: uint64 
+	get field_1118(): UInt64 {
+		return this.align(0x1118).readU64();
+	}
+
+// field_1120 -> type: uint64 
+	get field_1120(): UInt64 {
+		return this.align(0x1120).readU64();
+	}
+
+// gap_1128 -> type: uint8 [8] 
+// field_1130 -> type: uint64 
+	get field_1130(): UInt64 {
+		return this.align(0x1130).readU64();
+	}
+
+// field_1138 -> type: uint64 
+	get field_1138(): UInt64 {
+		return this.align(0x1138).readU64();
+	}
+
+// gap_1140 -> type: uint8 [8] 
+// field_1148 -> type: uint64 
+	get field_1148(): UInt64 {
+		return this.align(0x1148).readU64();
+	}
+
+}
+
+// inheritence: CObj
+export class WorldEntityListContainer extends CObj {
+
+// field_0 -> type: uint64 
+	get field_0(): UInt64 {
+		return this.align(0x0).readU64();
+	}
+
+// gap_8 -> type: uint8 [16] 
+// field_18 -> type: long long 
+	get field_18(): Int64 {
+		return this.align(0x18).readS64();
+	}
+
+// gap_20 -> type: uint8 [100] 
+// field_84 -> type: float 
+	get field_84(): number {
+		return this.align(0x84).readFloat();
+	}
+
+// gap_88 -> type: uint8 [32] 
+// field_A8 -> type: float 
+	get field_A8(): number {
+		return this.align(0xa8).readFloat();
+	}
+
+// gap_AC -> type: uint8 [588] 
+// worldTree -> type: CWorldTree * 
+	get worldTree(): CWorldTree {
+		return new CWorldTree(this.align(0x2f8).readPointer());
+	}
+
+// field_300 -> type: CWorldEntityList * 
+	get field_300(): CWorldEntityList {
+		return new CWorldEntityList(this.align(0x300).readPointer());
+	}
+
+}
+
+// inheritence: CObj
+export class CWorldTree extends CObj {
+
+// field_0 -> type: uint64 
+	get field_0(): UInt64 {
+		return this.align(0x0).readU64();
+	}
+
+// field_8 -> type: uint64 
+	get field_8(): UInt64 {
+		return this.align(0x8).readU64();
+	}
+
+// field_10 -> type: uint64 
+	get field_10(): UInt64 {
+		return this.align(0x10).readU64();
+	}
+
+// gap_18 -> type: uint8 [40] 
+// field_40 -> type: uint64 
+	get field_40(): UInt64 {
+		return this.align(0x40).readU64();
+	}
+
+// field_48 -> type: long long 
+	get field_48(): Int64 {
+		return this.align(0x48).readS64();
+	}
+
+// field_50 -> type: uint64 
+	get field_50(): UInt64 {
+		return this.align(0x50).readU64();
+	}
+
+// gap_58 -> type: uint8 [56] 
+// field_90 -> type: int 
+	get field_90(): number {
+		return this.align(0x90).readS32();
+	}
+
+// field_94 -> type: int 
+	get field_94(): number {
+		return this.align(0x94).readS32();
+	}
+
+// field_98 -> type: uint64 
+	get field_98(): UInt64 {
+		return this.align(0x98).readU64();
+	}
 
 }
 
@@ -1331,1412 +2626,6 @@ export class IGameEntity_vtbl extends CObj {
 }
 
 // inheritence: CObj
-export class CMessageSocket extends CObj {
-
-// field_0 -> type: long long 
-	get field_0(): Int64 {
-		return this.align(0x0).readS64();
-	}
-
-// field_8 -> type: int 
-	get field_8(): number {
-		return this.align(0x8).readS32();
-	}
-
-// gap_C -> type: uint8 [4] 
-// field_10 -> type: uint64 
-	get field_10(): UInt64 {
-		return this.align(0x10).readU64();
-	}
-
-// field_18 -> type: long long 
-	get field_18(): Int64 {
-		return this.align(0x18).readS64();
-	}
-
-// field_20 -> type: uint64 
-	get field_20(): UInt64 {
-		return this.align(0x20).readU64();
-	}
-
-// field_28 -> type: uint32 
-	get field_28(): number {
-		return this.align(0x28).readU16();
-	}
-
-// field_2C -> type: uint16 
-// gap_2E -> type: uint8 [2] 
-// field_30 -> type: uint64 
-	get field_30(): UInt64 {
-		return this.align(0x30).readU64();
-	}
-
-// gap_38 -> type: uint8 [2] 
-// field_3A -> type: long long 
-	get field_3A(): Int64 {
-		return this.align(0x3a).readS64();
-	}
-
-// gap_42 -> type: uint8 [14] 
-// field_50 -> type: long long 
-	get field_50(): Int64 {
-		return this.align(0x50).readS64();
-	}
-
-// field_58 -> type: uint64 
-	get field_58(): UInt64 {
-		return this.align(0x58).readU64();
-	}
-
-// field_60 -> type: long long 
-	get field_60(): Int64 {
-		return this.align(0x60).readS64();
-	}
-
-// field_68 -> type: uint64 
-	get field_68(): UInt64 {
-		return this.align(0x68).readU64();
-	}
-
-// field_70 -> type: int 
-	get field_70(): number {
-		return this.align(0x70).readS32();
-	}
-
-// field_74 -> type: int 
-	get field_74(): number {
-		return this.align(0x74).readS32();
-	}
-
-// field_78 -> type: char 
-	get field_78(): number {
-		return this.align(0x78).readS8();
-	}
-
-// gap_79 -> type: uint8 [7] 
-// field_80 -> type: long long 
-	get field_80(): Int64 {
-		return this.align(0x80).readS64();
-	}
-
-// field_88 -> type: long long 
-	get field_88(): Int64 {
-		return this.align(0x88).readS64();
-	}
-
-// field_90 -> type: uint64 
-	get field_90(): UInt64 {
-		return this.align(0x90).readU64();
-	}
-
-// field_98 -> type: IBuffer 
-// field_B8 -> type: long long 
-	get field_B8(): Int64 {
-		return this.align(0xb8).readS64();
-	}
-
-}
-
-// inheritence: CObj
-export class Vtable_CGameCLient_vtbl extends CObj {
-
-}
-
-// inheritence: CObj
-export class WorldEntityListContainer extends CObj {
-
-// field_0 -> type: uint64 
-	get field_0(): UInt64 {
-		return this.align(0x0).readU64();
-	}
-
-// gap_8 -> type: uint8 [16] 
-// field_18 -> type: long long 
-	get field_18(): Int64 {
-		return this.align(0x18).readS64();
-	}
-
-// gap_20 -> type: uint8 [100] 
-// field_84 -> type: float 
-	get field_84(): number {
-		return this.align(0x84).readFloat();
-	}
-
-// gap_88 -> type: uint8 [32] 
-// field_A8 -> type: float 
-	get field_A8(): number {
-		return this.align(0xa8).readFloat();
-	}
-
-// gap_AC -> type: uint8 [588] 
-// worldTree -> type: CWorldTree * 
-	get worldTree(): CWorldTree {
-		return new CWorldTree(this.align(0x2f8).readPointer());
-	}
-
-// field_300 -> type: CWorldEntityList * 
-	get field_300(): CWorldEntityList {
-		return new CWorldEntityList(this.align(0x300).readPointer());
-	}
-
-}
-
-// inheritence: CObj
-export class CWorldTree extends CObj {
-
-// field_0 -> type: uint64 
-	get field_0(): UInt64 {
-		return this.align(0x0).readU64();
-	}
-
-// field_8 -> type: uint64 
-	get field_8(): UInt64 {
-		return this.align(0x8).readU64();
-	}
-
-// field_10 -> type: uint64 
-	get field_10(): UInt64 {
-		return this.align(0x10).readU64();
-	}
-
-// gap_18 -> type: uint8 [40] 
-// field_40 -> type: uint64 
-	get field_40(): UInt64 {
-		return this.align(0x40).readU64();
-	}
-
-// field_48 -> type: long long 
-	get field_48(): Int64 {
-		return this.align(0x48).readS64();
-	}
-
-// field_50 -> type: uint64 
-	get field_50(): UInt64 {
-		return this.align(0x50).readU64();
-	}
-
-// gap_58 -> type: uint8 [56] 
-// field_90 -> type: int 
-	get field_90(): number {
-		return this.align(0x90).readS32();
-	}
-
-// field_94 -> type: int 
-	get field_94(): number {
-		return this.align(0x94).readS32();
-	}
-
-// field_98 -> type: uint64 
-	get field_98(): UInt64 {
-		return this.align(0x98).readU64();
-	}
-
-}
-
-// inheritence: CObj
-export class _Unwind_Exception extends CObj {
-
-// exception_class -> type: _Unwind_Exception_Class 
-// exception_cleanup -> type: _Unwind_Exception_Cleanup_Fn 
-// private_1 -> type: _Unwind_Word 
-// private_2 -> type: _Unwind_Word 
-}
-
-// inheritence: CObj
-export class stat extends CObj {
-
-}
-
-// inheritence: CObj
-export class _XDisplay extends CObj {
-
-}
-
-// inheritence: CObj
-export class _XExtData extends CObj {
-
-}
-
-// inheritence: CObj
-export class _XSQEvent extends CObj {
-
-}
-
-// inheritence: CObj
-export class _XExten extends CObj {
-
-}
-
-// inheritence: CObj
-export class _xEvent extends CObj {
-
-}
-
-// inheritence: CObj
-export class _XInternalAsync extends CObj {
-
-}
-
-// inheritence: CObj
-export class _XLockPtrs extends CObj {
-
-// lock_display -> type: void (*)(Display *) __attribute__((fastcall)) 
-// function 
-// args: Display * -> ret: void 
-	public lock_display() {
-		return null;
-	}
-
-// unlock_display -> type: void (*)(Display *) __attribute__((fastcall)) 
-// function 
-// args: Display * -> ret: void 
-	public unlock_display() {
-		return null;
-	}
-
-}
-
-// inheritence: CObj
-export class _XConnectionInfo extends CObj {
-
-}
-
-// inheritence: CObj
-export class _XConnWatchInfo extends CObj {
-
-}
-
-// inheritence: CObj
-export class _XGC extends CObj {
-
-}
-
-// inheritence: CObj
-export class Vtable_7CC230 extends CObj {
-
-// sub_2932C0 -> type: void (*)(uint64 *) __attribute__((fastcall)) 
-// function 
-// args: uint64 * -> ret: void 
-	public sub_2932C0() {
-		return null;
-	}
-
-// sub_293500 -> type: void (*)(uint64 *) __attribute__((fastcall)) 
-// function 
-// args: uint64 * -> ret: void 
-	public sub_293500() {
-		return null;
-	}
-
-// loc_0 -> type: void *(*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void * 
-	public loc_0() {
-		return null;
-	}
-
-}
-
-// inheritence: CObj
-export class CGameClient extends CObj {
-
-// vtable -> type: Vtable_CGameCLient_vtbl * 
-	get vtable(): Vtable_CGameCLient_vtbl {
-		return new Vtable_CGameCLient_vtbl(this.align(0x0).readPointer());
-	}
-
-// field_8 -> type: uint64 
-	get field_8(): UInt64 {
-		return this.align(0x8).readU64();
-	}
-
-// field_10 -> type: uint64 
-	get field_10(): UInt64 {
-		return this.align(0x10).readU64();
-	}
-
-// gap_18 -> type: uint8 [8] 
-// field_20 -> type: long long 
-	get field_20(): Int64 {
-		return this.align(0x20).readS64();
-	}
-
-// gap_28 -> type: uint8 [8] 
-// CEventDirectory -> type: char 
-	get CEventDirectory(): number {
-		return this.align(0x30).readS8();
-	}
-
-// gap_31 -> type: uint8 [7] 
-// field_38 -> type: long long 
-	get field_38(): Int64 {
-		return this.align(0x38).readS64();
-	}
-
-// gap_40 -> type: uint8 [16] 
-// field_50 -> type: long long 
-	get field_50(): Int64 {
-		return this.align(0x50).readS64();
-	}
-
-// gap_58 -> type: uint8 [16] 
-// field_68 -> type: long long 
-	get field_68(): Int64 {
-		return this.align(0x68).readS64();
-	}
-
-// gap_70 -> type: uint8 [16] 
-// field_80 -> type: long long 
-	get field_80(): Int64 {
-		return this.align(0x80).readS64();
-	}
-
-// scriptDirectory -> type: char 
-	get scriptDirectory(): number {
-		return this.align(0x88).readS8();
-	}
-
-// gap_89 -> type: uint8 [31] 
-// field_A8 -> type: long long 
-	get field_A8(): Int64 {
-		return this.align(0xa8).readS64();
-	}
-
-// field_B0 -> type: long long 
-	get field_B0(): Int64 {
-		return this.align(0xb0).readS64();
-	}
-
-// gap_B8 -> type: uint8 [16] 
-// field_C8 -> type: char 
-	get field_C8(): number {
-		return this.align(0xc8).readS8();
-	}
-
-// gap_C9 -> type: uint8 [7] 
-// game1 -> type: IGame * 
-	get game1(): IGame {
-		return new IGame(this.align(0xd0).readPointer());
-	}
-
-// game2 -> type: IGame * 
-	get game2(): IGame {
-		return new IGame(this.align(0xd8).readPointer());
-	}
-
-// field_E0 -> type: long long 
-	get field_E0(): Int64 {
-		return this.align(0xe0).readS64();
-	}
-
-// field_E8 -> type: uint64 * 
-// args:  -> ret:  
-	public field_E8() {
-		return null;
-	}
-
-// gap_F0 -> type: uint8 [8] 
-// field_F8 -> type: long long 
-	get field_F8(): Int64 {
-		return this.align(0xf8).readS64();
-	}
-
-// field_100 -> type: long long 
-	get field_100(): Int64 {
-		return this.align(0x100).readS64();
-	}
-
-// field_108 -> type: unsigned long long 
-	get field_108(): UInt64 {
-		return this.align(0x108).readU64();
-	}
-
-// field_110 -> type: long long 
-	get field_110(): Int64 {
-		return this.align(0x110).readS64();
-	}
-
-// field_118 -> type: uint64 * 
-// args:  -> ret:  
-	public field_118() {
-		return null;
-	}
-
-// field_120 -> type: long long 
-	get field_120(): Int64 {
-		return this.align(0x120).readS64();
-	}
-
-// field_128 -> type: char 
-	get field_128(): number {
-		return this.align(0x128).readS8();
-	}
-
-// gap_129 -> type: uint8 [7] 
-// field_130 -> type: char 
-	get field_130(): number {
-		return this.align(0x130).readS8();
-	}
-
-// gap_131 -> type: uint8 [15] 
-// field_140 -> type: uint64 
-	get field_140(): UInt64 {
-		return this.align(0x140).readU64();
-	}
-
-// field_148 -> type: char 
-	get field_148(): number {
-		return this.align(0x148).readS8();
-	}
-
-// gap_149 -> type: uint8 [15] 
-// field_158 -> type: uint64 
-	get field_158(): UInt64 {
-		return this.align(0x158).readU64();
-	}
-
-// gap_160 -> type: uint8 [4] 
-// field_164 -> type: long long 
-	get field_164(): Int64 {
-		return this.align(0x164).readS64();
-	}
-
-// field_16C -> type: wchar_t 
-	get field_16C(): NativePointer {
-		return this.align(0x16c).readPointer();
-	}
-
-// field_170 -> type: uint64 
-	get field_170(): UInt64 {
-		return this.align(0x170).readU64();
-	}
-
-// field_178 -> type: const wchar_t * 
-// args:  -> ret:  
-	public field_178() {
-		return null;
-	}
-
-// field_180 -> type: long long 
-	get field_180(): Int64 {
-		return this.align(0x180).readS64();
-	}
-
-// field_188 -> type: uint64 * 
-// args:  -> ret:  
-	public field_188() {
-		return null;
-	}
-
-// gap_190 -> type: uint8 [24] 
-// field_1A8 -> type: char 
-	get field_1A8(): number {
-		return this.align(0x1a8).readS8();
-	}
-
-// gap_1A9 -> type: uint8 [15] 
-// field_1B8 -> type: uint64 
-	get field_1B8(): UInt64 {
-		return this.align(0x1b8).readU64();
-	}
-
-// gap_1C0 -> type: uint8 [48] 
-// vtable_1F0 -> type: Vtable_7CC230 * 
-	get vtable_1F0(): Vtable_7CC230 {
-		return new Vtable_7CC230(this.align(0x1f0).readPointer());
-	}
-
-// field_1F8 -> type: uint64 
-	get field_1F8(): UInt64 {
-		return this.align(0x1f8).readU64();
-	}
-
-// field_200 -> type: uint64 * 
-// args:  -> ret:  
-	public field_200() {
-		return null;
-	}
-
-// field_208 -> type: uint64 
-	get field_208(): UInt64 {
-		return this.align(0x208).readU64();
-	}
-
-// field_210 -> type: long long 
-	get field_210(): Int64 {
-		return this.align(0x210).readS64();
-	}
-
-// field_218 -> type: uint64 * 
-// args:  -> ret:  
-	public field_218() {
-		return null;
-	}
-
-// gap_220 -> type: uint8 [8] 
-// field_228 -> type: long long 
-	get field_228(): Int64 {
-		return this.align(0x228).readS64();
-	}
-
-// field_230 -> type: long long 
-	get field_230(): Int64 {
-		return this.align(0x230).readS64();
-	}
-
-// gap_238 -> type: uint8 [16] 
-// field_248 -> type: long long 
-	get field_248(): Int64 {
-		return this.align(0x248).readS64();
-	}
-
-// field_250 -> type: long long 
-	get field_250(): Int64 {
-		return this.align(0x250).readS64();
-	}
-
-// gap_258 -> type: uint8 [72] 
-// field_2A0 -> type: long long 
-	get field_2A0(): Int64 {
-		return this.align(0x2a0).readS64();
-	}
-
-// field_2A8 -> type: long long 
-	get field_2A8(): Int64 {
-		return this.align(0x2a8).readS64();
-	}
-
-// gap_2B0 -> type: uint8 [8] 
-// field_2B8 -> type: long long 
-	get field_2B8(): Int64 {
-		return this.align(0x2b8).readS64();
-	}
-
-// field_2C0 -> type: long long 
-	get field_2C0(): Int64 {
-		return this.align(0x2c0).readS64();
-	}
-
-// gap_2C8 -> type: uint8 [8] 
-// field_2D0 -> type: long long 
-	get field_2D0(): Int64 {
-		return this.align(0x2d0).readS64();
-	}
-
-// field_2D8 -> type: uint64 * 
-// args:  -> ret:  
-	public field_2D8() {
-		return null;
-	}
-
-// gap_2E0 -> type: uint8 [8] 
-// field_2E8 -> type: long long 
-	get field_2E8(): Int64 {
-		return this.align(0x2e8).readS64();
-	}
-
-// field_2F0 -> type: long long 
-	get field_2F0(): Int64 {
-		return this.align(0x2f0).readS64();
-	}
-
-// gap_2F8 -> type: uint8 [8] 
-// field_300 -> type: long long 
-	get field_300(): Int64 {
-		return this.align(0x300).readS64();
-	}
-
-// field_308 -> type: long long 
-	get field_308(): Int64 {
-		return this.align(0x308).readS64();
-	}
-
-// gap_310 -> type: uint8 [16] 
-// field_320 -> type: IBuffer 
-// gap_340 -> type: uint8 [8] 
-// field_348 -> type: long long 
-	get field_348(): Int64 {
-		return this.align(0x348).readS64();
-	}
-
-// field_350 -> type: long long 
-	get field_350(): Int64 {
-		return this.align(0x350).readS64();
-	}
-
-// field_358 -> type: long long 
-	get field_358(): Int64 {
-		return this.align(0x358).readS64();
-	}
-
-// field_360 -> type: CMessageSocket ** 
-// function 
-// args:  -> ret:  
-	public field_360() {
-		return null;
-	}
-
-// gap_368 -> type: uint8 [56] 
-// field_3A0 -> type: CSnapshot 
-// field_450 -> type: long long 
-	get field_450(): Int64 {
-		return this.align(0x450).readS64();
-	}
-
-// field_458 -> type: long long 
-	get field_458(): Int64 {
-		return this.align(0x458).readS64();
-	}
-
-// gap_460 -> type: uint8 [8] 
-// field_468 -> type: CSnapshot * 
-	get field_468(): CSnapshot {
-		return new CSnapshot(this.align(0x468).readPointer());
-	}
-
-// gap_470 -> type: uint8 [240] 
-// field_560 -> type: long long 
-	get field_560(): Int64 {
-		return this.align(0x560).readS64();
-	}
-
-// field_568 -> type: uint64 
-	get field_568(): UInt64 {
-		return this.align(0x568).readU64();
-	}
-
-// gap_570 -> type: uint8 [8] 
-// field_578 -> type: uint64 
-	get field_578(): UInt64 {
-		return this.align(0x578).readU64();
-	}
-
-// gap_580 -> type: uint8 [8] 
-// field_588 -> type: long long 
-	get field_588(): Int64 {
-		return this.align(0x588).readS64();
-	}
-
-// field_590 -> type: uint64 
-	get field_590(): UInt64 {
-		return this.align(0x590).readU64();
-	}
-
-// gap_598 -> type: uint8 [24] 
-// field_5B0 -> type: long long 
-	get field_5B0(): Int64 {
-		return this.align(0x5b0).readS64();
-	}
-
-// gap_5B8 -> type: uint8 [8] 
-// field_5C0 -> type: uint64 * 
-// args:  -> ret:  
-	public field_5C0() {
-		return null;
-	}
-
-// gap_5C8 -> type: uint8 [8] 
-// field_5D0 -> type: long long 
-	get field_5D0(): Int64 {
-		return this.align(0x5d0).readS64();
-	}
-
-// field_5D8 -> type: long long 
-	get field_5D8(): Int64 {
-		return this.align(0x5d8).readS64();
-	}
-
-// gap_5E0 -> type: uint8 [16] 
-// field_5F0 -> type: long long 
-	get field_5F0(): Int64 {
-		return this.align(0x5f0).readS64();
-	}
-
-// field_5F8 -> type: long long 
-	get field_5F8(): Int64 {
-		return this.align(0x5f8).readS64();
-	}
-
-// gap_600 -> type: uint8 [16] 
-// field_610 -> type: long long 
-	get field_610(): Int64 {
-		return this.align(0x610).readS64();
-	}
-
-// field_618 -> type: long long 
-	get field_618(): Int64 {
-		return this.align(0x618).readS64();
-	}
-
-// gap_620 -> type: uint8 [8] 
-// field_628 -> type: IBuffer 
-// gap_648 -> type: uint8 [24] 
-// field_660 -> type: long long 
-	get field_660(): Int64 {
-		return this.align(0x660).readS64();
-	}
-
-// field_668 -> type: long long 
-	get field_668(): Int64 {
-		return this.align(0x668).readS64();
-	}
-
-// gap_670 -> type: uint8 [8] 
-// field_678 -> type: IBuffer 
-// gap_698 -> type: uint8 [168] 
-// field_740 -> type: IBuffer 
-// gap_760 -> type: uint8 [16] 
-// field_770 -> type: uint64 
-	get field_770(): UInt64 {
-		return this.align(0x770).readU64();
-	}
-
-// gap_778 -> type: uint8 [40] 
-// field_7A0 -> type: uint64 
-	get field_7A0(): UInt64 {
-		return this.align(0x7a0).readU64();
-	}
-
-// gap_7A8 -> type: uint8 [40] 
-// field_7D0 -> type: uint64 
-	get field_7D0(): UInt64 {
-		return this.align(0x7d0).readU64();
-	}
-
-// gap_7D8 -> type: uint8 [56] 
-// field_810 -> type: unsigned int 
-	get field_810(): number {
-		return this.align(0x810).readU32();
-	}
-
-// gap_814 -> type: uint8 [12] 
-// field_820 -> type: bool 
-// gap_821 -> type: uint8 [3] 
-// field_824 -> type: uint32 
-	get field_824(): number {
-		return this.align(0x824).readU16();
-	}
-
-// gap_828 -> type: uint8 [24] 
-// field_840 -> type: long long 
-	get field_840(): Int64 {
-		return this.align(0x840).readS64();
-	}
-
-// field_848 -> type: long long 
-	get field_848(): Int64 {
-		return this.align(0x848).readS64();
-	}
-
-// field_850 -> type: uint64 
-	get field_850(): UInt64 {
-		return this.align(0x850).readU64();
-	}
-
-// field_858 -> type: uint64 
-	get field_858(): UInt64 {
-		return this.align(0x858).readU64();
-	}
-
-// gap_860 -> type: uint8 [280] 
-// field_978 -> type: long long 
-	get field_978(): Int64 {
-		return this.align(0x978).readS64();
-	}
-
-// field_980 -> type: long long 
-	get field_980(): Int64 {
-		return this.align(0x980).readS64();
-	}
-
-// gap_988 -> type: uint8 [8] 
-// field_990 -> type: uint64 
-	get field_990(): UInt64 {
-		return this.align(0x990).readU64();
-	}
-
-// gap_998 -> type: uint8 [56] 
-// field_9D0 -> type: uint64 
-	get field_9D0(): UInt64 {
-		return this.align(0x9d0).readU64();
-	}
-
-// gap_9D8 -> type: uint8 [52] 
-// field_A0C -> type: long long 
-	get field_A0C(): Int64 {
-		return this.align(0xa0c).readS64();
-	}
-
-// gap_A14 -> type: uint8 [4] 
-// field_A18 -> type: long long 
-	get field_A18(): Int64 {
-		return this.align(0xa18).readS64();
-	}
-
-// field_A20 -> type: long long 
-	get field_A20(): Int64 {
-		return this.align(0xa20).readS64();
-	}
-
-// field_A28 -> type: long long 
-	get field_A28(): Int64 {
-		return this.align(0xa28).readS64();
-	}
-
-// gap_A30 -> type: uint8 [96] 
-// field_A90 -> type: char 
-	get field_A90(): number {
-		return this.align(0xa90).readS8();
-	}
-
-// gap_A91 -> type: uint8 [7] 
-// field_A98 -> type: uint64 
-	get field_A98(): UInt64 {
-		return this.align(0xa98).readU64();
-	}
-
-// field_AA0 -> type: uint64 
-	get field_AA0(): UInt64 {
-		return this.align(0xaa0).readU64();
-	}
-
-// gap_AA8 -> type: uint8 [8] 
-// field_AB0 -> type: long long 
-	get field_AB0(): Int64 {
-		return this.align(0xab0).readS64();
-	}
-
-// field_AB8 -> type: long long 
-	get field_AB8(): Int64 {
-		return this.align(0xab8).readS64();
-	}
-
-// field_AC0 -> type: unsigned long long 
-	get field_AC0(): UInt64 {
-		return this.align(0xac0).readU64();
-	}
-
-// gap_AC8 -> type: uint8 [8] 
-// field_AD0 -> type: int 
-	get field_AD0(): number {
-		return this.align(0xad0).readS32();
-	}
-
-// field_AD4 -> type: bool 
-// gap_AD5 -> type: uint8 [3] 
-// fiileHTTP -> type: char 
-	get fiileHTTP(): number {
-		return this.align(0xad8).readS8();
-	}
-
-// gap_AD9 -> type: uint8 [19] 
-// field_AEC -> type: uint32 
-	get field_AEC(): number {
-		return this.align(0xaec).readU16();
-	}
-
-// gap_AF0 -> type: uint8 [60] 
-// field_B2C -> type: char 
-	get field_B2C(): number {
-		return this.align(0xb2c).readS8();
-	}
-
-// gap_B2D -> type: uint8 
-// field_B2E -> type: char 
-	get field_B2E(): number {
-		return this.align(0xb2e).readS8();
-	}
-
-// gap_B2F -> type: uint8 [73] 
-// field_B78 -> type: long long 
-	get field_B78(): Int64 {
-		return this.align(0xb78).readS64();
-	}
-
-// field_B80 -> type: uint64 * 
-// args:  -> ret:  
-	public field_B80() {
-		return null;
-	}
-
-// gap_B88 -> type: uint8 [32] 
-// field_BA8 -> type: uint32 
-	get field_BA8(): number {
-		return this.align(0xba8).readU16();
-	}
-
-// field_BAC -> type: int 
-	get field_BAC(): number {
-		return this.align(0xbac).readS32();
-	}
-
-// gap_BB0 -> type: uint8 [4] 
-// field_BB4 -> type: uint32 
-	get field_BB4(): number {
-		return this.align(0xbb4).readU16();
-	}
-
-// field_BB8 -> type: CHTTPRequest * 
-	get field_BB8(): CHTTPRequest {
-		return new CHTTPRequest(this.align(0xbb8).readPointer());
-	}
-
-// gap_BC0 -> type: uint8 [8] 
-// field_BC8 -> type: CHTTPRequest * 
-	get field_BC8(): CHTTPRequest {
-		return new CHTTPRequest(this.align(0xbc8).readPointer());
-	}
-
-// field_BD0 -> type: CHTTPRequest * 
-	get field_BD0(): CHTTPRequest {
-		return new CHTTPRequest(this.align(0xbd0).readPointer());
-	}
-
-// field_BD8 -> type: CHTTPRequest * 
-	get field_BD8(): CHTTPRequest {
-		return new CHTTPRequest(this.align(0xbd8).readPointer());
-	}
-
-// field_BE0 -> type: CHTTPRequest * 
-	get field_BE0(): CHTTPRequest {
-		return new CHTTPRequest(this.align(0xbe0).readPointer());
-	}
-
-// gap_BE8 -> type: uint8 [16] 
-// field_BF8 -> type: CHTTPRequest * 
-	get field_BF8(): CHTTPRequest {
-		return new CHTTPRequest(this.align(0xbf8).readPointer());
-	}
-
-// field_C00 -> type: CHTTPRequest * 
-	get field_C00(): CHTTPRequest {
-		return new CHTTPRequest(this.align(0xc00).readPointer());
-	}
-
-// field_C08 -> type: CHTTPRequest * 
-	get field_C08(): CHTTPRequest {
-		return new CHTTPRequest(this.align(0xc08).readPointer());
-	}
-
-// gap_C10 -> type: uint8 [8] 
-// field_C18 -> type: long long 
-	get field_C18(): Int64 {
-		return this.align(0xc18).readS64();
-	}
-
-// field_C20 -> type: uint64 
-	get field_C20(): UInt64 {
-		return this.align(0xc20).readU64();
-	}
-
-// gap_C28 -> type: uint8 [24] 
-// field_C40 -> type: uint64 
-	get field_C40(): UInt64 {
-		return this.align(0xc40).readU64();
-	}
-
-// field_C48 -> type: uint64 
-	get field_C48(): UInt64 {
-		return this.align(0xc48).readU64();
-	}
-
-// gap_C50 -> type: uint8 [64] 
-// field_C90 -> type: long long 
-	get field_C90(): Int64 {
-		return this.align(0xc90).readS64();
-	}
-
-// field_C98 -> type: uint64 
-	get field_C98(): UInt64 {
-		return this.align(0xc98).readU64();
-	}
-
-// gap_CA0 -> type: uint8 [8] 
-// field_CA8 -> type: long long 
-	get field_CA8(): Int64 {
-		return this.align(0xca8).readS64();
-	}
-
-// field_CB0 -> type: uint64 * 
-// args:  -> ret:  
-	public field_CB0() {
-		return null;
-	}
-
-// gap_CB8 -> type: uint8 [8] 
-// field_CC0 -> type: long long 
-	get field_CC0(): Int64 {
-		return this.align(0xcc0).readS64();
-	}
-
-// field_CC8 -> type: long long 
-	get field_CC8(): Int64 {
-		return this.align(0xcc8).readS64();
-	}
-
-// field_CD0 -> type: uint64 
-	get field_CD0(): UInt64 {
-		return this.align(0xcd0).readU64();
-	}
-
-// field_CD8 -> type: long long 
-	get field_CD8(): Int64 {
-		return this.align(0xcd8).readS64();
-	}
-
-// field_CE0 -> type: long long 
-	get field_CE0(): Int64 {
-		return this.align(0xce0).readS64();
-	}
-
-// gap_CE8 -> type: uint8 [8] 
-// field_CF0 -> type: uint64 
-	get field_CF0(): UInt64 {
-		return this.align(0xcf0).readU64();
-	}
-
-// gap_CF8 -> type: uint8 [40] 
-// field_D20 -> type: uint64 
-	get field_D20(): UInt64 {
-		return this.align(0xd20).readU64();
-	}
-
-// field_D28 -> type: uint64 
-	get field_D28(): UInt64 {
-		return this.align(0xd28).readU64();
-	}
-
-// field_D30 -> type: uint64 
-	get field_D30(): UInt64 {
-		return this.align(0xd30).readU64();
-	}
-
-// field_D38 -> type: unsigned int 
-	get field_D38(): number {
-		return this.align(0xd38).readU32();
-	}
-
-// gap_D3C -> type: uint8 [4] 
-// field_D40 -> type: long long 
-	get field_D40(): Int64 {
-		return this.align(0xd40).readS64();
-	}
-
-// field_D48 -> type: long long 
-	get field_D48(): Int64 {
-		return this.align(0xd48).readS64();
-	}
-
-// gap_D50 -> type: uint8 [8] 
-// field_D58 -> type: long long 
-	get field_D58(): Int64 {
-		return this.align(0xd58).readS64();
-	}
-
-// field_D60 -> type: uint64 * 
-// args:  -> ret:  
-	public field_D60() {
-		return null;
-	}
-
-// gap_D68 -> type: uint8 [16] 
-// visibilityMap -> type: char 
-	get visibilityMap(): number {
-		return this.align(0xd78).readS8();
-	}
-
-// gap_D79 -> type: uint8 [3] 
-// field_D7C -> type: uint32 
-	get field_D7C(): number {
-		return this.align(0xd7c).readU16();
-	}
-
-// field_D80 -> type: uint64 
-	get field_D80(): UInt64 {
-		return this.align(0xd80).readU64();
-	}
-
-// gap_D88 -> type: uint8 [8] 
-// field_D90 -> type: unsigned int 
-	get field_D90(): number {
-		return this.align(0xd90).readU32();
-	}
-
-// field_D94 -> type: float 
-	get field_D94(): number {
-		return this.align(0xd94).readFloat();
-	}
-
-// gap_D98 -> type: uint8 [16] 
-// rasterBuffer1 -> type: char 
-	get rasterBuffer1(): number {
-		return this.align(0xda8).readS8();
-	}
-
-// gap_DA9 -> type: uint8 [39] 
-// rasterBuffer2 -> type: char 
-	get rasterBuffer2(): number {
-		return this.align(0xdd0).readS8();
-	}
-
-// gap_DD1 -> type: uint8 [47] 
-// field_E00 -> type: uint64 
-	get field_E00(): UInt64 {
-		return this.align(0xe00).readU64();
-	}
-
-// gap_E08 -> type: uint8 [8] 
-// field_E10 -> type: uint64 
-	get field_E10(): UInt64 {
-		return this.align(0xe10).readU64();
-	}
-
-// gap_E18 -> type: uint8 [8] 
-// field_E20 -> type: uint64 
-	get field_E20(): UInt64 {
-		return this.align(0xe20).readU64();
-	}
-
-// gap_E28 -> type: uint8 [8] 
-// field_E30 -> type: uint64 
-	get field_E30(): UInt64 {
-		return this.align(0xe30).readU64();
-	}
-
-// gap_E38 -> type: uint8 [8] 
-// field_E40 -> type: uint64 
-	get field_E40(): UInt64 {
-		return this.align(0xe40).readU64();
-	}
-
-// gap_E48 -> type: uint8 [8] 
-// field_E50 -> type: uint64 
-	get field_E50(): UInt64 {
-		return this.align(0xe50).readU64();
-	}
-
-// field_E58 -> type: long long 
-	get field_E58(): Int64 {
-		return this.align(0xe58).readS64();
-	}
-
-// field_E60 -> type: long long 
-	get field_E60(): Int64 {
-		return this.align(0xe60).readS64();
-	}
-
-// gap_E68 -> type: uint8 [8] 
-// field_E70 -> type: long long 
-	get field_E70(): Int64 {
-		return this.align(0xe70).readS64();
-	}
-
-// field_E78 -> type: long long 
-	get field_E78(): Int64 {
-		return this.align(0xe78).readS64();
-	}
-
-// gap_E80 -> type: uint8 [16] 
-// field_E90 -> type: uint64 
-	get field_E90(): UInt64 {
-		return this.align(0xe90).readU64();
-	}
-
-// gap_E98 -> type: uint8 [8] 
-// field_EA0 -> type: uint64 
-	get field_EA0(): UInt64 {
-		return this.align(0xea0).readU64();
-	}
-
-// gap_EA8 -> type: uint8 [8] 
-// field_EB0 -> type: uint64 
-	get field_EB0(): UInt64 {
-		return this.align(0xeb0).readU64();
-	}
-
-// gap_EB8 -> type: uint8 [8] 
-// field_EC0 -> type: uint64 
-	get field_EC0(): UInt64 {
-		return this.align(0xec0).readU64();
-	}
-
-// gap_EC8 -> type: uint8 [8] 
-// field_ED0 -> type: uint64 
-	get field_ED0(): UInt64 {
-		return this.align(0xed0).readU64();
-	}
-
-// gap_ED8 -> type: uint8 [8] 
-// field_EE0 -> type: uint64 
-	get field_EE0(): UInt64 {
-		return this.align(0xee0).readU64();
-	}
-
-// gap_EE8 -> type: uint8 [8] 
-// field_EF0 -> type: long long 
-	get field_EF0(): Int64 {
-		return this.align(0xef0).readS64();
-	}
-
-// field_EF8 -> type: long long 
-	get field_EF8(): Int64 {
-		return this.align(0xef8).readS64();
-	}
-
-// gap_F00 -> type: uint8 [16] 
-// field_F10 -> type: uint64 
-	get field_F10(): UInt64 {
-		return this.align(0xf10).readU64();
-	}
-
-// gap_F18 -> type: uint8 [16] 
-// field_F28 -> type: uint64 
-	get field_F28(): UInt64 {
-		return this.align(0xf28).readU64();
-	}
-
-// gap_F30 -> type: uint8 [8] 
-// field_F38 -> type: uint64 
-	get field_F38(): UInt64 {
-		return this.align(0xf38).readU64();
-	}
-
-// field_F40 -> type: long long 
-	get field_F40(): Int64 {
-		return this.align(0xf40).readS64();
-	}
-
-// gap_F48 -> type: uint8 [56] 
-// field_F80 -> type: long long 
-	get field_F80(): Int64 {
-		return this.align(0xf80).readS64();
-	}
-
-// field_F88 -> type: long long 
-	get field_F88(): Int64 {
-		return this.align(0xf88).readS64();
-	}
-
-// gap_F90 -> type: uint8 [8] 
-// field_F98 -> type: long long 
-	get field_F98(): Int64 {
-		return this.align(0xf98).readS64();
-	}
-
-// field_FA0 -> type: long long 
-	get field_FA0(): Int64 {
-		return this.align(0xfa0).readS64();
-	}
-
-// gap_FA8 -> type: uint8 [16] 
-// field_FB8 -> type: uint64 
-	get field_FB8(): UInt64 {
-		return this.align(0xfb8).readU64();
-	}
-
-// gap_FC0 -> type: uint8 [8] 
-// field_FC8 -> type: uint64 
-	get field_FC8(): UInt64 {
-		return this.align(0xfc8).readU64();
-	}
-
-// field_FD0 -> type: uint64 
-	get field_FD0(): UInt64 {
-		return this.align(0xfd0).readU64();
-	}
-
-// field_FD8 -> type: uint64 * 
-// args:  -> ret:  
-	public field_FD8() {
-		return null;
-	}
-
-// field_FE0 -> type: uint64 
-	get field_FE0(): UInt64 {
-		return this.align(0xfe0).readU64();
-	}
-
-// field_FE8 -> type: uint64 
-	get field_FE8(): UInt64 {
-		return this.align(0xfe8).readU64();
-	}
-
-// gap_FF0 -> type: uint8 [8] 
-// field_FF8 -> type: uint64 
-	get field_FF8(): UInt64 {
-		return this.align(0xff8).readU64();
-	}
-
-// gap_1000 -> type: uint8 [136] 
-// field_1088 -> type: long long 
-	get field_1088(): Int64 {
-		return this.align(0x1088).readS64();
-	}
-
-// gap_1090 -> type: uint8 [16] 
-// field_10A0 -> type: long long 
-	get field_10A0(): Int64 {
-		return this.align(0x10a0).readS64();
-	}
-
-// field_10A8 -> type: long long 
-	get field_10A8(): Int64 {
-		return this.align(0x10a8).readS64();
-	}
-
-// gap_10B0 -> type: uint8 [8] 
-// field_10B8 -> type: long long 
-	get field_10B8(): Int64 {
-		return this.align(0x10b8).readS64();
-	}
-
-// field_10C0 -> type: long long 
-	get field_10C0(): Int64 {
-		return this.align(0x10c0).readS64();
-	}
-
-// IMVPVote -> type: char 
-	get IMVPVote(): number {
-		return this.align(0x10c8).readS8();
-	}
-
-// gap_10C9 -> type: uint8 [63] 
-// field_1108 -> type: uint64 
-	get field_1108(): UInt64 {
-		return this.align(0x1108).readU64();
-	}
-
-// gap_1110 -> type: uint8 [8] 
-// field_1118 -> type: uint64 
-	get field_1118(): UInt64 {
-		return this.align(0x1118).readU64();
-	}
-
-// field_1120 -> type: uint64 
-	get field_1120(): UInt64 {
-		return this.align(0x1120).readU64();
-	}
-
-// gap_1128 -> type: uint8 [8] 
-// field_1130 -> type: uint64 
-	get field_1130(): UInt64 {
-		return this.align(0x1130).readU64();
-	}
-
-// field_1138 -> type: uint64 
-	get field_1138(): UInt64 {
-		return this.align(0x1138).readU64();
-	}
-
-// gap_1140 -> type: uint8 [8] 
-// field_1148 -> type: uint64 
-	get field_1148(): UInt64 {
-		return this.align(0x1148).readU64();
-	}
-
-}
-
-// inheritence: CObj
 export class IBuffer_vtbl extends CObj {
 
 // _ZN7IBufferD2Ev -> type: void (*)(IBuffer *) __attribute__((fastcall)) 
@@ -3256,10 +3145,14 @@ export class MysteriousStruct extends CObj {
 		return this.align(0x2ac).readS32();
 	}
 
-// gap_2B0 -> type: uint8 [9] 
-// field_2B9 -> type: char 
-	get field_2B9(): number {
-		return this.align(0x2b9).readS8();
+// gap_2B0 -> type: uint8 [8] 
+// drawIndicatorFlag -> type: uint16 
+	get drawIndicatorFlag(): number {
+		return this.align(0x2b8).readU16();
+	}
+
+	set drawIndicatorFlag(v: number) {
+		this.align(0x2b8).writeU16(v);
 	}
 
 // gap_2BA -> type: uint8 [42] 
@@ -3931,6 +3824,784 @@ export class type_info extends CObj {
 }
 
 // inheritence: CObj
+export class CVertexCameraHeightMap extends CObj {
+
+}
+
+// inheritence: CObj
+export class CWorld extends CObj {
+
+// field_0 -> type: long long 
+	get field_0(): Int64 {
+		return this.align(0x0).readS64();
+	}
+
+// gap_8 -> type: uint8 [8] 
+// field_10 -> type: char 
+	get field_10(): number {
+		return this.align(0x10).readS8();
+	}
+
+// gap_11 -> type: uint8 [7] 
+// field_18 -> type: uint64 
+	get field_18(): UInt64 {
+		return this.align(0x18).readU64();
+	}
+
+// field_20 -> type: long long 
+	get field_20(): Int64 {
+		return this.align(0x20).readS64();
+	}
+
+// field_28 -> type: uint64 
+	get field_28(): UInt64 {
+		return this.align(0x28).readU64();
+	}
+
+// field_30 -> type: uint64 
+	get field_30(): UInt64 {
+		return this.align(0x30).readU64();
+	}
+
+// field_38 -> type: long long 
+	get field_38(): Int64 {
+		return this.align(0x38).readS64();
+	}
+
+// field_40 -> type: uint64 
+	get field_40(): UInt64 {
+		return this.align(0x40).readU64();
+	}
+
+// field_48 -> type: long long 
+	get field_48(): Int64 {
+		return this.align(0x48).readS64();
+	}
+
+// gap_50 -> type: uint8 [16] 
+// field_60 -> type: long long 
+	get field_60(): Int64 {
+		return this.align(0x60).readS64();
+	}
+
+// gap_68 -> type: uint8 [8] 
+// field_70 -> type: long long 
+	get field_70(): Int64 {
+		return this.align(0x70).readS64();
+	}
+
+// gap_78 -> type: uint8 [12] 
+// field_84 -> type: float 
+	get field_84(): number {
+		return this.align(0x84).readFloat();
+	}
+
+// field_88 -> type: int 
+	get field_88(): number {
+		return this.align(0x88).readS32();
+	}
+
+// field_8C -> type: int 
+	get field_8C(): number {
+		return this.align(0x8c).readS32();
+	}
+
+// field_90 -> type: int 
+	get field_90(): number {
+		return this.align(0x90).readS32();
+	}
+
+// field_94 -> type: long long 
+	get field_94(): Int64 {
+		return this.align(0x94).readS64();
+	}
+
+// field_9C -> type: int 
+	get field_9C(): number {
+		return this.align(0x9c).readS32();
+	}
+
+// field_A0 -> type: int 
+	get field_A0(): number {
+		return this.align(0xa0).readS32();
+	}
+
+// field_A4 -> type: long long 
+	get field_A4(): Int64 {
+		return this.align(0xa4).readS64();
+	}
+
+// field_AC -> type: int 
+	get field_AC(): number {
+		return this.align(0xac).readS32();
+	}
+
+// field_B0 -> type: int 
+	get field_B0(): number {
+		return this.align(0xb0).readS32();
+	}
+
+// field_B4 -> type: long long 
+	get field_B4(): Int64 {
+		return this.align(0xb4).readS64();
+	}
+
+// field_BC -> type: float 
+	get field_BC(): number {
+		return this.align(0xbc).readFloat();
+	}
+
+// field_C0 -> type: int 
+	get field_C0(): number {
+		return this.align(0xc0).readS32();
+	}
+
+// gap_C4 -> type: uint8 [4] 
+// field_C8 -> type: long long 
+	get field_C8(): Int64 {
+		return this.align(0xc8).readS64();
+	}
+
+// gap_D0 -> type: uint8 [8] 
+// field_D8 -> type: long long 
+	get field_D8(): Int64 {
+		return this.align(0xd8).readS64();
+	}
+
+// field_E0 -> type: int 
+	get field_E0(): number {
+		return this.align(0xe0).readS32();
+	}
+
+// gap_E4 -> type: uint8 [4] 
+// field_E8 -> type: long long 
+	get field_E8(): Int64 {
+		return this.align(0xe8).readS64();
+	}
+
+// gap_F0 -> type: uint8 [4] 
+// field_F4 -> type: int 
+	get field_F4(): number {
+		return this.align(0xf4).readS32();
+	}
+
+// field_F8 -> type: long long 
+	get field_F8(): Int64 {
+		return this.align(0xf8).readS64();
+	}
+
+// field_100 -> type: float 
+	get field_100(): number {
+		return this.align(0x100).readFloat();
+	}
+
+// gap_104 -> type: uint8 [2] 
+// field_106 -> type: long long 
+	get field_106(): Int64 {
+		return this.align(0x106).readS64();
+	}
+
+// gap_10E -> type: uint8 [2] 
+// field_110 -> type: float 
+	get field_110(): number {
+		return this.align(0x110).readFloat();
+	}
+
+// gap_114 -> type: uint8 [2] 
+// field_116 -> type: char 
+	get field_116(): number {
+		return this.align(0x116).readS8();
+	}
+
+// gap_117 -> type: uint8 
+// field_118 -> type: long long 
+	get field_118(): Int64 {
+		return this.align(0x118).readS64();
+	}
+
+// field_120 -> type: uint64 
+	get field_120(): UInt64 {
+		return this.align(0x120).readU64();
+	}
+
+// field_128 -> type: long long 
+	get field_128(): Int64 {
+		return this.align(0x128).readS64();
+	}
+
+// gap_130 -> type: uint8 [8] 
+// field_138 -> type: long long 
+	get field_138(): Int64 {
+		return this.align(0x138).readS64();
+	}
+
+// gap_140 -> type: uint8 [8] 
+// field_148 -> type: long long 
+	get field_148(): Int64 {
+		return this.align(0x148).readS64();
+	}
+
+// gap_150 -> type: uint8 [8] 
+// field_158 -> type: int 
+	get field_158(): number {
+		return this.align(0x158).readS32();
+	}
+
+// gap_15C -> type: uint8 [4] 
+// field_160 -> type: uint64 
+	get field_160(): UInt64 {
+		return this.align(0x160).readU64();
+	}
+
+// field_168 -> type: uint64 
+	get field_168(): UInt64 {
+		return this.align(0x168).readU64();
+	}
+
+// field_170 -> type: uint64 
+	get field_170(): UInt64 {
+		return this.align(0x170).readU64();
+	}
+
+// field_178 -> type: uint64 
+	get field_178(): UInt64 {
+		return this.align(0x178).readU64();
+	}
+
+// field_180 -> type: uint64 
+	get field_180(): UInt64 {
+		return this.align(0x180).readU64();
+	}
+
+// field_188 -> type: uint64 
+	get field_188(): UInt64 {
+		return this.align(0x188).readU64();
+	}
+
+// field_190 -> type: uint64 
+	get field_190(): UInt64 {
+		return this.align(0x190).readU64();
+	}
+
+// field_198 -> type: uint64 
+	get field_198(): UInt64 {
+		return this.align(0x198).readU64();
+	}
+
+// field_1A0 -> type: uint64 
+	get field_1A0(): UInt64 {
+		return this.align(0x1a0).readU64();
+	}
+
+// field_1A8 -> type: uint64 
+	get field_1A8(): UInt64 {
+		return this.align(0x1a8).readU64();
+	}
+
+// field_1B0 -> type: uint64 
+	get field_1B0(): UInt64 {
+		return this.align(0x1b0).readU64();
+	}
+
+// field_1B8 -> type: uint64 
+	get field_1B8(): UInt64 {
+		return this.align(0x1b8).readU64();
+	}
+
+// field_1C0 -> type: uint64 
+	get field_1C0(): UInt64 {
+		return this.align(0x1c0).readU64();
+	}
+
+// field_1C8 -> type: uint64 
+	get field_1C8(): UInt64 {
+		return this.align(0x1c8).readU64();
+	}
+
+// field_1D0 -> type: uint64 
+	get field_1D0(): UInt64 {
+		return this.align(0x1d0).readU64();
+	}
+
+// field_1D8 -> type: uint64 
+	get field_1D8(): UInt64 {
+		return this.align(0x1d8).readU64();
+	}
+
+// field_1E0 -> type: uint64 
+	get field_1E0(): UInt64 {
+		return this.align(0x1e0).readU64();
+	}
+
+// field_1E8 -> type: uint64 
+	get field_1E8(): UInt64 {
+		return this.align(0x1e8).readU64();
+	}
+
+// field_1F0 -> type: uint64 
+	get field_1F0(): UInt64 {
+		return this.align(0x1f0).readU64();
+	}
+
+// gap_1F8 -> type: uint8 [16] 
+// field_208 -> type: uint64 
+	get field_208(): UInt64 {
+		return this.align(0x208).readU64();
+	}
+
+// field_210 -> type: uint64 
+	get field_210(): UInt64 {
+		return this.align(0x210).readU64();
+	}
+
+// field_218 -> type: uint64 
+	get field_218(): UInt64 {
+		return this.align(0x218).readU64();
+	}
+
+// field_220 -> type: uint64 
+	get field_220(): UInt64 {
+		return this.align(0x220).readU64();
+	}
+
+// field_228 -> type: uint64 
+	get field_228(): UInt64 {
+		return this.align(0x228).readU64();
+	}
+
+// field_230 -> type: uint64 
+	get field_230(): UInt64 {
+		return this.align(0x230).readU64();
+	}
+
+// field_238 -> type: uint64 
+	get field_238(): UInt64 {
+		return this.align(0x238).readU64();
+	}
+
+// field_240 -> type: uint64 
+	get field_240(): UInt64 {
+		return this.align(0x240).readU64();
+	}
+
+// gap_248 -> type: uint8 [8] 
+// field_250 -> type: uint64 
+	get field_250(): UInt64 {
+		return this.align(0x250).readU64();
+	}
+
+// field_258 -> type: uint64 
+	get field_258(): UInt64 {
+		return this.align(0x258).readU64();
+	}
+
+// field_260 -> type: uint64 
+	get field_260(): UInt64 {
+		return this.align(0x260).readU64();
+	}
+
+// field_268 -> type: uint64 
+	get field_268(): UInt64 {
+		return this.align(0x268).readU64();
+	}
+
+// gap_270 -> type: uint8 [40] 
+// field_298 -> type: long long 
+	get field_298(): Int64 {
+		return this.align(0x298).readS64();
+	}
+
+// field_2A0 -> type: long long 
+	get field_2A0(): Int64 {
+		return this.align(0x2a0).readS64();
+	}
+
+// field_2A8 -> type: long long 
+	get field_2A8(): Int64 {
+		return this.align(0x2a8).readS64();
+	}
+
+// field_2B0 -> type: long long 
+	get field_2B0(): Int64 {
+		return this.align(0x2b0).readS64();
+	}
+
+// field_2B8 -> type: long long 
+	get field_2B8(): Int64 {
+		return this.align(0x2b8).readS64();
+	}
+
+// field_2C0 -> type: long long 
+	get field_2C0(): Int64 {
+		return this.align(0x2c0).readS64();
+	}
+
+// field_2C8 -> type: long long 
+	get field_2C8(): Int64 {
+		return this.align(0x2c8).readS64();
+	}
+
+// field_2D0 -> type: long long 
+	get field_2D0(): Int64 {
+		return this.align(0x2d0).readS64();
+	}
+
+// field_2D8 -> type: long long 
+	get field_2D8(): Int64 {
+		return this.align(0x2d8).readS64();
+	}
+
+// field_2E0 -> type: long long 
+	get field_2E0(): Int64 {
+		return this.align(0x2e0).readS64();
+	}
+
+// field_2E8 -> type: long long 
+	get field_2E8(): Int64 {
+		return this.align(0x2e8).readS64();
+	}
+
+// field_2F0 -> type: long long 
+	get field_2F0(): Int64 {
+		return this.align(0x2f0).readS64();
+	}
+
+// field_2F8 -> type: long long 
+	get field_2F8(): Int64 {
+		return this.align(0x2f8).readS64();
+	}
+
+// field_300 -> type: long long 
+	get field_300(): Int64 {
+		return this.align(0x300).readS64();
+	}
+
+// field_308 -> type: long long 
+	get field_308(): Int64 {
+		return this.align(0x308).readS64();
+	}
+
+// field_310 -> type: long long 
+	get field_310(): Int64 {
+		return this.align(0x310).readS64();
+	}
+
+// field_318 -> type: long long 
+	get field_318(): Int64 {
+		return this.align(0x318).readS64();
+	}
+
+// gap_320 -> type: uint8 [16] 
+// field_330 -> type: long long 
+	get field_330(): Int64 {
+		return this.align(0x330).readS64();
+	}
+
+// field_338 -> type: long long 
+	get field_338(): Int64 {
+		return this.align(0x338).readS64();
+	}
+
+// field_340 -> type: long long 
+	get field_340(): Int64 {
+		return this.align(0x340).readS64();
+	}
+
+// field_348 -> type: long long 
+	get field_348(): Int64 {
+		return this.align(0x348).readS64();
+	}
+
+// field_350 -> type: long long 
+	get field_350(): Int64 {
+		return this.align(0x350).readS64();
+	}
+
+// field_358 -> type: long long 
+	get field_358(): Int64 {
+		return this.align(0x358).readS64();
+	}
+
+// field_360 -> type: long long 
+	get field_360(): Int64 {
+		return this.align(0x360).readS64();
+	}
+
+// field_368 -> type: CVertexCameraHeightMap * 
+	get field_368(): CVertexCameraHeightMap {
+		return new CVertexCameraHeightMap(this.align(0x368).readPointer());
+	}
+
+// field_370 -> type: long long 
+	get field_370(): Int64 {
+		return this.align(0x370).readS64();
+	}
+
+// field_378 -> type: long long 
+	get field_378(): Int64 {
+		return this.align(0x378).readS64();
+	}
+
+// field_380 -> type: long long 
+	get field_380(): Int64 {
+		return this.align(0x380).readS64();
+	}
+
+// field_388 -> type: long long 
+	get field_388(): Int64 {
+		return this.align(0x388).readS64();
+	}
+
+// field_390 -> type: long long 
+	get field_390(): Int64 {
+		return this.align(0x390).readS64();
+	}
+
+// field_398 -> type: long long 
+	get field_398(): Int64 {
+		return this.align(0x398).readS64();
+	}
+
+// field_3A0 -> type: long long 
+	get field_3A0(): Int64 {
+		return this.align(0x3a0).readS64();
+	}
+
+// field_3A8 -> type: long long 
+	get field_3A8(): Int64 {
+		return this.align(0x3a8).readS64();
+	}
+
+// field_3B0 -> type: int 
+	get field_3B0(): number {
+		return this.align(0x3b0).readS32();
+	}
+
+// gap_3B4 -> type: uint8 [4] 
+// field_3B8 -> type: char * 
+// args:  -> ret:  
+	public field_3B8() {
+		return null;
+	}
+
+// field_3C0 -> type: uint64 
+	get field_3C0(): UInt64 {
+		return this.align(0x3c0).readU64();
+	}
+
+// gap_3C8 -> type: uint8 [8] 
+// field_3D0 -> type: long long 
+	get field_3D0(): Int64 {
+		return this.align(0x3d0).readS64();
+	}
+
+}
+
+// inheritence: CObj
+export class CResourceManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class CSystem extends CObj {
+
+}
+
+// inheritence: CObj
+export class CUIManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class CCamera extends CObj {
+
+// field_0 -> type: int 
+	get field_0(): number {
+		return this.align(0x0).readS32();
+	}
+
+// field_4 -> type: int 
+	get field_4(): number {
+		return this.align(0x4).readS32();
+	}
+
+// field_8 -> type: int 
+	get field_8(): number {
+		return this.align(0x8).readS32();
+	}
+
+// field_C -> type: int 
+	get field_C(): number {
+		return this.align(0xc).readS32();
+	}
+
+// field_10 -> type: int 
+	get field_10(): number {
+		return this.align(0x10).readS32();
+	}
+
+// field_14 -> type: int 
+	get field_14(): number {
+		return this.align(0x14).readS32();
+	}
+
+// field_18 -> type: int 
+	get field_18(): number {
+		return this.align(0x18).readS32();
+	}
+
+// field_1C -> type: long long 
+	get field_1C(): Int64 {
+		return this.align(0x1c).readS64();
+	}
+
+// field_24 -> type: long long 
+	get field_24(): Int64 {
+		return this.align(0x24).readS64();
+	}
+
+// gap_2C -> type: uint8 [8] 
+// field_34 -> type: long long 
+	get field_34(): Int64 {
+		return this.align(0x34).readS64();
+	}
+
+// gap_3C -> type: uint8 [8] 
+// field_44 -> type: long long 
+	get field_44(): Int64 {
+		return this.align(0x44).readS64();
+	}
+
+// gap_4C -> type: uint8 [24] 
+// field_64 -> type: int 
+	get field_64(): number {
+		return this.align(0x64).readS32();
+	}
+
+// field_68 -> type: int 
+	get field_68(): number {
+		return this.align(0x68).readS32();
+	}
+
+// field_6C -> type: int 
+	get field_6C(): number {
+		return this.align(0x6c).readS32();
+	}
+
+// field_70 -> type: int 
+	get field_70(): number {
+		return this.align(0x70).readS32();
+	}
+
+// field_74 -> type: int 
+	get field_74(): number {
+		return this.align(0x74).readS32();
+	}
+
+// field_78 -> type: int 
+	get field_78(): number {
+		return this.align(0x78).readS32();
+	}
+
+// field_7C -> type: int 
+	get field_7C(): number {
+		return this.align(0x7c).readS32();
+	}
+
+// field_80 -> type: int 
+	get field_80(): number {
+		return this.align(0x80).readS32();
+	}
+
+// field_84 -> type: int 
+	get field_84(): number {
+		return this.align(0x84).readS32();
+	}
+
+// gap_88 -> type: uint8 [8] 
+// field_90 -> type: int 
+	get field_90(): number {
+		return this.align(0x90).readS32();
+	}
+
+// field_94 -> type: int 
+	get field_94(): number {
+		return this.align(0x94).readS32();
+	}
+
+// field_98 -> type: int 
+	get field_98(): number {
+		return this.align(0x98).readS32();
+	}
+
+// field_9C -> type: int 
+	get field_9C(): number {
+		return this.align(0x9c).readS32();
+	}
+
+// field_A0 -> type: int 
+	get field_A0(): number {
+		return this.align(0xa0).readS32();
+	}
+
+// field_A4 -> type: int 
+	get field_A4(): number {
+		return this.align(0xa4).readS32();
+	}
+
+// field_A8 -> type: int 
+	get field_A8(): number {
+		return this.align(0xa8).readS32();
+	}
+
+// field_AC -> type: long long 
+	get field_AC(): Int64 {
+		return this.align(0xac).readS64();
+	}
+
+// gap_B4 -> type: uint8 [8] 
+// field_BC -> type: long long 
+	get field_BC(): Int64 {
+		return this.align(0xbc).readS64();
+	}
+
+// gap_C4 -> type: uint8 [9] 
+// field_CD -> type: char 
+	get field_CD(): number {
+		return this.align(0xcd).readS8();
+	}
+
+// gap_CE -> type: uint8 [2] 
+// field_D0 -> type: int 
+	get field_D0(): number {
+		return this.align(0xd0).readS32();
+	}
+
+// field_D4 -> type: char 
+	get field_D4(): number {
+		return this.align(0xd4).readS8();
+	}
+
+// gap_D5 -> type: uint8 [99] 
+// field_138 -> type: long long 
+	get field_138(): Int64 {
+		return this.align(0x138).readS64();
+	}
+
+// field_140 -> type: long long 
+	get field_140(): Int64 {
+		return this.align(0x140).readS64();
+	}
+
+}
+
+// inheritence: CObj
+export class CVisibilityMap extends CObj {
+
+// gap_0 -> type: uint8 [32] 
+}
+
+// inheritence: CObj
 export class IEntityDefinition extends CObj {
 
 }
@@ -4040,299 +4711,6 @@ export class IGameEntity extends CObj {
 	get allign(): number {
 		return this.align(0x9c).readS32();
 	}
-
-}
-
-// inheritence: IGameEntity
-export class ISlaveEntity extends IGameEntity {
-
-// field_A0 -> type: int 
-	get field_A0(): number {
-		return this.align(0xa0).readS32();
-	}
-
-// field_A4 -> type: char 
-	get field_A4(): number {
-		return this.align(0xa4).readS8();
-	}
-
-// gap_A5 -> type: uint8 [3] 
-// field_A8 -> type: int 
-	get field_A8(): number {
-		return this.align(0xa8).readS32();
-	}
-
-// field_AC -> type: short 
-	get field_AC(): number {
-		return this.align(0xac).readS16();
-	}
-
-// field_AE -> type: char 
-	get field_AE(): number {
-		return this.align(0xae).readS8();
-	}
-
-// gap_AF -> type: uint8 
-// field_B0 -> type: long long 
-	get field_B0(): Int64 {
-		return this.align(0xb0).readS64();
-	}
-
-// gap_B8 -> type: uint8 [8] 
-// field_C0 -> type: long long 
-	get field_C0(): Int64 {
-		return this.align(0xc0).readS64();
-	}
-
-// field_C8 -> type: int 
-	get field_C8(): number {
-		return this.align(0xc8).readS32();
-	}
-
-// field_CC -> type: long long 
-	get field_CC(): Int64 {
-		return this.align(0xcc).readS64();
-	}
-
-// field_D4 -> type: int 
-	get field_D4(): number {
-		return this.align(0xd4).readS32();
-	}
-
-// field_D8 -> type: long long 
-	get field_D8(): Int64 {
-		return this.align(0xd8).readS64();
-	}
-
-// field_E0 -> type: uint64 
-	get field_E0(): UInt64 {
-		return this.align(0xe0).readU64();
-	}
-
-}
-
-// inheritence: ISlaveEntity
-export class IEntityTool extends ISlaveEntity {
-
-// gap_E8 -> type: uint8 [8] 
-// field_F0 -> type: char 
-	get field_F0(): number {
-		return this.align(0xf0).readS8();
-	}
-
-// field_F1 -> type: char 
-	get field_F1(): number {
-		return this.align(0xf1).readS8();
-	}
-
-// field_F2 -> type: short 
-	get field_F2(): number {
-		return this.align(0xf2).readS16();
-	}
-
-// field_F4 -> type: long long 
-	get field_F4(): Int64 {
-		return this.align(0xf4).readS64();
-	}
-
-// field_FC -> type: long long 
-	get field_FC(): Int64 {
-		return this.align(0xfc).readS64();
-	}
-
-// field_104 -> type: int 
-	get field_104(): number {
-		return this.align(0x104).readS32();
-	}
-
-// field_108 -> type: long long 
-	get field_108(): Int64 {
-		return this.align(0x108).readS64();
-	}
-
-// gap_110 -> type: uint8 [8] 
-// field_118 -> type: long long 
-	get field_118(): Int64 {
-		return this.align(0x118).readS64();
-	}
-
-// gap_120 -> type: uint8 [8] 
-// field_128 -> type: long long 
-	get field_128(): Int64 {
-		return this.align(0x128).readS64();
-	}
-
-// field_130 -> type: __int128 
-// field_140 -> type: long long 
-	get field_140(): Int64 {
-		return this.align(0x140).readS64();
-	}
-
-// field_148 -> type: long long 
-	get field_148(): Int64 {
-		return this.align(0x148).readS64();
-	}
-
-// field_150 -> type: long long 
-	get field_150(): Int64 {
-		return this.align(0x150).readS64();
-	}
-
-// field_158 -> type: uint64 
-	get field_158(): UInt64 {
-		return this.align(0x158).readU64();
-	}
-
-// gap_160 -> type: uint8 [8] 
-// field_168 -> type: char 
-	get field_168(): number {
-		return this.align(0x168).readS8();
-	}
-
-// field_169 -> type: char 
-	get field_169(): number {
-		return this.align(0x169).readS8();
-	}
-
-// gap_16A -> type: uint8 [2] 
-// field_16C -> type: int 
-	get field_16C(): number {
-		return this.align(0x16c).readS32();
-	}
-
-// field_170 -> type: int 
-	get field_170(): number {
-		return this.align(0x170).readS32();
-	}
-
-// field_174 -> type: char 
-	get field_174(): number {
-		return this.align(0x174).readS8();
-	}
-
-// gap_175 -> type: uint8 [3] 
-// field_178 -> type: int 
-	get field_178(): number {
-		return this.align(0x178).readS32();
-	}
-
-// field_17C -> type: long long 
-	get field_17C(): Int64 {
-		return this.align(0x17c).readS64();
-	}
-
-// gap_184 -> type: uint8 
-// field_185 -> type: long long 
-	get field_185(): Int64 {
-		return this.align(0x185).readS64();
-	}
-
-// gap_18D -> type: uint8 [11] 
-// field_198 -> type: int 
-	get field_198(): number {
-		return this.align(0x198).readS32();
-	}
-
-// field_19C -> type: int 
-	get field_19C(): number {
-		return this.align(0x19c).readS32();
-	}
-
-// field_1A0 -> type: int 
-	get field_1A0(): number {
-		return this.align(0x1a0).readS32();
-	}
-
-// field_1A4 -> type: char 
-	get field_1A4(): number {
-		return this.align(0x1a4).readS8();
-	}
-
-// gap_1A5 -> type: uint8 [3] 
-// field_1A8 -> type: long long 
-	get field_1A8(): Int64 {
-		return this.align(0x1a8).readS64();
-	}
-
-// gap_1B0 -> type: uint8 [8] 
-// field_1B8 -> type: __int128 
-// dynamicRange -> type: float 
-	get dynamicRange(): number {
-		return this.align(0x1c8).readFloat();
-	}
-
-// gap_1CC -> type: uint8 [4] 
-// field_1D0 -> type: long long 
-	get field_1D0(): Int64 {
-		return this.align(0x1d0).readS64();
-	}
-
-// gap_1D8 -> type: uint8 [40] 
-// field_200 -> type: long long 
-	get field_200(): Int64 {
-		return this.align(0x200).readS64();
-	}
-
-// field_208 -> type: uint64 
-	get field_208(): UInt64 {
-		return this.align(0x208).readU64();
-	}
-
-}
-
-// inheritence: CObj
-export class IBuffer extends CObj {
-
-// __vftable -> type: IBuffer_vtbl * 
-	get __vftable(): IBuffer_vtbl {
-		return new IBuffer_vtbl(this.align(0x0).readPointer());
-	}
-
-// data -> type: void * 
-// args:  -> ret:  
-	public data() {
-		return null;
-	}
-
-// allocatedSize -> type: int 
-	get allocatedSize(): number {
-		return this.align(0x10).readS32();
-	}
-
-// size -> type: int 
-	get size(): number {
-		return this.align(0x14).readS32();
-	}
-
-// currentOffset -> type: int 
-	get currentOffset(): number {
-		return this.align(0x18).readS32();
-	}
-
-// someFlag -> type: int 
-	get someFlag(): number {
-		return this.align(0x1c).readS32();
-	}
-
-}
-
-// inheritence: CObj
-export class INeutralEntity extends CObj {
-
-}
-
-// inheritence: CObj
-export class CResourceManager extends CObj {
-
-}
-
-// inheritence: CObj
-export class CArchive extends CObj {
-
-}
-
-// inheritence: CObj
-export class CBotRegistry extends CObj {
 
 }
 
@@ -4744,7 +5122,7 @@ export class CPlayer extends IGameEntity {
 // gap_3C0 -> type: uint8 [4] 
 // field_3C4 -> type: uint32 
 	get field_3C4(): number {
-		return this.align(0x3c4).readU16();
+		return this.align(0x3c4).readU32();
 	}
 
 // gap_3C8 -> type: uint8 [4] 
@@ -5367,1591 +5745,37 @@ export class CPlayer extends IGameEntity {
 }
 
 // inheritence: CObj
-export class CFileHandle extends CObj {
+export class IBuffer extends CObj {
 
-}
-
-// inheritence: CObj
-export class CVertexCameraHeightMap extends CObj {
-
-}
-
-// inheritence: CObj
-export class CWorld extends CObj {
-
-// field_0 -> type: long long 
-	get field_0(): Int64 {
-		return this.align(0x0).readS64();
-	}
-
-// gap_8 -> type: uint8 [8] 
-// field_10 -> type: char 
-	get field_10(): number {
-		return this.align(0x10).readS8();
-	}
-
-// gap_11 -> type: uint8 [7] 
-// field_18 -> type: uint64 
-	get field_18(): UInt64 {
-		return this.align(0x18).readU64();
-	}
-
-// field_20 -> type: long long 
-	get field_20(): Int64 {
-		return this.align(0x20).readS64();
-	}
-
-// field_28 -> type: uint64 
-	get field_28(): UInt64 {
-		return this.align(0x28).readU64();
-	}
-
-// field_30 -> type: uint64 
-	get field_30(): UInt64 {
-		return this.align(0x30).readU64();
-	}
-
-// field_38 -> type: long long 
-	get field_38(): Int64 {
-		return this.align(0x38).readS64();
-	}
-
-// field_40 -> type: uint64 
-	get field_40(): UInt64 {
-		return this.align(0x40).readU64();
-	}
-
-// field_48 -> type: long long 
-	get field_48(): Int64 {
-		return this.align(0x48).readS64();
-	}
-
-// gap_50 -> type: uint8 [16] 
-// field_60 -> type: long long 
-	get field_60(): Int64 {
-		return this.align(0x60).readS64();
-	}
-
-// gap_68 -> type: uint8 [8] 
-// field_70 -> type: long long 
-	get field_70(): Int64 {
-		return this.align(0x70).readS64();
-	}
-
-// gap_78 -> type: uint8 [12] 
-// field_84 -> type: float 
-	get field_84(): number {
-		return this.align(0x84).readFloat();
-	}
-
-// field_88 -> type: int 
-	get field_88(): number {
-		return this.align(0x88).readS32();
-	}
-
-// field_8C -> type: int 
-	get field_8C(): number {
-		return this.align(0x8c).readS32();
-	}
-
-// field_90 -> type: int 
-	get field_90(): number {
-		return this.align(0x90).readS32();
-	}
-
-// field_94 -> type: long long 
-	get field_94(): Int64 {
-		return this.align(0x94).readS64();
-	}
-
-// field_9C -> type: int 
-	get field_9C(): number {
-		return this.align(0x9c).readS32();
-	}
-
-// field_A0 -> type: int 
-	get field_A0(): number {
-		return this.align(0xa0).readS32();
-	}
-
-// field_A4 -> type: long long 
-	get field_A4(): Int64 {
-		return this.align(0xa4).readS64();
-	}
-
-// field_AC -> type: int 
-	get field_AC(): number {
-		return this.align(0xac).readS32();
-	}
-
-// field_B0 -> type: int 
-	get field_B0(): number {
-		return this.align(0xb0).readS32();
-	}
-
-// field_B4 -> type: long long 
-	get field_B4(): Int64 {
-		return this.align(0xb4).readS64();
-	}
-
-// field_BC -> type: float 
-	get field_BC(): number {
-		return this.align(0xbc).readFloat();
-	}
-
-// field_C0 -> type: int 
-	get field_C0(): number {
-		return this.align(0xc0).readS32();
-	}
-
-// gap_C4 -> type: uint8 [4] 
-// field_C8 -> type: long long 
-	get field_C8(): Int64 {
-		return this.align(0xc8).readS64();
-	}
-
-// gap_D0 -> type: uint8 [8] 
-// field_D8 -> type: long long 
-	get field_D8(): Int64 {
-		return this.align(0xd8).readS64();
-	}
-
-// field_E0 -> type: int 
-	get field_E0(): number {
-		return this.align(0xe0).readS32();
-	}
-
-// gap_E4 -> type: uint8 [4] 
-// field_E8 -> type: long long 
-	get field_E8(): Int64 {
-		return this.align(0xe8).readS64();
-	}
-
-// gap_F0 -> type: uint8 [4] 
-// field_F4 -> type: int 
-	get field_F4(): number {
-		return this.align(0xf4).readS32();
-	}
-
-// field_F8 -> type: long long 
-	get field_F8(): Int64 {
-		return this.align(0xf8).readS64();
-	}
-
-// field_100 -> type: float 
-	get field_100(): number {
-		return this.align(0x100).readFloat();
-	}
-
-// gap_104 -> type: uint8 [2] 
-// field_106 -> type: long long 
-	get field_106(): Int64 {
-		return this.align(0x106).readS64();
-	}
-
-// gap_10E -> type: uint8 [2] 
-// field_110 -> type: float 
-	get field_110(): number {
-		return this.align(0x110).readFloat();
-	}
-
-// gap_114 -> type: uint8 [2] 
-// field_116 -> type: char 
-	get field_116(): number {
-		return this.align(0x116).readS8();
-	}
-
-// gap_117 -> type: uint8 
-// field_118 -> type: long long 
-	get field_118(): Int64 {
-		return this.align(0x118).readS64();
-	}
-
-// field_120 -> type: uint64 
-	get field_120(): UInt64 {
-		return this.align(0x120).readU64();
-	}
-
-// field_128 -> type: long long 
-	get field_128(): Int64 {
-		return this.align(0x128).readS64();
-	}
-
-// gap_130 -> type: uint8 [8] 
-// field_138 -> type: long long 
-	get field_138(): Int64 {
-		return this.align(0x138).readS64();
-	}
-
-// gap_140 -> type: uint8 [8] 
-// field_148 -> type: long long 
-	get field_148(): Int64 {
-		return this.align(0x148).readS64();
-	}
-
-// gap_150 -> type: uint8 [8] 
-// field_158 -> type: int 
-	get field_158(): number {
-		return this.align(0x158).readS32();
-	}
-
-// gap_15C -> type: uint8 [4] 
-// field_160 -> type: uint64 
-	get field_160(): UInt64 {
-		return this.align(0x160).readU64();
-	}
-
-// field_168 -> type: uint64 
-	get field_168(): UInt64 {
-		return this.align(0x168).readU64();
-	}
-
-// field_170 -> type: uint64 
-	get field_170(): UInt64 {
-		return this.align(0x170).readU64();
-	}
-
-// field_178 -> type: uint64 
-	get field_178(): UInt64 {
-		return this.align(0x178).readU64();
-	}
-
-// field_180 -> type: uint64 
-	get field_180(): UInt64 {
-		return this.align(0x180).readU64();
-	}
-
-// field_188 -> type: uint64 
-	get field_188(): UInt64 {
-		return this.align(0x188).readU64();
-	}
-
-// field_190 -> type: uint64 
-	get field_190(): UInt64 {
-		return this.align(0x190).readU64();
-	}
-
-// field_198 -> type: uint64 
-	get field_198(): UInt64 {
-		return this.align(0x198).readU64();
-	}
-
-// field_1A0 -> type: uint64 
-	get field_1A0(): UInt64 {
-		return this.align(0x1a0).readU64();
-	}
-
-// field_1A8 -> type: uint64 
-	get field_1A8(): UInt64 {
-		return this.align(0x1a8).readU64();
-	}
-
-// field_1B0 -> type: uint64 
-	get field_1B0(): UInt64 {
-		return this.align(0x1b0).readU64();
-	}
-
-// field_1B8 -> type: uint64 
-	get field_1B8(): UInt64 {
-		return this.align(0x1b8).readU64();
-	}
-
-// field_1C0 -> type: uint64 
-	get field_1C0(): UInt64 {
-		return this.align(0x1c0).readU64();
-	}
-
-// field_1C8 -> type: uint64 
-	get field_1C8(): UInt64 {
-		return this.align(0x1c8).readU64();
-	}
-
-// field_1D0 -> type: uint64 
-	get field_1D0(): UInt64 {
-		return this.align(0x1d0).readU64();
-	}
-
-// field_1D8 -> type: uint64 
-	get field_1D8(): UInt64 {
-		return this.align(0x1d8).readU64();
-	}
-
-// field_1E0 -> type: uint64 
-	get field_1E0(): UInt64 {
-		return this.align(0x1e0).readU64();
-	}
-
-// field_1E8 -> type: uint64 
-	get field_1E8(): UInt64 {
-		return this.align(0x1e8).readU64();
-	}
-
-// field_1F0 -> type: uint64 
-	get field_1F0(): UInt64 {
-		return this.align(0x1f0).readU64();
-	}
-
-// gap_1F8 -> type: uint8 [16] 
-// field_208 -> type: uint64 
-	get field_208(): UInt64 {
-		return this.align(0x208).readU64();
-	}
-
-// field_210 -> type: uint64 
-	get field_210(): UInt64 {
-		return this.align(0x210).readU64();
-	}
-
-// field_218 -> type: uint64 
-	get field_218(): UInt64 {
-		return this.align(0x218).readU64();
-	}
-
-// field_220 -> type: uint64 
-	get field_220(): UInt64 {
-		return this.align(0x220).readU64();
-	}
-
-// field_228 -> type: uint64 
-	get field_228(): UInt64 {
-		return this.align(0x228).readU64();
-	}
-
-// field_230 -> type: uint64 
-	get field_230(): UInt64 {
-		return this.align(0x230).readU64();
-	}
-
-// field_238 -> type: uint64 
-	get field_238(): UInt64 {
-		return this.align(0x238).readU64();
-	}
-
-// field_240 -> type: uint64 
-	get field_240(): UInt64 {
-		return this.align(0x240).readU64();
-	}
-
-// gap_248 -> type: uint8 [8] 
-// field_250 -> type: uint64 
-	get field_250(): UInt64 {
-		return this.align(0x250).readU64();
-	}
-
-// field_258 -> type: uint64 
-	get field_258(): UInt64 {
-		return this.align(0x258).readU64();
-	}
-
-// field_260 -> type: uint64 
-	get field_260(): UInt64 {
-		return this.align(0x260).readU64();
-	}
-
-// field_268 -> type: uint64 
-	get field_268(): UInt64 {
-		return this.align(0x268).readU64();
-	}
-
-// gap_270 -> type: uint8 [40] 
-// field_298 -> type: long long 
-	get field_298(): Int64 {
-		return this.align(0x298).readS64();
-	}
-
-// field_2A0 -> type: long long 
-	get field_2A0(): Int64 {
-		return this.align(0x2a0).readS64();
-	}
-
-// field_2A8 -> type: long long 
-	get field_2A8(): Int64 {
-		return this.align(0x2a8).readS64();
-	}
-
-// field_2B0 -> type: long long 
-	get field_2B0(): Int64 {
-		return this.align(0x2b0).readS64();
-	}
-
-// field_2B8 -> type: long long 
-	get field_2B8(): Int64 {
-		return this.align(0x2b8).readS64();
-	}
-
-// field_2C0 -> type: long long 
-	get field_2C0(): Int64 {
-		return this.align(0x2c0).readS64();
-	}
-
-// field_2C8 -> type: long long 
-	get field_2C8(): Int64 {
-		return this.align(0x2c8).readS64();
-	}
-
-// field_2D0 -> type: long long 
-	get field_2D0(): Int64 {
-		return this.align(0x2d0).readS64();
-	}
-
-// field_2D8 -> type: long long 
-	get field_2D8(): Int64 {
-		return this.align(0x2d8).readS64();
-	}
-
-// field_2E0 -> type: long long 
-	get field_2E0(): Int64 {
-		return this.align(0x2e0).readS64();
-	}
-
-// field_2E8 -> type: long long 
-	get field_2E8(): Int64 {
-		return this.align(0x2e8).readS64();
-	}
-
-// field_2F0 -> type: long long 
-	get field_2F0(): Int64 {
-		return this.align(0x2f0).readS64();
-	}
-
-// field_2F8 -> type: long long 
-	get field_2F8(): Int64 {
-		return this.align(0x2f8).readS64();
-	}
-
-// field_300 -> type: long long 
-	get field_300(): Int64 {
-		return this.align(0x300).readS64();
-	}
-
-// field_308 -> type: long long 
-	get field_308(): Int64 {
-		return this.align(0x308).readS64();
-	}
-
-// field_310 -> type: long long 
-	get field_310(): Int64 {
-		return this.align(0x310).readS64();
-	}
-
-// field_318 -> type: long long 
-	get field_318(): Int64 {
-		return this.align(0x318).readS64();
-	}
-
-// gap_320 -> type: uint8 [16] 
-// field_330 -> type: long long 
-	get field_330(): Int64 {
-		return this.align(0x330).readS64();
-	}
-
-// field_338 -> type: long long 
-	get field_338(): Int64 {
-		return this.align(0x338).readS64();
-	}
-
-// field_340 -> type: long long 
-	get field_340(): Int64 {
-		return this.align(0x340).readS64();
-	}
-
-// field_348 -> type: long long 
-	get field_348(): Int64 {
-		return this.align(0x348).readS64();
-	}
-
-// field_350 -> type: long long 
-	get field_350(): Int64 {
-		return this.align(0x350).readS64();
-	}
-
-// field_358 -> type: long long 
-	get field_358(): Int64 {
-		return this.align(0x358).readS64();
-	}
-
-// field_360 -> type: long long 
-	get field_360(): Int64 {
-		return this.align(0x360).readS64();
-	}
-
-// field_368 -> type: CVertexCameraHeightMap * 
-	get field_368(): CVertexCameraHeightMap {
-		return new CVertexCameraHeightMap(this.align(0x368).readPointer());
-	}
-
-// field_370 -> type: long long 
-	get field_370(): Int64 {
-		return this.align(0x370).readS64();
-	}
-
-// field_378 -> type: long long 
-	get field_378(): Int64 {
-		return this.align(0x378).readS64();
-	}
-
-// field_380 -> type: long long 
-	get field_380(): Int64 {
-		return this.align(0x380).readS64();
-	}
-
-// field_388 -> type: long long 
-	get field_388(): Int64 {
-		return this.align(0x388).readS64();
-	}
-
-// field_390 -> type: long long 
-	get field_390(): Int64 {
-		return this.align(0x390).readS64();
-	}
-
-// field_398 -> type: long long 
-	get field_398(): Int64 {
-		return this.align(0x398).readS64();
-	}
-
-// field_3A0 -> type: long long 
-	get field_3A0(): Int64 {
-		return this.align(0x3a0).readS64();
-	}
-
-// field_3A8 -> type: long long 
-	get field_3A8(): Int64 {
-		return this.align(0x3a8).readS64();
-	}
-
-// field_3B0 -> type: int 
-	get field_3B0(): number {
-		return this.align(0x3b0).readS32();
+// __vftable -> type: IBuffer_vtbl * 
+	get __vftable(): IBuffer_vtbl {
+		return new IBuffer_vtbl(this.align(0x0).readPointer());
 	}
 
-// gap_3B4 -> type: uint8 [4] 
-// field_3B8 -> type: char * 
+// data -> type: void * 
 // args:  -> ret:  
-	public field_3B8() {
+	public data() {
 		return null;
 	}
 
-// field_3C0 -> type: uint64 
-	get field_3C0(): UInt64 {
-		return this.align(0x3c0).readU64();
+// allocatedSize -> type: int 
+	get allocatedSize(): number {
+		return this.align(0x10).readS32();
 	}
 
-// gap_3C8 -> type: uint8 [8] 
-// field_3D0 -> type: long long 
-	get field_3D0(): Int64 {
-		return this.align(0x3d0).readS64();
+// size -> type: int 
+	get size(): number {
+		return this.align(0x14).readS32();
 	}
 
-}
-
-// inheritence: CObj
-export class CEntityRegistry extends CObj {
-
-}
-
-// inheritence: CObj
-export class CVec3 extends CObj {
-
-// x -> type: float 
-	get x(): number {
-		return this.align(0x0).readFloat();
-	}
-
-// y -> type: float 
-	get y(): number {
-		return this.align(0x4).readFloat();
-	}
-
-// z -> type: float 
-	get z(): number {
-		return this.align(0x8).readFloat();
-	}
-
-// align -> type: int 
-}
-
-// inheritence: IGameEntity
-export class IVisualEntity extends IGameEntity {
-
-// dunnoVec -> type: CVec3 
-	get dunnoVec(): CVec3 {
-		return new CVec3(this.align(0xa0));
-	}
-
-// field_B0 -> type: long long 
-	get field_B0(): Int64 {
-		return this.align(0xb0).readS64();
-	}
-
-// field_B8 -> type: long long 
-	get field_B8(): Int64 {
-		return this.align(0xb8).readS64();
-	}
-
-// isAlive -> type: char 
-	get isAlive(): number {
-		return this.align(0xc0).readS8();
-	}
-
-// field_byte_1 -> type: char 
-	get field_byte_1(): number {
-		return this.align(0xc1).readS8();
-	}
-
-// field_byte_2 -> type: char 
-	get field_byte_2(): number {
-		return this.align(0xc2).readS8();
-	}
-
-// field_byte_3 -> type: char 
-	get field_byte_3(): number {
-		return this.align(0xc3).readS8();
-	}
-
-// field_C4 -> type: char 
-	get field_C4(): number {
-		return this.align(0xc4).readS8();
-	}
-
-// gap_C5 -> type: uint8 [3] 
-// position -> type: CVec3 
-	get position(): CVec3 {
-		return new CVec3(this.align(0xc8));
-	}
-
-// field_D8 -> type: __m128i 
-// v3Angles -> type: CVec3 
-	get v3Angles(): CVec3 {
-		return new CVec3(this.align(0xe8));
-	}
-
-// field_F8 -> type: int 
-	get field_F8(): number {
-		return this.align(0xf8).readS32();
-	}
-
-// field_FC -> type: __m128i 
-// field_10C -> type: long long 
-	get field_10C(): Int64 {
-		return this.align(0x10c).readS64();
-	}
-
-// field_114 -> type: int 
-	get field_114(): number {
-		return this.align(0x114).readS32();
-	}
-
-// field_118 -> type: int 
-	get field_118(): number {
-		return this.align(0x118).readS32();
-	}
-
-// field_11C -> type: int 
-	get field_11C(): number {
-		return this.align(0x11c).readS32();
-	}
-
-// field_120 -> type: int 
-	get field_120(): number {
-		return this.align(0x120).readS32();
-	}
-
-// field_124 -> type: int 
-	get field_124(): number {
-		return this.align(0x124).readS32();
-	}
-
-// field_128 -> type: int 
-	get field_128(): number {
-		return this.align(0x128).readS32();
-	}
-
-// field_12C -> type: int 
-	get field_12C(): number {
-		return this.align(0x12c).readS32();
-	}
-
-// field_130 -> type: int 
-	get field_130(): number {
-		return this.align(0x130).readS32();
-	}
-
-// field_134 -> type: int 
-	get field_134(): number {
-		return this.align(0x134).readS32();
-	}
-
-// field_138 -> type: int 
-	get field_138(): number {
-		return this.align(0x138).readS32();
-	}
-
-// field_13C -> type: int 
-	get field_13C(): number {
-		return this.align(0x13c).readS32();
-	}
-
-// field_140 -> type: int 
-	get field_140(): number {
-		return this.align(0x140).readS32();
-	}
-
-// field_144 -> type: int 
-	get field_144(): number {
-		return this.align(0x144).readS32();
-	}
-
-// field_148 -> type: int 
-	get field_148(): number {
-		return this.align(0x148).readS32();
-	}
-
-// gap_14C -> type: uint8 [4] 
-// field_150 -> type: __m128i 
-// field_160 -> type: __m128i 
-// field_170 -> type: long long 
-	get field_170(): Int64 {
-		return this.align(0x170).readS64();
-	}
-
-// field_178 -> type: long long 
-	get field_178(): Int64 {
-		return this.align(0x178).readS64();
-	}
-
-// field_180 -> type: char 
-	get field_180(): number {
-		return this.align(0x180).readS8();
-	}
-
-// field_181 -> type: char 
-	get field_181(): number {
-		return this.align(0x181).readS8();
-	}
-
-// gap_182 -> type: uint8 [2] 
-// field_184 -> type: int 
-	get field_184(): number {
-		return this.align(0x184).readS32();
-	}
-
-// field_188 -> type: char 
-	get field_188(): number {
-		return this.align(0x188).readS8();
-	}
-
-// gap_189 -> type: uint8 [3] 
-// field_18C -> type: int 
-	get field_18C(): number {
-		return this.align(0x18c).readS32();
-	}
-
-// field_190 -> type: char 
-	get field_190(): number {
-		return this.align(0x190).readS8();
-	}
-
-// gap_191 -> type: uint8 [3] 
-// field_194 -> type: int 
-	get field_194(): number {
-		return this.align(0x194).readS32();
-	}
-
-// field_198 -> type: char 
-	get field_198(): number {
-		return this.align(0x198).readS8();
-	}
-
-// gap_199 -> type: uint8 [3] 
-// field_19C -> type: int 
-	get field_19C(): number {
-		return this.align(0x19c).readS32();
-	}
-
-// field_1A0 -> type: char 
-	get field_1A0(): number {
-		return this.align(0x1a0).readS8();
-	}
-
-// gap_1A1 -> type: uint8 [3] 
-// field_1A4 -> type: int 
-	get field_1A4(): number {
-		return this.align(0x1a4).readS32();
-	}
-
-// field_1A8 -> type: char 
-	get field_1A8(): number {
-		return this.align(0x1a8).readS8();
-	}
-
-// gap_1A9 -> type: uint8 [7] 
-// field_1B0 -> type: __m128i 
-// field_1C0 -> type: __m128i 
-// field_1D0 -> type: __m128i 
-// field_1E0 -> type: long long 
-	get field_1E0(): Int64 {
-		return this.align(0x1e0).readS64();
-	}
-
-// field_1E8 -> type: char 
-	get field_1E8(): number {
-		return this.align(0x1e8).readS8();
-	}
-
-// field_1E9 -> type: char 
-	get field_1E9(): number {
-		return this.align(0x1e9).readS8();
-	}
-
-// field_1EA -> type: char 
-	get field_1EA(): number {
-		return this.align(0x1ea).readS8();
-	}
-
-// field_1EB -> type: char 
-	get field_1EB(): number {
-		return this.align(0x1eb).readS8();
-	}
-
-// field_1EC -> type: int 
-	get field_1EC(): number {
-		return this.align(0x1ec).readS32();
-	}
-
-// field_1F0 -> type: int 
-	get field_1F0(): number {
-		return this.align(0x1f0).readS32();
-	}
-
-// field_1F4 -> type: __m128i 
-// field_204 -> type: int 
-	get field_204(): number {
-		return this.align(0x204).readS32();
-	}
-
-// field_208 -> type: int 
-	get field_208(): number {
-		return this.align(0x208).readS32();
-	}
-
-// field_20C -> type: char 
-	get field_20C(): number {
-		return this.align(0x20c).readS8();
-	}
-
-// field_20D -> type: char 
-	get field_20D(): number {
-		return this.align(0x20d).readS8();
-	}
-
-// field_20E -> type: char 
-	get field_20E(): number {
-		return this.align(0x20e).readS8();
-	}
-
-// field_20F -> type: char 
-	get field_20F(): number {
-		return this.align(0x20f).readS8();
-	}
-
-// field_210 -> type: char 
-	get field_210(): number {
-		return this.align(0x210).readS8();
-	}
-
-// gap_211 -> type: uint8 [3] 
-// field_214 -> type: int 
-	get field_214(): number {
-		return this.align(0x214).readS32();
-	}
-
-// field_218 -> type: int 
-	get field_218(): number {
-		return this.align(0x218).readS32();
-	}
-
-// field_21C -> type: __int128 
-// field_22C -> type: int 
-	get field_22C(): number {
-		return this.align(0x22c).readS32();
-	}
-
-// field_230 -> type: int 
-	get field_230(): number {
-		return this.align(0x230).readS32();
-	}
-
-// field_234 -> type: int 
-	get field_234(): number {
-		return this.align(0x234).readS32();
-	}
-
-// field_238 -> type: int 
-	get field_238(): number {
-		return this.align(0x238).readS32();
-	}
-
-// field_23C -> type: int 
-	get field_23C(): number {
-		return this.align(0x23c).readS32();
-	}
-
-// field_240 -> type: int 
-	get field_240(): number {
-		return this.align(0x240).readS32();
-	}
-
-// field_244 -> type: int 
-	get field_244(): number {
-		return this.align(0x244).readS32();
-	}
-
-// field_248 -> type: int 
-	get field_248(): number {
-		return this.align(0x248).readS32();
-	}
-
-// field_24C -> type: int 
-	get field_24C(): number {
-		return this.align(0x24c).readS32();
-	}
-
-// field_250 -> type: int 
-	get field_250(): number {
-		return this.align(0x250).readS32();
-	}
-
-// field_254 -> type: int 
-	get field_254(): number {
-		return this.align(0x254).readS32();
-	}
-
-// field_258 -> type: int 
-	get field_258(): number {
-		return this.align(0x258).readS32();
-	}
-
-// gap_25C -> type: uint8 [4] 
-// field_260 -> type: __m128i 
-// field_270 -> type: long long 
-	get field_270(): Int64 {
-		return this.align(0x270).readS64();
-	}
-
-// field_278 -> type: int 
-	get field_278(): number {
-		return this.align(0x278).readS32();
-	}
-
-// field_27C -> type: int 
-	get field_27C(): number {
-		return this.align(0x27c).readS32();
-	}
-
-// gap_280 -> type: uint8 [16] 
-// field_290 -> type: int 
-	get field_290(): number {
-		return this.align(0x290).readS32();
-	}
-
-// align -> type: int 
-}
-
-// inheritence: IVisualEntity
-export class IUnitEntity extends IVisualEntity {
-
-// field_298 -> type: long long 
-	get field_298(): Int64 {
-		return this.align(0x298).readS64();
-	}
-
-// gap_2A0 -> type: uint8 [8] 
-// field_2A8 -> type: long long 
-	get field_2A8(): Int64 {
-		return this.align(0x2a8).readS64();
-	}
-
-// field_2B0 -> type: long long 
-	get field_2B0(): Int64 {
-		return this.align(0x2b0).readS64();
-	}
-
-// gap_2B8 -> type: uint8 [136] 
-// field_340 -> type: short 
-	get field_340(): number {
-		return this.align(0x340).readS16();
-	}
-
-// gap_342 -> type: uint8 [2] 
-// field_344 -> type: int 
-	get field_344(): number {
-		return this.align(0x344).readS32();
-	}
-
-// health -> type: float 
-	get health(): number {
-		return this.align(0x348).readFloat();
-	}
-
-// mana -> type: float 
-	get mana(): number {
-		return this.align(0x34c).readFloat();
-	}
-
-// field_350 -> type: long long 
-	get field_350(): Int64 {
-		return this.align(0x350).readS64();
-	}
-
-// field_358 -> type: long long 
-	get field_358(): Int64 {
-		return this.align(0x358).readS64();
-	}
-
-// gap_360 -> type: uint8 [8] 
-// field_368 -> type: long long 
-	get field_368(): Int64 {
-		return this.align(0x368).readS64();
-	}
-
-// gap_370 -> type: uint8 [8] 
-// field_378 -> type: long long 
-	get field_378(): Int64 {
-		return this.align(0x378).readS64();
-	}
-
-// field_380 -> type: __int128 
-// field_390 -> type: long long 
-	get field_390(): Int64 {
-		return this.align(0x390).readS64();
-	}
-
-// field_398 -> type: long long 
-	get field_398(): Int64 {
-		return this.align(0x398).readS64();
-	}
-
-// gap_3A0 -> type: uint8 [8] 
-// field_3A8 -> type: long long 
-	get field_3A8(): Int64 {
-		return this.align(0x3a8).readS64();
-	}
-
-// field_3B0 -> type: __int128 
-// field_3C0 -> type: long long 
-	get field_3C0(): Int64 {
-		return this.align(0x3c0).readS64();
-	}
-
-// field_3C8 -> type: long long 
-	get field_3C8(): Int64 {
-		return this.align(0x3c8).readS64();
-	}
-
-// gap_3D0 -> type: uint8 [8] 
-// field_3D8 -> type: int 
-	get field_3D8(): number {
-		return this.align(0x3d8).readS32();
-	}
-
-// field_3DC -> type: int 
-	get field_3DC(): number {
-		return this.align(0x3dc).readS32();
-	}
-
-// field_3E0 -> type: int 
-	get field_3E0(): number {
-		return this.align(0x3e0).readS32();
-	}
-
-// field_3E4 -> type: int 
-	get field_3E4(): number {
-		return this.align(0x3e4).readS32();
-	}
-
-// field_3E8 -> type: int 
-	get field_3E8(): number {
-		return this.align(0x3e8).readS32();
-	}
-
-// field_3EC -> type: int 
-	get field_3EC(): number {
-		return this.align(0x3ec).readS32();
-	}
-
-// field_3F0 -> type: short 
-	get field_3F0(): number {
-		return this.align(0x3f0).readS16();
-	}
-
-// gap_3F2 -> type: uint8 [2] 
-// field_3F4 -> type: int 
-	get field_3F4(): number {
-		return this.align(0x3f4).readS32();
-	}
-
-// field_3F8 -> type: char 
-	get field_3F8(): number {
-		return this.align(0x3f8).readS8();
-	}
-
-// gap_3F9 -> type: uint8 [3] 
-// field_3FC -> type: int 
-	get field_3FC(): number {
-		return this.align(0x3fc).readS32();
-	}
-
-// abilities -> type: ISlaveEntity *[80] 
-// abilitiesCount -> type: long long 
-	get abilitiesCount(): Int64 {
-		return this.align(0x680).readS64();
-	}
-
-// field_688 -> type: long long 
-	get field_688(): Int64 {
-		return this.align(0x688).readS64();
-	}
-
-// gap_690 -> type: uint8 [8] 
-// unitAngles -> type: CVec3 
-	get unitAngles(): CVec3 {
-		return new CVec3(this.align(0x698));
-	}
-
-// attentionAngles -> type: CVec3 
-	get attentionAngles(): CVec3 {
-		return new CVec3(this.align(0x6a8));
-	}
-
-// field_6B0 -> type: long long 
-	get field_6B0(): Int64 {
-		return this.align(0x6b8).readS64();
-	}
-
-// field_6B8 -> type: int 
-	get field_6B8(): number {
-		return this.align(0x6c0).readS32();
-	}
-
-// gap_6BC -> type: uint8 [4] 
-// field_6C0 -> type: long long 
-	get field_6C0(): Int64 {
-		return this.align(0x6c8).readS64();
-	}
-
-// field_6C8 -> type: uint64 
-	get field_6C8(): UInt64 {
-		return this.align(0x6d0).readU64();
-	}
-
-// gap_6D0 -> type: uint8 [8] 
-// field_6D8 -> type: int 
-	get field_6D8(): number {
-		return this.align(0x6e0).readS32();
-	}
-
-// field_6DC -> type: __int128 
-// gap_6EC -> type: uint8 [12] 
-// field_6F8 -> type: uint64 
-	get field_6F8(): UInt64 {
-		return this.align(0x700).readU64();
-	}
-
-// field_700 -> type: long long 
-	get field_700(): Int64 {
-		return this.align(0x708).readS64();
-	}
-
-// field_708 -> type: long long 
-	get field_708(): Int64 {
-		return this.align(0x710).readS64();
-	}
-
-// gap_710 -> type: uint8 [8] 
-// field_718 -> type: long long 
-	get field_718(): Int64 {
-		return this.align(0x720).readS64();
-	}
-
-// field_720 -> type: long long 
-	get field_720(): Int64 {
-		return this.align(0x728).readS64();
-	}
-
-// field_728 -> type: int 
-	get field_728(): number {
-		return this.align(0x730).readS32();
-	}
-
-// field_72C -> type: int 
-	get field_72C(): number {
-		return this.align(0x734).readS32();
-	}
-
-// field_730 -> type: int 
-	get field_730(): number {
-		return this.align(0x738).readS32();
-	}
-
-// field_734 -> type: int 
-	get field_734(): number {
-		return this.align(0x73c).readS32();
-	}
-
-// field_738 -> type: int 
-	get field_738(): number {
-		return this.align(0x740).readS32();
-	}
-
-// field_73C -> type: int 
-	get field_73C(): number {
-		return this.align(0x744).readS32();
-	}
-
-// field_740 -> type: int 
-	get field_740(): number {
-		return this.align(0x748).readS32();
-	}
-
-// gap_744 -> type: uint8 [4] 
-// field_748 -> type: __int128 
-// field_758 -> type: long long 
-	get field_758(): Int64 {
-		return this.align(0x760).readS64();
-	}
-
-// field_760 -> type: int 
-	get field_760(): number {
-		return this.align(0x768).readS32();
-	}
-
-// field_764 -> type: int 
-	get field_764(): number {
-		return this.align(0x76c).readS32();
-	}
-
-// field_768 -> type: int 
-	get field_768(): number {
-		return this.align(0x770).readS32();
-	}
-
-// field_76C -> type: int 
-	get field_76C(): number {
-		return this.align(0x774).readS32();
-	}
-
-// field_770 -> type: int 
-	get field_770(): number {
-		return this.align(0x778).readS32();
-	}
-
-// field_774 -> type: int 
-	get field_774(): number {
-		return this.align(0x77c).readS32();
-	}
-
-// field_778 -> type: __int128 
-// field_788 -> type: long long 
-	get field_788(): Int64 {
-		return this.align(0x790).readS64();
-	}
-
-// gap_790 -> type: uint8 [8] 
-// field_798 -> type: int 
-	get field_798(): number {
-		return this.align(0x7a0).readS32();
-	}
-
-// field_79C -> type: int 
-	get field_79C(): number {
-		return this.align(0x7a4).readS32();
-	}
-
-// field_7A0 -> type: long long 
-	get field_7A0(): Int64 {
-		return this.align(0x7a8).readS64();
-	}
-
-// field_7A8 -> type: long long 
-	get field_7A8(): Int64 {
-		return this.align(0x7b0).readS64();
-	}
-
-// field_7B0 -> type: long long 
-	get field_7B0(): Int64 {
-		return this.align(0x7b8).readS64();
-	}
-
-// field_7B8 -> type: long long 
-	get field_7B8(): Int64 {
-		return this.align(0x7c0).readS64();
-	}
-
-// gap_7C0 -> type: uint8 [8] 
-// field_7C8 -> type: int 
-	get field_7C8(): number {
-		return this.align(0x7d0).readS32();
-	}
-
-// field_7CC -> type: int 
-	get field_7CC(): number {
-		return this.align(0x7d4).readS32();
-	}
-
-// field_7D0 -> type: long long 
-	get field_7D0(): Int64 {
-		return this.align(0x7d8).readS64();
-	}
-
-// field_7D8 -> type: long long 
-	get field_7D8(): Int64 {
-		return this.align(0x7e0).readS64();
-	}
-
-// gap_7E0 -> type: uint8 [3144] 
-// field_1428 -> type: short 
-	get field_1428(): number {
-		return this.align(0x1430).readS16();
-	}
-
-// gap_142A -> type: uint8 [2] 
-// field_142C -> type: long long 
-	get field_142C(): Int64 {
-		return this.align(0x1434).readS64();
-	}
-
-// field_1434 -> type: long long 
-	get field_1434(): Int64 {
-		return this.align(0x143c).readS64();
-	}
-
-// field_143C -> type: long long 
-	get field_143C(): Int64 {
-		return this.align(0x1444).readS64();
-	}
-
-// field_1444 -> type: long long 
-	get field_1444(): Int64 {
-		return this.align(0x144c).readS64();
-	}
-
-// field_144C -> type: long long 
-	get field_144C(): Int64 {
-		return this.align(0x1454).readS64();
-	}
-
-// gap_1454 -> type: uint8 [3] 
-// field_1457 -> type: long long 
-	get field_1457(): Int64 {
-		return this.align(0x145f).readS64();
-	}
-
-// gap_145F -> type: uint8 [17] 
-// field_1470 -> type: int 
-	get field_1470(): number {
-		return this.align(0x1478).readS32();
-	}
-
-// gap_1474 -> type: uint8 [4] 
-// field_1478 -> type: long long 
-	get field_1478(): Int64 {
-		return this.align(0x1480).readS64();
-	}
-
-// field_1480 -> type: uint64 
-	get field_1480(): UInt64 {
-		return this.align(0x1488).readU64();
-	}
-
-// gap_1488 -> type: uint8 [8] 
-// field_1490 -> type: long long 
-	get field_1490(): Int64 {
-		return this.align(0x1498).readS64();
-	}
-
-// field_1498 -> type: uint64 
-	get field_1498(): UInt64 {
-		return this.align(0x14a0).readU64();
-	}
-
-// gap_14A0 -> type: uint8 [8] 
-// field_14A8 -> type: int 
-	get field_14A8(): number {
-		return this.align(0x14b0).readS32();
-	}
-
-// field_14AC -> type: int 
-	get field_14AC(): number {
-		return this.align(0x14b4).readS32();
-	}
-
-// field_14B0 -> type: int 
-	get field_14B0(): number {
-		return this.align(0x14b8).readS32();
-	}
-
-// field_14B4 -> type: char 
-	get field_14B4(): number {
-		return this.align(0x14bc).readS8();
-	}
-
-// gap_14B5 -> type: uint8 [3] 
-// field_14B8 -> type: int 
-	get field_14B8(): number {
-		return this.align(0x14c0).readS32();
-	}
-
-// field_14BC -> type: int 
-	get field_14BC(): number {
-		return this.align(0x14c4).readS32();
-	}
-
-// field_14C0 -> type: int 
-	get field_14C0(): number {
-		return this.align(0x14c8).readS32();
-	}
-
-// field_14C4 -> type: int 
-	get field_14C4(): number {
-		return this.align(0x14cc).readS32();
-	}
-
-// field_14C8 -> type: int 
-	get field_14C8(): number {
-		return this.align(0x14d0).readS32();
-	}
-
-// field_14CC -> type: int 
-	get field_14CC(): number {
-		return this.align(0x14d4).readS32();
+// currentOffset -> type: int 
+	get currentOffset(): number {
+		return this.align(0x18).readS32();
 	}
-
-// field_14D0 -> type: int 
-	get field_14D0(): number {
-		return this.align(0x14d8).readS32();
-	}
-
-// field_14D4 -> type: int 
-	get field_14D4(): number {
-		return this.align(0x14dc).readS32();
-	}
-
-// field_14D8 -> type: int 
-	get field_14D8(): number {
-		return this.align(0x14e0).readS32();
-	}
-
-// field_14DC -> type: int 
-	get field_14DC(): number {
-		return this.align(0x14e4).readS32();
-	}
-
-// field_14E0 -> type: int 
-	get field_14E0(): number {
-		return this.align(0x14e8).readS32();
-	}
-
-// field_14E4 -> type: int 
-	get field_14E4(): number {
-		return this.align(0x14ec).readS32();
-	}
-
-// field_14E8 -> type: int 
-	get field_14E8(): number {
-		return this.align(0x14f0).readS32();
-	}
-
-// field_14EC -> type: int 
-	get field_14EC(): number {
-		return this.align(0x14f4).readS32();
-	}
-
-// field_14F0 -> type: int 
-	get field_14F0(): number {
-		return this.align(0x14f8).readS32();
-	}
-
-// gap_14F4 -> type: uint8 [4] 
-// field_14F8 -> type: int 
-	get field_14F8(): number {
-		return this.align(0x1500).readS32();
-	}
-
-// field_14FC -> type: int 
-	get field_14FC(): number {
-		return this.align(0x1504).readS32();
-	}
-
-// field_1500 -> type: int 
-	get field_1500(): number {
-		return this.align(0x1508).readS32();
-	}
-
-// field_1504 -> type: int 
-	get field_1504(): number {
-		return this.align(0x150c).readS32();
-	}
-
-// field_1508 -> type: int 
-	get field_1508(): number {
-		return this.align(0x1510).readS32();
-	}
-
-// field_150C -> type: char 
-	get field_150C(): number {
-		return this.align(0x1514).readS8();
-	}
-
-// gap_150D -> type: uint8 [3] 
-// field_1510 -> type: long long 
-	get field_1510(): Int64 {
-		return this.align(0x1518).readS64();
-	}
-
-}
-
-// inheritence: CObj
-export class CSystem extends CObj {
-
-}
-
-// inheritence: CObj
-export class CTeamInfo extends CObj {
-
-}
-
-// inheritence: CBufferDynamic
-export class CBufferBit extends CBufferDynamic {
-
-// field_20 -> type: int 
-	get field_20(): number {
-		return this.align(0x20).readS32();
-	}
-
-// field_24 -> type: int 
-	get field_24(): number {
-		return this.align(0x24).readS32();
-	}
-
-// field_28 -> type: int 
-	get field_28(): number {
-		return this.align(0x28).readS32();
-	}
-
-// field_2C -> type: int 
-	get field_2C(): number {
-		return this.align(0x2c).readS32();
-	}
-
-}
-
-// inheritence: IEntityTool
-export class IEntityAbility extends IEntityTool {
 
-// field_210 -> type: long long 
-	get field_210(): Int64 {
-		return this.align(0x210).readS64();
+// someFlag -> type: int 
+	get someFlag(): number {
+		return this.align(0x1c).readS32();
 	}
 
 }
@@ -6962,199 +5786,17 @@ export class CEffectThread extends CObj {
 }
 
 // inheritence: CObj
-export class CAttackType extends CObj {
+export class IEntityDirectory extends CObj {
 
 }
 
 // inheritence: CObj
-export class CNetworkResourceManager extends CObj {
+export class CTeamInfo extends CObj {
 
 }
 
 // inheritence: CObj
-export class IResourceLibrary extends CObj {
-
-}
-
-// inheritence: CObj
-export class CSkeleton extends CObj {
-
-}
-
-// inheritence: CObj
-export class CGameEvent extends CObj {
-
-// field_0 -> type: char 
-	get field_0(): number {
-		return this.align(0x0).readS8();
-	}
-
-// gap_1 -> type: uint8 [3] 
-// field_4 -> type: int 
-	get field_4(): number {
-		return this.align(0x4).readS32();
-	}
-
-// flags -> type: short 
-	get flags(): number {
-		return this.align(0x8).readS16();
-	}
-
-// gap_A -> type: uint8 [2] 
-// expire -> type: unsigned int 
-	get expire(): number {
-		return this.align(0xc).readU32();
-	}
-
-// field_10 -> type: short 
-	get field_10(): number {
-		return this.align(0x10).readS16();
-	}
-
-// gap_12 -> type: uint8 [2] 
-// sourceEntity -> type: unsigned int 
-	get sourceEntity(): number {
-		return this.align(0x14).readU32();
-	}
-
-// position -> type: CVec3 
-	get position(): CVec3 {
-		return new CVec3(this.align(0x18));
-	}
-
-// field_28 -> type: long long 
-	get field_28(): Int64 {
-		return this.align(0x28).readS64();
-	}
-
-// angles -> type: uint8 [8] 
-// field_38 -> type: int 
-	get field_38(): number {
-		return this.align(0x38).readS32();
-	}
-
-// effect -> type: float 
-	get effect(): number {
-		return this.align(0x3c).readFloat();
-	}
-
-// effectScale -> type: float 
-	get effectScale(): number {
-		return this.align(0x40).readFloat();
-	}
-
-// targetEntity -> type: uint32 
-	get targetEntity(): number {
-		return this.align(0x44).readU16();
-	}
-
-// targetPosition -> type: long long 
-	get targetPosition(): Int64 {
-		return this.align(0x48).readS64();
-	}
-
-// gap_50 -> type: uint8 [8] 
-// field_58 -> type: long long 
-	get field_58(): Int64 {
-		return this.align(0x58).readS64();
-	}
-
-// targetAngles -> type: uint64 
-	get targetAngles(): UInt64 {
-		return this.align(0x60).readU64();
-	}
-
-// field_68 -> type: int 
-	get field_68(): number {
-		return this.align(0x68).readS32();
-	}
-
-// effect2 -> type: float 
-	get effect2(): number {
-		return this.align(0x6c).readFloat();
-	}
-
-// effectScale2 -> type: float 
-	get effectScale2(): number {
-		return this.align(0x70).readFloat();
-	}
-
-// field_74 -> type: unsigned int 
-	get field_74(): number {
-		return this.align(0x74).readU32();
-	}
-
-// field_78 -> type: char 
-	get field_78(): number {
-		return this.align(0x78).readS8();
-	}
-
-// gap_79 -> type: uint8 [3] 
-// field_7C -> type: int 
-	get field_7C(): number {
-		return this.align(0x7c).readS32();
-	}
-
-// field_80 -> type: long long 
-	get field_80(): Int64 {
-		return this.align(0x80).readS64();
-	}
-
-// field_88 -> type: short 
-	get field_88(): number {
-		return this.align(0x88).readS16();
-	}
-
-// field_8A -> type: char 
-	get field_8A(): number {
-		return this.align(0x8a).readS8();
-	}
-
-}
-
-// inheritence: CObj
-export class CGameInfo extends CObj {
-
-// gap0 -> type: uint8 [296] 
-// gap_128 -> type: uint8 [8] 
-// field_130 -> type: char 
-	get field_130(): number {
-		return this.align(0x130).readS8();
-	}
-
-// field_131 -> type: char 
-	get field_131(): number {
-		return this.align(0x131).readS8();
-	}
-
-// gap_132 -> type: uint8 [2] 
-// field_134 -> type: int 
-	get field_134(): number {
-		return this.align(0x134).readS32();
-	}
-
-// field_138 -> type: char 
-	get field_138(): number {
-		return this.align(0x138).readS8();
-	}
-
-// gap_139 -> type: uint8 [3] 
-// field_13C -> type: int 
-	get field_13C(): number {
-		return this.align(0x13c).readS32();
-	}
-
-// field_140 -> type: short 
-	get field_140(): number {
-		return this.align(0x140).readS16();
-	}
-
-// gap_142 -> type: uint8 [6] 
-// field_148 -> type: __int128 
-// field_158 -> type: long long 
-	get field_158(): Int64 {
-		return this.align(0x158).readS64();
-	}
+export class CHostClient extends CObj {
 
 }
 
@@ -7262,22 +5904,32 @@ export class CSnapshot extends CObj {
 }
 
 // inheritence: CObj
-export class CReplayManager extends CObj {
-
-}
-
-// inheritence: CObj
-export class IEntityDirectory extends CObj {
-
-}
-
-// inheritence: CObj
-export class CHostClient extends CObj {
-
-}
-
-// inheritence: CObj
 export class CFileHTTP extends CObj {
+
+}
+
+// inheritence: CBufferDynamic
+export class CBufferBit extends CBufferDynamic {
+
+// field_20 -> type: int 
+	get field_20(): number {
+		return this.align(0x20).readS32();
+	}
+
+// field_24 -> type: int 
+	get field_24(): number {
+		return this.align(0x24).readS32();
+	}
+
+// field_28 -> type: int 
+	get field_28(): number {
+		return this.align(0x28).readS32();
+	}
+
+// field_2C -> type: int 
+	get field_2C(): number {
+		return this.align(0x2c).readS32();
+	}
 
 }
 
@@ -7372,12 +6024,6 @@ export class CClientState extends CObj {
 		return this.align(0x48).readFloat();
 	}
 
-}
-
-// inheritence: CObj
-export class CVisibilityMap extends CObj {
-
-// gap_0 -> type: uint8 [32] 
 }
 
 // inheritence: CObj
@@ -8598,6 +7244,992 @@ export class CHTTPRequest extends CObj {
 
 }
 
+// inheritence: CObj
+export class CVec3 extends CObj {
+
+// x -> type: float 
+	get x(): number {
+		return this.align(0x0).readFloat();
+	}
+
+// y -> type: float 
+	get y(): number {
+		return this.align(0x4).readFloat();
+	}
+
+// z -> type: float 
+	get z(): number {
+		return this.align(0x8).readFloat();
+	}
+
+// align -> type: int 
+}
+
+// inheritence: CObj
+export class CEntityRegistry extends CObj {
+
+}
+
+// inheritence: CObj
+export class CHost extends CObj {
+
+}
+
+// inheritence: CObj
+export class CClientAccount extends CObj {
+
+}
+
+// inheritence: IGameEntity
+export class IVisualEntity extends IGameEntity {
+
+// dunnoVec -> type: CVec3 
+	get dunnoVec(): CVec3 {
+		return new CVec3(this.align(0xa0));
+	}
+
+// field_B0 -> type: long long 
+	get field_B0(): Int64 {
+		return this.align(0xb0).readS64();
+	}
+
+// field_B8 -> type: long long 
+	get field_B8(): Int64 {
+		return this.align(0xb8).readS64();
+	}
+
+// isAlive -> type: char 
+	get isAlive(): number {
+		return this.align(0xc0).readS8();
+	}
+
+// field_byte_1 -> type: char 
+	get field_byte_1(): number {
+		return this.align(0xc1).readS8();
+	}
+
+// field_byte_2 -> type: char 
+	get field_byte_2(): number {
+		return this.align(0xc2).readS8();
+	}
+
+// field_byte_3 -> type: char 
+	get field_byte_3(): number {
+		return this.align(0xc3).readS8();
+	}
+
+// field_C4 -> type: char 
+	get field_C4(): number {
+		return this.align(0xc4).readS8();
+	}
+
+// gap_C5 -> type: uint8 [3] 
+// position -> type: CVec3 
+	get position(): CVec3 {
+		return new CVec3(this.align(0xc8));
+	}
+
+// field_D8 -> type: __m128i 
+// v3Angles -> type: CVec3 
+	get v3Angles(): CVec3 {
+		return new CVec3(this.align(0xe8));
+	}
+
+// field_F8 -> type: int 
+	get field_F8(): number {
+		return this.align(0xf8).readS32();
+	}
+
+// field_FC -> type: __m128i 
+// field_10C -> type: long long 
+	get field_10C(): Int64 {
+		return this.align(0x10c).readS64();
+	}
+
+// field_114 -> type: int 
+	get field_114(): number {
+		return this.align(0x114).readS32();
+	}
+
+// field_118 -> type: int 
+	get field_118(): number {
+		return this.align(0x118).readS32();
+	}
+
+// field_11C -> type: int 
+	get field_11C(): number {
+		return this.align(0x11c).readS32();
+	}
+
+// field_120 -> type: int 
+	get field_120(): number {
+		return this.align(0x120).readS32();
+	}
+
+// field_124 -> type: int 
+	get field_124(): number {
+		return this.align(0x124).readS32();
+	}
+
+// field_128 -> type: int 
+	get field_128(): number {
+		return this.align(0x128).readS32();
+	}
+
+// field_12C -> type: int 
+	get field_12C(): number {
+		return this.align(0x12c).readS32();
+	}
+
+// field_130 -> type: int 
+	get field_130(): number {
+		return this.align(0x130).readS32();
+	}
+
+// field_134 -> type: int 
+	get field_134(): number {
+		return this.align(0x134).readS32();
+	}
+
+// field_138 -> type: int 
+	get field_138(): number {
+		return this.align(0x138).readS32();
+	}
+
+// field_13C -> type: int 
+	get field_13C(): number {
+		return this.align(0x13c).readS32();
+	}
+
+// field_140 -> type: int 
+	get field_140(): number {
+		return this.align(0x140).readS32();
+	}
+
+// field_144 -> type: int 
+	get field_144(): number {
+		return this.align(0x144).readS32();
+	}
+
+// field_148 -> type: int 
+	get field_148(): number {
+		return this.align(0x148).readS32();
+	}
+
+// gap_14C -> type: uint8 [4] 
+// field_150 -> type: __m128i 
+// field_160 -> type: __m128i 
+// field_170 -> type: long long 
+	get field_170(): Int64 {
+		return this.align(0x170).readS64();
+	}
+
+// field_178 -> type: long long 
+	get field_178(): Int64 {
+		return this.align(0x178).readS64();
+	}
+
+// field_180 -> type: char 
+	get field_180(): number {
+		return this.align(0x180).readS8();
+	}
+
+// field_181 -> type: char 
+	get field_181(): number {
+		return this.align(0x181).readS8();
+	}
+
+// gap_182 -> type: uint8 [2] 
+// field_184 -> type: int 
+	get field_184(): number {
+		return this.align(0x184).readS32();
+	}
+
+// field_188 -> type: char 
+	get field_188(): number {
+		return this.align(0x188).readS8();
+	}
+
+// gap_189 -> type: uint8 [3] 
+// field_18C -> type: int 
+	get field_18C(): number {
+		return this.align(0x18c).readS32();
+	}
+
+// field_190 -> type: char 
+	get field_190(): number {
+		return this.align(0x190).readS8();
+	}
+
+// gap_191 -> type: uint8 [3] 
+// field_194 -> type: int 
+	get field_194(): number {
+		return this.align(0x194).readS32();
+	}
+
+// field_198 -> type: char 
+	get field_198(): number {
+		return this.align(0x198).readS8();
+	}
+
+// gap_199 -> type: uint8 [3] 
+// field_19C -> type: int 
+	get field_19C(): number {
+		return this.align(0x19c).readS32();
+	}
+
+// field_1A0 -> type: char 
+	get field_1A0(): number {
+		return this.align(0x1a0).readS8();
+	}
+
+// gap_1A1 -> type: uint8 [3] 
+// field_1A4 -> type: int 
+	get field_1A4(): number {
+		return this.align(0x1a4).readS32();
+	}
+
+// field_1A8 -> type: char 
+	get field_1A8(): number {
+		return this.align(0x1a8).readS8();
+	}
+
+// gap_1A9 -> type: uint8 [7] 
+// field_1B0 -> type: __m128i 
+// field_1C0 -> type: __m128i 
+// field_1D0 -> type: __m128i 
+// field_1E0 -> type: long long 
+	get field_1E0(): Int64 {
+		return this.align(0x1e0).readS64();
+	}
+
+// field_1E8 -> type: char 
+	get field_1E8(): number {
+		return this.align(0x1e8).readS8();
+	}
+
+// field_1E9 -> type: char 
+	get field_1E9(): number {
+		return this.align(0x1e9).readS8();
+	}
+
+// field_1EA -> type: char 
+	get field_1EA(): number {
+		return this.align(0x1ea).readS8();
+	}
+
+// field_1EB -> type: char 
+	get field_1EB(): number {
+		return this.align(0x1eb).readS8();
+	}
+
+// field_1EC -> type: int 
+	get field_1EC(): number {
+		return this.align(0x1ec).readS32();
+	}
+
+// field_1F0 -> type: int 
+	get field_1F0(): number {
+		return this.align(0x1f0).readS32();
+	}
+
+// field_1F4 -> type: __m128i 
+// field_204 -> type: int 
+	get field_204(): number {
+		return this.align(0x204).readS32();
+	}
+
+// field_208 -> type: int 
+	get field_208(): number {
+		return this.align(0x208).readS32();
+	}
+
+// field_20C -> type: char 
+	get field_20C(): number {
+		return this.align(0x20c).readS8();
+	}
+
+// field_20D -> type: char 
+	get field_20D(): number {
+		return this.align(0x20d).readS8();
+	}
+
+// field_20E -> type: char 
+	get field_20E(): number {
+		return this.align(0x20e).readS8();
+	}
+
+// field_20F -> type: char 
+	get field_20F(): number {
+		return this.align(0x20f).readS8();
+	}
+
+// field_210 -> type: char 
+	get field_210(): number {
+		return this.align(0x210).readS8();
+	}
+
+// gap_211 -> type: uint8 [3] 
+// field_214 -> type: int 
+	get field_214(): number {
+		return this.align(0x214).readS32();
+	}
+
+// field_218 -> type: int 
+	get field_218(): number {
+		return this.align(0x218).readS32();
+	}
+
+// field_21C -> type: __int128 
+// field_22C -> type: int 
+	get field_22C(): number {
+		return this.align(0x22c).readS32();
+	}
+
+// field_230 -> type: int 
+	get field_230(): number {
+		return this.align(0x230).readS32();
+	}
+
+// field_234 -> type: int 
+	get field_234(): number {
+		return this.align(0x234).readS32();
+	}
+
+// field_238 -> type: int 
+	get field_238(): number {
+		return this.align(0x238).readS32();
+	}
+
+// field_23C -> type: int 
+	get field_23C(): number {
+		return this.align(0x23c).readS32();
+	}
+
+// field_240 -> type: int 
+	get field_240(): number {
+		return this.align(0x240).readS32();
+	}
+
+// field_244 -> type: int 
+	get field_244(): number {
+		return this.align(0x244).readS32();
+	}
+
+// field_248 -> type: int 
+	get field_248(): number {
+		return this.align(0x248).readS32();
+	}
+
+// field_24C -> type: int 
+	get field_24C(): number {
+		return this.align(0x24c).readS32();
+	}
+
+// field_250 -> type: int 
+	get field_250(): number {
+		return this.align(0x250).readS32();
+	}
+
+// field_254 -> type: int 
+	get field_254(): number {
+		return this.align(0x254).readS32();
+	}
+
+// field_258 -> type: int 
+	get field_258(): number {
+		return this.align(0x258).readS32();
+	}
+
+// gap_25C -> type: uint8 [4] 
+// field_260 -> type: __m128i 
+// field_270 -> type: long long 
+	get field_270(): Int64 {
+		return this.align(0x270).readS64();
+	}
+
+// field_278 -> type: int 
+	get field_278(): number {
+		return this.align(0x278).readS32();
+	}
+
+// field_27C -> type: int 
+	get field_27C(): number {
+		return this.align(0x27c).readS32();
+	}
+
+// gap_280 -> type: uint8 [16] 
+// field_290 -> type: int 
+	get field_290(): number {
+		return this.align(0x290).readS32();
+	}
+
+// align -> type: int 
+}
+
+// inheritence: IVisualEntity
+export class IUnitEntity extends IVisualEntity {
+
+// field_298 -> type: long long 
+	get field_298(): Int64 {
+		return this.align(0x298).readS64();
+	}
+
+// gap_2A0 -> type: uint8 [8] 
+// field_2A8 -> type: long long 
+	get field_2A8(): Int64 {
+		return this.align(0x2a8).readS64();
+	}
+
+// field_2B0 -> type: long long 
+	get field_2B0(): Int64 {
+		return this.align(0x2b0).readS64();
+	}
+
+// gap_2B8 -> type: uint8 [136] 
+// field_340 -> type: short 
+	get field_340(): number {
+		return this.align(0x340).readS16();
+	}
+
+// gap_342 -> type: uint8 [2] 
+// field_344 -> type: int 
+	get field_344(): number {
+		return this.align(0x344).readS32();
+	}
+
+// health -> type: float 
+	get health(): number {
+		return this.align(0x348).readFloat();
+	}
+
+// mana -> type: float 
+	get mana(): number {
+		return this.align(0x34c).readFloat();
+	}
+
+// field_350 -> type: long long 
+	get field_350(): Int64 {
+		return this.align(0x350).readS64();
+	}
+
+// field_358 -> type: long long 
+	get field_358(): Int64 {
+		return this.align(0x358).readS64();
+	}
+
+// gap_360 -> type: uint8 [8] 
+// field_368 -> type: long long 
+	get field_368(): Int64 {
+		return this.align(0x368).readS64();
+	}
+
+// gap_370 -> type: uint8 [8] 
+// field_378 -> type: long long 
+	get field_378(): Int64 {
+		return this.align(0x378).readS64();
+	}
+
+// field_380 -> type: __int128 
+// field_390 -> type: long long 
+	get field_390(): Int64 {
+		return this.align(0x390).readS64();
+	}
+
+// field_398 -> type: long long 
+	get field_398(): Int64 {
+		return this.align(0x398).readS64();
+	}
+
+// gap_3A0 -> type: uint8 [8] 
+// field_3A8 -> type: long long 
+	get field_3A8(): Int64 {
+		return this.align(0x3a8).readS64();
+	}
+
+// field_3B0 -> type: __int128 
+// field_3C0 -> type: long long 
+	get field_3C0(): Int64 {
+		return this.align(0x3c0).readS64();
+	}
+
+// field_3C8 -> type: long long 
+	get field_3C8(): Int64 {
+		return this.align(0x3c8).readS64();
+	}
+
+// gap_3D0 -> type: uint8 [8] 
+// field_3D8 -> type: int 
+	get field_3D8(): number {
+		return this.align(0x3d8).readS32();
+	}
+
+// field_3DC -> type: int 
+	get field_3DC(): number {
+		return this.align(0x3dc).readS32();
+	}
+
+// field_3E0 -> type: int 
+	get field_3E0(): number {
+		return this.align(0x3e0).readS32();
+	}
+
+// field_3E4 -> type: int 
+	get field_3E4(): number {
+		return this.align(0x3e4).readS32();
+	}
+
+// field_3E8 -> type: int 
+	get field_3E8(): number {
+		return this.align(0x3e8).readS32();
+	}
+
+// field_3EC -> type: int 
+	get field_3EC(): number {
+		return this.align(0x3ec).readS32();
+	}
+
+// field_3F0 -> type: short 
+	get field_3F0(): number {
+		return this.align(0x3f0).readS16();
+	}
+
+// gap_3F2 -> type: uint8 [2] 
+// field_3F4 -> type: int 
+	get field_3F4(): number {
+		return this.align(0x3f4).readS32();
+	}
+
+// field_3F8 -> type: char 
+	get field_3F8(): number {
+		return this.align(0x3f8).readS8();
+	}
+
+// gap_3F9 -> type: uint8 [3] 
+// field_3FC -> type: int 
+	get field_3FC(): number {
+		return this.align(0x3fc).readS32();
+	}
+
+// abilities -> type: ISlaveEntity *[80] 
+// abilitiesCount -> type: long long 
+	get abilitiesCount(): Int64 {
+		return this.align(0x680).readS64();
+	}
+
+// field_688 -> type: long long 
+	get field_688(): Int64 {
+		return this.align(0x688).readS64();
+	}
+
+// gap_690 -> type: uint8 [8] 
+// unitAngles -> type: CVec3 
+	get unitAngles(): CVec3 {
+		return new CVec3(this.align(0x698));
+	}
+
+// attentionAngles -> type: CVec3 
+	get attentionAngles(): CVec3 {
+		return new CVec3(this.align(0x6a8));
+	}
+
+// field_6B0 -> type: long long 
+	get field_6B0(): Int64 {
+		return this.align(0x6b8).readS64();
+	}
+
+// field_6B8 -> type: int 
+	get field_6B8(): number {
+		return this.align(0x6c0).readS32();
+	}
+
+// gap_6BC -> type: uint8 [4] 
+// field_6C0 -> type: long long 
+	get field_6C0(): Int64 {
+		return this.align(0x6c8).readS64();
+	}
+
+// field_6C8 -> type: uint64 
+	get field_6C8(): UInt64 {
+		return this.align(0x6d0).readU64();
+	}
+
+// gap_6D0 -> type: uint8 [8] 
+// field_6D8 -> type: int 
+	get field_6D8(): number {
+		return this.align(0x6e0).readS32();
+	}
+
+// field_6DC -> type: __int128 
+// gap_6EC -> type: uint8 [12] 
+// field_6F8 -> type: uint64 
+	get field_6F8(): UInt64 {
+		return this.align(0x700).readU64();
+	}
+
+// field_700 -> type: long long 
+	get field_700(): Int64 {
+		return this.align(0x708).readS64();
+	}
+
+// field_708 -> type: long long 
+	get field_708(): Int64 {
+		return this.align(0x710).readS64();
+	}
+
+// gap_710 -> type: uint8 [8] 
+// field_718 -> type: long long 
+	get field_718(): Int64 {
+		return this.align(0x720).readS64();
+	}
+
+// field_720 -> type: long long 
+	get field_720(): Int64 {
+		return this.align(0x728).readS64();
+	}
+
+// field_728 -> type: int 
+	get field_728(): number {
+		return this.align(0x730).readS32();
+	}
+
+// field_72C -> type: int 
+	get field_72C(): number {
+		return this.align(0x734).readS32();
+	}
+
+// field_730 -> type: int 
+	get field_730(): number {
+		return this.align(0x738).readS32();
+	}
+
+// field_734 -> type: int 
+	get field_734(): number {
+		return this.align(0x73c).readS32();
+	}
+
+// field_738 -> type: int 
+	get field_738(): number {
+		return this.align(0x740).readS32();
+	}
+
+// field_73C -> type: int 
+	get field_73C(): number {
+		return this.align(0x744).readS32();
+	}
+
+// field_740 -> type: int 
+	get field_740(): number {
+		return this.align(0x748).readS32();
+	}
+
+// gap_744 -> type: uint8 [4] 
+// field_748 -> type: __int128 
+// field_758 -> type: long long 
+	get field_758(): Int64 {
+		return this.align(0x760).readS64();
+	}
+
+// field_760 -> type: int 
+	get field_760(): number {
+		return this.align(0x768).readS32();
+	}
+
+// field_764 -> type: int 
+	get field_764(): number {
+		return this.align(0x76c).readS32();
+	}
+
+// field_768 -> type: int 
+	get field_768(): number {
+		return this.align(0x770).readS32();
+	}
+
+// field_76C -> type: int 
+	get field_76C(): number {
+		return this.align(0x774).readS32();
+	}
+
+// field_770 -> type: int 
+	get field_770(): number {
+		return this.align(0x778).readS32();
+	}
+
+// field_774 -> type: int 
+	get field_774(): number {
+		return this.align(0x77c).readS32();
+	}
+
+// field_778 -> type: __int128 
+// field_788 -> type: long long 
+	get field_788(): Int64 {
+		return this.align(0x790).readS64();
+	}
+
+// gap_790 -> type: uint8 [8] 
+// field_798 -> type: int 
+	get field_798(): number {
+		return this.align(0x7a0).readS32();
+	}
+
+// field_79C -> type: int 
+	get field_79C(): number {
+		return this.align(0x7a4).readS32();
+	}
+
+// field_7A0 -> type: long long 
+	get field_7A0(): Int64 {
+		return this.align(0x7a8).readS64();
+	}
+
+// field_7A8 -> type: long long 
+	get field_7A8(): Int64 {
+		return this.align(0x7b0).readS64();
+	}
+
+// field_7B0 -> type: long long 
+	get field_7B0(): Int64 {
+		return this.align(0x7b8).readS64();
+	}
+
+// field_7B8 -> type: long long 
+	get field_7B8(): Int64 {
+		return this.align(0x7c0).readS64();
+	}
+
+// gap_7C0 -> type: uint8 [8] 
+// field_7C8 -> type: int 
+	get field_7C8(): number {
+		return this.align(0x7d0).readS32();
+	}
+
+// field_7CC -> type: int 
+	get field_7CC(): number {
+		return this.align(0x7d4).readS32();
+	}
+
+// field_7D0 -> type: long long 
+	get field_7D0(): Int64 {
+		return this.align(0x7d8).readS64();
+	}
+
+// field_7D8 -> type: long long 
+	get field_7D8(): Int64 {
+		return this.align(0x7e0).readS64();
+	}
+
+// gap_7E0 -> type: uint8 [3144] 
+// field_1428 -> type: short 
+	get field_1428(): number {
+		return this.align(0x1430).readS16();
+	}
+
+// gap_142A -> type: uint8 [2] 
+// field_142C -> type: long long 
+	get field_142C(): Int64 {
+		return this.align(0x1434).readS64();
+	}
+
+// field_1434 -> type: long long 
+	get field_1434(): Int64 {
+		return this.align(0x143c).readS64();
+	}
+
+// field_143C -> type: long long 
+	get field_143C(): Int64 {
+		return this.align(0x1444).readS64();
+	}
+
+// field_1444 -> type: long long 
+	get field_1444(): Int64 {
+		return this.align(0x144c).readS64();
+	}
+
+// field_144C -> type: long long 
+	get field_144C(): Int64 {
+		return this.align(0x1454).readS64();
+	}
+
+// gap_1454 -> type: uint8 [3] 
+// field_1457 -> type: long long 
+	get field_1457(): Int64 {
+		return this.align(0x145f).readS64();
+	}
+
+// gap_145F -> type: uint8 [17] 
+// field_1470 -> type: int 
+	get field_1470(): number {
+		return this.align(0x1478).readS32();
+	}
+
+// gap_1474 -> type: uint8 [4] 
+// field_1478 -> type: long long 
+	get field_1478(): Int64 {
+		return this.align(0x1480).readS64();
+	}
+
+// field_1480 -> type: uint64 
+	get field_1480(): UInt64 {
+		return this.align(0x1488).readU64();
+	}
+
+// gap_1488 -> type: uint8 [8] 
+// field_1490 -> type: long long 
+	get field_1490(): Int64 {
+		return this.align(0x1498).readS64();
+	}
+
+// field_1498 -> type: uint64 
+	get field_1498(): UInt64 {
+		return this.align(0x14a0).readU64();
+	}
+
+// gap_14A0 -> type: uint8 [8] 
+// field_14A8 -> type: int 
+	get field_14A8(): number {
+		return this.align(0x14b0).readS32();
+	}
+
+// field_14AC -> type: int 
+	get field_14AC(): number {
+		return this.align(0x14b4).readS32();
+	}
+
+// field_14B0 -> type: int 
+	get field_14B0(): number {
+		return this.align(0x14b8).readS32();
+	}
+
+// field_14B4 -> type: char 
+	get field_14B4(): number {
+		return this.align(0x14bc).readS8();
+	}
+
+// gap_14B5 -> type: uint8 [3] 
+// field_14B8 -> type: int 
+	get field_14B8(): number {
+		return this.align(0x14c0).readS32();
+	}
+
+// field_14BC -> type: int 
+	get field_14BC(): number {
+		return this.align(0x14c4).readS32();
+	}
+
+// field_14C0 -> type: int 
+	get field_14C0(): number {
+		return this.align(0x14c8).readS32();
+	}
+
+// field_14C4 -> type: int 
+	get field_14C4(): number {
+		return this.align(0x14cc).readS32();
+	}
+
+// field_14C8 -> type: int 
+	get field_14C8(): number {
+		return this.align(0x14d0).readS32();
+	}
+
+// field_14CC -> type: int 
+	get field_14CC(): number {
+		return this.align(0x14d4).readS32();
+	}
+
+// field_14D0 -> type: int 
+	get field_14D0(): number {
+		return this.align(0x14d8).readS32();
+	}
+
+// field_14D4 -> type: int 
+	get field_14D4(): number {
+		return this.align(0x14dc).readS32();
+	}
+
+// field_14D8 -> type: int 
+	get field_14D8(): number {
+		return this.align(0x14e0).readS32();
+	}
+
+// field_14DC -> type: int 
+	get field_14DC(): number {
+		return this.align(0x14e4).readS32();
+	}
+
+// field_14E0 -> type: int 
+	get field_14E0(): number {
+		return this.align(0x14e8).readS32();
+	}
+
+// field_14E4 -> type: int 
+	get field_14E4(): number {
+		return this.align(0x14ec).readS32();
+	}
+
+// field_14E8 -> type: int 
+	get field_14E8(): number {
+		return this.align(0x14f0).readS32();
+	}
+
+// field_14EC -> type: int 
+	get field_14EC(): number {
+		return this.align(0x14f4).readS32();
+	}
+
+// field_14F0 -> type: int 
+	get field_14F0(): number {
+		return this.align(0x14f8).readS32();
+	}
+
+// gap_14F4 -> type: uint8 [4] 
+// field_14F8 -> type: int 
+	get field_14F8(): number {
+		return this.align(0x1500).readS32();
+	}
+
+// field_14FC -> type: int 
+	get field_14FC(): number {
+		return this.align(0x1504).readS32();
+	}
+
+// field_1500 -> type: int 
+	get field_1500(): number {
+		return this.align(0x1508).readS32();
+	}
+
+// field_1504 -> type: int 
+	get field_1504(): number {
+		return this.align(0x150c).readS32();
+	}
+
+// field_1508 -> type: int 
+	get field_1508(): number {
+		return this.align(0x1510).readS32();
+	}
+
+// field_150C -> type: char 
+	get field_150C(): number {
+		return this.align(0x1514).readS8();
+	}
+
+// gap_150D -> type: uint8 [3] 
+// field_1510 -> type: long long 
+	get field_1510(): Int64 {
+		return this.align(0x1518).readS64();
+	}
+
+}
+
+// inheritence: CObj
+export class CGameMechanics extends CObj {
+
+}
+
+// inheritence: CObj
+export class CGameLogic extends CObj {
+
+}
+
 // inheritence: IUnitEntity
 export class IHeroEntity extends IUnitEntity {
 
@@ -8743,17 +8375,48 @@ export class IHeroEntity extends IUnitEntity {
 }
 
 // inheritence: CObj
-export class CClientOpRecorder extends CObj {
+export class CGameInfo extends CObj {
 
-}
+// gap0 -> type: uint8 [296] 
+// gap_128 -> type: uint8 [8] 
+// field_130 -> type: char 
+	get field_130(): number {
+		return this.align(0x130).readS8();
+	}
 
-// inheritence: CObj
-export class CBrain extends CObj {
+// field_131 -> type: char 
+	get field_131(): number {
+		return this.align(0x131).readS8();
+	}
 
-}
+// gap_132 -> type: uint8 [2] 
+// field_134 -> type: int 
+	get field_134(): number {
+		return this.align(0x134).readS32();
+	}
 
-// inheritence: CObj
-export class CSceneEntity extends CObj {
+// field_138 -> type: char 
+	get field_138(): number {
+		return this.align(0x138).readS8();
+	}
+
+// gap_139 -> type: uint8 [3] 
+// field_13C -> type: int 
+	get field_13C(): number {
+		return this.align(0x13c).readS32();
+	}
+
+// field_140 -> type: short 
+	get field_140(): number {
+		return this.align(0x140).readS16();
+	}
+
+// gap_142 -> type: uint8 [6] 
+// field_148 -> type: __int128 
+// field_158 -> type: long long 
+	get field_158(): Int64 {
+		return this.align(0x158).readS64();
+	}
 
 }
 
@@ -8763,149 +8426,17 @@ export class CLuaScriptManager extends CObj {
 }
 
 // inheritence: CObj
-export class CHeroesDatabase extends CObj {
+export class CBitmap extends CObj {
 
 }
 
 // inheritence: CObj
-export class CPacket extends CObj {
-
-}
-
-// inheritence: IEntityTool
-export class IEntityItem extends IEntityTool {
-
-// gap_210 -> type: uint8 [8] 
-// field_218 -> type: int 
-	get field_218(): number {
-		return this.align(0x218).readS32();
-	}
-
-// field_21C -> type: int 
-	get field_21C(): number {
-		return this.align(0x21c).readS32();
-	}
-
-// field_220 -> type: int 
-	get field_220(): number {
-		return this.align(0x220).readS32();
-	}
-
-// field_224 -> type: int 
-	get field_224(): number {
-		return this.align(0x224).readS32();
-	}
-
-// field_228 -> type: int 
-	get field_228(): number {
-		return this.align(0x228).readS32();
-	}
-
-// field_22C -> type: short 
-	get field_22C(): number {
-		return this.align(0x22c).readS16();
-	}
+export class CProfileManager extends CObj {
 
 }
 
 // inheritence: CObj
-export class CEventDirectory extends CObj {
-
-}
-
-// inheritence: CObj
-export class CAchievementManager extends CObj {
-
-}
-
-// inheritence: ISlaveEntity
-export class IEntityState extends ISlaveEntity {
-
-// gap_E8 -> type: uint8 [8] 
-// field_F0 -> type: long long 
-	get field_F0(): Int64 {
-		return this.align(0xf0).readS64();
-	}
-
-// field_F8 -> type: long long 
-	get field_F8(): Int64 {
-		return this.align(0xf8).readS64();
-	}
-
-// gap_100 -> type: uint8 [4] 
-// field_104 -> type: long long 
-	get field_104(): Int64 {
-		return this.align(0x104).readS64();
-	}
-
-// gap_10C -> type: uint8 [4] 
-// field_110 -> type: int 
-	get field_110(): number {
-		return this.align(0x110).readS32();
-	}
-
-// field_114 -> type: short 
-	get field_114(): number {
-		return this.align(0x114).readS16();
-	}
-
-// field_116 -> type: char 
-	get field_116(): number {
-		return this.align(0x116).readS8();
-	}
-
-// gap_117 -> type: uint8 
-// field_118 -> type: int 
-	get field_118(): number {
-		return this.align(0x118).readS32();
-	}
-
-// gap_11C -> type: uint8 [4] 
-// field_120 -> type: long long 
-	get field_120(): Int64 {
-		return this.align(0x120).readS64();
-	}
-
-// gap_128 -> type: uint8 [8] 
-// field_130 -> type: long long 
-	get field_130(): Int64 {
-		return this.align(0x130).readS64();
-	}
-
-// field_138 -> type: long long 
-	get field_138(): Int64 {
-		return this.align(0x138).readS64();
-	}
-
-// field_140 -> type: int 
-	get field_140(): number {
-		return this.align(0x140).readS32();
-	}
-
-// field_144 -> type: long long 
-	get field_144(): Int64 {
-		return this.align(0x144).readS64();
-	}
-
-// field_14A -> type: long long 
-	get field_14A(): Int64 {
-		return this.align(0x14c).readS64();
-	}
-
-}
-
-// inheritence: CObj
-export class CXMLDoc extends CObj {
-
-}
-
-// inheritence: CObj
-export class CVid extends CObj {
-
-}
-
-// inheritence: CObj
-export class CScriptThread extends CObj {
+export class ICvar extends CObj {
 
 }
 
@@ -8915,12 +8446,196 @@ export class CSceneManager extends CObj {
 }
 
 // inheritence: CObj
-export class CVoiceManager extends CObj {
+export class IWidget extends CObj {
 
 }
 
 // inheritence: CObj
-export class CTeamBotBrain extends CObj {
+export class CCombatActionScript extends CObj {
+
+}
+
+// inheritence: ISlaveEntity
+export class IEntityTool extends ISlaveEntity {
+
+// gap_E8 -> type: uint8 [8] 
+// field_F0 -> type: char 
+	get field_F0(): number {
+		return this.align(0xf0).readS8();
+	}
+
+// field_F1 -> type: char 
+	get field_F1(): number {
+		return this.align(0xf1).readS8();
+	}
+
+// field_F2 -> type: short 
+	get field_F2(): number {
+		return this.align(0xf2).readS16();
+	}
+
+// field_F4 -> type: long long 
+	get field_F4(): Int64 {
+		return this.align(0xf4).readS64();
+	}
+
+// field_FC -> type: long long 
+	get field_FC(): Int64 {
+		return this.align(0xfc).readS64();
+	}
+
+// field_104 -> type: int 
+	get field_104(): number {
+		return this.align(0x104).readS32();
+	}
+
+// field_108 -> type: long long 
+	get field_108(): Int64 {
+		return this.align(0x108).readS64();
+	}
+
+// gap_110 -> type: uint8 [8] 
+// field_118 -> type: long long 
+	get field_118(): Int64 {
+		return this.align(0x118).readS64();
+	}
+
+// gap_120 -> type: uint8 [8] 
+// field_128 -> type: long long 
+	get field_128(): Int64 {
+		return this.align(0x128).readS64();
+	}
+
+// field_130 -> type: __int128 
+// field_140 -> type: long long 
+	get field_140(): Int64 {
+		return this.align(0x140).readS64();
+	}
+
+// field_148 -> type: long long 
+	get field_148(): Int64 {
+		return this.align(0x148).readS64();
+	}
+
+// field_150 -> type: long long 
+	get field_150(): Int64 {
+		return this.align(0x150).readS64();
+	}
+
+// field_158 -> type: uint64 
+	get field_158(): UInt64 {
+		return this.align(0x158).readU64();
+	}
+
+// gap_160 -> type: uint8 [8] 
+// field_168 -> type: char 
+	get field_168(): number {
+		return this.align(0x168).readS8();
+	}
+
+// field_169 -> type: char 
+	get field_169(): number {
+		return this.align(0x169).readS8();
+	}
+
+// gap_16A -> type: uint8 [2] 
+// field_16C -> type: int 
+	get field_16C(): number {
+		return this.align(0x16c).readS32();
+	}
+
+// field_170 -> type: int 
+	get field_170(): number {
+		return this.align(0x170).readS32();
+	}
+
+// field_174 -> type: char 
+	get field_174(): number {
+		return this.align(0x174).readS8();
+	}
+
+// gap_175 -> type: uint8 [3] 
+// field_178 -> type: int 
+	get field_178(): number {
+		return this.align(0x178).readS32();
+	}
+
+// field_17C -> type: long long 
+	get field_17C(): Int64 {
+		return this.align(0x17c).readS64();
+	}
+
+// gap_184 -> type: uint8 
+// field_185 -> type: long long 
+	get field_185(): Int64 {
+		return this.align(0x185).readS64();
+	}
+
+// gap_18D -> type: uint8 [11] 
+// field_198 -> type: int 
+	get field_198(): number {
+		return this.align(0x198).readS32();
+	}
+
+// field_19C -> type: int 
+	get field_19C(): number {
+		return this.align(0x19c).readS32();
+	}
+
+// field_1A0 -> type: int 
+	get field_1A0(): number {
+		return this.align(0x1a0).readS32();
+	}
+
+// field_1A4 -> type: char 
+	get field_1A4(): number {
+		return this.align(0x1a4).readS8();
+	}
+
+// gap_1A5 -> type: uint8 [3] 
+// field_1A8 -> type: long long 
+	get field_1A8(): Int64 {
+		return this.align(0x1a8).readS64();
+	}
+
+// gap_1B0 -> type: uint8 [8] 
+// field_1B8 -> type: __int128 
+// dynamicRange -> type: float 
+	get dynamicRange(): number {
+		return this.align(0x1c8).readFloat();
+	}
+
+// gap_1CC -> type: uint8 [4] 
+// field_1D0 -> type: long long 
+	get field_1D0(): Int64 {
+		return this.align(0x1d0).readS64();
+	}
+
+// gap_1D8 -> type: uint8 [40] 
+// field_200 -> type: long long 
+	get field_200(): Int64 {
+		return this.align(0x200).readS64();
+	}
+
+// field_208 -> type: uint64 
+	get field_208(): UInt64 {
+		return this.align(0x208).readU64();
+	}
+
+}
+
+// inheritence: CObj
+export class CBotDebugger extends CObj {
+
+}
+
+// inheritence: CObj
+export class CAchievementManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class CAttackType extends CObj {
 
 }
 
@@ -9191,7 +8906,269 @@ export class CInput extends CObj {
 }
 
 // inheritence: CObj
-export class IPetEntity extends CObj {
+export class CPacket extends CObj {
+
+}
+
+// inheritence: CObj
+export class CReplayManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class CSkeleton extends CObj {
+
+}
+
+// inheritence: CObj
+export class CTargetScheme extends CObj {
+
+}
+
+// inheritence: CObj
+export class CHeightMap extends CObj {
+
+}
+
+// inheritence: CObj
+export class CScriptDirectory extends CObj {
+
+}
+
+// inheritence: CObj
+export class CBaseUpgrade extends CObj {
+
+}
+
+// inheritence: CObj
+export class CGameEvent extends CObj {
+
+// field_0 -> type: char 
+	get field_0(): number {
+		return this.align(0x0).readS8();
+	}
+
+// gap_1 -> type: uint8 [3] 
+// field_4 -> type: int 
+	get field_4(): number {
+		return this.align(0x4).readS32();
+	}
+
+// flags -> type: short 
+	get flags(): number {
+		return this.align(0x8).readS16();
+	}
+
+// gap_A -> type: uint8 [2] 
+// expire -> type: unsigned int 
+	get expire(): number {
+		return this.align(0xc).readU32();
+	}
+
+// field_10 -> type: short 
+	get field_10(): number {
+		return this.align(0x10).readS16();
+	}
+
+// gap_12 -> type: uint8 [2] 
+// sourceEntity -> type: unsigned int 
+	get sourceEntity(): number {
+		return this.align(0x14).readU32();
+	}
+
+// position -> type: CVec3 
+	get position(): CVec3 {
+		return new CVec3(this.align(0x18));
+	}
+
+// field_28 -> type: long long 
+	get field_28(): Int64 {
+		return this.align(0x28).readS64();
+	}
+
+// angles -> type: uint8 [8] 
+// field_38 -> type: int 
+	get field_38(): number {
+		return this.align(0x38).readS32();
+	}
+
+// effect -> type: float 
+	get effect(): number {
+		return this.align(0x3c).readFloat();
+	}
+
+// effectScale -> type: float 
+	get effectScale(): number {
+		return this.align(0x40).readFloat();
+	}
+
+// targetEntity -> type: uint32 
+	get targetEntity(): number {
+		return this.align(0x44).readU32();
+	}
+
+// targetPosition -> type: long long 
+	get targetPosition(): Int64 {
+		return this.align(0x48).readS64();
+	}
+
+// gap_50 -> type: uint8 [8] 
+// field_58 -> type: long long 
+	get field_58(): Int64 {
+		return this.align(0x58).readS64();
+	}
+
+// targetAngles -> type: uint64 
+	get targetAngles(): UInt64 {
+		return this.align(0x60).readU64();
+	}
+
+// field_68 -> type: int 
+	get field_68(): number {
+		return this.align(0x68).readS32();
+	}
+
+// effect2 -> type: float 
+	get effect2(): number {
+		return this.align(0x6c).readFloat();
+	}
+
+// effectScale2 -> type: float 
+	get effectScale2(): number {
+		return this.align(0x70).readFloat();
+	}
+
+// field_74 -> type: unsigned int 
+	get field_74(): number {
+		return this.align(0x74).readU32();
+	}
+
+// field_78 -> type: char 
+	get field_78(): number {
+		return this.align(0x78).readS8();
+	}
+
+// gap_79 -> type: uint8 [3] 
+// field_7C -> type: int 
+	get field_7C(): number {
+		return this.align(0x7c).readS32();
+	}
+
+// field_80 -> type: long long 
+	get field_80(): Int64 {
+		return this.align(0x80).readS64();
+	}
+
+// field_88 -> type: short 
+	get field_88(): number {
+		return this.align(0x88).readS16();
+	}
+
+// field_8A -> type: char 
+	get field_8A(): number {
+		return this.align(0x8a).readS8();
+	}
+
+}
+
+// inheritence: CObj
+export class CDraw2D extends CObj {
+
+}
+
+// inheritence: ISlaveEntity
+export class IEntityState extends ISlaveEntity {
+
+// gap_E8 -> type: uint8 [8] 
+// field_F0 -> type: long long 
+	get field_F0(): Int64 {
+		return this.align(0xf0).readS64();
+	}
+
+// field_F8 -> type: long long 
+	get field_F8(): Int64 {
+		return this.align(0xf8).readS64();
+	}
+
+// gap_100 -> type: uint8 [4] 
+// field_104 -> type: long long 
+	get field_104(): Int64 {
+		return this.align(0x104).readS64();
+	}
+
+// gap_10C -> type: uint8 [4] 
+// field_110 -> type: int 
+	get field_110(): number {
+		return this.align(0x110).readS32();
+	}
+
+// field_114 -> type: short 
+	get field_114(): number {
+		return this.align(0x114).readS16();
+	}
+
+// field_116 -> type: char 
+	get field_116(): number {
+		return this.align(0x116).readS8();
+	}
+
+// gap_117 -> type: uint8 
+// field_118 -> type: int 
+	get field_118(): number {
+		return this.align(0x118).readS32();
+	}
+
+// gap_11C -> type: uint8 [4] 
+// field_120 -> type: long long 
+	get field_120(): Int64 {
+		return this.align(0x120).readS64();
+	}
+
+// gap_128 -> type: uint8 [8] 
+// field_130 -> type: long long 
+	get field_130(): Int64 {
+		return this.align(0x130).readS64();
+	}
+
+// field_138 -> type: long long 
+	get field_138(): Int64 {
+		return this.align(0x138).readS64();
+	}
+
+// field_140 -> type: int 
+	get field_140(): number {
+		return this.align(0x140).readS32();
+	}
+
+// field_144 -> type: long long 
+	get field_144(): Int64 {
+		return this.align(0x144).readS64();
+	}
+
+// field_14A -> type: long long 
+	get field_14A(): Int64 {
+		return this.align(0x14c).readS64();
+	}
+
+}
+
+// inheritence: CObj
+export class CSoundManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class CChatManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class CSceneEntity extends CObj {
+
+}
+
+// inheritence: CObj
+export class CClientOpRecorder extends CObj {
 
 }
 
@@ -9201,7 +9178,361 @@ export class CXMLNode extends CObj {
 }
 
 // inheritence: CObj
+export class CLuaTable extends CObj {
+
+}
+
+// inheritence: CObj
+export class CVid extends CObj {
+
+}
+
+// inheritence: CObj
+export class CZip extends CObj {
+
+}
+
+// inheritence: CObj
+export class CLogCollector extends CObj {
+
+}
+
+// inheritence: CObj
 export class CPHPData extends CObj {
+
+}
+
+// inheritence: CObj
+export class CNavigationMap extends CObj {
+
+}
+
+// inheritence: CObj
+export class CFileHandle extends CObj {
+
+}
+
+// inheritence: CObj
+export class CEventDirectory extends CObj {
+
+}
+
+// inheritence: CObj
+export class CInterface extends CObj {
+
+}
+
+// inheritence: CObj
+export class CEntityNeutralCampController extends CObj {
+
+}
+
+// inheritence: CObj
+export class CXMLDoc extends CObj {
+
+}
+
+// inheritence: CObj
+export class CResourceInfo extends CObj {
+
+}
+
+// inheritence: CObj
+export class CSceneEntityModifierResult extends CObj {
+
+}
+
+// inheritence: CObj
+export class CMemSizerImpl extends CObj {
+
+}
+
+// inheritence: CObj
+export class CDate extends CObj {
+
+}
+
+// inheritence: CObj
+export class CUITrigger extends CObj {
+
+}
+
+// inheritence: CObj
+export class CEffect extends CObj {
+
+}
+
+// inheritence: CObj
+export class CAchievement extends CObj {
+
+}
+
+// inheritence: CObj
+export class CArchive extends CObj {
+
+}
+
+// inheritence: CObj
+export class IBaseInput extends CObj {
+
+}
+
+// inheritence: CObj
+export class CWaterMap extends CObj {
+
+}
+
+// inheritence: CObj
+export class CTileMaterialMap extends CObj {
+
+}
+
+// inheritence: CObj
+export class CNetworkResourceManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class CTileDefinitionMap extends CObj {
+
+}
+
+// inheritence: CObj
+export class CWidgetStyle extends CObj {
+
+}
+
+// inheritence: CObj
+export class CTCPSocket extends CObj {
+
+}
+
+// inheritence: CObj
+export class CPopup extends CObj {
+
+}
+
+// inheritence: CObj
+export class CWorldSoundList extends CObj {
+
+}
+
+// inheritence: CObj
+export class CConsole extends CObj {
+
+}
+
+// inheritence: CObj
+export class CWidgetTemplate extends CObj {
+
+}
+
+// inheritence: CObj
+export class CWebBrowserManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class CUIScriptToken extends CObj {
+
+}
+
+// inheritence: CObj
+export class CVertexColorMap extends CObj {
+
+}
+
+// inheritence: CObj
+export class CServerList extends CObj {
+
+}
+
+// inheritence: CObj
+export class CTextureList extends CObj {
+
+}
+
+// inheritence: CObj
+export class CItemDefinition extends CObj {
+
+}
+
+// inheritence: CObj
+export class CHeroDefinition extends CObj {
+
+}
+
+// inheritence: CObj
+export class CTexelAlphaMap extends CObj {
+
+}
+
+// inheritence: CObj
+export class CMemManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class __m128d extends CObj {
+
+// m128d_f64 -> type: double [2] 
+}
+
+// inheritence: CObj
+export class __va_list_tag extends CObj {
+
+// gp_offset -> type: unsigned int 
+	get gp_offset(): number {
+		return this.align(0x0).readU32();
+	}
+
+// fp_offset -> type: unsigned int 
+	get fp_offset(): number {
+		return this.align(0x4).readU32();
+	}
+
+// overflow_arg_area -> type: void * 
+// args:  -> ret:  
+	public overflow_arg_area() {
+		return null;
+	}
+
+// reg_save_area -> type: void * 
+// args:  -> ret:  
+	public reg_save_area() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
+export class CSceneEntityModifier extends CObj {
+
+}
+
+// inheritence: CObj
+export class CHTTPManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class CLuaScriptFunction extends CObj {
+
+}
+
+// inheritence: CObj
+export class CCmd extends CObj {
+
+}
+
+// inheritence: CObj
+export class CEventCmd extends CObj {
+
+}
+
+// inheritence: CObj
+export class CFunction extends CObj {
+
+}
+
+// inheritence: CObj
+export class IGameBind extends CObj {
+
+}
+
+// inheritence: CObj
+export class CUICmd extends CObj {
+
+}
+
+// inheritence: CObj
+export class INeutralEntity extends CObj {
+
+}
+
+// inheritence: CObj
+export class CBotRegistry extends CObj {
+
+}
+
+// inheritence: IEntityTool
+export class IEntityAbility extends IEntityTool {
+
+// field_210 -> type: long long 
+	get field_210(): Int64 {
+		return this.align(0x210).readS64();
+	}
+
+}
+
+// inheritence: CObj
+export class IResourceLibrary extends CObj {
+
+}
+
+// inheritence: CObj
+export class CBrain extends CObj {
+
+}
+
+// inheritence: CObj
+export class CHeroesDatabase extends CObj {
+
+}
+
+// inheritence: IEntityTool
+export class IEntityItem extends IEntityTool {
+
+// gap_210 -> type: uint8 [8] 
+// field_218 -> type: int 
+	get field_218(): number {
+		return this.align(0x218).readS32();
+	}
+
+// field_21C -> type: int 
+	get field_21C(): number {
+		return this.align(0x21c).readS32();
+	}
+
+// field_220 -> type: int 
+	get field_220(): number {
+		return this.align(0x220).readS32();
+	}
+
+// field_224 -> type: int 
+	get field_224(): number {
+		return this.align(0x224).readS32();
+	}
+
+// field_228 -> type: int 
+	get field_228(): number {
+		return this.align(0x228).readS32();
+	}
+
+// field_22C -> type: short 
+	get field_22C(): number {
+		return this.align(0x22c).readS16();
+	}
+
+}
+
+// inheritence: CObj
+export class CScriptThread extends CObj {
+
+}
+
+// inheritence: CObj
+export class CVoiceManager extends CObj {
+
+}
+
+// inheritence: CObj
+export class CTeamBotBrain extends CObj {
+
+}
+
+// inheritence: CObj
+export class IPetEntity extends CObj {
 
 }
 
@@ -9221,16 +9552,6 @@ export class CLinearAffector extends CObj {
 }
 
 // inheritence: CObj
-export class CHeroDefinition extends CObj {
-
-}
-
-// inheritence: CObj
-export class CLuaTable extends CObj {
-
-}
-
-// inheritence: CObj
 export class CModelPanel extends CObj {
 
 }
@@ -9246,16 +9567,6 @@ export class IProjectile extends CObj {
 }
 
 // inheritence: CObj
-export class CEffect extends CObj {
-
-}
-
-// inheritence: CObj
-export class CHost extends CObj {
-
-}
-
-// inheritence: CObj
 export class IPowerupEntity extends CObj {
 
 }
@@ -9266,52 +9577,12 @@ export class IBitEntity extends CObj {
 }
 
 // inheritence: CObj
-export class CBitmap extends CObj {
-
-}
-
-// inheritence: CObj
-export class CGameMechanics extends CObj {
-
-}
-
-// inheritence: CObj
-export class CProfileManager extends CObj {
-
-}
-
-// inheritence: CObj
-export class CScriptDirectory extends CObj {
-
-}
-
-// inheritence: CObj
-export class CSoundManager extends CObj {
-
-}
-
-// inheritence: CObj
 export class CShopInfo extends CObj {
 
 }
 
 // inheritence: CObj
 export class CBotMetaDataLayer extends CObj {
-
-}
-
-// inheritence: CObj
-export class CCombatActionScript extends CObj {
-
-}
-
-// inheritence: CObj
-export class CUIManager extends CObj {
-
-}
-
-// inheritence: CObj
-export class CGameLogic extends CObj {
 
 }
 
@@ -9327,11 +9598,6 @@ export class ICritterEntity extends CObj {
 
 // inheritence: CObj
 export class CHostServer extends CObj {
-
-}
-
-// inheritence: CObj
-export class ICvar extends CObj {
 
 }
 
@@ -9356,22 +9622,7 @@ export class CHttpDownloadManager extends CObj {
 }
 
 // inheritence: CObj
-export class CConsole extends CObj {
-
-}
-
-// inheritence: CObj
-export class CHTTPManager extends CObj {
-
-}
-
-// inheritence: CObj
 export class CDamageEvent extends CObj {
-
-}
-
-// inheritence: CObj
-export class CMemManager extends CObj {
 
 }
 
@@ -9491,17 +9742,7 @@ export class ICreepEntity extends IUnitEntity {
 }
 
 // inheritence: CObj
-export class CEntityNeutralCampController extends CObj {
-
-}
-
-// inheritence: CObj
 export class IShopEntity extends CObj {
-
-}
-
-// inheritence: CObj
-export class CItemDefinition extends CObj {
 
 }
 
@@ -9527,16 +9768,6 @@ export class IResource extends CObj {
 
 // inheritence: CObj
 export class CCapsuleAffector extends CObj {
-
-}
-
-// inheritence: CObj
-export class CResourceInfo extends CObj {
-
-}
-
-// inheritence: CObj
-export class CAchievement extends CObj {
 
 }
 
@@ -9674,11 +9905,6 @@ export class IEntityStateNetAccum extends CObj {
 }
 
 // inheritence: CObj
-export class CTargetScheme extends CObj {
-
-}
-
-// inheritence: CObj
 export class CCombatTable extends CObj {
 
 }
@@ -9719,22 +9945,12 @@ export class CArmorType extends CObj {
 }
 
 // inheritence: CObj
-export class CPopup extends CObj {
-
-}
-
-// inheritence: CObj
 export class CGameMechanicsResource extends CObj {
 
 }
 
 // inheritence: CObj
 export class IFileChangeCallback extends CObj {
-
-}
-
-// inheritence: CObj
-export class CBotDebugger extends CObj {
 
 }
 
@@ -9750,21 +9966,6 @@ export class CBotMetaDataResource extends CObj {
 
 // inheritence: CObj
 export class CPlayerAccountStats extends CObj {
-
-}
-
-// inheritence: CObj
-export class CUICmd extends CObj {
-
-}
-
-// inheritence: CObj
-export class CCmd extends CObj {
-
-}
-
-// inheritence: CObj
-export class CLuaScriptFunction extends CObj {
 
 }
 
@@ -9800,33 +10001,6 @@ export class CPlayerView extends CObj {
 
 // inheritence: CObj
 export class CCooker extends CObj {
-
-}
-
-// inheritence: CObj
-export class __va_list_tag extends CObj {
-
-// gp_offset -> type: unsigned int 
-	get gp_offset(): number {
-		return this.align(0x0).readU32();
-	}
-
-// fp_offset -> type: unsigned int 
-	get fp_offset(): number {
-		return this.align(0x4).readU32();
-	}
-
-// overflow_arg_area -> type: void * 
-// args:  -> ret:  
-	public overflow_arg_area() {
-		return null;
-	}
-
-// reg_save_area -> type: void * 
-// args:  -> ret:  
-	public reg_save_area() {
-		return null;
-	}
 
 }
 
@@ -9932,12 +10106,6 @@ export class _RTTICompleteObjectLocator extends CObj {
 }
 
 // inheritence: CObj
-export class __m128d extends CObj {
-
-// m128d_f64 -> type: double [2] 
-}
-
-// inheritence: CObj
 export class CConsoleStream extends CObj {
 
 // field_0 -> type: long long 
@@ -10004,6 +10172,547 @@ export class WStringStd extends CObj {
 }
 
 // inheritence: CObj
+export class vtable_ClientEntityDirectory extends CObj {
+
+// deconstructClientEntityDirectory -> type: void (*)(IEntityDirectory *) __attribute__((fastcall)) 
+// function 
+// args: IEntityDirectory * -> ret: void 
+	public deconstructClientEntityDirectory() {
+		return null;
+	}
+
+// deleteClientEntityDirectory -> type: void (*)(IEntityDirectory *) __attribute__((fastcall)) 
+// function 
+// args: IEntityDirectory * -> ret: void 
+	public deleteClientEntityDirectory() {
+		return null;
+	}
+
+// sub_1CF130 -> type: long long (*)(IEntityDirectory *) __attribute__((fastcall)) 
+// function 
+// args: IEntityDirectory * -> ret: long long 
+	public sub_1CF130() {
+		return null;
+	}
+
+// sub_1D1410 -> type: long long (*)(long long, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: long long unsigned int -> ret: long long 
+	public sub_1D1410() {
+		return null;
+	}
+
+// sub_1D42B0 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public sub_1D42B0() {
+		return null;
+	}
+
+// sub_1D42C0 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public sub_1D42C0() {
+		return null;
+	}
+
+// sub_1D1680 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public sub_1D1680() {
+		return null;
+	}
+
+// sub_1D16F0 -> type: long long (*)(uint64 *, long long) __attribute__((fastcall)) 
+// function 
+// args: uint64 * long long -> ret: long long 
+	public sub_1D16F0() {
+		return null;
+	}
+
+// sub_1D42D0 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public sub_1D42D0() {
+		return null;
+	}
+
+// sub_1D42E0 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public sub_1D42E0() {
+		return null;
+	}
+
+// sub_1D42F0 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public sub_1D42F0() {
+		return null;
+	}
+
+// sub_1D4300 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public sub_1D4300() {
+		return null;
+	}
+
+// sub_1D4310 -> type: __int128 *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: __int128 * 
+	public sub_1D4310() {
+		return null;
+	}
+
+// sub_1D19F0 -> type: long long (*)(long long, uint64 *, unsigned short) __attribute__((fastcall)) 
+// function 
+// args: long long uint64 * unsigned short -> ret: long long 
+	public sub_1D19F0() {
+		return null;
+	}
+
+// sub_1D4320 -> type: long long (*)(long long, uint64 *) __attribute__((fastcall)) 
+// function 
+// args: long long uint64 * -> ret: long long 
+	public sub_1D4320() {
+		return null;
+	}
+
+// nullsub_16 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_16() {
+		return null;
+	}
+
+// nullsub_17 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_17() {
+		return null;
+	}
+
+// loc_0 -> type: void *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void * 
+	public loc_0() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
+export class ClientEntityDirectory extends CObj {
+
+// vtable -> type: vtable_ClientEntityDirectory * 
+	get vtable(): vtable_ClientEntityDirectory {
+		return new vtable_ClientEntityDirectory(this.align(0x0).readPointer());
+	}
+
+// field_8 -> type: uint64 
+	get field_8(): UInt64 {
+		return this.align(0x8).readU64();
+	}
+
+// field_10 -> type: uint64 
+	get field_10(): UInt64 {
+		return this.align(0x10).readU64();
+	}
+
+// field_18 -> type: long long 
+	get field_18(): Int64 {
+		return this.align(0x18).readS64();
+	}
+
+// field_20 -> type: long long 
+	get field_20(): Int64 {
+		return this.align(0x20).readS64();
+	}
+
+// field_28 -> type: uint64 * 
+// args:  -> ret:  
+	public field_28() {
+		return null;
+	}
+
+// field_30 -> type: uint64 
+	get field_30(): UInt64 {
+		return this.align(0x30).readU64();
+	}
+
+// firstNode -> type: uint64 * 
+// args:  -> ret:  
+	public firstNode() {
+		return null;
+	}
+
+// lastNode -> type: uint64 
+	get lastNode(): UInt64 {
+		return this.align(0x40).readU64();
+	}
+
+// field_48 -> type: long long 
+	get field_48(): Int64 {
+		return this.align(0x48).readS64();
+	}
+
+// field_50 -> type: int 
+	get field_50(): number {
+		return this.align(0x50).readS32();
+	}
+
+// field_54 -> type: int 
+	get field_54(): number {
+		return this.align(0x54).readS32();
+	}
+
+// field_58 -> type: long long 
+	get field_58(): Int64 {
+		return this.align(0x58).readS64();
+	}
+
+// field_60 -> type: long long 
+	get field_60(): Int64 {
+		return this.align(0x60).readS64();
+	}
+
+// gap_68 -> type: uint8 [8] 
+// field_70 -> type: long long 
+	get field_70(): Int64 {
+		return this.align(0x70).readS64();
+	}
+
+// field_78 -> type: long long 
+	get field_78(): Int64 {
+		return this.align(0x78).readS64();
+	}
+
+// gap_80 -> type: uint8 [8] 
+// field_88 -> type: long long 
+	get field_88(): Int64 {
+		return this.align(0x88).readS64();
+	}
+
+// field_90 -> type: char * 
+// args:  -> ret:  
+	public field_90() {
+		return null;
+	}
+
+// field_98 -> type: long long 
+	get field_98(): Int64 {
+		return this.align(0x98).readS64();
+	}
+
+// field_A0 -> type: uint64 * 
+// args:  -> ret:  
+	public field_A0() {
+		return null;
+	}
+
+// gap_A8 -> type: uint8 [8] 
+// field_B0 -> type: long long 
+	get field_B0(): Int64 {
+		return this.align(0xb0).readS64();
+	}
+
+// field_B8 -> type: uint64 * 
+// args:  -> ret:  
+	public field_B8() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
+export class CClientEntity extends CObj {
+
+// field_0 -> type: uint64 
+	get field_0(): UInt64 {
+		return this.align(0x0).readU64();
+	}
+
+// field_8 -> type: char 
+	get field_8(): number {
+		return this.align(0x8).readS8();
+	}
+
+// gap_9 -> type: uint8 [3] 
+// field_C -> type: int 
+	get field_C(): number {
+		return this.align(0xc).readS32();
+	}
+
+// field_10 -> type: uint64 
+	get field_10(): UInt64 {
+		return this.align(0x10).readU64();
+	}
+
+// sceneEntityModifierResult -> type: int 
+	get sceneEntityModifierResult(): number {
+		return this.align(0x18).readS32();
+	}
+
+// gap_1C -> type: uint8 [52] 
+// field_50 -> type: int 
+	get field_50(): number {
+		return this.align(0x50).readS32();
+	}
+
+// field_54 -> type: int 
+	get field_54(): number {
+		return this.align(0x54).readS32();
+	}
+
+// field_58 -> type: int 
+	get field_58(): number {
+		return this.align(0x58).readS32();
+	}
+
+// field_5C -> type: int 
+	get field_5C(): number {
+		return this.align(0x5c).readS32();
+	}
+
+// field_60 -> type: int 
+	get field_60(): number {
+		return this.align(0x60).readS32();
+	}
+
+// field_64 -> type: int 
+	get field_64(): number {
+		return this.align(0x64).readS32();
+	}
+
+// field_68 -> type: int 
+	get field_68(): number {
+		return this.align(0x68).readS32();
+	}
+
+// field_6C -> type: int 
+	get field_6C(): number {
+		return this.align(0x6c).readS32();
+	}
+
+// field_70 -> type: char 
+	get field_70(): number {
+		return this.align(0x70).readS8();
+	}
+
+// field_71 -> type: char 
+	get field_71(): number {
+		return this.align(0x71).readS8();
+	}
+
+// gap_72 -> type: uint8 [2] 
+// field_74 -> type: int 
+	get field_74(): number {
+		return this.align(0x74).readS32();
+	}
+
+// field_78 -> type: int 
+	get field_78(): number {
+		return this.align(0x78).readS32();
+	}
+
+// field_7C -> type: int 
+	get field_7C(): number {
+		return this.align(0x7c).readS32();
+	}
+
+// field_80 -> type: int 
+	get field_80(): number {
+		return this.align(0x80).readS32();
+	}
+
+// field_84 -> type: char 
+	get field_84(): number {
+		return this.align(0x84).readS8();
+	}
+
+// field_85 -> type: char 
+	get field_85(): number {
+		return this.align(0x85).readS8();
+	}
+
+// field_86 -> type: char 
+	get field_86(): number {
+		return this.align(0x86).readS8();
+	}
+
+// field_87 -> type: char 
+	get field_87(): number {
+		return this.align(0x87).readS8();
+	}
+
+// gap_88 -> type: uint8 [720] 
+// field_358 -> type: long long 
+	get field_358(): Int64 {
+		return this.align(0x358).readS64();
+	}
+
+// field_360 -> type: long long 
+	get field_360(): Int64 {
+		return this.align(0x360).readS64();
+	}
+
+// field_368 -> type: long long 
+	get field_368(): Int64 {
+		return this.align(0x368).readS64();
+	}
+
+// field_370 -> type: long long 
+	get field_370(): Int64 {
+		return this.align(0x370).readS64();
+	}
+
+// gap_378 -> type: uint8 [1256] 
+// field_860 -> type: long long 
+	get field_860(): Int64 {
+		return this.align(0x860).readS64();
+	}
+
+// field_868 -> type: long long 
+	get field_868(): Int64 {
+		return this.align(0x868).readS64();
+	}
+
+// field_870 -> type: long long 
+	get field_870(): Int64 {
+		return this.align(0x870).readS64();
+	}
+
+// field_878 -> type: long long 
+	get field_878(): Int64 {
+		return this.align(0x878).readS64();
+	}
+
+// field_880 -> type: long long 
+	get field_880(): Int64 {
+		return this.align(0x880).readS64();
+	}
+
+// field_888 -> type: long long 
+	get field_888(): Int64 {
+		return this.align(0x888).readS64();
+	}
+
+// field_890 -> type: long long 
+	get field_890(): Int64 {
+		return this.align(0x890).readS64();
+	}
+
+// field_898 -> type: long long 
+	get field_898(): Int64 {
+		return this.align(0x898).readS64();
+	}
+
+// field_8A0 -> type: long long 
+	get field_8A0(): Int64 {
+		return this.align(0x8a0).readS64();
+	}
+
+// field_8A8 -> type: long long 
+	get field_8A8(): Int64 {
+		return this.align(0x8a8).readS64();
+	}
+
+// field_8B0 -> type: long long 
+	get field_8B0(): Int64 {
+		return this.align(0x8b0).readS64();
+	}
+
+// field_8B8 -> type: long long 
+	get field_8B8(): Int64 {
+		return this.align(0x8b8).readS64();
+	}
+
+// field_8C0 -> type: long long 
+	get field_8C0(): Int64 {
+		return this.align(0x8c0).readS64();
+	}
+
+// field_8C8 -> type: long long 
+	get field_8C8(): Int64 {
+		return this.align(0x8c8).readS64();
+	}
+
+// field_8D0 -> type: long long 
+	get field_8D0(): Int64 {
+		return this.align(0x8d0).readS64();
+	}
+
+// field_8D8 -> type: long long 
+	get field_8D8(): Int64 {
+		return this.align(0x8d8).readS64();
+	}
+
+// gameEntity1 -> type: IGameEntity * 
+	get gameEntity1(): IGameEntity {
+		return new IGameEntity(this.align(0x8e0).readPointer());
+	}
+
+// gameEntity2 -> type: IGameEntity * 
+	get gameEntity2(): IGameEntity {
+		return new IGameEntity(this.align(0x8e8).readPointer());
+	}
+
+// gameEntity3 -> type: IGameEntity * 
+	get gameEntity3(): IGameEntity {
+		return new IGameEntity(this.align(0x8f0).readPointer());
+	}
+
+// field_8F8 -> type: long long 
+	get field_8F8(): Int64 {
+		return this.align(0x8f8).readS64();
+	}
+
+// field_900 -> type: long long 
+	get field_900(): Int64 {
+		return this.align(0x900).readS64();
+	}
+
+// field_908 -> type: long long 
+	get field_908(): Int64 {
+		return this.align(0x908).readS64();
+	}
+
+// field_910 -> type: int 
+	get field_910(): number {
+		return this.align(0x910).readS32();
+	}
+
+// field_914 -> type: int 
+	get field_914(): number {
+		return this.align(0x914).readS32();
+	}
+
+// field_918 -> type: int 
+	get field_918(): number {
+		return this.align(0x918).readS32();
+	}
+
+// field_91C -> type: char 
+	get field_91C(): number {
+		return this.align(0x91c).readS8();
+	}
+
+// gap_91D -> type: uint8 [3] 
+// field_920 -> type: long long 
+	get field_920(): Int64 {
+		return this.align(0x920).readS64();
+	}
+
+// gap_928 -> type: uint8 [4] 
+// field_92C -> type: int 
+	get field_92C(): number {
+		return this.align(0x92c).readS32();
+	}
+
+}
+
+// inheritence: CObj
 export class Vtable_1589858 extends CObj {
 
 // sub_FDD2E0 -> type: long long (**(*)(uint64 *))() __attribute__((fastcall)) __attribute__((fastcall)) 
@@ -10017,6 +10726,1047 @@ export class Vtable_1589858 extends CObj {
 // function 
 // args: void * -> ret: void 
 	public sub_FDD420() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
+export class Vtable_IGameEntity_7FBBC2571458 extends CObj {
+
+// vfunc_12603648 -> type: IEntityDefinition *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: IEntityDefinition * 
+	public vfunc_12603648() {
+		return null;
+	}
+
+// GameEntityDeconstructor -> type: long long *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long * 
+	public GameEntityDeconstructor() {
+		return null;
+	}
+
+// deleteAndDeconstructCGameEntity -> type: void (*)(void *) __attribute__((fastcall)) 
+// function 
+// args: void * -> ret: void 
+	public deleteAndDeconstructCGameEntity() {
+		return null;
+	}
+
+// vfunc_12124208 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124208() {
+		return null;
+	}
+
+// vfunc_12124224 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124224() {
+		return null;
+	}
+
+// nullsub_3 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_3() {
+		return null;
+	}
+
+// nullsub_4 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_4() {
+		return null;
+	}
+
+// vfunc_12124272 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124272() {
+		return null;
+	}
+
+// vfunc_12124288 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124288() {
+		return null;
+	}
+
+// vfunc_12124304 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124304() {
+		return null;
+	}
+
+// vfunc_12135232 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12135232() {
+		return null;
+	}
+
+// vfunc_12135248 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12135248() {
+		return null;
+	}
+
+// vfunc_12135264 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12135264() {
+		return null;
+	}
+
+// vfunc_12124368 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124368() {
+		return null;
+	}
+
+// vfunc_12124384 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124384() {
+		return null;
+	}
+
+// vfunc_12124400 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124400() {
+		return null;
+	}
+
+// vfunc_12124416 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124416() {
+		return null;
+	}
+
+// vfunc_12124432 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124432() {
+		return null;
+	}
+
+// vfunc_12124448 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124448() {
+		return null;
+	}
+
+// vfunc_12124464 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124464() {
+		return null;
+	}
+
+// vfunc_12124480 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124480() {
+		return null;
+	}
+
+// vfunc_12124496 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124496() {
+		return null;
+	}
+
+// vfunc_12124512 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124512() {
+		return null;
+	}
+
+// vfunc_12124528 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124528() {
+		return null;
+	}
+
+// vfunc_12124544 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124544() {
+		return null;
+	}
+
+// vfunc_12124560 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124560() {
+		return null;
+	}
+
+// vfunc_12124576 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124576() {
+		return null;
+	}
+
+// vfunc_12124592 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124592() {
+		return null;
+	}
+
+// vfunc_12124608 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124608() {
+		return null;
+	}
+
+// vfunc_12124624 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124624() {
+		return null;
+	}
+
+// vfunc_12124640 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124640() {
+		return null;
+	}
+
+// vfunc_12124656 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124656() {
+		return null;
+	}
+
+// vfunc_12124672 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124672() {
+		return null;
+	}
+
+// vfunc_12124688 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124688() {
+		return null;
+	}
+
+// vfunc_12124704 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124704() {
+		return null;
+	}
+
+// vfunc_12124720 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124720() {
+		return null;
+	}
+
+// vfunc_12124736 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124736() {
+		return null;
+	}
+
+// vfunc_12124752 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124752() {
+		return null;
+	}
+
+// vfunc_12124768 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124768() {
+		return null;
+	}
+
+// vfunc_12124784 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124784() {
+		return null;
+	}
+
+// vfunc_12124800 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124800() {
+		return null;
+	}
+
+// vfunc_12124816 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124816() {
+		return null;
+	}
+
+// vfunc_12124832 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124832() {
+		return null;
+	}
+
+// vfunc_12124848 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124848() {
+		return null;
+	}
+
+// vfunc_12124864 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124864() {
+		return null;
+	}
+
+// vfunc_12124880 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124880() {
+		return null;
+	}
+
+// vfunc_12124896 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124896() {
+		return null;
+	}
+
+// vfunc_12124912 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124912() {
+		return null;
+	}
+
+// vfunc_12124928 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124928() {
+		return null;
+	}
+
+// vfunc_12124944 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124944() {
+		return null;
+	}
+
+// vfunc_12124960 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124960() {
+		return null;
+	}
+
+// vfunc_12124976 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124976() {
+		return null;
+	}
+
+// vfunc_12124992 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124992() {
+		return null;
+	}
+
+// vfunc_12125008 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125008() {
+		return null;
+	}
+
+// vfunc_12125024 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125024() {
+		return null;
+	}
+
+// vfunc_12125040 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125040() {
+		return null;
+	}
+
+// vfunc_12125056 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125056() {
+		return null;
+	}
+
+// vfunc_12125072 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125072() {
+		return null;
+	}
+
+// vfunc_12125088 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125088() {
+		return null;
+	}
+
+// vfunc_12125104 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125104() {
+		return null;
+	}
+
+// vfunc_12125120 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125120() {
+		return null;
+	}
+
+// vfunc_12125136 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125136() {
+		return null;
+	}
+
+// vfunc_12125152 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125152() {
+		return null;
+	}
+
+// vfunc_12125168 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125168() {
+		return null;
+	}
+
+// vfunc_12125184 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125184() {
+		return null;
+	}
+
+// vfunc_12125200 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125200() {
+		return null;
+	}
+
+// vfunc_12125216 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125216() {
+		return null;
+	}
+
+// vfunc_12125232 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125232() {
+		return null;
+	}
+
+// vfunc_12125248 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125248() {
+		return null;
+	}
+
+// vfunc_12125264 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125264() {
+		return null;
+	}
+
+// vfunc_12125280 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125280() {
+		return null;
+	}
+
+// vfunc_12125296 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125296() {
+		return null;
+	}
+
+// vfunc_12125312 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125312() {
+		return null;
+	}
+
+// vfunc_12125328 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125328() {
+		return null;
+	}
+
+// vfunc_12125344 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125344() {
+		return null;
+	}
+
+// vfunc_12125360 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125360() {
+		return null;
+	}
+
+// vfunc_12125376 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125376() {
+		return null;
+	}
+
+// vfunc_12125392 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125392() {
+		return null;
+	}
+
+// vfunc_12125408 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125408() {
+		return null;
+	}
+
+// vfunc_12125424 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125424() {
+		return null;
+	}
+
+// vfunc_12125440 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125440() {
+		return null;
+	}
+
+// vfunc_12125456 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125456() {
+		return null;
+	}
+
+// vfunc_12125472 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125472() {
+		return null;
+	}
+
+// vfunc_12125488 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125488() {
+		return null;
+	}
+
+// vfunc_12125504 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125504() {
+		return null;
+	}
+
+// vfunc_12125520 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125520() {
+		return null;
+	}
+
+// vfunc_12125536 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125536() {
+		return null;
+	}
+
+// vfunc_12125552 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125552() {
+		return null;
+	}
+
+// vfunc_12125568 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125568() {
+		return null;
+	}
+
+// vfunc_12125584 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125584() {
+		return null;
+	}
+
+// vfunc_12125600 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125600() {
+		return null;
+	}
+
+// vfunc_12125616 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125616() {
+		return null;
+	}
+
+// vfunc_12125632 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125632() {
+		return null;
+	}
+
+// vfunc_12125648 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125648() {
+		return null;
+	}
+
+// vfunc_12125664 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125664() {
+		return null;
+	}
+
+// vfunc_12125680 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125680() {
+		return null;
+	}
+
+// vfunc_12125696 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125696() {
+		return null;
+	}
+
+// vfunc_12125712 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125712() {
+		return null;
+	}
+
+// vfunc_12125728 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125728() {
+		return null;
+	}
+
+// vfunc_12125744 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125744() {
+		return null;
+	}
+
+// vfunc_12125760 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125760() {
+		return null;
+	}
+
+// vfunc_12125776 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125776() {
+		return null;
+	}
+
+// vfunc_12125792 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125792() {
+		return null;
+	}
+
+// vfunc_12125808 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125808() {
+		return null;
+	}
+
+// vfunc_12125824 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125824() {
+		return null;
+	}
+
+// vfunc_12125840 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125840() {
+		return null;
+	}
+
+// vfunc_12125856 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125856() {
+		return null;
+	}
+
+// vfunc_12125872 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125872() {
+		return null;
+	}
+
+// vfunc_12125888 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125888() {
+		return null;
+	}
+
+// vfunc_12125904 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125904() {
+		return null;
+	}
+
+// vfunc_12125920 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125920() {
+		return null;
+	}
+
+// vfunc_12125936 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125936() {
+		return null;
+	}
+
+// vfunc_12125952 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125952() {
+		return null;
+	}
+
+// vfunc_12125968 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125968() {
+		return null;
+	}
+
+// vfunc_12125984 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125984() {
+		return null;
+	}
+
+// vfunc_12126000 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126000() {
+		return null;
+	}
+
+// vfunc_12126016 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126016() {
+		return null;
+	}
+
+// vfunc_12126032 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126032() {
+		return null;
+	}
+
+// sub_7FBBC1CB5750 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public sub_7FBBC1CB5750() {
+		return null;
+	}
+
+// _ZN11IGameEntity8BaselineEv -> type: void (*)(IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * -> ret: void 
+	public _ZN11IGameEntity8BaselineEv() {
+		return null;
+	}
+
+// _ZNK11IGameEntity11GetSnapshotER15CEntitySnapshotj -> type: long long (*)(IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * -> ret: long long 
+	public _ZNK11IGameEntity11GetSnapshotER15CEntitySnapshotj() {
+		return null;
+	}
+
+// _ZN11IGameEntity12ReadSnapshotER15CEntitySnapshotj -> type: char (*)(IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * -> ret: char 
+	public _ZN11IGameEntity12ReadSnapshotER15CEntitySnapshotj() {
+		return null;
+	}
+
+// _ZN11IGameEntity21GetSnapshotVisibilityER22SEntSnapShotVisibility -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public _ZN11IGameEntity21GetSnapshotVisibilityER22SEntSnapShotVisibility() {
+		return null;
+	}
+
+// _ZNK11IGameEntity15IsEnemySnapshotERjS0_ -> type: void (*)(IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * -> ret: void 
+	public _ZNK11IGameEntity15IsEnemySnapshotERjS0_() {
+		return null;
+	}
+
+// vfunc_12126096 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126096() {
+		return null;
+	}
+
+// vfunc_12604784 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_12604784() {
+		return null;
+	}
+
+// vfunc_12126112 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126112() {
+		return null;
+	}
+
+// vfunc_12157280 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12157280() {
+		return null;
+	}
+
+// vfunc_12157296 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12157296() {
+		return null;
+	}
+
+// nullsub_5 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_5() {
+		return null;
+	}
+
+// nullsub_6 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_6() {
+		return null;
+	}
+
+// nullsub_7 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_7() {
+		return null;
+	}
+
+// nullsub_8 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_8() {
+		return null;
+	}
+
+// nullsub_9 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_9() {
+		return null;
+	}
+
+// nullsub_13 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_13() {
+		return null;
+	}
+
+// vfunc_12126240 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126240() {
+		return null;
+	}
+
+// nullsub_10 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_10() {
+		return null;
+	}
+
+// nullsub_11 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_11() {
+		return null;
+	}
+
+// vfunc_12126288 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_12126288() {
+		return null;
+	}
+
+// vfunc_12126304 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_12126304() {
+		return null;
+	}
+
+// vfunc_12126320 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_12126320() {
+		return null;
+	}
+
+// vfunc_12126336 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_12126336() {
+		return null;
+	}
+
+// sub_7FBBC1C4A520 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public sub_7FBBC1C4A520() {
+		return null;
+	}
+
+// vfunc_12604720 -> type: long long (*)(long long, IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: long long IGameEntity * -> ret: long long 
+	public vfunc_12604720() {
+		return null;
+	}
+
+// nullsub_12 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_12() {
+		return null;
+	}
+
+// vfunc_12126384 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_12126384() {
+		return null;
+	}
+
+// _ZN11IGameEntity10AddToSceneERK5CVec4IfEiRK11SClientView -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public _ZN11IGameEntity10AddToSceneERK5CVec4IfEiRK11SClientView() {
+		return null;
+	}
+
+// vfunc_12606112 -> type: char (*)(long long, long long, long long) __attribute__((fastcall)) 
+// function 
+// args: long long long long long long -> ret: char 
+	public vfunc_12606112() {
 		return null;
 	}
 
@@ -41812,727 +43562,6 @@ export class SmthEntityAllocator extends CObj {
 }
 
 // inheritence: CObj
-export class CClientAccount extends CObj {
-
-}
-
-// inheritence: CObj
-export class IWidget extends CObj {
-
-}
-
-// inheritence: CObj
-export class CHeightMap extends CObj {
-
-}
-
-// inheritence: CObj
-export class CBaseUpgrade extends CObj {
-
-}
-
-// inheritence: CObj
-export class CDraw2D extends CObj {
-
-}
-
-// inheritence: CObj
-export class CChatManager extends CObj {
-
-}
-
-// inheritence: CObj
-export class CZip extends CObj {
-
-}
-
-// inheritence: CObj
-export class CLogCollector extends CObj {
-
-}
-
-// inheritence: CObj
-export class CNavigationMap extends CObj {
-
-}
-
-// inheritence: CObj
-export class CInterface extends CObj {
-
-}
-
-// inheritence: CObj
-export class CSceneEntityModifierResult extends CObj {
-
-}
-
-// inheritence: CObj
-export class CMemSizerImpl extends CObj {
-
-}
-
-// inheritence: CObj
-export class CDate extends CObj {
-
-}
-
-// inheritence: CObj
-export class CUITrigger extends CObj {
-
-}
-
-// inheritence: CObj
-export class IBaseInput extends CObj {
-
-}
-
-// inheritence: CObj
-export class CWaterMap extends CObj {
-
-}
-
-// inheritence: CObj
-export class CTileMaterialMap extends CObj {
-
-}
-
-// inheritence: CObj
-export class CTileDefinitionMap extends CObj {
-
-}
-
-// inheritence: CObj
-export class CWidgetStyle extends CObj {
-
-}
-
-// inheritence: CObj
-export class CTCPSocket extends CObj {
-
-}
-
-// inheritence: CObj
-export class CWorldSoundList extends CObj {
-
-}
-
-// inheritence: CObj
-export class CWidgetTemplate extends CObj {
-
-}
-
-// inheritence: CObj
-export class CWebBrowserManager extends CObj {
-
-}
-
-// inheritence: CObj
-export class CUIScriptToken extends CObj {
-
-}
-
-// inheritence: CObj
-export class CVertexColorMap extends CObj {
-
-}
-
-// inheritence: CObj
-export class CServerList extends CObj {
-
-}
-
-// inheritence: CObj
-export class CTextureList extends CObj {
-
-}
-
-// inheritence: CObj
-export class CTexelAlphaMap extends CObj {
-
-}
-
-// inheritence: CObj
-export class CSceneEntityModifier extends CObj {
-
-}
-
-// inheritence: CObj
-export class CEventCmd extends CObj {
-
-}
-
-// inheritence: CObj
-export class CFunction extends CObj {
-
-}
-
-// inheritence: CObj
-export class IGameBind extends CObj {
-
-}
-
-// inheritence: CObj
-export class vtable_ClientEntityDirectory extends CObj {
-
-// deconstructClientEntityDirectory -> type: void (*)(IEntityDirectory *) __attribute__((fastcall)) 
-// function 
-// args: IEntityDirectory * -> ret: void 
-	public deconstructClientEntityDirectory() {
-		return null;
-	}
-
-// deleteClientEntityDirectory -> type: void (*)(IEntityDirectory *) __attribute__((fastcall)) 
-// function 
-// args: IEntityDirectory * -> ret: void 
-	public deleteClientEntityDirectory() {
-		return null;
-	}
-
-// sub_1CF130 -> type: long long (*)(IEntityDirectory *) __attribute__((fastcall)) 
-// function 
-// args: IEntityDirectory * -> ret: long long 
-	public sub_1CF130() {
-		return null;
-	}
-
-// sub_1D1410 -> type: long long (*)(long long, unsigned int) __attribute__((fastcall)) 
-// function 
-// args: long long unsigned int -> ret: long long 
-	public sub_1D1410() {
-		return null;
-	}
-
-// sub_1D42B0 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public sub_1D42B0() {
-		return null;
-	}
-
-// sub_1D42C0 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public sub_1D42C0() {
-		return null;
-	}
-
-// sub_1D1680 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
-// function 
-// args: uint64 * -> ret: long long 
-	public sub_1D1680() {
-		return null;
-	}
-
-// sub_1D16F0 -> type: long long (*)(uint64 *, long long) __attribute__((fastcall)) 
-// function 
-// args: uint64 * long long -> ret: long long 
-	public sub_1D16F0() {
-		return null;
-	}
-
-// sub_1D42D0 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public sub_1D42D0() {
-		return null;
-	}
-
-// sub_1D42E0 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public sub_1D42E0() {
-		return null;
-	}
-
-// sub_1D42F0 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public sub_1D42F0() {
-		return null;
-	}
-
-// sub_1D4300 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public sub_1D4300() {
-		return null;
-	}
-
-// sub_1D4310 -> type: __int128 *(*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: __int128 * 
-	public sub_1D4310() {
-		return null;
-	}
-
-// sub_1D19F0 -> type: long long (*)(long long, uint64 *, unsigned short) __attribute__((fastcall)) 
-// function 
-// args: long long uint64 * unsigned short -> ret: long long 
-	public sub_1D19F0() {
-		return null;
-	}
-
-// sub_1D4320 -> type: long long (*)(long long, uint64 *) __attribute__((fastcall)) 
-// function 
-// args: long long uint64 * -> ret: long long 
-	public sub_1D4320() {
-		return null;
-	}
-
-// nullsub_16 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_16() {
-		return null;
-	}
-
-// nullsub_17 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_17() {
-		return null;
-	}
-
-// loc_0 -> type: void *(*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void * 
-	public loc_0() {
-		return null;
-	}
-
-}
-
-// inheritence: CObj
-export class ClientEntityDirectory extends CObj {
-
-// vtable -> type: vtable_ClientEntityDirectory * 
-	get vtable(): vtable_ClientEntityDirectory {
-		return new vtable_ClientEntityDirectory(this.align(0x0).readPointer());
-	}
-
-// field_8 -> type: uint64 
-	get field_8(): UInt64 {
-		return this.align(0x8).readU64();
-	}
-
-// field_10 -> type: uint64 
-	get field_10(): UInt64 {
-		return this.align(0x10).readU64();
-	}
-
-// field_18 -> type: long long 
-	get field_18(): Int64 {
-		return this.align(0x18).readS64();
-	}
-
-// field_20 -> type: long long 
-	get field_20(): Int64 {
-		return this.align(0x20).readS64();
-	}
-
-// field_28 -> type: uint64 * 
-// args:  -> ret:  
-	public field_28() {
-		return null;
-	}
-
-// field_30 -> type: uint64 
-	get field_30(): UInt64 {
-		return this.align(0x30).readU64();
-	}
-
-// firstNode -> type: uint64 * 
-// args:  -> ret:  
-	public firstNode() {
-		return null;
-	}
-
-// lastNode -> type: uint64 
-	get lastNode(): UInt64 {
-		return this.align(0x40).readU64();
-	}
-
-// field_48 -> type: long long 
-	get field_48(): Int64 {
-		return this.align(0x48).readS64();
-	}
-
-// field_50 -> type: int 
-	get field_50(): number {
-		return this.align(0x50).readS32();
-	}
-
-// field_54 -> type: int 
-	get field_54(): number {
-		return this.align(0x54).readS32();
-	}
-
-// field_58 -> type: long long 
-	get field_58(): Int64 {
-		return this.align(0x58).readS64();
-	}
-
-// field_60 -> type: long long 
-	get field_60(): Int64 {
-		return this.align(0x60).readS64();
-	}
-
-// gap_68 -> type: uint8 [8] 
-// field_70 -> type: long long 
-	get field_70(): Int64 {
-		return this.align(0x70).readS64();
-	}
-
-// field_78 -> type: long long 
-	get field_78(): Int64 {
-		return this.align(0x78).readS64();
-	}
-
-// gap_80 -> type: uint8 [8] 
-// field_88 -> type: long long 
-	get field_88(): Int64 {
-		return this.align(0x88).readS64();
-	}
-
-// field_90 -> type: char * 
-// args:  -> ret:  
-	public field_90() {
-		return null;
-	}
-
-// field_98 -> type: long long 
-	get field_98(): Int64 {
-		return this.align(0x98).readS64();
-	}
-
-// field_A0 -> type: uint64 * 
-// args:  -> ret:  
-	public field_A0() {
-		return null;
-	}
-
-// gap_A8 -> type: uint8 [8] 
-// field_B0 -> type: long long 
-	get field_B0(): Int64 {
-		return this.align(0xb0).readS64();
-	}
-
-// field_B8 -> type: uint64 * 
-// args:  -> ret:  
-	public field_B8() {
-		return null;
-	}
-
-}
-
-// inheritence: CObj
-export class CClientEntity extends CObj {
-
-// field_0 -> type: uint64 
-	get field_0(): UInt64 {
-		return this.align(0x0).readU64();
-	}
-
-// field_8 -> type: char 
-	get field_8(): number {
-		return this.align(0x8).readS8();
-	}
-
-// gap_9 -> type: uint8 [3] 
-// field_C -> type: int 
-	get field_C(): number {
-		return this.align(0xc).readS32();
-	}
-
-// field_10 -> type: uint64 
-	get field_10(): UInt64 {
-		return this.align(0x10).readU64();
-	}
-
-// sceneEntityModifierResult -> type: int 
-	get sceneEntityModifierResult(): number {
-		return this.align(0x18).readS32();
-	}
-
-// gap_1C -> type: uint8 [52] 
-// field_50 -> type: int 
-	get field_50(): number {
-		return this.align(0x50).readS32();
-	}
-
-// field_54 -> type: int 
-	get field_54(): number {
-		return this.align(0x54).readS32();
-	}
-
-// field_58 -> type: int 
-	get field_58(): number {
-		return this.align(0x58).readS32();
-	}
-
-// field_5C -> type: int 
-	get field_5C(): number {
-		return this.align(0x5c).readS32();
-	}
-
-// field_60 -> type: int 
-	get field_60(): number {
-		return this.align(0x60).readS32();
-	}
-
-// field_64 -> type: int 
-	get field_64(): number {
-		return this.align(0x64).readS32();
-	}
-
-// field_68 -> type: int 
-	get field_68(): number {
-		return this.align(0x68).readS32();
-	}
-
-// field_6C -> type: int 
-	get field_6C(): number {
-		return this.align(0x6c).readS32();
-	}
-
-// field_70 -> type: char 
-	get field_70(): number {
-		return this.align(0x70).readS8();
-	}
-
-// field_71 -> type: char 
-	get field_71(): number {
-		return this.align(0x71).readS8();
-	}
-
-// gap_72 -> type: uint8 [2] 
-// field_74 -> type: int 
-	get field_74(): number {
-		return this.align(0x74).readS32();
-	}
-
-// field_78 -> type: int 
-	get field_78(): number {
-		return this.align(0x78).readS32();
-	}
-
-// field_7C -> type: int 
-	get field_7C(): number {
-		return this.align(0x7c).readS32();
-	}
-
-// field_80 -> type: int 
-	get field_80(): number {
-		return this.align(0x80).readS32();
-	}
-
-// field_84 -> type: char 
-	get field_84(): number {
-		return this.align(0x84).readS8();
-	}
-
-// field_85 -> type: char 
-	get field_85(): number {
-		return this.align(0x85).readS8();
-	}
-
-// field_86 -> type: char 
-	get field_86(): number {
-		return this.align(0x86).readS8();
-	}
-
-// field_87 -> type: char 
-	get field_87(): number {
-		return this.align(0x87).readS8();
-	}
-
-// gap_88 -> type: uint8 [720] 
-// field_358 -> type: long long 
-	get field_358(): Int64 {
-		return this.align(0x358).readS64();
-	}
-
-// field_360 -> type: long long 
-	get field_360(): Int64 {
-		return this.align(0x360).readS64();
-	}
-
-// field_368 -> type: long long 
-	get field_368(): Int64 {
-		return this.align(0x368).readS64();
-	}
-
-// field_370 -> type: long long 
-	get field_370(): Int64 {
-		return this.align(0x370).readS64();
-	}
-
-// gap_378 -> type: uint8 [1256] 
-// field_860 -> type: long long 
-	get field_860(): Int64 {
-		return this.align(0x860).readS64();
-	}
-
-// field_868 -> type: long long 
-	get field_868(): Int64 {
-		return this.align(0x868).readS64();
-	}
-
-// field_870 -> type: long long 
-	get field_870(): Int64 {
-		return this.align(0x870).readS64();
-	}
-
-// field_878 -> type: long long 
-	get field_878(): Int64 {
-		return this.align(0x878).readS64();
-	}
-
-// field_880 -> type: long long 
-	get field_880(): Int64 {
-		return this.align(0x880).readS64();
-	}
-
-// field_888 -> type: long long 
-	get field_888(): Int64 {
-		return this.align(0x888).readS64();
-	}
-
-// field_890 -> type: long long 
-	get field_890(): Int64 {
-		return this.align(0x890).readS64();
-	}
-
-// field_898 -> type: long long 
-	get field_898(): Int64 {
-		return this.align(0x898).readS64();
-	}
-
-// field_8A0 -> type: long long 
-	get field_8A0(): Int64 {
-		return this.align(0x8a0).readS64();
-	}
-
-// field_8A8 -> type: long long 
-	get field_8A8(): Int64 {
-		return this.align(0x8a8).readS64();
-	}
-
-// field_8B0 -> type: long long 
-	get field_8B0(): Int64 {
-		return this.align(0x8b0).readS64();
-	}
-
-// field_8B8 -> type: long long 
-	get field_8B8(): Int64 {
-		return this.align(0x8b8).readS64();
-	}
-
-// field_8C0 -> type: long long 
-	get field_8C0(): Int64 {
-		return this.align(0x8c0).readS64();
-	}
-
-// field_8C8 -> type: long long 
-	get field_8C8(): Int64 {
-		return this.align(0x8c8).readS64();
-	}
-
-// field_8D0 -> type: long long 
-	get field_8D0(): Int64 {
-		return this.align(0x8d0).readS64();
-	}
-
-// field_8D8 -> type: long long 
-	get field_8D8(): Int64 {
-		return this.align(0x8d8).readS64();
-	}
-
-// gameEntity1 -> type: IGameEntity * 
-	get gameEntity1(): IGameEntity {
-		return new IGameEntity(this.align(0x8e0).readPointer());
-	}
-
-// gameEntity2 -> type: IGameEntity * 
-	get gameEntity2(): IGameEntity {
-		return new IGameEntity(this.align(0x8e8).readPointer());
-	}
-
-// gameEntity3 -> type: IGameEntity * 
-	get gameEntity3(): IGameEntity {
-		return new IGameEntity(this.align(0x8f0).readPointer());
-	}
-
-// field_8F8 -> type: long long 
-	get field_8F8(): Int64 {
-		return this.align(0x8f8).readS64();
-	}
-
-// field_900 -> type: long long 
-	get field_900(): Int64 {
-		return this.align(0x900).readS64();
-	}
-
-// field_908 -> type: long long 
-	get field_908(): Int64 {
-		return this.align(0x908).readS64();
-	}
-
-// field_910 -> type: int 
-	get field_910(): number {
-		return this.align(0x910).readS32();
-	}
-
-// field_914 -> type: int 
-	get field_914(): number {
-		return this.align(0x914).readS32();
-	}
-
-// field_918 -> type: int 
-	get field_918(): number {
-		return this.align(0x918).readS32();
-	}
-
-// field_91C -> type: char 
-	get field_91C(): number {
-		return this.align(0x91c).readS8();
-	}
-
-// gap_91D -> type: uint8 [3] 
-// field_920 -> type: long long 
-	get field_920(): Int64 {
-		return this.align(0x920).readS64();
-	}
-
-// gap_928 -> type: uint8 [4] 
-// field_92C -> type: int 
-	get field_92C(): number {
-		return this.align(0x92c).readS32();
-	}
-
-}
-
-// inheritence: CObj
-export class _guard_variable_for_CEntityDefinitionResource extends CObj {
-
-}
-
-// inheritence: CObj
-export class _guard_variable_for_CGameMechanicsResource extends CObj {
-
-}
-
-// inheritence: CObj
-export class _guard_variable_for_CBotDefinitionResource extends CObj {
-
-}
-
-// inheritence: CObj
-export class _guard_variable_for_CBotMetaDataResource extends CObj {
-
-}
-
-// inheritence: CObj
 export class __jmp_buf_tag extends CObj {
 
 }
@@ -43948,6 +44977,26 @@ export class LibraryInitFuncsArg extends CObj {
 	public field_200() {
 		return null;
 	}
+
+}
+
+// inheritence: CObj
+export class _guard_variable_for_CEntityDefinitionResource extends CObj {
+
+}
+
+// inheritence: CObj
+export class _guard_variable_for_CGameMechanicsResource extends CObj {
+
+}
+
+// inheritence: CObj
+export class _guard_variable_for_CBotDefinitionResource extends CObj {
+
+}
+
+// inheritence: CObj
+export class _guard_variable_for_CBotMetaDataResource extends CObj {
 
 }
 
@@ -56633,1047 +57682,6 @@ export class CBStop extends CObj {
 }
 
 // inheritence: CObj
-export class Vtable_IGameEntity_7FBBC2571458 extends CObj {
-
-// vfunc_12603648 -> type: IEntityDefinition *(*)(long long) __attribute__((fastcall)) 
-// function 
-// args: long long -> ret: IEntityDefinition * 
-	public vfunc_12603648() {
-		return null;
-	}
-
-// GameEntityDeconstructor -> type: long long *(*)(long long) __attribute__((fastcall)) 
-// function 
-// args: long long -> ret: long long * 
-	public GameEntityDeconstructor() {
-		return null;
-	}
-
-// deleteAndDeconstructCGameEntity -> type: void (*)(void *) __attribute__((fastcall)) 
-// function 
-// args: void * -> ret: void 
-	public deleteAndDeconstructCGameEntity() {
-		return null;
-	}
-
-// vfunc_12124208 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124208() {
-		return null;
-	}
-
-// vfunc_12124224 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124224() {
-		return null;
-	}
-
-// nullsub_3 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_3() {
-		return null;
-	}
-
-// nullsub_4 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_4() {
-		return null;
-	}
-
-// vfunc_12124272 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124272() {
-		return null;
-	}
-
-// vfunc_12124288 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124288() {
-		return null;
-	}
-
-// vfunc_12124304 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124304() {
-		return null;
-	}
-
-// vfunc_12135232 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12135232() {
-		return null;
-	}
-
-// vfunc_12135248 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12135248() {
-		return null;
-	}
-
-// vfunc_12135264 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12135264() {
-		return null;
-	}
-
-// vfunc_12124368 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124368() {
-		return null;
-	}
-
-// vfunc_12124384 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124384() {
-		return null;
-	}
-
-// vfunc_12124400 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124400() {
-		return null;
-	}
-
-// vfunc_12124416 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124416() {
-		return null;
-	}
-
-// vfunc_12124432 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124432() {
-		return null;
-	}
-
-// vfunc_12124448 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124448() {
-		return null;
-	}
-
-// vfunc_12124464 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124464() {
-		return null;
-	}
-
-// vfunc_12124480 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124480() {
-		return null;
-	}
-
-// vfunc_12124496 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124496() {
-		return null;
-	}
-
-// vfunc_12124512 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124512() {
-		return null;
-	}
-
-// vfunc_12124528 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124528() {
-		return null;
-	}
-
-// vfunc_12124544 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124544() {
-		return null;
-	}
-
-// vfunc_12124560 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124560() {
-		return null;
-	}
-
-// vfunc_12124576 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124576() {
-		return null;
-	}
-
-// vfunc_12124592 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124592() {
-		return null;
-	}
-
-// vfunc_12124608 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124608() {
-		return null;
-	}
-
-// vfunc_12124624 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124624() {
-		return null;
-	}
-
-// vfunc_12124640 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124640() {
-		return null;
-	}
-
-// vfunc_12124656 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124656() {
-		return null;
-	}
-
-// vfunc_12124672 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124672() {
-		return null;
-	}
-
-// vfunc_12124688 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124688() {
-		return null;
-	}
-
-// vfunc_12124704 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124704() {
-		return null;
-	}
-
-// vfunc_12124720 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124720() {
-		return null;
-	}
-
-// vfunc_12124736 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124736() {
-		return null;
-	}
-
-// vfunc_12124752 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124752() {
-		return null;
-	}
-
-// vfunc_12124768 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124768() {
-		return null;
-	}
-
-// vfunc_12124784 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124784() {
-		return null;
-	}
-
-// vfunc_12124800 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124800() {
-		return null;
-	}
-
-// vfunc_12124816 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124816() {
-		return null;
-	}
-
-// vfunc_12124832 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124832() {
-		return null;
-	}
-
-// vfunc_12124848 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124848() {
-		return null;
-	}
-
-// vfunc_12124864 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124864() {
-		return null;
-	}
-
-// vfunc_12124880 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124880() {
-		return null;
-	}
-
-// vfunc_12124896 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124896() {
-		return null;
-	}
-
-// vfunc_12124912 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124912() {
-		return null;
-	}
-
-// vfunc_12124928 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124928() {
-		return null;
-	}
-
-// vfunc_12124944 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124944() {
-		return null;
-	}
-
-// vfunc_12124960 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124960() {
-		return null;
-	}
-
-// vfunc_12124976 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124976() {
-		return null;
-	}
-
-// vfunc_12124992 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12124992() {
-		return null;
-	}
-
-// vfunc_12125008 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125008() {
-		return null;
-	}
-
-// vfunc_12125024 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125024() {
-		return null;
-	}
-
-// vfunc_12125040 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125040() {
-		return null;
-	}
-
-// vfunc_12125056 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125056() {
-		return null;
-	}
-
-// vfunc_12125072 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125072() {
-		return null;
-	}
-
-// vfunc_12125088 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125088() {
-		return null;
-	}
-
-// vfunc_12125104 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125104() {
-		return null;
-	}
-
-// vfunc_12125120 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125120() {
-		return null;
-	}
-
-// vfunc_12125136 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125136() {
-		return null;
-	}
-
-// vfunc_12125152 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125152() {
-		return null;
-	}
-
-// vfunc_12125168 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125168() {
-		return null;
-	}
-
-// vfunc_12125184 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125184() {
-		return null;
-	}
-
-// vfunc_12125200 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125200() {
-		return null;
-	}
-
-// vfunc_12125216 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125216() {
-		return null;
-	}
-
-// vfunc_12125232 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125232() {
-		return null;
-	}
-
-// vfunc_12125248 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125248() {
-		return null;
-	}
-
-// vfunc_12125264 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125264() {
-		return null;
-	}
-
-// vfunc_12125280 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125280() {
-		return null;
-	}
-
-// vfunc_12125296 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125296() {
-		return null;
-	}
-
-// vfunc_12125312 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125312() {
-		return null;
-	}
-
-// vfunc_12125328 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125328() {
-		return null;
-	}
-
-// vfunc_12125344 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125344() {
-		return null;
-	}
-
-// vfunc_12125360 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125360() {
-		return null;
-	}
-
-// vfunc_12125376 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125376() {
-		return null;
-	}
-
-// vfunc_12125392 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125392() {
-		return null;
-	}
-
-// vfunc_12125408 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125408() {
-		return null;
-	}
-
-// vfunc_12125424 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125424() {
-		return null;
-	}
-
-// vfunc_12125440 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125440() {
-		return null;
-	}
-
-// vfunc_12125456 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125456() {
-		return null;
-	}
-
-// vfunc_12125472 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125472() {
-		return null;
-	}
-
-// vfunc_12125488 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125488() {
-		return null;
-	}
-
-// vfunc_12125504 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125504() {
-		return null;
-	}
-
-// vfunc_12125520 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125520() {
-		return null;
-	}
-
-// vfunc_12125536 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125536() {
-		return null;
-	}
-
-// vfunc_12125552 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125552() {
-		return null;
-	}
-
-// vfunc_12125568 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125568() {
-		return null;
-	}
-
-// vfunc_12125584 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125584() {
-		return null;
-	}
-
-// vfunc_12125600 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125600() {
-		return null;
-	}
-
-// vfunc_12125616 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125616() {
-		return null;
-	}
-
-// vfunc_12125632 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125632() {
-		return null;
-	}
-
-// vfunc_12125648 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125648() {
-		return null;
-	}
-
-// vfunc_12125664 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125664() {
-		return null;
-	}
-
-// vfunc_12125680 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125680() {
-		return null;
-	}
-
-// vfunc_12125696 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125696() {
-		return null;
-	}
-
-// vfunc_12125712 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125712() {
-		return null;
-	}
-
-// vfunc_12125728 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125728() {
-		return null;
-	}
-
-// vfunc_12125744 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125744() {
-		return null;
-	}
-
-// vfunc_12125760 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125760() {
-		return null;
-	}
-
-// vfunc_12125776 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125776() {
-		return null;
-	}
-
-// vfunc_12125792 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125792() {
-		return null;
-	}
-
-// vfunc_12125808 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125808() {
-		return null;
-	}
-
-// vfunc_12125824 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125824() {
-		return null;
-	}
-
-// vfunc_12125840 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125840() {
-		return null;
-	}
-
-// vfunc_12125856 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125856() {
-		return null;
-	}
-
-// vfunc_12125872 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125872() {
-		return null;
-	}
-
-// vfunc_12125888 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125888() {
-		return null;
-	}
-
-// vfunc_12125904 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125904() {
-		return null;
-	}
-
-// vfunc_12125920 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125920() {
-		return null;
-	}
-
-// vfunc_12125936 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125936() {
-		return null;
-	}
-
-// vfunc_12125952 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125952() {
-		return null;
-	}
-
-// vfunc_12125968 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125968() {
-		return null;
-	}
-
-// vfunc_12125984 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12125984() {
-		return null;
-	}
-
-// vfunc_12126000 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12126000() {
-		return null;
-	}
-
-// vfunc_12126016 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12126016() {
-		return null;
-	}
-
-// vfunc_12126032 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12126032() {
-		return null;
-	}
-
-// sub_7FBBC1CB5750 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public sub_7FBBC1CB5750() {
-		return null;
-	}
-
-// _ZN11IGameEntity8BaselineEv -> type: void (*)(IGameEntity *) __attribute__((fastcall)) 
-// function 
-// args: IGameEntity * -> ret: void 
-	public _ZN11IGameEntity8BaselineEv() {
-		return null;
-	}
-
-// _ZNK11IGameEntity11GetSnapshotER15CEntitySnapshotj -> type: long long (*)(IGameEntity *) __attribute__((fastcall)) 
-// function 
-// args: IGameEntity * -> ret: long long 
-	public _ZNK11IGameEntity11GetSnapshotER15CEntitySnapshotj() {
-		return null;
-	}
-
-// _ZN11IGameEntity12ReadSnapshotER15CEntitySnapshotj -> type: char (*)(IGameEntity *) __attribute__((fastcall)) 
-// function 
-// args: IGameEntity * -> ret: char 
-	public _ZN11IGameEntity12ReadSnapshotER15CEntitySnapshotj() {
-		return null;
-	}
-
-// _ZN11IGameEntity21GetSnapshotVisibilityER22SEntSnapShotVisibility -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public _ZN11IGameEntity21GetSnapshotVisibilityER22SEntSnapShotVisibility() {
-		return null;
-	}
-
-// _ZNK11IGameEntity15IsEnemySnapshotERjS0_ -> type: void (*)(IGameEntity *) __attribute__((fastcall)) 
-// function 
-// args: IGameEntity * -> ret: void 
-	public _ZNK11IGameEntity15IsEnemySnapshotERjS0_() {
-		return null;
-	}
-
-// vfunc_12126096 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12126096() {
-		return null;
-	}
-
-// vfunc_12604784 -> type: long long (*)(long long) __attribute__((fastcall)) 
-// function 
-// args: long long -> ret: long long 
-	public vfunc_12604784() {
-		return null;
-	}
-
-// vfunc_12126112 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12126112() {
-		return null;
-	}
-
-// vfunc_12157280 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12157280() {
-		return null;
-	}
-
-// vfunc_12157296 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12157296() {
-		return null;
-	}
-
-// nullsub_5 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_5() {
-		return null;
-	}
-
-// nullsub_6 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_6() {
-		return null;
-	}
-
-// nullsub_7 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_7() {
-		return null;
-	}
-
-// nullsub_8 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_8() {
-		return null;
-	}
-
-// nullsub_9 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_9() {
-		return null;
-	}
-
-// nullsub_13 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_13() {
-		return null;
-	}
-
-// vfunc_12126240 -> type: long long (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: long long 
-	public vfunc_12126240() {
-		return null;
-	}
-
-// nullsub_10 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_10() {
-		return null;
-	}
-
-// nullsub_11 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_11() {
-		return null;
-	}
-
-// vfunc_12126288 -> type: char (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: char 
-	public vfunc_12126288() {
-		return null;
-	}
-
-// vfunc_12126304 -> type: char (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: char 
-	public vfunc_12126304() {
-		return null;
-	}
-
-// vfunc_12126320 -> type: char (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: char 
-	public vfunc_12126320() {
-		return null;
-	}
-
-// vfunc_12126336 -> type: char (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: char 
-	public vfunc_12126336() {
-		return null;
-	}
-
-// sub_7FBBC1C4A520 -> type: char (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: char 
-	public sub_7FBBC1C4A520() {
-		return null;
-	}
-
-// vfunc_12604720 -> type: long long (*)(long long, IGameEntity *) __attribute__((fastcall)) 
-// function 
-// args: long long IGameEntity * -> ret: long long 
-	public vfunc_12604720() {
-		return null;
-	}
-
-// nullsub_12 -> type: void (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void 
-	public nullsub_12() {
-		return null;
-	}
-
-// vfunc_12126384 -> type: bool (*)(long long) __attribute__((fastcall)) 
-// function 
-// args: long long -> ret: bool 
-	public vfunc_12126384() {
-		return null;
-	}
-
-// _ZN11IGameEntity10AddToSceneERK5CVec4IfEiRK11SClientView -> type: char (*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: char 
-	public _ZN11IGameEntity10AddToSceneERK5CVec4IfEiRK11SClientView() {
-		return null;
-	}
-
-// vfunc_12606112 -> type: char (*)(long long, long long, long long) __attribute__((fastcall)) 
-// function 
-// args: long long long long long long -> ret: char 
-	public vfunc_12606112() {
-		return null;
-	}
-
-}
-
-// inheritence: CObj
 export class IEntityTool_vtbl extends CObj {
 
 }
@@ -57935,6 +57943,13 @@ export class CBufferFixed_vtbl extends CObj {
 // function 
 // args: IBuffer * unsigned int -> ret: char * 
 	public readByte() {
+		return null;
+	}
+
+// readInt -> type: long long (*)(IBuffer *, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: IBuffer * unsigned int -> ret: long long 
+	public readInt() {
 		return null;
 	}
 

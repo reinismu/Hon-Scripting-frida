@@ -17,7 +17,8 @@ class ClassCreator:
 
             "uint64": {"return": "UInt64", "read": "readU64"},
             "uint32": {"return": "number", "read": "readU32"},
-            "uint32": {"return": "number", "read": "readU16"},
+            "uint32": {"return": "number", "read": "readU32"},
+            "uint16": {"return": "number", "read": "readU16"},
             "uint8": {"return": "number", "read": "readU8"},
 
             "long long": {"return": "Int64", "read": "readS64"},
