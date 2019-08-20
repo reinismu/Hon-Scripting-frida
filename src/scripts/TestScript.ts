@@ -6,6 +6,7 @@ import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
+import { OBJECT_MANAGER } from "../objects/ObjectManager";
 
 export class TestScript extends Script {
     private delayCastQ = false;
@@ -22,7 +23,7 @@ export class TestScript extends Script {
             return;
         }
         const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if(!enemyHero) {
+        if (!enemyHero) {
             return;
         }
 
@@ -43,12 +44,15 @@ export class TestScript extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         if (!INPUT.isControlDown()) return;
+        OBJECT_MANAGER.heroes.forEach(h => {
+            console.log(`getEvasionRanged: ${h.getEvasionRanged()}`);
+        });
         this.doQLogic();
     }
 
     @Subscribe("DrawEvent")
     onDraw() {
-        GRAPHICS.drawRect(0, 0, 100, 100);
+        // GRAPHICS.drawRect(0, 0, 100, 100);
         // console.log("draw");
     }
 

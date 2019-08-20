@@ -29,7 +29,9 @@ Tool to easily interact with game
 * Tips https://github.com/joxeankoret/diaphora/blob/master/doc/diaphora_help.pdf
 * Could change haxrays max function size to lower than 256
 
+## Useful links
 
+* https://hon.gamepedia.com/Bot_API
 
 -> size 0x3D8
 #pragma pack(push, 1)

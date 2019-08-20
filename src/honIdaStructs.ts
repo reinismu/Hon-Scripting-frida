@@ -3931,6 +3931,11 @@ export class type_info extends CObj {
 }
 
 // inheritence: CObj
+export class IEntityDefinition extends CObj {
+
+}
+
+// inheritence: CObj
 export class IGameEntity extends CObj {
 
 // __vftable -> type: IGameEntity_vtbl * 
@@ -3938,9 +3943,9 @@ export class IGameEntity extends CObj {
 		return new IGameEntity_vtbl(this.align(0x0).readPointer());
 	}
 
-// field_8 -> type: long long 
-	get field_8(): Int64 {
-		return this.align(0x8).readS64();
+// avatarDefinition -> type: IEntityDefinition * 
+	get avatarDefinition(): IEntityDefinition {
+		return new IEntityDefinition(this.align(0x8).readPointer());
 	}
 
 // field_10 -> type: long long 
@@ -4272,11 +4277,6 @@ export class IEntityTool extends ISlaveEntity {
 	get field_208(): UInt64 {
 		return this.align(0x208).readU64();
 	}
-
-}
-
-// inheritence: CObj
-export class IEntityDefinition extends CObj {
 
 }
 
@@ -6370,14 +6370,14 @@ export class IUnitEntity extends IVisualEntity {
 		return this.align(0x344).readS32();
 	}
 
-// field_348 -> type: int 
-	get field_348(): number {
-		return this.align(0x348).readS32();
+// health -> type: float 
+	get health(): number {
+		return this.align(0x348).readFloat();
 	}
 
-// field_34C -> type: int 
-	get field_34C(): number {
-		return this.align(0x34c).readS32();
+// mana -> type: float 
+	get mana(): number {
+		return this.align(0x34c).readFloat();
 	}
 
 // field_350 -> type: long long 
@@ -6484,8 +6484,8 @@ export class IUnitEntity extends IVisualEntity {
 	}
 
 // abilities -> type: ISlaveEntity *[80] 
-// field_680 -> type: long long 
-	get field_680(): Int64 {
+// abilitiesCount -> type: long long 
+	get abilitiesCount(): Int64 {
 		return this.align(0x680).readS64();
 	}
 
@@ -7388,7 +7388,13 @@ export class IGame extends CObj {
 		return this.align(0x28).readU64();
 	}
 
-// gap_30 -> type: uint8 [696] 
+// gap_30 -> type: uint8 [616] 
+// teamInfo -> type: CTeamInfo * 
+	get teamInfo(): CTeamInfo {
+		return new CTeamInfo(this.align(0x298).readPointer());
+	}
+
+// gap_2A0 -> type: uint8 [72] 
 // field_2E8 -> type: long long 
 	get field_2E8(): Int64 {
 		return this.align(0x2e8).readS64();
