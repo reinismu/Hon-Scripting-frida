@@ -27,7 +27,7 @@ export class TestScript extends Script {
         if (!enemyHero) {
             return;
         }
-        if (enemyHero.position.distance2d(this.myHero.position) > 1750) {
+        if (enemyHero.position.distance2d(this.myHero.position) > q.getDynamicRange() + 80) {
             return;
         }
         if (this.delayCastQ) {
@@ -48,7 +48,7 @@ export class TestScript extends Script {
     onMainLoop() {
         if (!INPUT.isControlDown()) return;
         // IGAME.mysteriousStruct.drawIndicatorFlag = 0x101;
-        console.log(`drawIndicatorFlag:` + IGAME.mysteriousStruct.drawIndicatorFlag);
+        // console.log(`drawIndicatorFlag:` + IGAME.mysteriousStruct.drawIndicatorFlag);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
         // console.log(`myHero:` + OBJECT_MANAGER.myHero);

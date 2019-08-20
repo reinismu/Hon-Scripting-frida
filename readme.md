@@ -35,5 +35,5 @@ Tool to easily interact with game
 
 ## TODO/BUGS
 
-* get spell ranges
+* DONE get spell ranges
 * get hero facing direction

@@ -11,5 +11,5 @@ initEventListener();
 // const testScript = new Thunderbringer();
 const testScript = new TestScript();
 
-// monitor(IGAME.mysteriousStruct.ptr.add(0x2b8), 2);
+// console.log(`watch: ${IGAME.mysteriousStruct.ptr.add(0x2b8)}`);
 
