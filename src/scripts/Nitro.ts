@@ -10,10 +10,11 @@ import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { IGAME } from "../game/Globals";
 import { Vec3, Vector } from "../utils/Vec3";
 
-export class TestScript extends Script {
+export class Nitro extends Script {
     private delayCastQ = false;
     private forceSnapshotSend = false;
     private myHeroCached: IUnitEntity | null = null;
+    private lastCast = 0;
 
     constructor() {
         super();
@@ -28,6 +29,9 @@ export class TestScript extends Script {
     }
 
     doQLogic() {
+        if (this.lastCast + 100 > Date.now()) {
+            return;
+        }
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.isReady()) {
             return;
@@ -42,6 +46,7 @@ export class TestScript extends Script {
             this.forceSnapshotSend = true;
             CLIENT.sendFakeMousePosToServer(castLocation.x, castLocation.y, castLocation.z);
             this.forceSnapshotSend = false;
+            this.lastCast = Date.now();
             ACTION.castSpell(this.myHero, 0);
             this.delayCastQ = false;
         } else {
@@ -60,10 +65,15 @@ export class TestScript extends Script {
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
         // const checkVec = { ...this.myHero.facingVector(), z: 0 };
-        // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`isAlive: ${h.isAlive}`);
-        // });
-        // console.log(`getArmor:${this.myHero.getArmor()}`);
+        OBJECT_MANAGER.heroes.forEach(h => {
+            console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+            for (let i = 0; i < 80; i++) {
+                const tool = h.getTool(i);
+                if (tool == null) continue;
+                console.log(`tool ${i}: ${tool.typeName}`);
+            }
+        });
+
         // console.log(`getCurrentPhysicalHealth:${this.myHero.getCurrentPhysicalHealth()}`);
         // console.log(`getPhysicalResistance:${this.myHero.getPhysicalResistance()}`);
         this.doQLogic();

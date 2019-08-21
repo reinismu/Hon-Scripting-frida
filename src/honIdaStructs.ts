@@ -18,6 +18,113 @@ export class CObj {
   }
 }
 
+// inheritence: CObj
+export class IGameEntity extends CObj {
+
+	// __vftable -> type: IGameEntity_vtbl * 
+		get __vftable(): IGameEntity_vtbl {
+			return new IGameEntity_vtbl(this.align(0x0).readPointer());
+		}
+	
+	// avatarDefinition -> type: IEntityDefinition * 
+		get avatarDefinition(): IEntityDefinition {
+			return new IEntityDefinition(this.align(0x8).readPointer());
+		}
+	
+	// field_10 -> type: long long 
+		get field_10(): Int64 {
+			return this.align(0x10).readS64();
+		}
+	
+	// field_18 -> type: int 
+		get field_18(): number {
+			return this.align(0x18).readS32();
+		}
+	
+	// networkId -> type: int 
+		get networkId(): number {
+			return this.align(0x1c).readS32();
+		}
+	
+	// gap_20 -> type: uint8 [8] 
+	// field_28 -> type: int 
+		get field_28(): number {
+			return this.align(0x28).readS32();
+		}
+	
+	// gap_2C -> type: uint8 [4] 
+	// field_30 -> type: long long 
+		get field_30(): Int64 {
+			return this.align(0x30).readS64();
+		}
+	
+	// gap_38 -> type: uint8 [8] 
+	// typeName -> type: wchar_t * 
+		get typeName(): string {
+			 const bytes = new Uint32Array(this.align(0x40).readPointer().readByteArray(200) || []);
+			 let str = "";
+			 for (let i = 0; i < bytes.length; i++) {;
+				 if(bytes[i] === 0) return str;
+				 str += String.fromCharCode(bytes[i]);
+			}
+		 return str; 
+		}
+	
+	// gap_48 -> type: uint8 [4] 
+	// field_4C -> type: int 
+		get field_4C(): number {
+			return this.align(0x4c).readS32();
+		}
+	
+	// field_50 -> type: int 
+		get field_50(): number {
+			return this.align(0x50).readS32();
+		}
+	
+	// gap_54 -> type: uint8 [4] 
+	// field_58 -> type: long long 
+		get field_58(): Int64 {
+			return this.align(0x58).readS64();
+		}
+	
+	// gap_60 -> type: uint8 [8] 
+	// field_68 -> type: __int128 
+	// field_78 -> type: long long 
+		get field_78(): Int64 {
+			return this.align(0x78).readS64();
+		}
+	
+	// field_80 -> type: long long 
+		get field_80(): Int64 {
+			return this.align(0x80).readS64();
+		}
+	
+	// field_88 -> type: int 
+		get field_88(): number {
+			return this.align(0x88).readS32();
+		}
+	
+	// field_8C -> type: int 
+		get field_8C(): number {
+			return this.align(0x8c).readS32();
+		}
+	
+	// field_90 -> type: int 
+		get field_90(): number {
+			return this.align(0x90).readS32();
+		}
+	
+	// field_94 -> type: long long 
+		get field_94(): Int64 {
+			return this.align(0x94).readS64();
+		}
+	
+	// allign -> type: int 
+		get allign(): number {
+			return this.align(0x9c).readS32();
+		}
+	
+	}
 
 // inheritence: CObj
 export class CMessageSocket extends CObj {
@@ -218,7 +325,7 @@ export class CBufferDynamic extends CObj {
 }
 
 // inheritence: CObj
-export class ISlaveEntity extends CObj {
+export class ISlaveEntity extends IGameEntity {
 
 // field_A0 -> type: int 
 	get field_A0(): number {
@@ -4602,113 +4709,6 @@ export class IEntityDefinition extends CObj {
 
 }
 
-// inheritence: CObj
-export class IGameEntity extends CObj {
-
-// __vftable -> type: IGameEntity_vtbl * 
-	get __vftable(): IGameEntity_vtbl {
-		return new IGameEntity_vtbl(this.align(0x0).readPointer());
-	}
-
-// avatarDefinition -> type: IEntityDefinition * 
-	get avatarDefinition(): IEntityDefinition {
-		return new IEntityDefinition(this.align(0x8).readPointer());
-	}
-
-// field_10 -> type: long long 
-	get field_10(): Int64 {
-		return this.align(0x10).readS64();
-	}
-
-// field_18 -> type: int 
-	get field_18(): number {
-		return this.align(0x18).readS32();
-	}
-
-// networkId -> type: int 
-	get networkId(): number {
-		return this.align(0x1c).readS32();
-	}
-
-// gap_20 -> type: uint8 [8] 
-// field_28 -> type: int 
-	get field_28(): number {
-		return this.align(0x28).readS32();
-	}
-
-// gap_2C -> type: uint8 [4] 
-// field_30 -> type: long long 
-	get field_30(): Int64 {
-		return this.align(0x30).readS64();
-	}
-
-// gap_38 -> type: uint8 [8] 
-// typeName -> type: wchar_t * 
-	get typeName(): string {
-		 const bytes = new Uint32Array(this.align(0x40).readPointer().readByteArray(200) || []);
-		 let str = "";
-		 for (let i = 0; i < bytes.length; i++) {;
-			 if(bytes[i] === 0) return str;
-			 str += String.fromCharCode(bytes[i]);
-		}
-	 return str; 
-	}
-
-// gap_48 -> type: uint8 [4] 
-// field_4C -> type: int 
-	get field_4C(): number {
-		return this.align(0x4c).readS32();
-	}
-
-// field_50 -> type: int 
-	get field_50(): number {
-		return this.align(0x50).readS32();
-	}
-
-// gap_54 -> type: uint8 [4] 
-// field_58 -> type: long long 
-	get field_58(): Int64 {
-		return this.align(0x58).readS64();
-	}
-
-// gap_60 -> type: uint8 [8] 
-// field_68 -> type: __int128 
-// field_78 -> type: long long 
-	get field_78(): Int64 {
-		return this.align(0x78).readS64();
-	}
-
-// field_80 -> type: long long 
-	get field_80(): Int64 {
-		return this.align(0x80).readS64();
-	}
-
-// field_88 -> type: int 
-	get field_88(): number {
-		return this.align(0x88).readS32();
-	}
-
-// field_8C -> type: int 
-	get field_8C(): number {
-		return this.align(0x8c).readS32();
-	}
-
-// field_90 -> type: int 
-	get field_90(): number {
-		return this.align(0x90).readS32();
-	}
-
-// field_94 -> type: long long 
-	get field_94(): Int64 {
-		return this.align(0x94).readS64();
-	}
-
-// allign -> type: int 
-	get allign(): number {
-		return this.align(0x9c).readS32();
-	}
-
-}
 
 // inheritence: IGameEntity
 export class CPlayer extends IGameEntity {

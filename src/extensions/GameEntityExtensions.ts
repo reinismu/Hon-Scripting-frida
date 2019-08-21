@@ -23,10 +23,21 @@ const toolInitMap = new Map([
     ]
 ]);
 
+const magicImmunityStates = new Set([
+    "State_Jereziah_Ability2",
+    "State_Item3E" /* Shrunken*/,
+    "State_Predator_Ability2",
+    "State_Hiro_Ability1" /* Swiftblade Q */
+]);
+
+const physicalImmunityStates = new Set([
+    "State_VoidTalisman",
+]);
+
 declare module "../honIdaStructs" {
     interface IUnitEntity {
         facingVector(): { x: number; y: number };
-        getTool(index: number): ISlaveEntity;
+        getTool(index: number): ISlaveEntity | null;
         isEnemy(entity: IUnitEntity): boolean;
         isDead(): boolean;
         getArmor(): number;
@@ -47,12 +58,15 @@ declare module "../honIdaStructs" {
         getMoveSpeed(smth: boolean): number;
         getEvasionMelee(): number;
         getEvasionRanged(): number;
+        isMagicImmune(): boolean;
+        isPhysicalImmune(): boolean;
     }
 }
 
-IUnitEntity.prototype.getTool = function(index: number): ISlaveEntity {
+IUnitEntity.prototype.getTool = function(index: number): ISlaveEntity | null {
     const self = this as IUnitEntity;
     const ptr = self.ptr.add(0x400 + index * 8).readPointer();
+    if (ptr.isNull()) return null;
     const type = tryGetTypeInfo(ptr);
     if (type) {
         const creator = toolInitMap.get(type.typeName);
@@ -68,6 +82,30 @@ const isEnemy = new NativeFunction(SHARED_MODULE.getExportByName("_ZNK11IUnitEnt
 IUnitEntity.prototype.isEnemy = function(entity: IUnitEntity): boolean {
     const self = this as IUnitEntity;
     return isEnemy(self.ptr, entity.ptr) as boolean;
+};
+
+IUnitEntity.prototype.isMagicImmune = function(): boolean {
+    const self = this as IUnitEntity;
+    for (let i = 0; i < 80; i++) {
+        const tool = self.getTool(i);
+        if (tool == null) continue;
+        if (magicImmunityStates.has(tool.typeName)) {
+            return true;
+        }
+    }
+    return false;
+};
+
+IUnitEntity.prototype.isPhysicalImmune = function(): boolean {
+    const self = this as IUnitEntity;
+    for (let i = 0; i < 80; i++) {
+        const tool = self.getTool(i);
+        if (tool == null) continue;
+        if (physicalImmunityStates.has(tool.typeName)) {
+            return true;
+        }
+    }
+    return false;
 };
 
 IUnitEntity.prototype.isDead = function(): boolean {
@@ -142,13 +180,13 @@ IUnitEntity.prototype.getMagicArmor = function(): number {
 // Gets how much physical damage must be done to kill
 IUnitEntity.prototype.getCurrentPhysicalHealth = function(): number {
     const self = this as IUnitEntity;
-    return self.health/(1-self.getPhysicalResistance());
+    return self.health / (1 - self.getPhysicalResistance());
 };
 
 // Gets how much physical damage must be done to kill
 IUnitEntity.prototype.getCurrentMagicalHealth = function(): number {
     const self = this as IUnitEntity;
-    return self.health/(1-self.getMagicalResistance());
+    return self.health / (1 - self.getMagicalResistance());
 };
 
 IUnitEntity.prototype.getCurrentHealth = function(): number {

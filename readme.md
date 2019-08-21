@@ -37,7 +37,25 @@ Tool to easily interact with game
 
 * DONE get spell ranges
 * DONE get hero facing direction
-* Focus easiest kill in range
+* DONE Focus easiest kill in range
+* Orbwalking
+* Magic immunity checks
+* Anti illusion logic (If new 2 entities pawned while 1 is already there Ignroe those 2)
 * draw circle
 * isMoving
 * prediction math
+
+## Top tier Heroes
+
+* Nitro
+* Thunderbringer
+* Soulstealer
+* Oogie
+* Artesia
+* Paralex (2x combo)
+* Armadon
+* Pebbles
+* Deadlift
+* Devo if can improve prediction? 
+* Gauntlet - super grabs
+* Maliken maybe with good orbwalker
