@@ -36,4 +36,8 @@ Tool to easily interact with game
 ## TODO/BUGS
 
 * DONE get spell ranges
-* get hero facing direction
+* DONE get hero facing direction
+* Focus easiest kill in range
+* draw circle
+* isMoving
+* prediction math

@@ -1,6 +1,6 @@
 import { IUnitEntity, IEntityItem, IEntityState, IEntityAbility, ISlaveEntity } from "../honIdaStructs";
 import { tryGetTypeInfo } from "../objects/RTTI";
-import { SHARED_MODULE } from "../game/Globals";
+import { SHARED_MODULE, IGAME } from "../game/Globals";
 
 const toolInitMap = new Map([
     [
@@ -25,9 +25,15 @@ const toolInitMap = new Map([
 
 declare module "../honIdaStructs" {
     interface IUnitEntity {
+        facingVector(): { x: number; y: number };
         getTool(index: number): ISlaveEntity;
         isEnemy(entity: IUnitEntity): boolean;
         isDead(): boolean;
+        getArmor(): number;
+        getArmorPercentage(): number;
+        getPhysicalResistance(): number;
+        getMagicArmor(): number;
+        getCurrentPhysicalHealth(): number;
         getCurrentHealth(): number;
         getMaxHealth(): number;
         getHealthPercent(): number;
@@ -64,6 +70,59 @@ IUnitEntity.prototype.isEnemy = function(entity: IUnitEntity): boolean {
 IUnitEntity.prototype.isDead = function(): boolean {
     const self = this as IUnitEntity;
     return self.isAlive != 1;
+};
+
+IUnitEntity.prototype.getArmor = function(): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x720)
+            .readPointer(),
+        "float",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IUnitEntity.prototype.getArmorPercentage = function(): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x700)
+            .readPointer(),
+        "int",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+const getArmorDamageAdjustment = new NativeFunction(
+    SHARED_MODULE.getExportByName("_ZNK14CGameMechanics24GetArmorDamageAdjustmentEjf"),
+    "float",
+    ["pointer", "int", "float"]
+);
+
+IUnitEntity.prototype.getPhysicalResistance = function(): number {
+    const self = this as IUnitEntity;
+    return getArmorDamageAdjustment(IGAME.gameMechanics.ptr, self.getArmorPercentage(), self.getArmor()) as number;
+};
+
+IUnitEntity.prototype.getMagicArmor = function(): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x728)
+            .readPointer(),
+        "float",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+// Gets how much physical damage must be done to kill
+IUnitEntity.prototype.getCurrentPhysicalHealth = function(): number {
+    const self = this as IUnitEntity;
+    return self.health/(1-self.getPhysicalResistance());
 };
 
 IUnitEntity.prototype.getCurrentHealth = function(): number {
@@ -165,7 +224,7 @@ IUnitEntity.prototype.getEvasionMelee = function(): number {
             .add(0x978)
             .readPointer(),
         "float",
-        ["pointer", ]
+        ["pointer"]
     )(self.ptr) as number;
 };
 
@@ -177,6 +236,12 @@ IUnitEntity.prototype.getEvasionRanged = function(): number {
             .add(0x968)
             .readPointer(),
         "float",
-        ["pointer", ]
+        ["pointer"]
     )(self.ptr) as number;
+};
+
+IUnitEntity.prototype.facingVector = function(): { x: number; y: number } {
+    const self = this as IUnitEntity;
+    const radians = self.facingAngle * 0.01745329252 + Math.PI / 2;
+    return { x: Math.cos(radians), y: Math.sin(radians) };
 };

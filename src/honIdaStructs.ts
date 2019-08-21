@@ -3151,10 +3151,6 @@ export class MysteriousStruct extends CObj {
 		return this.align(0x2b8).readU16();
 	}
 
-	set drawIndicatorFlag(v: number) {
-		this.align(0x2b8).writeU16(v);
-	}
-
 // gap_2BA -> type: uint8 [42] 
 // field_2E4 -> type: __int128 
 // field_2F4 -> type: __int128 
@@ -5791,6 +5787,11 @@ export class IEntityDirectory extends CObj {
 }
 
 // inheritence: CObj
+export class CGameMechanics extends CObj {
+
+}
+
+// inheritence: CObj
 export class CTeamInfo extends CObj {
 
 }
@@ -6057,7 +6058,13 @@ export class IGame extends CObj {
 		return new IEntityDirectory(this.align(0x28).readPointer());
 	}
 
-// gap_30 -> type: uint8 [616] 
+// gap_30 -> type: uint8 [160] 
+// gameMechanics -> type: CGameMechanics * 
+	get gameMechanics(): CGameMechanics {
+		return new CGameMechanics(this.align(0xd0).readPointer());
+	}
+
+// gap_D8 -> type: uint8 [448] 
 // teamInfo -> type: CTeamInfo * 
 	get teamInfo(): CTeamInfo {
 		return new CTeamInfo(this.align(0x298).readPointer());
@@ -7708,9 +7715,14 @@ export class IUnitEntity extends IVisualEntity {
 		return this.align(0x34c).readFloat();
 	}
 
-// field_350 -> type: long long 
-	get field_350(): Int64 {
-		return this.align(0x350).readS64();
+// field_350 -> type: float 
+	get field_350(): number {
+		return this.align(0x350).readFloat();
+	}
+
+// maxMana -> type: float 
+	get maxMana(): number {
+		return this.align(0x354).readFloat();
 	}
 
 // field_358 -> type: long long 
@@ -7823,9 +7835,24 @@ export class IUnitEntity extends IVisualEntity {
 	}
 
 // gap_690 -> type: uint8 [8] 
-// unitAngles -> type: CVec3 
-	get unitAngles(): CVec3 {
-		return new CVec3(this.align(0x698));
+// unitAnglesDunno1 -> type: int 
+	get unitAnglesDunno1(): number {
+		return this.align(0x698).readS32();
+	}
+
+// unitAnglesDunno2 -> type: int 
+	get unitAnglesDunno2(): number {
+		return this.align(0x69c).readS32();
+	}
+
+// facingAngle -> type: float 
+	get facingAngle(): number {
+		return this.align(0x6a0).readFloat();
+	}
+
+// unitAnglesDunno3 -> type: int 
+	get unitAnglesDunno3(): number {
+		return this.align(0x6a4).readS32();
 	}
 
 // attentionAngles -> type: CVec3 
@@ -8217,11 +8244,6 @@ export class IUnitEntity extends IVisualEntity {
 	get field_1510(): Int64 {
 		return this.align(0x1518).readS64();
 	}
-
-}
-
-// inheritence: CObj
-export class CGameMechanics extends CObj {
 
 }
 
@@ -9163,8 +9185,184 @@ export class CChatManager extends CObj {
 }
 
 // inheritence: CObj
+export class CBoundingBox extends CObj {
+
+// field_0 -> type: float 
+	get field_0(): number {
+		return this.align(0x0).readFloat();
+	}
+
+// field_4 -> type: float 
+	get field_4(): number {
+		return this.align(0x4).readFloat();
+	}
+
+// field_8 -> type: float 
+	get field_8(): number {
+		return this.align(0x8).readFloat();
+	}
+
+// field_C -> type: float 
+	get field_C(): number {
+		return this.align(0xc).readFloat();
+	}
+
+// field_10 -> type: float 
+	get field_10(): number {
+		return this.align(0x10).readFloat();
+	}
+
+// field_14 -> type: float 
+	get field_14(): number {
+		return this.align(0x14).readFloat();
+	}
+
+}
+
+// inheritence: CObj
 export class CSceneEntity extends CObj {
 
+// field_0 -> type: long long 
+	get field_0(): Int64 {
+		return this.align(0x0).readS64();
+	}
+
+// field_8 -> type: uint32 
+	get field_8(): number {
+		return this.align(0x8).readU32();
+	}
+
+// field_C -> type: float 
+	get field_C(): number {
+		return this.align(0xc).readFloat();
+	}
+
+// field_10 -> type: float 
+	get field_10(): number {
+		return this.align(0x10).readFloat();
+	}
+
+// field_14 -> type: float 
+	get field_14(): number {
+		return this.align(0x14).readFloat();
+	}
+
+// field_18 -> type: int 
+	get field_18(): number {
+		return this.align(0x18).readS32();
+	}
+
+// field_1C -> type: int 
+	get field_1C(): number {
+		return this.align(0x1c).readS32();
+	}
+
+// field_20 -> type: int 
+	get field_20(): number {
+		return this.align(0x20).readS32();
+	}
+
+// field_24 -> type: int 
+	get field_24(): number {
+		return this.align(0x24).readS32();
+	}
+
+// field_28 -> type: int 
+	get field_28(): number {
+		return this.align(0x28).readS32();
+	}
+
+// field_2C -> type: int 
+	get field_2C(): number {
+		return this.align(0x2c).readS32();
+	}
+
+// field_30 -> type: int 
+	get field_30(): number {
+		return this.align(0x30).readS32();
+	}
+
+// field_34 -> type: int 
+	get field_34(): number {
+		return this.align(0x34).readS32();
+	}
+
+// field_38 -> type: int 
+	get field_38(): number {
+		return this.align(0x38).readS32();
+	}
+
+// field_3C -> type: int 
+	get field_3C(): number {
+		return this.align(0x3c).readS32();
+	}
+
+// field_40 -> type: int 
+	get field_40(): number {
+		return this.align(0x40).readS32();
+	}
+
+// field_44 -> type: int 
+	get field_44(): number {
+		return this.align(0x44).readS32();
+	}
+
+// field_48 -> type: int 
+	get field_48(): number {
+		return this.align(0x48).readS32();
+	}
+
+// field_4C -> type: int 
+	get field_4C(): number {
+		return this.align(0x4c).readS32();
+	}
+
+// field_50 -> type: int 
+	get field_50(): number {
+		return this.align(0x50).readS32();
+	}
+
+// field_54 -> type: int 
+	get field_54(): number {
+		return this.align(0x54).readS32();
+	}
+
+// field_58 -> type: __int128 
+// field_68 -> type: int 
+	get field_68(): number {
+		return this.align(0x68).readS32();
+	}
+
+// gap_6C -> type: uint8 [4] 
+// field_70 -> type: long long 
+	get field_70(): Int64 {
+		return this.align(0x70).readS64();
+	}
+
+// field_78 -> type: float 
+	get field_78(): number {
+		return this.align(0x78).readFloat();
+	}
+
+// field_7C -> type: float 
+	get field_7C(): number {
+		return this.align(0x7c).readFloat();
+	}
+
+// field_80 -> type: long long 
+	get field_80(): Int64 {
+		return this.align(0x80).readS64();
+	}
+
+// gap_88 -> type: uint8 [8] 
+// field_90 -> type: long long 
+	get field_90(): Int64 {
+		return this.align(0x90).readS64();
+	}
+
+// gap_98 -> type: uint8 [8] 
+// boundingBox -> type: CBoundingBox 
+// field_B8 -> type: __int128 
 }
 
 // inheritence: CObj
@@ -57763,193 +57961,6 @@ export class CBufferBit_vtbl extends CObj {
 // function 
 // args: CBufferDynamic * -> ret: char 
 	public _ZN14CBufferDynamic4SeekEj() {
-		return null;
-	}
-
-// vfunc_5550320 -> type: void (*)(long long) __attribute__((fastcall)) 
-// function 
-// args: long long -> ret: void 
-	public vfunc_5550320() {
-		return null;
-	}
-
-// _ZNK7IBuffer8FindNextEc -> type: long long (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: long long 
-	public _ZNK7IBuffer8FindNextEc() {
-		return null;
-	}
-
-// _ZNK7IBuffer8FindNextEw -> type: long long (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: long long 
-	public _ZNK7IBuffer8FindNextEw() {
-		return null;
-	}
-
-// copyFrom -> type: void *(*)(IBuffer *, unsigned int, unsigned int) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * unsigned int unsigned int -> ret: void * 
-	public copyFrom() {
-		return null;
-	}
-
-// vfunc_5550432 -> type: void *(*)(IBuffer *, long long) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * long long -> ret: void * 
-	public vfunc_5550432() {
-		return null;
-	}
-
-// vfunc_5550448 -> type: long long (*)(unsigned int *) __attribute__((fastcall)) 
-// function 
-// args: unsigned int * -> ret: long long 
-	public vfunc_5550448() {
-		return null;
-	}
-
-// vfunc_5550464 -> type: char *(*)(IBuffer *, unsigned int) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * unsigned int -> ret: char * 
-	public vfunc_5550464() {
-		return null;
-	}
-
-// vfunc_5550480 -> type: long long (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: long long 
-	public vfunc_5550480() {
-		return null;
-	}
-
-// putByteAndReizeIfNeeded -> type: char (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: char 
-	public putByteAndReizeIfNeeded() {
-		return null;
-	}
-
-// putDataSafely -> type: char (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: char 
-	public putDataSafely() {
-		return null;
-	}
-
-// _ZN14CBufferDynamic5WriteEPKvj -> type: char (*)(CBufferDynamic *) __attribute__((fastcall)) 
-// function 
-// args: CBufferDynamic * -> ret: char 
-	public _ZN14CBufferDynamic5WriteEPKvj() {
-		return null;
-	}
-
-// _ZNK14CBufferDynamic4ReadEv -> type: long long (*)(CBufferDynamic *) __attribute__((fastcall)) 
-// function 
-// args: CBufferDynamic * -> ret: long long 
-	public _ZNK14CBufferDynamic4ReadEv() {
-		return null;
-	}
-
-// _ZNK14CBufferDynamic4ReadEPvj -> type: char (*)(CBufferDynamic *) __attribute__((fastcall)) 
-// function 
-// args: CBufferDynamic * -> ret: char 
-	public _ZNK14CBufferDynamic4ReadEPvj() {
-		return null;
-	}
-
-// _ZN14CBufferDynamic4LockEj -> type: long long (*)(CBufferDynamic *) __attribute__((fastcall)) 
-// function 
-// args: CBufferDynamic * -> ret: long long 
-	public _ZN14CBufferDynamic4LockEj() {
-		return null;
-	}
-
-// _ZN14CBufferDynamic10WriteBytesEhj -> type: char (*)(CBufferDynamic *) __attribute__((fastcall)) 
-// function 
-// args: CBufferDynamic * -> ret: char 
-	public _ZN14CBufferDynamic10WriteBytesEhj() {
-		return null;
-	}
-
-// size -> type: void *(*)() __attribute__((fastcall)) 
-// function 
-// args:  -> ret: void * 
-	public size() {
-		return null;
-	}
-
-}
-
-// inheritence: CObj
-export class CBufferFixed_vtbl extends CObj {
-
-// sub_6C1B00 -> type: void (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: void 
-	public sub_6C1B00() {
-		return null;
-	}
-
-// sub_6C1B20 -> type: void (*)(void *) __attribute__((fastcall)) 
-// function 
-// args: void * -> ret: void 
-	public sub_6C1B20() {
-		return null;
-	}
-
-// clearMemoryWith -> type: void *(*)(IBuffer *, int) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * int -> ret: void * 
-	public clearMemoryWith() {
-		return null;
-	}
-
-// resetSizeAndFlag -> type: void (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: void 
-	public resetSizeAndFlag() {
-		return null;
-	}
-
-// getSize -> type: long long (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: long long 
-	public getSize() {
-		return null;
-	}
-
-// getCurrentOffset -> type: long long (*)(IBuffer *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * -> ret: long long 
-	public getCurrentOffset() {
-		return null;
-	}
-
-// writeDynamicWChar -> type: IBuffer *(*)(IBuffer *, const wchar_t *) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * const wchar_t * -> ret: IBuffer * 
-	public writeDynamicWChar() {
-		return null;
-	}
-
-// dynamicWriteStringFromObj -> type: IBuffer *(*)(IBuffer *, long long) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * long long -> ret: IBuffer * 
-	public dynamicWriteStringFromObj() {
-		return null;
-	}
-
-// readByte -> type: char *(*)(IBuffer *, unsigned int) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * unsigned int -> ret: char * 
-	public readByte() {
-		return null;
-	}
-
-// readInt -> type: long long (*)(IBuffer *, unsigned int) __attribute__((fastcall)) 
-// function 
-// args: IBuffer * unsigned int -> ret: long long 
-	public readInt() {
 		return null;
 	}
 
