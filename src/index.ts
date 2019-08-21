@@ -8,8 +8,8 @@ console.log("Hello from typescript. Process id: " + Process.id);
 
 initEventListener();
 
-// const testScript = new Thunderbringer();
-const testScript = new TestScript();
+const testScript = new Thunderbringer();
+// const testScript = new TestScript();
 
 // console.log(`watch: ${IGAME.mysteriousStruct.ptr.add(0x2b8)}`);
 

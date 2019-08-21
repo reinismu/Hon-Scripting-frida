@@ -128,7 +128,7 @@ export class Action {
 
         this.buffer[0] = 0x1d;
         this.buffer.writeUInt32LE(entity.networkId, 1);
-        this.buffer[5] = slot;
+        this.buffer[3] = slot;
         this.buffer[4] = 0; //Modifier if shift or ctr pressed
         this.buffer[5] = 0; //dunno
         this.buffer.writeUInt16LE(target.networkId, 6);

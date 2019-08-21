@@ -24,11 +24,8 @@ export class Thunderbringer extends Script {
         if (!q.isReady()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 20);
         if (!enemyHero) {
-            return;
-        }
-        if (enemyHero.position.distance2d(this.myHero.position) > 850) {
             return;
         }
         this.lastCast = Date.now();
@@ -44,13 +41,11 @@ export class Thunderbringer extends Script {
         if (!w.isReady()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 20);
         if (!enemyHero) {
             return;
         }
-        if (enemyHero.position.distance2d(this.myHero.position) > 700) {
-            return;
-        }
+
         this.lastCast = Date.now();
         console.log("now: " + this.lastCast);
         ACTION.castSpellEntity(this.myHero, 1, enemyHero);
@@ -67,12 +62,22 @@ export class Thunderbringer extends Script {
         //     console.log(`isAlive: ${h.isAlive}`);
         // });
         this.doQLogic();
-        // this.doWLogic();
+        this.doWLogic();
     }
 
     @Subscribe("DrawEvent")
     onDraw() {
         // GRAPHICS.drawRect(0, 0, 100, 100);
         // console.log("draw");
+    }
+
+    @Subscribe("SendGameDataEvent")
+    onSendGameDataEvent(args: NativePointer[]) {
+        if (!INPUT.isControlDown()) return;
+        // Dont update state if we are shooting
+
+        const buffer = new MyBuffer(args[1]);
+        const data = new Uint8Array(buffer.dataBuffer);
+        console.log(data);
     }
 }

@@ -32,8 +32,11 @@ declare module "../honIdaStructs" {
         getArmor(): number;
         getArmorPercentage(): number;
         getPhysicalResistance(): number;
+        getMagicalResistance(): number;
         getMagicArmor(): number;
+        getMagicArmorPercentage(): number;
         getCurrentPhysicalHealth(): number;
+        getCurrentMagicalHealth(): number;
         getCurrentHealth(): number;
         getMaxHealth(): number;
         getHealthPercent(): number;
@@ -96,6 +99,18 @@ IUnitEntity.prototype.getArmorPercentage = function(): number {
     )(self.ptr) as number;
 };
 
+IUnitEntity.prototype.getMagicArmorPercentage = function(): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x710)
+            .readPointer(),
+        "int",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
 const getArmorDamageAdjustment = new NativeFunction(
     SHARED_MODULE.getExportByName("_ZNK14CGameMechanics24GetArmorDamageAdjustmentEjf"),
     "float",
@@ -105,6 +120,11 @@ const getArmorDamageAdjustment = new NativeFunction(
 IUnitEntity.prototype.getPhysicalResistance = function(): number {
     const self = this as IUnitEntity;
     return getArmorDamageAdjustment(IGAME.gameMechanics.ptr, self.getArmorPercentage(), self.getArmor()) as number;
+};
+
+IUnitEntity.prototype.getMagicalResistance = function(): number {
+    const self = this as IUnitEntity;
+    return getArmorDamageAdjustment(IGAME.gameMechanics.ptr, self.getMagicArmorPercentage(), self.getMagicArmor()) as number;
 };
 
 IUnitEntity.prototype.getMagicArmor = function(): number {
@@ -123,6 +143,12 @@ IUnitEntity.prototype.getMagicArmor = function(): number {
 IUnitEntity.prototype.getCurrentPhysicalHealth = function(): number {
     const self = this as IUnitEntity;
     return self.health/(1-self.getPhysicalResistance());
+};
+
+// Gets how much physical damage must be done to kill
+IUnitEntity.prototype.getCurrentMagicalHealth = function(): number {
+    const self = this as IUnitEntity;
+    return self.health/(1-self.getMagicalResistance());
 };
 
 IUnitEntity.prototype.getCurrentHealth = function(): number {
