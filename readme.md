@@ -38,8 +38,8 @@ Tool to easily interact with game
 * DONE get spell ranges
 * DONE get hero facing direction
 * DONE Focus easiest kill in range
+* DONE Magic immunity checks
 * Orbwalking
-* Magic immunity checks
 * Anti illusion logic (If new 2 entities pawned while 1 is already there Ignroe those 2)
 * draw circle
 * isMoving

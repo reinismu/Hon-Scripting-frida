@@ -14,6 +14,7 @@ export class TargetSelector {
         }
         return null;
     }
+
     getEasiestPhysicalKillInRange(range: number): IHeroEntity | null {
         const me = OBJECT_MANAGER.myHero;
         const enemy = OBJECT_MANAGER.heroes
@@ -23,8 +24,8 @@ export class TargetSelector {
             return enemy;
         }
         return null;
-    
     }
+
     getEasiestMagicalKillInRange(range: number): IHeroEntity | null {
         const me = OBJECT_MANAGER.myHero;
         const enemy = OBJECT_MANAGER.heroes

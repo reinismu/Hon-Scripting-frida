@@ -8,7 +8,8 @@ import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { IGAME } from "../game/Globals";
-import { Vec3, Vector } from "../utils/Vec3";
+import { Vec3, Vector } from "../utils/Vector";
+import { shitPrediction } from "./Prediction";
 
 export class Nitro extends Script {
     private delayCastQ = false;
@@ -19,13 +20,6 @@ export class Nitro extends Script {
     constructor() {
         super();
         EventBus.getDefault().register(this);
-    }
-
-    private shitPrediction(enemy: IUnitEntity): Vec3 {
-        // console.log(`my facing: ${this.myHero.facingAngle}`);
-        // console.log(`Enemy facing: ${enemy.facingAngle}`);
-        return Vector.extendDir(enemy.position, { ...enemy.facingVector(), z: 0 }, 50);
-        // return Vector.extendTo(enemy.position, IGAME.mysteriousStruct.mousePosition, 200);
     }
 
     doQLogic() {
@@ -41,7 +35,7 @@ export class Nitro extends Script {
             return;
         }
 
-        const castLocation = this.shitPrediction(enemyHero);
+        const castLocation = shitPrediction(enemyHero);
         if (this.delayCastQ) {
             this.forceSnapshotSend = true;
             CLIENT.sendFakeMousePosToServer(castLocation.x, castLocation.y, castLocation.z);

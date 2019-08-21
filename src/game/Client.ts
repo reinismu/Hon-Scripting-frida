@@ -1,6 +1,6 @@
 import { IGame, CClientState } from "../honIdaStructs";
 import { GAME_MODULE, IGAME } from "./Globals";
-import { Vec3 } from "../utils/Vec3";
+import { Vec3 } from "../utils/Vector";
 
 class WritableClientState extends CClientState {
     // mousePosX -> type: float

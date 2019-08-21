@@ -1,4 +1,4 @@
-import { CClientEntity, IGameEntity, IHeroEntity, IUnitEntity, IGame } from "../honIdaStructs";
+import { CClientEntity, IGameEntity, IHeroEntity, IUnitEntity, IGame, ICreepEntity, INeutralEntity } from "../honIdaStructs";
 import { tryGetTypeInfo } from "./RTTI";
 import { CLIENT_ENTITY_ARRAY, CLIENT_ENTITY_ARRAY_SIZE, IGAME } from "../game/Globals";
 
@@ -13,6 +13,8 @@ export class ObjectManager {
 
     private cachedEntityMap: Map<number, IGameEntity> = new Map();
     private cachedHeroMap: Map<number, IHeroEntity> = new Map();
+    private cachedCreepMap: Map<number, ICreepEntity> = new Map();
+    private cachedNeutralMap: Map<number, INeutralEntity> = new Map();
 
     private entityInitMap = new Map([
         [
@@ -30,7 +32,13 @@ export class ObjectManager {
         [
             "12ICreepEntity",
             (ptr: NativePointer): IGameEntity => {
-                return new IUnitEntity(ptr);
+                return new ICreepEntity(ptr);
+            }
+        ],
+        [
+            "14INeutralEntity",
+            (ptr: NativePointer): IGameEntity => {
+                return new INeutralEntity(ptr);
             }
         ]
     ]);
@@ -58,6 +66,8 @@ export class ObjectManager {
         if (gameEntityPtr.isNull()) {
             this.cachedEntityMap.delete(index);
             this.cachedHeroMap.delete(index);
+            this.cachedCreepMap.delete(index);
+            this.cachedNeutralMap.delete(index);
             return;
         }
         const cachedEntity = this.cachedEntityMap.get(index);
@@ -70,10 +80,16 @@ export class ObjectManager {
                     if (newEntity.networkId == this.iGame.myPlayer.heroNetworkId) {
                         this.cachedMyHero = newEntity;
                     }
+                } else if (newEntity instanceof ICreepEntity) {
+                    this.cachedCreepMap.set(index, newEntity);
+                } else if (newEntity instanceof INeutralEntity) {
+                    this.cachedNeutralMap.set(index, newEntity);
                 }
             } else {
                 this.cachedEntityMap.delete(index);
                 this.cachedHeroMap.delete(index);
+                this.cachedCreepMap.delete(index);
+                this.cachedNeutralMap.delete(index);
             }
         }
     }
@@ -116,6 +132,14 @@ export class ObjectManager {
 
     get entities(): IGameEntity[] {
         return Array.from(this.cachedEntityMap.values());
+    }
+
+    get creeps(): ICreepEntity[] {
+        return Array.from(this.cachedCreepMap.values());
+    }
+
+    get neutrals(): INeutralEntity[] {
+        return Array.from(this.cachedNeutralMap.values());
     }
 
     get myHero(): IHeroEntity {
