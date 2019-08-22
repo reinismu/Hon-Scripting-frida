@@ -9,6 +9,7 @@ import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "./Orbwalker";
 import { IGAME } from "../game/Globals";
+import { Vector } from "../utils/Vector";
 
 export class Thunderbringer extends Script {
     private lastCast = 0;
@@ -24,8 +25,7 @@ export class Thunderbringer extends Script {
             return;
         }
         const q = this.myHero.getTool(0) as IEntityAbility;
-        console.log(`q: getManaCost  ${q.getManaCost()}`);
-        console.log(`q canActivate:  ${q.canActivate()}`);
+
         if (!q.canActivate()) {
             return;
         }
@@ -81,24 +81,26 @@ export class Thunderbringer extends Script {
         // OBJECT_MANAGER.heroes.forEach(h => {
         //     console.log(`isAlive: ${h.isAlive}`);
         // });
-        this.doQLogic();
-        this.doWLogic();
-        this.doGhostMarchersLogic();
+        // this.doQLogic();
+        // this.doWLogic();
+        // this.doGhostMarchersLogic();
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }
 
     @Subscribe("DrawEvent")
     onDraw() {
-        // GRAPHICS.drawRect(0, 0, 100, 100);
+        // const drawVec = Vector.extendTo(OBJECT_MANAGER.myHero.position, IGAME.mysteriousStruct.mousePosition, 100); 
+        // const screenpos = CLIENT.worldToScreen(drawVec);
+        // GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
         // console.log("draw");
     }
-    // @Subscribe("SendGameDataEvent")
-    // onSendGameDataEvent(args: NativePointer[]) {
-    //     // if (!INPUT.isControlDown()) return;
-    //     // Dont update state if we are shooting
+    @Subscribe("SendGameDataEvent")
+    onSendGameDataEvent(args: NativePointer[]) {
+        // if (!INPUT.isControlDown()) return;
+        // Dont update state if we are shooting
 
-    //     const buffer = new MyBuffer(args[1]);
-    //     const data = new Uint8Array(buffer.dataBuffer);
-    //     console.log(data);
-    // }
+        const buffer = new MyBuffer(args[1]);
+        const data = new Uint8Array(buffer.dataBuffer);
+        console.log(data);
+    }
 }

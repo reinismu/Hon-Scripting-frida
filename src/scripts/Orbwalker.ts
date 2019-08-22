@@ -1,6 +1,5 @@
 import { EventBus, Subscribe } from "eventbus-ts";
 import { IGameEntity, IUnitEntity, IProjectile } from "../honIdaStructs";
-import { tryGetTypeInfo } from "../objects/RTTI";
 import { Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { ACTION, Action } from "../actions/Action";
@@ -13,6 +12,9 @@ export class Orbwalker {
 
     private canMove = new DelayedCondition();
     private canAttack = new DelayedCondition();
+    private canFaceTheEnemy = new DelayedCondition();
+
+    private lastProjSpawned = 0;
 
     constructor(walker: IUnitEntity) {
         EventBus.getDefault().register(this);
@@ -24,11 +26,17 @@ export class Orbwalker {
             const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange());
             if (target) {
                 const turnTime = this.msToTurnToTarget(target);
-                if (this.canAttack.active(turnTime)) {
-                    this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown() + 50);
-                    this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 50);
-                    console.log(`turnTime ${turnTime}`);
+                if (this.canAttack.active()) {
+                    this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown());
+                    this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 200);
                     ACTION.attack(target);
+                    return;
+                }
+                if (this.canAttack.active(turnTime)) {
+                    if (this.canFaceTheEnemy.active()) {
+                        this.canFaceTheEnemy.delay(turnTime + 250);
+                        ACTION.move(Vector2d.extendTo(this.walker.position, target.position, 30));
+                    }
                     return;
                 }
             }
@@ -38,13 +46,13 @@ export class Orbwalker {
                 return;
             }
             this.canMove.delay(150);
-            ACTION.move(position.x, position.y);
+            ACTION.move(position);
         }
     }
 
     private msToTurnToTarget(target: IUnitEntity): number {
         const angle = this.turnAngle(this.walker, target.position);
-        return angle * 2.7; // Magic number TODO fix
+        return angle * 0.8; // Magic number TODO fix
     }
 
     private turnAngle(entity: IUnitEntity, pos: Vec2) {
@@ -62,7 +70,7 @@ export class Orbwalker {
         if (!(entity instanceof IProjectile)) {
             return;
         }
-        console.log(`My hero pos ${this.walker.position.x} ${this.walker.position.y}`);
-        console.log(`Projectile spawned ${entity.ptr}   ${entity.position.x}`);
+        console.log(`Projectile spawn delta ${Date.now() - this.lastProjSpawned}`);
+        this.lastProjSpawned = Date.now();
     }
 }
