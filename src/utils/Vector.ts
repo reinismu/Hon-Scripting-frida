@@ -70,6 +70,10 @@ export namespace Vector2d {
         return { x: self.x * length, y: self.y * length};
     }
 
+    export function dot(self: Vec2, vec: Vec2): number {
+        return  self.x * vec.x + self.y * vec.y;
+    }
+
     export function lengthSqt(self: Vec2): number {
         return self.x * self.x + self.y * self.y;
     }

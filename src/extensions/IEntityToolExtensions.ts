@@ -12,6 +12,8 @@ declare module "../honIdaStructs" {
         isReady(): boolean;
         canActivate(): boolean;
         getDynamicRange(): number;
+        getActivateManaCost(): number;
+        getManaCost(): number;
     }
 }
 
@@ -27,9 +29,33 @@ IEntityTool.prototype.canActivate = function(): boolean {
             .readPointer()
             .add(0xe00)
             .readPointer(),
-        "float",
+        "bool",
         ["pointer"]
     )(self.ptr) as boolean;
+};
+
+IEntityTool.prototype.getActivateManaCost = function(): number {
+    const self = this as IEntityTool;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0xB18)
+            .readPointer(),
+        "float",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IEntityTool.prototype.getManaCost = function(): number {
+    const self = this as IEntityTool;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0xA70)
+            .readPointer(),
+        "float",
+        ["pointer"]
+    )(self.ptr) as number;
 };
 
 IEntityTool.prototype.getDynamicRange = function(getStatic: boolean = false): number {

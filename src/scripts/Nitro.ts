@@ -27,7 +27,7 @@ export class Nitro extends Script {
             return;
         }
         const q = this.myHero.getTool(0) as IEntityAbility;
-        if (!q.isReady()) {
+        if (!q.canActivate()) {
             return;
         }
         const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(q.getDynamicRange() + 80);

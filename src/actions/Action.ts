@@ -1,4 +1,4 @@
-import { CHostClient, IBuffer, IGameEntity } from "../honIdaStructs";
+import { CHostClient, IBuffer, IGameEntity, IUnitEntity } from "../honIdaStructs";
 import { K2_MODULE, IGAME } from "../game/Globals";
 
 export class MyBuffer extends IBuffer {
@@ -80,6 +80,22 @@ export class Action {
         this.buffer.writeFloatLE(x, 2);
         this.buffer.writeFloatLE(y, 6);
         this.buffer.write("\x00\x00\x00\x00\x00\xFF\xFF\x00", 10, 8, "ascii");
+        
+        this.rawBuffer.writeByteArray(this.buffer);
+
+        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+    }
+
+    public attack(target: IGameEntity, flag: number = 0x8) {
+        this.myBuffer.size = 0x12;
+        this.myBuffer.allocatedSize = 0x12;
+        this.myBuffer.currentOffset = 0;
+        this.myBuffer.someFlag = 0;
+
+        this.buffer[0] = 31;
+        this.buffer[1] = flag & 255;
+        this.buffer.writeUInt16LE(target.networkId, 2);
+        this.buffer.write("\x00\x00\x00\x00\x00\xFF\xFF\x00", 4, 8, "ascii");
         
         this.rawBuffer.writeByteArray(this.buffer);
 

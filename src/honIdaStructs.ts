@@ -152,9 +152,9 @@ export class CSkeleton extends CObj {
 	}
 
 // gap_AC -> type: uint8 [4] 
-// field_B0 -> type: long long 
-	get field_B0(): Int64 {
-		return this.align(0xb0).readS64();
+// model -> type: CK2Model * 
+	get model(): CK2Model {
+		return new CK2Model(this.align(0xb0).readPointer());
 	}
 
 // field_B8 -> type: uint64 
@@ -2039,11 +2039,6 @@ export class stat extends CObj {
 
 // inheritence: CObj
 export class _XDisplay extends CObj {
-
-}
-
-// inheritence: CObj
-export class _XExtData extends CObj {
 
 }
 
@@ -4379,6 +4374,39 @@ export class Vtable_cSkeleton_vtbl extends CObj {
 }
 
 // inheritence: CObj
+export class Vtable_cAnim_vtbl extends CObj {
+
+// _ZN5CAnimD2Ev -> type: void (*)(CAnim *) __attribute__((fastcall)) 
+// function 
+// args: CAnim * -> ret: void 
+	public _ZN5CAnimD2Ev() {
+		return null;
+	}
+
+// _ZN5CAnimD0Ev -> type: void (*)(CAnim *) __attribute__((fastcall)) 
+// function 
+// args: CAnim * -> ret: void 
+	public _ZN5CAnimD0Ev() {
+		return null;
+	}
+
+// sub_85AE20 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public sub_85AE20() {
+		return null;
+	}
+
+// size -> type: void *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void * 
+	public size() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
 export class Elf64_Sym extends CObj {
 
 // st_name -> type: unsigned int 
@@ -4529,8 +4557,8 @@ export class IGameEntity extends CObj {
 		return new IGameEntity_vtbl(this.align(0x0).readPointer());
 	}
 
-// avatarDefinition -> type: IEntityDefinition * 
-	get avatarDefinition(): IEntityDefinition {
+// entityDefinition -> type: IEntityDefinition * 
+	get entityDefinition(): IEntityDefinition {
 		return new IEntityDefinition(this.align(0x8).readPointer());
 	}
 
@@ -4643,8 +4671,8 @@ export class ISlaveEntity extends IGameEntity {
 	}
 
 // gap_A5 -> type: uint8 [3] 
-// field_A8 -> type: int 
-	get field_A8(): number {
+// level -> type: int 
+	get level(): number {
 		return this.align(0xa8).readS32();
 	}
 
@@ -5913,6 +5941,11 @@ export class INeutralEntity extends IUnitEntity {
 	get field_1524(): number {
 		return this.align(0x1524).readS32();
 	}
+
+}
+
+// inheritence: CObj
+export class CK2Model extends CObj {
 
 }
 
@@ -43659,17 +43692,78 @@ export class CConvexPolyhedron extends CObj {
 }
 
 // inheritence: CObj
-export class CK2Model extends CObj {
-
-}
-
-// inheritence: CObj
 export class CTileCliffMap extends CObj {
 
 }
 
 // inheritence: CObj
 export class CAnim extends CObj {
+
+// vtable -> type: Vtable_cAnim_vtbl * 
+	get vtable(): Vtable_cAnim_vtbl {
+		return new Vtable_cAnim_vtbl(this.align(0x0).readPointer());
+	}
+
+// gap_8 -> type: uint8 [4] 
+// index -> type: int 
+	get index(): number {
+		return this.align(0xc).readS32();
+	}
+
+// field_10 -> type: uint64 
+	get field_10(): UInt64 {
+		return this.align(0x10).readU64();
+	}
+
+// gap_18 -> type: uint8 [8] 
+// field_20 -> type: uint64 
+	get field_20(): UInt64 {
+		return this.align(0x20).readU64();
+	}
+
+// field_28 -> type: long long 
+	get field_28(): Int64 {
+		return this.align(0x28).readS64();
+	}
+
+// field_30 -> type: long long 
+	get field_30(): Int64 {
+		return this.align(0x30).readS64();
+	}
+
+// gap_38 -> type: uint8 [8] 
+// field_40 -> type: long long 
+	get field_40(): Int64 {
+		return this.align(0x40).readS64();
+	}
+
+// field_48 -> type: long long 
+	get field_48(): Int64 {
+		return this.align(0x48).readS64();
+	}
+
+// gap_50 -> type: uint8 [8] 
+// field_58 -> type: long long 
+	get field_58(): Int64 {
+		return this.align(0x58).readS64();
+	}
+
+// field_60 -> type: long long 
+	get field_60(): Int64 {
+		return this.align(0x60).readS64();
+	}
+
+// gap_68 -> type: uint8 [8] 
+// field_70 -> type: uint64 
+	get field_70(): UInt64 {
+		return this.align(0x70).readU64();
+	}
+
+// field_78 -> type: void * 
+// args:  -> ret:  
+	public field_78() {
+		return null;
+	}
 
 }
 

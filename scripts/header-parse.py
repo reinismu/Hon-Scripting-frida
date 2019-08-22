@@ -32,6 +32,7 @@ class ClassCreator:
             "void": {"return": "number", "read": "readPointer"},
             "wchar_t": {"return": "NativePointer", "read": "readPointer"},
             "const wchar_t": {"return": "NativePointer", "read": "readPointer"},
+            "const char": {"return": "NativePointer", "read": "readPointer"},
         }
         self.allowedStructs = ["CVec3", "CClientState", "CClientSnapshot"]
 

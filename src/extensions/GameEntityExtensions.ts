@@ -61,6 +61,11 @@ declare module "../honIdaStructs" {
         getEvasionRanged(): number;
         getAttackSpeed(): number;
         getAttackRange(): number;
+        getAdjustedAttackCooldown(): number;
+        getAdjustedAttackActionTime(): number;
+        getAdjustedAttackDuration(): number;
+        // Not sure if useful as it is allways true
+        getCanAttack(): boolean;
         isMagicImmune(): boolean;
         isPhysicalImmune(): boolean;
     }
@@ -372,6 +377,54 @@ IUnitEntity.prototype.getAttackRange = function(): number {
         "float",
         ["pointer"]
     )(self.ptr) as number;
+};
+
+IUnitEntity.prototype.getAdjustedAttackCooldown = function(): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x10D0)
+            .readPointer(),
+        "float",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IUnitEntity.prototype.getAdjustedAttackActionTime = function(): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x10C0)
+            .readPointer(),
+        "float",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IUnitEntity.prototype.getAdjustedAttackDuration = function(): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x10C8)
+            .readPointer(),
+        "float",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IUnitEntity.prototype.getCanAttack = function(): boolean {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0xDF8)
+            .readPointer(),
+        "bool",
+        ["pointer"]
+    )(self.ptr) as boolean;
 };
 
 IUnitEntity.prototype.facingVector = function(): { x: number; y: number } {

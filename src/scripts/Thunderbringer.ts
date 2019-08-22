@@ -8,6 +8,7 @@ import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "./Orbwalker";
+import { IGAME } from "../game/Globals";
 
 export class Thunderbringer extends Script {
     private lastCast = 0;
@@ -23,7 +24,9 @@ export class Thunderbringer extends Script {
             return;
         }
         const q = this.myHero.getTool(0) as IEntityAbility;
-        if (!q.isReady()) {
+        console.log(`q: getManaCost  ${q.getManaCost()}`);
+        console.log(`q canActivate:  ${q.canActivate()}`);
+        if (!q.canActivate()) {
             return;
         }
         const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 20);
@@ -31,7 +34,6 @@ export class Thunderbringer extends Script {
             return;
         }
         this.lastCast = Date.now();
-        console.log("now: " + this.lastCast);
         ACTION.castSpellEntity(this.myHero, 0, enemyHero);
     }
 
@@ -40,7 +42,7 @@ export class Thunderbringer extends Script {
             return;
         }
         const w = this.myHero.getTool(1) as IEntityAbility;
-        if (!w.isReady()) {
+        if (!w.canActivate()) {
             return;
         }
         const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 20);
@@ -49,7 +51,6 @@ export class Thunderbringer extends Script {
         }
 
         this.lastCast = Date.now();
-        console.log("now: " + this.lastCast);
         ACTION.castSpellEntity(this.myHero, 1, enemyHero);
     }
 
@@ -61,7 +62,7 @@ export class Thunderbringer extends Script {
         if (!boots) {
             return;
         }
-        if (!boots.item.isReady()) {
+        if (!boots.item.canActivate()) {
             return;
         }
         ACTION.castSpell2(this.myHero, boots.index);
@@ -73,13 +74,17 @@ export class Thunderbringer extends Script {
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
-        // console.log(`myHero:` + OBJECT_MANAGER.myHero);
+        // console.log(`getAdjustedAttackCooldown:` +  OBJECT_MANAGER.myHero.getAdjustedAttackCooldown());
+        // console.log(`getAdjustedAttackActionTime:` +  OBJECT_MANAGER.myHero.getAdjustedAttackActionTime());
+        // console.log(`getAdjustedAttackDuration:` +  OBJECT_MANAGER.myHero.getAdjustedAttackDuration());
+        // // console.log(`getCanAttack:` +  OBJECT_MANAGER.myHero.getCanAttack());
         // OBJECT_MANAGER.heroes.forEach(h => {
         //     console.log(`isAlive: ${h.isAlive}`);
         // });
         this.doQLogic();
         this.doWLogic();
         this.doGhostMarchersLogic();
+        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }
 
     @Subscribe("DrawEvent")
@@ -87,4 +92,13 @@ export class Thunderbringer extends Script {
         // GRAPHICS.drawRect(0, 0, 100, 100);
         // console.log("draw");
     }
+    // @Subscribe("SendGameDataEvent")
+    // onSendGameDataEvent(args: NativePointer[]) {
+    //     // if (!INPUT.isControlDown()) return;
+    //     // Dont update state if we are shooting
+
+    //     const buffer = new MyBuffer(args[1]);
+    //     const data = new Uint8Array(buffer.dataBuffer);
+    //     console.log(data);
+    // }
 }
