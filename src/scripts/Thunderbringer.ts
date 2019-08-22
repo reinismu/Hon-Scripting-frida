@@ -7,9 +7,11 @@ import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { Orbwalker } from "./Orbwalker";
 
 export class Thunderbringer extends Script {
     private lastCast = 0;
+    private orbwalker = new Orbwalker(this.myHero);
 
     constructor() {
         super();
@@ -51,6 +53,20 @@ export class Thunderbringer extends Script {
         ACTION.castSpellEntity(this.myHero, 1, enemyHero);
     }
 
+    doGhostMarchersLogic() {
+        if (this.lastCast + 100 > Date.now()) {
+            return;
+        }
+        const boots = this.myHero.getItem("Item_EnhancedMarchers");
+        if (!boots) {
+            return;
+        }
+        if (!boots.item.isReady()) {
+            return;
+        }
+        ACTION.castSpell2(this.myHero, boots.index);
+    }
+
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         if (!INPUT.isControlDown()) return;
@@ -63,6 +79,7 @@ export class Thunderbringer extends Script {
         // });
         this.doQLogic();
         this.doWLogic();
+        this.doGhostMarchersLogic();
     }
 
     @Subscribe("DrawEvent")

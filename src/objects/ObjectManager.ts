@@ -1,8 +1,14 @@
-import { CClientEntity, IGameEntity, IHeroEntity, IUnitEntity, IGame, ICreepEntity, INeutralEntity } from "../honIdaStructs";
+import { CClientEntity, IGameEntity, IHeroEntity, IUnitEntity, IGame, ICreepEntity, INeutralEntity, IProjectile } from "../honIdaStructs";
 import { tryGetTypeInfo } from "./RTTI";
 import { CLIENT_ENTITY_ARRAY, CLIENT_ENTITY_ARRAY_SIZE, IGAME } from "../game/Globals";
+import { EventBus } from "eventbus-ts";
+import { Event } from "eventbus-ts/dist/Event";
+import { isNullOrUndefined } from "util";
 
 const CLIENT_ENTITY_SIZE = 0x930;
+
+class EntitySpawnedEvent extends EventBus.Event<IGameEntity> {}
+class EntityDespawnedEvent extends EventBus.Event<number> {}
 
 export class ObjectManager {
     private arrayPtr: NativePointer;
@@ -44,6 +50,12 @@ export class ObjectManager {
             (ptr: NativePointer): IGameEntity => {
                 return new INeutralEntity(ptr);
             }
+        ],
+        [
+            "11IProjectile",
+            (ptr: NativePointer): IGameEntity => {
+                return new IProjectile(ptr);
+            }
         ]
     ]);
 
@@ -59,20 +71,25 @@ export class ObjectManager {
 
     public refreshCache() {
         let index = 0;
+        const events = [];
         for (const clientEntity of this.clientEntities()) {
-            this.checkEntity(clientEntity, index);
+            const event = this.checkEntity(clientEntity, index);
+            if(event) {
+                events.push(event);
+            }
             index++;
         }
+        events.forEach(e => EventBus.getDefault().post(e));
     }
 
-    public checkEntity(clientEntity: CClientEntity, index: number) {
+    public checkEntity(clientEntity: CClientEntity, index: number): Event<any> | null {
         let gameEntityPtr = clientEntity.ptr.add(0x8e8).readPointer();
         if (gameEntityPtr.isNull()) {
             this.cachedEntityMap.delete(index);
             this.cachedHeroMap.delete(index);
             this.cachedCreepMap.delete(index);
             this.cachedNeutralMap.delete(index);
-            return;
+            return new EntityDespawnedEvent(index);
         }
         const cachedEntity = this.cachedEntityMap.get(index);
         if (!cachedEntity || !cachedEntity.ptr.equals(gameEntityPtr)) {
@@ -93,13 +110,16 @@ export class ObjectManager {
                 } else if (newEntity instanceof INeutralEntity) {
                     this.cachedNeutralMap.set(index, newEntity);
                 }
+                return new EntitySpawnedEvent(newEntity);
             } else {
                 this.cachedEntityMap.delete(index);
                 this.cachedHeroMap.delete(index);
                 this.cachedCreepMap.delete(index);
                 this.cachedNeutralMap.delete(index);
+                return new EntityDespawnedEvent(index);
             }
         }
+        return null;
     }
 
     public createGameEntity(gameEntityPtr: NativePointer): IGameEntity | null {

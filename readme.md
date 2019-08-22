@@ -43,6 +43,10 @@ Tool to easily interact with game
 * DONE Accursed ult ignore
 * DONE Item usage!
 * Orbwalking
+    * DONE AttackSpeed
+    * AttackRange
+    * OnGameEntityCreate
+    *
 * draw circle
 * isMoving
 * prediction math

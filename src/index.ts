@@ -8,10 +8,13 @@ import { Devourer } from "./scripts/Devourer";
 console.log("Hello from typescript. Process id: " + Process.id);
 
 initEventListener();
-
+// have to delay to get hero cache
+setTimeout(() => {
+    const testScript = new Thunderbringer();
+}, 200);
 // const testScript = new Devourer();
 // const testScript = new Thunderbringer();
-const testScript = new Nitro();
+// const testScript = new Nitro();
 
 // console.log(`watch: ${IGAME.mysteriousStruct.ptr.add(0x2b8)}`);
 

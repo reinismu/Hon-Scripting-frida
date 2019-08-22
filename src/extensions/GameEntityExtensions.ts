@@ -59,6 +59,8 @@ declare module "../honIdaStructs" {
         getMoveSpeed(smth: boolean): number;
         getEvasionMelee(): number;
         getEvasionRanged(): number;
+        getAttackSpeed(): number;
+        getAttackRange(): number;
         isMagicImmune(): boolean;
         isPhysicalImmune(): boolean;
     }
@@ -342,6 +344,30 @@ IUnitEntity.prototype.getEvasionRanged = function(): number {
         self.ptr
             .readPointer()
             .add(0x968)
+            .readPointer(),
+        "float",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IUnitEntity.prototype.getAttackSpeed = function(): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x7C8)
+            .readPointer(),
+        "float",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IUnitEntity.prototype.getAttackRange = function(): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x7A8)
             .readPointer(),
         "float",
         ["pointer"]
