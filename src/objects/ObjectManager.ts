@@ -15,6 +15,10 @@ export class ObjectManager {
     private cachedHeroMap: Map<number, IHeroEntity> = new Map();
     private cachedCreepMap: Map<number, ICreepEntity> = new Map();
     private cachedNeutralMap: Map<number, INeutralEntity> = new Map();
+    /**
+     * Idea is that lowest network id for same hero will be the real one.
+     */
+    private illusionCheckMap: Map<string, number> = new Map();
 
     private entityInitMap = new Map([
         [
@@ -79,6 +83,10 @@ export class ObjectManager {
                     this.cachedHeroMap.set(index, newEntity);
                     if (newEntity.networkId == this.iGame.myPlayer.heroNetworkId) {
                         this.cachedMyHero = newEntity;
+                    }
+                    const currentId = this.illusionCheckMap.get(newEntity.typeName);
+                    if (!currentId || newEntity.networkId < currentId) {
+                        this.illusionCheckMap.set(newEntity.typeName, newEntity.networkId);
                     }
                 } else if (newEntity instanceof ICreepEntity) {
                     this.cachedCreepMap.set(index, newEntity);
@@ -147,6 +155,10 @@ export class ObjectManager {
             throw Error("My hero not found");
         }
         return this.cachedMyHero;
+    }
+
+    getLowestHeroEntityId(typeName: string): number | null {
+        return this.illusionCheckMap.get(typeName) || null;
     }
 }
 

@@ -52,7 +52,10 @@ export class Devourer extends Script {
         const startPos = this.myHero.position;
         if (
             collisionEntities.some(
-                u => !u.ptr.equals(this.myHero.ptr) &&!u.ptr.equals(unit.ptr) && distToSegmentSquared(u.position, startPos, targetPos) < sqr(hookRadius + u.boundingRadius)
+                u =>
+                    !u.ptr.equals(this.myHero.ptr) &&
+                    !u.ptr.equals(unit.ptr) &&
+                    distToSegmentSquared(u.position, startPos, targetPos) < sqr(hookRadius + u.boundingRadius)
             )
         ) {
             return false;
@@ -77,8 +80,10 @@ export class Devourer extends Script {
         const heroes = OBJECT_MANAGER.heroes as IUnitEntity[];
         const creeps = OBJECT_MANAGER.creeps as IUnitEntity[];
         const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
-        const collisionEntities = heroes.concat(creeps, neutrals).filter(u => !u.isDead() && u.position.distance2dSqr(this.myHero.position) < range * range);
-        if(!this.canHit(enemyHero, collisionEntities, 70,range)) {
+        const collisionEntities = heroes
+            .concat(creeps, neutrals)
+            .filter(u => !u.isDead() && u.position.distance2dSqr(this.myHero.position) < range * range);
+        if (!this.canHit(enemyHero, collisionEntities, 70, range)) {
             return;
         }
         const targetPos = shitPrediction(enemyHero, 100);
@@ -94,9 +99,9 @@ export class Devourer extends Script {
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
         // console.log(`myHero:` + OBJECT_MANAGER.myHero);
-        // OBJECT_MANAGER.entities.forEach(h => {
-        //     console.log(`entities: ${h.typeName}`);
-        // });
+        OBJECT_MANAGER.entities.forEach(h => {
+            console.log(`entities: ${h.networkId} ${h.typeName}`);
+        });
         // OBJECT_MANAGER.creeps.forEach(h => {
         //     console.log(`creep:${h.typeName} ${h.boundingRadius}`);
         // });
@@ -105,7 +110,13 @@ export class Devourer extends Script {
 
     @Subscribe("DrawEvent")
     onDraw() {
-        // GRAPHICS.drawRect(0, 0, 100, 100);
         // console.log("draw");
+
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     if (h.isIllusion()) {
+        //         const screenPos = CLIENT.worldToScreen(h.position);
+        //         GRAPHICS.drawRect(screenPos.x, screenPos.y, 10, 10);
+        //     }
+        // });
     }
 }

@@ -59,14 +59,14 @@ export class Nitro extends Script {
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
         // const checkVec = { ...this.myHero.facingVector(), z: 0 };
-        OBJECT_MANAGER.heroes.forEach(h => {
-            console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
-            for (let i = 0; i < 80; i++) {
-                const tool = h.getTool(i);
-                if (tool == null) continue;
-                console.log(`tool ${i}: ${tool.typeName}`);
-            }
-        });
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     for (let i = 0; i < 80; i++) {
+        //         const tool = h.getTool(i);
+        //         if (tool == null) continue;
+        //         console.log(`tool ${i}: ${tool.typeName}`);
+        //     }
+        // });
 
         // console.log(`getCurrentPhysicalHealth:${this.myHero.getCurrentPhysicalHealth()}`);
         // console.log(`getPhysicalResistance:${this.myHero.getPhysicalResistance()}`);

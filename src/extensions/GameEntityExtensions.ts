@@ -1,6 +1,7 @@
-import { IUnitEntity, IEntityItem, IEntityState, IEntityAbility, ISlaveEntity } from "../honIdaStructs";
+import { IUnitEntity, IEntityItem, IEntityState, IEntityAbility, ISlaveEntity, IHeroEntity } from "../honIdaStructs";
 import { tryGetTypeInfo } from "../objects/RTTI";
 import { SHARED_MODULE, IGAME } from "../game/Globals";
+import { OBJECT_MANAGER } from "../objects/ObjectManager";
 
 const toolInitMap = new Map([
     [
@@ -61,6 +62,18 @@ declare module "../honIdaStructs" {
         isMagicImmune(): boolean;
         isPhysicalImmune(): boolean;
     }
+    interface IHeroEntity {
+        isIllusion(): boolean;
+    }
+}
+
+IHeroEntity.prototype.isIllusion = function (): boolean {
+    const self = this as IHeroEntity;
+    const lowestNetId = OBJECT_MANAGER.getLowestHeroEntityId(self.typeName);
+    if(!lowestNetId) {
+        return false;
+    }
+    return self.networkId > lowestNetId;
 }
 
 IUnitEntity.prototype.getTool = function(index: number): ISlaveEntity | null {
