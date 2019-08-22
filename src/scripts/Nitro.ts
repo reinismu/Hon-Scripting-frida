@@ -51,6 +51,39 @@ export class Nitro extends Script {
         }
     }
 
+    doLexLogic() {
+        if (this.lastCast + 100 > Date.now()) {
+            return;
+        }
+        const lex = this.myHero.getItem("Item_LexTalionis");
+        if (!lex) {
+            return;
+        }
+        if (!lex.item.isReady()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(lex.item.getDynamicRange());
+        if (!enemyHero) {
+            return;
+        }
+        this.lastCast = Date.now();
+        ACTION.castSpellEntity(this.myHero, lex.index, enemyHero);
+    }
+
+    doGhostMarchersLogic() {
+        if (this.lastCast + 100 > Date.now()) {
+            return;
+        }
+        const boots = this.myHero.getItem("Item_EnhancedMarchers");
+        if (!boots) {
+            return;
+        }
+        if (!boots.item.isReady()) {
+            return;
+        }
+        ACTION.castSpell2(this.myHero, boots.index);
+    }
+
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         // IGAME.mysteriousStruct.drawIndicatorFlag = 1;
@@ -71,6 +104,8 @@ export class Nitro extends Script {
         // console.log(`getCurrentPhysicalHealth:${this.myHero.getCurrentPhysicalHealth()}`);
         // console.log(`getPhysicalResistance:${this.myHero.getPhysicalResistance()}`);
         this.doQLogic();
+        this.doLexLogic();
+        this.doGhostMarchersLogic();
     }
 
     @Subscribe("DrawEvent")
@@ -98,4 +133,14 @@ export class Nitro extends Script {
         buffer.size = 0;
         buffer.allocatedSize = 0;
     }
+
+    // @Subscribe("SendGameDataEvent")
+    // onSendGameDataEvent(args: NativePointer[]) {
+    //     if (!INPUT.isControlDown()) return;
+    //     // Dont update state if we are shooting
+
+    //     const buffer = new MyBuffer(args[1]);
+    //     const data = new Uint8Array(buffer.dataBuffer);
+    //     console.log(data);
+    // }
 }

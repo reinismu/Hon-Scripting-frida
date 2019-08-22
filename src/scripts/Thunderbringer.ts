@@ -70,14 +70,4 @@ export class Thunderbringer extends Script {
         // GRAPHICS.drawRect(0, 0, 100, 100);
         // console.log("draw");
     }
-
-    @Subscribe("SendGameDataEvent")
-    onSendGameDataEvent(args: NativePointer[]) {
-        if (!INPUT.isControlDown()) return;
-        // Dont update state if we are shooting
-
-        const buffer = new MyBuffer(args[1]);
-        const data = new Uint8Array(buffer.dataBuffer);
-        console.log(data);
-    }
 }

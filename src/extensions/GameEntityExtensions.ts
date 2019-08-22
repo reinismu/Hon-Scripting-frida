@@ -25,20 +25,20 @@ const toolInitMap = new Map([
 ]);
 
 const magicImmunityStates = new Set([
+    "State_Accursed_Ability4",
     "State_Jereziah_Ability2",
     "State_Item3E" /* Shrunken*/,
     "State_Predator_Ability2",
     "State_Hiro_Ability1" /* Swiftblade Q */
 ]);
 
-const physicalImmunityStates = new Set([
-    "State_VoidTalisman",
-]);
+const physicalImmunityStates = new Set(["State_Accursed_Ability4", "State_VoidTalisman"]);
 
 declare module "../honIdaStructs" {
     interface IUnitEntity {
         facingVector(): { x: number; y: number };
         getTool(index: number): ISlaveEntity | null;
+        getItem(name: string): { index: number; item: IEntityItem } | null;
         isEnemy(entity: IUnitEntity): boolean;
         isDead(): boolean;
         getArmor(): number;
@@ -77,21 +77,21 @@ IVisualEntity.prototype.getModelId = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x4C8)
+            .add(0x4c8)
             .readPointer(),
         "int",
         ["pointer"]
     )(self.ptr) as number;
 };
 
-IHeroEntity.prototype.isIllusion = function (): boolean {
+IHeroEntity.prototype.isIllusion = function(): boolean {
     const self = this as IHeroEntity;
     const lowestNetId = OBJECT_MANAGER.getLowestHeroEntityId(self.typeName);
-    if(!lowestNetId) {
+    if (!lowestNetId) {
         return false;
     }
     return self.networkId > lowestNetId;
-}
+};
 
 IUnitEntity.prototype.getTool = function(index: number): ISlaveEntity | null {
     const self = this as IUnitEntity;
@@ -105,6 +105,20 @@ IUnitEntity.prototype.getTool = function(index: number): ISlaveEntity | null {
         }
     }
     return new ISlaveEntity(ptr);
+};
+
+IUnitEntity.prototype.getItem = function(name: string): { index: number; item: IEntityItem } | null {
+    const self = this as IUnitEntity;
+    for (let i = 48; i < 66; i++) {
+        const tool = self.getTool(i);
+        if (!tool) {
+            continue;
+        }
+        if (tool instanceof IEntityItem && tool.typeName == name) {
+            return { index: i, item: tool };
+        }
+    }
+    return null;
 };
 
 const isEnemy = new NativeFunction(SHARED_MODULE.getExportByName("_ZNK11IUnitEntity7IsEnemyEPS_"), "bool", ["pointer", "pointer"]);

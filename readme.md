@@ -40,6 +40,8 @@ Tool to easily interact with game
 * DONE Focus easiest kill in range
 * DONE Magic immunity checks
 * DONE Anti illusion logic 
+* DONE Accursed ult ignore
+* DONE Item usage!
 * Orbwalking
 * draw circle
 * isMoving

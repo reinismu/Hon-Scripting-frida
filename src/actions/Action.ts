@@ -101,6 +101,23 @@ export class Action {
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
     }
 
+    public castSpell2(entity: IGameEntity, slot: number) {
+        this.myBuffer.size = 0x6;
+        this.myBuffer.allocatedSize = 0x6;
+        this.myBuffer.currentOffset = 0;
+        this.myBuffer.someFlag = 0;
+
+        this.buffer[0] = 27;
+        this.buffer.writeUInt16LE(entity.networkId, 1);
+        this.buffer[3] = slot;
+        this.buffer[4] = 0;
+        this.buffer[5] = 0;
+
+        this.rawBuffer.writeByteArray(this.buffer);
+
+        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+    }
+
     public castSpellPosition(entity: IGameEntity, slot: number, x: number, y: number) {
         this.myBuffer.size = 14;
         this.myBuffer.allocatedSize = 14;

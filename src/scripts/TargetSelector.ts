@@ -18,7 +18,9 @@ export class TargetSelector {
     getEasiestPhysicalKillInRange(range: number): IHeroEntity | null {
         const me = OBJECT_MANAGER.myHero;
         const enemy = OBJECT_MANAGER.heroes
-            .filter(h => h.health > 0 && h.isEnemy(me) && h.position.distance2d(me.position) < range && !h.isPhysicalImmune())
+            .filter(
+                h => h.health > 0 && !h.isIllusion() && h.isEnemy(me) && h.position.distance2d(me.position) < range && !h.isPhysicalImmune()
+            )
             .sort((h1, h2) => h1.getCurrentPhysicalHealth() - h2.getCurrentPhysicalHealth())[0];
         if (enemy) {
             return enemy;
@@ -29,7 +31,9 @@ export class TargetSelector {
     getEasiestMagicalKillInRange(range: number): IHeroEntity | null {
         const me = OBJECT_MANAGER.myHero;
         const enemy = OBJECT_MANAGER.heroes
-            .filter(h => h.health > 0 && h.isEnemy(me) && h.position.distance2d(me.position) < range && !h.isMagicImmune())
+            .filter(
+                h => h.health > 0 && !h.isIllusion() && h.isEnemy(me) && h.position.distance2d(me.position) < range && !h.isMagicImmune()
+            )
             .sort((h1, h2) => h1.getCurrentMagicalHealth() - h2.getCurrentMagicalHealth())[0];
         if (enemy) {
             return enemy;
