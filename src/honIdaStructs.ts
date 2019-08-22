@@ -20,6 +20,318 @@ export class CObj {
 
 
 // inheritence: CObj
+export class CSkeleton extends CObj {
+
+// vtable -> type: Vtable_cSkeleton_vtbl * 
+	get vtable(): Vtable_cSkeleton_vtbl {
+		return new Vtable_cSkeleton_vtbl(this.align(0x0).readPointer());
+	}
+
+// field_8 -> type: char 
+	get field_8(): number {
+		return this.align(0x8).readS8();
+	}
+
+// gap_9 -> type: uint8 [7] 
+// field_10 -> type: long long 
+	get field_10(): Int64 {
+		return this.align(0x10).readS64();
+	}
+
+// gap_18 -> type: uint8 [6] 
+// field_1E -> type: long long 
+	get field_1E(): Int64 {
+		return this.align(0x1e).readS64();
+	}
+
+// gap_26 -> type: uint8 [2] 
+// field_28 -> type: int 
+	get field_28(): number {
+		return this.align(0x28).readS32();
+	}
+
+// field_2C -> type: int 
+	get field_2C(): number {
+		return this.align(0x2c).readS32();
+	}
+
+// field_30 -> type: int 
+	get field_30(): number {
+		return this.align(0x30).readS32();
+	}
+
+// field_34 -> type: long long 
+	get field_34(): Int64 {
+		return this.align(0x34).readS64();
+	}
+
+// gap_3C -> type: uint8 [8] 
+// field_44 -> type: int 
+	get field_44(): number {
+		return this.align(0x44).readS32();
+	}
+
+// field_48 -> type: int 
+	get field_48(): number {
+		return this.align(0x48).readS32();
+	}
+
+// field_4C -> type: int 
+	get field_4C(): number {
+		return this.align(0x4c).readS32();
+	}
+
+// field_50 -> type: int 
+	get field_50(): number {
+		return this.align(0x50).readS32();
+	}
+
+// field_54 -> type: int 
+	get field_54(): number {
+		return this.align(0x54).readS32();
+	}
+
+// field_58 -> type: int 
+	get field_58(): number {
+		return this.align(0x58).readS32();
+	}
+
+// field_5C -> type: int 
+	get field_5C(): number {
+		return this.align(0x5c).readS32();
+	}
+
+// field_60 -> type: int 
+	get field_60(): number {
+		return this.align(0x60).readS32();
+	}
+
+// field_64 -> type: int 
+	get field_64(): number {
+		return this.align(0x64).readS32();
+	}
+
+// field_68 -> type: int 
+	get field_68(): number {
+		return this.align(0x68).readS32();
+	}
+
+// field_6C -> type: char 
+	get field_6C(): number {
+		return this.align(0x6c).readS8();
+	}
+
+// gap_6D -> type: uint8 [3] 
+// field_70 -> type: int 
+	get field_70(): number {
+		return this.align(0x70).readS32();
+	}
+
+// gap_74 -> type: uint8 [4] 
+// field_78 -> type: long long 
+	get field_78(): Int64 {
+		return this.align(0x78).readS64();
+	}
+
+// gap_80 -> type: uint8 [8] 
+// field_88 -> type: long long 
+	get field_88(): Int64 {
+		return this.align(0x88).readS64();
+	}
+
+// field_90 -> type: uint8 [8] 
+// field_98 -> type: long long 
+	get field_98(): Int64 {
+		return this.align(0x98).readS64();
+	}
+
+// gap_A0 -> type: uint8 [8] 
+// field_A8 -> type: int 
+	get field_A8(): number {
+		return this.align(0xa8).readS32();
+	}
+
+// gap_AC -> type: uint8 [4] 
+// field_B0 -> type: long long 
+	get field_B0(): Int64 {
+		return this.align(0xb0).readS64();
+	}
+
+// field_B8 -> type: uint64 
+	get field_B8(): UInt64 {
+		return this.align(0xb8).readU64();
+	}
+
+// field_C0 -> type: uint64 
+	get field_C0(): UInt64 {
+		return this.align(0xc0).readU64();
+	}
+
+// field_C8 -> type: int 
+	get field_C8(): number {
+		return this.align(0xc8).readS32();
+	}
+
+// field_CC -> type: int 
+	get field_CC(): number {
+		return this.align(0xcc).readS32();
+	}
+
+// field_D0 -> type: int 
+	get field_D0(): number {
+		return this.align(0xd0).readS32();
+	}
+
+// field_D4 -> type: int 
+	get field_D4(): number {
+		return this.align(0xd4).readS32();
+	}
+
+// field_D8 -> type: int 
+	get field_D8(): number {
+		return this.align(0xd8).readS32();
+	}
+
+// field_DC -> type: int 
+	get field_DC(): number {
+		return this.align(0xdc).readS32();
+	}
+
+// field_E0 -> type: int 
+	get field_E0(): number {
+		return this.align(0xe0).readS32();
+	}
+
+// field_E4 -> type: int 
+	get field_E4(): number {
+		return this.align(0xe4).readS32();
+	}
+
+// gap_E8 -> type: uint8 [32] 
+// field_108 -> type: char 
+	get field_108(): number {
+		return this.align(0x108).readS8();
+	}
+
+// field_109 -> type: char 
+	get field_109(): number {
+		return this.align(0x109).readS8();
+	}
+
+// gap_10A -> type: uint8 [2] 
+// field_10C -> type: int 
+	get field_10C(): number {
+		return this.align(0x10c).readS32();
+	}
+
+// field_110 -> type: int 
+	get field_110(): number {
+		return this.align(0x110).readS32();
+	}
+
+// field_114 -> type: long long 
+	get field_114(): Int64 {
+		return this.align(0x114).readS64();
+	}
+
+// field_11C -> type: long long 
+	get field_11C(): Int64 {
+		return this.align(0x11c).readS64();
+	}
+
+// gap_124 -> type: uint8 [8] 
+// field_12C -> type: int 
+	get field_12C(): number {
+		return this.align(0x12c).readS32();
+	}
+
+// field_130 -> type: long long 
+	get field_130(): Int64 {
+		return this.align(0x130).readS64();
+	}
+
+// field_138 -> type: char 
+	get field_138(): number {
+		return this.align(0x138).readS8();
+	}
+
+// field_139 -> type: char 
+	get field_139(): number {
+		return this.align(0x139).readS8();
+	}
+
+// gap_13A -> type: uint8 [6] 
+// field_140 -> type: long long 
+	get field_140(): Int64 {
+		return this.align(0x140).readS64();
+	}
+
+// field_148 -> type: long long 
+	get field_148(): Int64 {
+		return this.align(0x148).readS64();
+	}
+
+// field_150 -> type: long long 
+	get field_150(): Int64 {
+		return this.align(0x150).readS64();
+	}
+
+// field_158 -> type: long long 
+	get field_158(): Int64 {
+		return this.align(0x158).readS64();
+	}
+
+// field_160 -> type: long long 
+	get field_160(): Int64 {
+		return this.align(0x160).readS64();
+	}
+
+// field_168 -> type: long long 
+	get field_168(): Int64 {
+		return this.align(0x168).readS64();
+	}
+
+// field_170 -> type: __int128 
+// field_180 -> type: long long 
+	get field_180(): Int64 {
+		return this.align(0x180).readS64();
+	}
+
+// field_188 -> type: int 
+	get field_188(): number {
+		return this.align(0x188).readS32();
+	}
+
+// gap_18C -> type: uint8 [20] 
+// field_1A0 -> type: __int128 
+// field_1B0 -> type: long long 
+	get field_1B0(): Int64 {
+		return this.align(0x1b0).readS64();
+	}
+
+// field_1B8 -> type: int 
+	get field_1B8(): number {
+		return this.align(0x1b8).readS32();
+	}
+
+// field_1BC -> type: int 
+	get field_1BC(): number {
+		return this.align(0x1bc).readS32();
+	}
+
+// field_1C0 -> type: long long 
+	get field_1C0(): Int64 {
+		return this.align(0x1c0).readS64();
+	}
+
+// field_1C8 -> type: long long 
+	get field_1C8(): Int64 {
+		return this.align(0x1c8).readS64();
+	}
+
+}
+
+// inheritence: CObj
 export class CCamera extends CObj {
 
 // field_0 -> type: int 
@@ -280,6 +592,180 @@ export class CEntitySnapshot extends CObj {
 // field_90 -> type: long long 
 	get field_90(): Int64 {
 		return this.align(0x90).readS64();
+	}
+
+}
+
+// inheritence: CObj
+export class IEntityDefinition extends CObj {
+
+// __vftable -> type: IEntityDefinition_vtbl * 
+	get __vftable(): IEntityDefinition_vtbl {
+		return new IEntityDefinition_vtbl(this.align(0x0).readPointer());
+	}
+
+// field_8 -> type: short 
+	get field_8(): number {
+		return this.align(0x8).readS16();
+	}
+
+// gap_A -> type: uint8 [2] 
+// field_C -> type: int 
+	get field_C(): number {
+		return this.align(0xc).readS32();
+	}
+
+// field_10 -> type: short 
+	get field_10(): number {
+		return this.align(0x10).readS16();
+	}
+
+// gap_12 -> type: uint8 [6] 
+// field_18 -> type: long long 
+	get field_18(): Int64 {
+		return this.align(0x18).readS64();
+	}
+
+// gap_20 -> type: uint8 [8] 
+// field_28 -> type: long long 
+	get field_28(): Int64 {
+		return this.align(0x28).readS64();
+	}
+
+// field_30 -> type: long long 
+	get field_30(): Int64 {
+		return this.align(0x30).readS64();
+	}
+
+// field_38 -> type: long long 
+	get field_38(): Int64 {
+		return this.align(0x38).readS64();
+	}
+
+// field_40 -> type: uint64 
+	get field_40(): UInt64 {
+		return this.align(0x40).readU64();
+	}
+
+// field_48 -> type: __int128 
+// field_58 -> type: long long 
+	get field_58(): Int64 {
+		return this.align(0x58).readS64();
+	}
+
+// field_60 -> type: long long 
+	get field_60(): Int64 {
+		return this.align(0x60).readS64();
+	}
+
+// field_68 -> type: long long 
+	get field_68(): Int64 {
+		return this.align(0x68).readS64();
+	}
+
+// field_70 -> type: uint64 
+	get field_70(): UInt64 {
+		return this.align(0x70).readU64();
+	}
+
+// gap_78 -> type: uint8 [8] 
+// field_80 -> type: long long 
+	get field_80(): Int64 {
+		return this.align(0x80).readS64();
+	}
+
+// gap_88 -> type: uint8 [4] 
+// field_8C -> type: long long 
+	get field_8C(): Int64 {
+		return this.align(0x8c).readS64();
+	}
+
+// gap_94 -> type: uint8 [12] 
+// field_A0 -> type: long long 
+	get field_A0(): Int64 {
+		return this.align(0xa0).readS64();
+	}
+
+// field_A8 -> type: uint64 
+	get field_A8(): UInt64 {
+		return this.align(0xa8).readU64();
+	}
+
+// gap_B0 -> type: uint8 [8] 
+// field_B8 -> type: __int128 
+// field_C8 -> type: long long 
+	get field_C8(): Int64 {
+		return this.align(0xc8).readS64();
+	}
+
+// field_D0 -> type: int 
+	get field_D0(): number {
+		return this.align(0xd0).readS32();
+	}
+
+// gap_D4 -> type: uint8 [4] 
+// field_D8 -> type: long long 
+	get field_D8(): Int64 {
+		return this.align(0xd8).readS64();
+	}
+
+// field_E0 -> type: uint64 
+	get field_E0(): UInt64 {
+		return this.align(0xe0).readU64();
+	}
+
+// gap_E8 -> type: uint8 [8] 
+// field_F0 -> type: int 
+	get field_F0(): number {
+		return this.align(0xf0).readS32();
+	}
+
+// gap_F4 -> type: uint8 [4] 
+// field_F8 -> type: long long 
+	get field_F8(): Int64 {
+		return this.align(0xf8).readS64();
+	}
+
+// gap_100 -> type: uint8 [4] 
+// field_104 -> type: long long 
+	get field_104(): Int64 {
+		return this.align(0x104).readS64();
+	}
+
+// gap_10C -> type: uint8 [8] 
+// field_114 -> type: long long 
+	get field_114(): Int64 {
+		return this.align(0x114).readS64();
+	}
+
+// gap_11C -> type: uint8 [4] 
+// field_120 -> type: long long 
+	get field_120(): Int64 {
+		return this.align(0x120).readS64();
+	}
+
+// gap_128 -> type: uint8 [8] 
+// field_130 -> type: long long 
+	get field_130(): Int64 {
+		return this.align(0x130).readS64();
+	}
+
+// gap_138 -> type: uint8 [8] 
+// field_140 -> type: long long 
+	get field_140(): Int64 {
+		return this.align(0x140).readS64();
+	}
+
+// gap_148 -> type: uint8 [8] 
+// field_150 -> type: long long 
+	get field_150(): Int64 {
+		return this.align(0x150).readS64();
+	}
+
+// gap_158 -> type: uint8 [8] 
+// field_160 -> type: long long 
+	get field_160(): Int64 {
+		return this.align(0x160).readS64();
 	}
 
 }
@@ -3792,6 +4278,107 @@ export class MysteriousStruct extends CObj {
 }
 
 // inheritence: CObj
+export class IEntityDefinition_vtbl extends CObj {
+
+// sub_E6F080 -> type: char *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char * 
+	public sub_E6F080() {
+		return null;
+	}
+
+// sub_E6F0A0 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public sub_E6F0A0() {
+		return null;
+	}
+
+// sub_E6BAB0 -> type: long long (*)(long long, unsigned int, unsigned char *, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: long long unsigned int unsigned char * unsigned int -> ret: long long 
+	public sub_E6BAB0() {
+		return null;
+	}
+
+// sub_E6C0F0 -> type: long long (*)(long long, unsigned int, unsigned char *, long long, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: long long unsigned int unsigned char * long long unsigned int -> ret: long long 
+	public sub_E6C0F0() {
+		return null;
+	}
+
+// sub_E6A160 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public sub_E6A160() {
+		return null;
+	}
+
+// sub_E6A390 -> type: void (*)(void *) __attribute__((fastcall)) 
+// function 
+// args: void * -> ret: void 
+	public sub_E6A390() {
+		return null;
+	}
+
+// __cxa_pure_virtual -> type: void *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void * 
+	public __cxa_pure_virtual() {
+		return null;
+	}
+
+// sub_E6C940 -> type: uint64 *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: uint64 * 
+	public sub_E6C940() {
+		return null;
+	}
+
+// sub_E6DD90 -> type: long long (*)(long long, long long) __attribute__((fastcall)) 
+// function 
+// args: long long long long -> ret: long long 
+	public sub_E6DD90() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
+export class Vtable_cSkeleton_vtbl extends CObj {
+
+// _ZN9CSkeletonD2Ev -> type: void (*)(CSkeleton *) __attribute__((fastcall)) 
+// function 
+// args: CSkeleton * -> ret: void 
+	public _ZN9CSkeletonD2Ev() {
+		return null;
+	}
+
+// _ZN9CSkeletonD0Ev -> type: void (*)(CSkeleton *) __attribute__((fastcall)) 
+// function 
+// args: CSkeleton * -> ret: void 
+	public _ZN9CSkeletonD0Ev() {
+		return null;
+	}
+
+// sub_86DD00 -> type: long long (*)(CSkeleton *) __attribute__((fastcall)) 
+// function 
+// args: CSkeleton * -> ret: long long 
+	public sub_86DD00() {
+		return null;
+	}
+
+// size -> type: void *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void * 
+	public size() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
 export class Elf64_Sym extends CObj {
 
 // st_name -> type: unsigned int 
@@ -3935,11 +4522,6 @@ export class type_info extends CObj {
 }
 
 // inheritence: CObj
-export class IEntityDefinition extends CObj {
-
-}
-
-// inheritence: CObj
 export class IGameEntity extends CObj {
 
 // __vftable -> type: IGameEntity_vtbl * 
@@ -3952,8 +4534,8 @@ export class IGameEntity extends CObj {
 		return new IEntityDefinition(this.align(0x8).readPointer());
 	}
 
-// field_10 -> type: long long 
-	get field_10(): Int64 {
+// dunnoField -> type: long long 
+	get dunnoField(): Int64 {
 		return this.align(0x10).readS64();
 	}
 
@@ -4401,7 +4983,11 @@ export class IVisualEntity extends IGameEntity {
 		return this.align(0xf8).readS32();
 	}
 
-// field_FC -> type: __m128i 
+// boundsSmth -> type: CVec3 
+	get boundsSmth(): CVec3 {
+		return new CVec3(this.align(0xfc));
+	}
+
 // field_10C -> type: int 
 	get field_10C(): number {
 		return this.align(0x10c).readS32();
@@ -4561,7 +5147,16 @@ export class IVisualEntity extends IGameEntity {
 	}
 
 // gap_1A9 -> type: uint8 [7] 
-// field_1B0 -> type: __m128i 
+// skeleton -> type: CSkeleton * 
+	get skeleton(): CSkeleton {
+		return new CSkeleton(this.align(0x1b0).readPointer());
+	}
+
+// field_1B8 -> type: long long 
+	get field_1B8(): Int64 {
+		return this.align(0x1b8).readS64();
+	}
+
 // field_1C0 -> type: __m128i 
 // field_1D0 -> type: __m128i 
 // field_1E0 -> type: long long 
@@ -4569,8 +5164,8 @@ export class IVisualEntity extends IGameEntity {
 		return this.align(0x1e0).readS64();
 	}
 
-// field_1E8 -> type: char 
-	get field_1E8(): number {
+// animation -> type: char 
+	get animation(): number {
 		return this.align(0x1e8).readS8();
 	}
 
@@ -7012,11 +7607,6 @@ export class CNetworkResourceManager extends CObj {
 
 // inheritence: CObj
 export class IResourceLibrary extends CObj {
-
-}
-
-// inheritence: CObj
-export class CSkeleton extends CObj {
 
 }
 
@@ -9466,8 +10056,273 @@ export class ILight extends CObj {
 
 }
 
-// inheritence: CObj
-export class IProjectile extends CObj {
+// inheritence: IVisualEntity
+export class IProjectile extends IVisualEntity {
+
+// field_298 -> type: int 
+	get field_298(): number {
+		return this.align(0x298).readS32();
+	}
+
+// field_29C -> type: int 
+	get field_29C(): number {
+		return this.align(0x29c).readS32();
+	}
+
+// field_2A0 -> type: int 
+	get field_2A0(): number {
+		return this.align(0x2a0).readS32();
+	}
+
+// field_2A4 -> type: int 
+	get field_2A4(): number {
+		return this.align(0x2a4).readS32();
+	}
+
+// field_2A8 -> type: int 
+	get field_2A8(): number {
+		return this.align(0x2a8).readS32();
+	}
+
+// field_2AC -> type: char 
+	get field_2AC(): number {
+		return this.align(0x2ac).readS8();
+	}
+
+// field_2AD -> type: char 
+	get field_2AD(): number {
+		return this.align(0x2ad).readS8();
+	}
+
+// gap_2AE -> type: uint8 [2] 
+// field_2B0 -> type: int 
+	get field_2B0(): number {
+		return this.align(0x2b0).readS32();
+	}
+
+// field_2B4 -> type: int 
+	get field_2B4(): number {
+		return this.align(0x2b4).readS32();
+	}
+
+// field_2B8 -> type: int 
+	get field_2B8(): number {
+		return this.align(0x2b8).readS32();
+	}
+
+// gap_2BC -> type: uint8 [4] 
+// field_2C0 -> type: char 
+	get field_2C0(): number {
+		return this.align(0x2c0).readS8();
+	}
+
+// gap_2C1 -> type: uint8 [3] 
+// field_2C4 -> type: int 
+	get field_2C4(): number {
+		return this.align(0x2c4).readS32();
+	}
+
+// field_2C8 -> type: int 
+	get field_2C8(): number {
+		return this.align(0x2c8).readS32();
+	}
+
+// field_2CC -> type: long long 
+	get field_2CC(): Int64 {
+		return this.align(0x2cc).readS64();
+	}
+
+// gap_2D4 -> type: uint8 [8] 
+// field_2DC -> type: int 
+	get field_2DC(): number {
+		return this.align(0x2dc).readS32();
+	}
+
+// field_2E0 -> type: int 
+	get field_2E0(): number {
+		return this.align(0x2e0).readS32();
+	}
+
+// field_2E4 -> type: char 
+	get field_2E4(): number {
+		return this.align(0x2e4).readS8();
+	}
+
+// gap_2E5 -> type: uint8 [3] 
+// field_2E8 -> type: long long 
+	get field_2E8(): Int64 {
+		return this.align(0x2e8).readS64();
+	}
+
+// gap_2F0 -> type: uint8 [3144] 
+// field_F38 -> type: int 
+	get field_F38(): number {
+		return this.align(0xf38).readS32();
+	}
+
+// field_F3C -> type: long long 
+	get field_F3C(): Int64 {
+		return this.align(0xf3c).readS64();
+	}
+
+// gap_F44 -> type: uint8 [12] 
+// field_F50 -> type: long long 
+	get field_F50(): Int64 {
+		return this.align(0xf50).readS64();
+	}
+
+// field_F58 -> type: uint64 
+	get field_F58(): UInt64 {
+		return this.align(0xf58).readU64();
+	}
+
+// gap_F60 -> type: uint8 [8] 
+// field_F68 -> type: long long 
+	get field_F68(): Int64 {
+		return this.align(0xf68).readS64();
+	}
+
+// field_F70 -> type: uint64 
+	get field_F70(): UInt64 {
+		return this.align(0xf70).readU64();
+	}
+
+// gap_F78 -> type: uint8 [8] 
+// field_F80 -> type: char 
+	get field_F80(): number {
+		return this.align(0xf80).readS8();
+	}
+
+// field_F81 -> type: char 
+	get field_F81(): number {
+		return this.align(0xf81).readS8();
+	}
+
+// gap_F82 -> type: uint8 [2] 
+// field_F84 -> type: int 
+	get field_F84(): number {
+		return this.align(0xf84).readS32();
+	}
+
+// gap_F88 -> type: uint8 [12] 
+// field_F94 -> type: long long 
+	get field_F94(): Int64 {
+		return this.align(0xf94).readS64();
+	}
+
+// gap_F9C -> type: uint8 [16] 
+// field_FAC -> type: int 
+	get field_FAC(): number {
+		return this.align(0xfac).readS32();
+	}
+
+// field_FB0 -> type: int 
+	get field_FB0(): number {
+		return this.align(0xfb0).readS32();
+	}
+
+// field_FB4 -> type: int 
+	get field_FB4(): number {
+		return this.align(0xfb4).readS32();
+	}
+
+// field_FB8 -> type: int 
+	get field_FB8(): number {
+		return this.align(0xfb8).readS32();
+	}
+
+// field_FBC -> type: int 
+	get field_FBC(): number {
+		return this.align(0xfbc).readS32();
+	}
+
+// field_FC0 -> type: long long 
+	get field_FC0(): Int64 {
+		return this.align(0xfc0).readS64();
+	}
+
+// field_FC8 -> type: long long 
+	get field_FC8(): Int64 {
+		return this.align(0xfc8).readS64();
+	}
+
+// field_FD0 -> type: long long 
+	get field_FD0(): Int64 {
+		return this.align(0xfd0).readS64();
+	}
+
+// field_FD8 -> type: long long 
+	get field_FD8(): Int64 {
+		return this.align(0xfd8).readS64();
+	}
+
+// gap_FE0 -> type: uint8 [8] 
+// field_FE8 -> type: long long 
+	get field_FE8(): Int64 {
+		return this.align(0xfe8).readS64();
+	}
+
+// gap_FF0 -> type: uint8 [8] 
+// field_FF8 -> type: char 
+	get field_FF8(): number {
+		return this.align(0xff8).readS8();
+	}
+
+// gap_FF9 -> type: uint8 [35] 
+// field_101C -> type: int 
+	get field_101C(): number {
+		return this.align(0x101c).readS32();
+	}
+
+// field_1020 -> type: char 
+	get field_1020(): number {
+		return this.align(0x1020).readS8();
+	}
+
+// gap_1021 -> type: uint8 [3] 
+// field_1024 -> type: long long 
+	get field_1024(): Int64 {
+		return this.align(0x1024).readS64();
+	}
+
+// gap_102C -> type: uint8 
+// field_102D -> type: long long 
+	get field_102D(): Int64 {
+		return this.align(0x102d).readS64();
+	}
+
+// gap_1035 -> type: uint8 [7] 
+// field_103C -> type: long long 
+	get field_103C(): Int64 {
+		return this.align(0x103c).readS64();
+	}
+
+// gap_1044 -> type: uint8 [4] 
+// field_1048 -> type: long long 
+	get field_1048(): Int64 {
+		return this.align(0x1048).readS64();
+	}
+
+// field_1050 -> type: uint64 
+	get field_1050(): UInt64 {
+		return this.align(0x1050).readU64();
+	}
+
+// gap_1058 -> type: uint8 [8] 
+// field_1060 -> type: long long 
+	get field_1060(): Int64 {
+		return this.align(0x1060).readS64();
+	}
+
+// field_1068 -> type: uint64 
+	get field_1068(): UInt64 {
+		return this.align(0x1068).readU64();
+	}
+
+// field_1070 -> type: uint64 
+	get field_1070(): UInt64 {
+		return this.align(0x1070).readU64();
+	}
 
 }
 
@@ -42465,9 +43320,9 @@ export class CClientEntity extends CObj {
 		return this.align(0xc).readS32();
 	}
 
-// field_10 -> type: uint64 
-	get field_10(): UInt64 {
-		return this.align(0x10).readU64();
+// skeleton -> type: CSkeleton * 
+	get skeleton(): CSkeleton {
+		return new CSkeleton(this.align(0x10).readPointer());
 	}
 
 // sceneEntityModifierResult -> type: int 
@@ -42679,9 +43534,9 @@ export class CClientEntity extends CObj {
 		return new IGameEntity(this.align(0x8e8).readPointer());
 	}
 
-// gameEntity3 -> type: IGameEntity * 
-	get gameEntity3(): IGameEntity {
-		return new IGameEntity(this.align(0x8f0).readPointer());
+// gameEntity3 -> type: IVisualEntity * 
+	get gameEntity3(): IVisualEntity {
+		return new IVisualEntity(this.align(0x8f0).readPointer());
 	}
 
 // field_8F8 -> type: long long 
@@ -58310,6 +59165,11 @@ export class INeutralEntity_vtbl extends CObj {
 
 // inheritence: CObj
 export class IPetEntity_vtbl extends CObj {
+
+}
+
+// inheritence: CObj
+export class IProjectile_vtbl extends CObj {
 
 }
 

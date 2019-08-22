@@ -1,5 +1,7 @@
 import "../extensions/GameEntityExtensions";
 import "../extensions/IEntityToolExtensions";
+import "../extensions/CVec3Extensions";
+import "../extensions/CSkeletonExtensions";
 
 import { IGAME } from "../game/Globals";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";

@@ -9,6 +9,7 @@ import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER, ObjectManager } from "../objects/ObjectManager";
 import { Vec2, Vector } from "../utils/Vector";
 import { shitPrediction } from "./Prediction";
+import { RESOURCE_MANAGER } from "../objects/ResourceManager";
 
 function sqr(x: number) {
     return x * x;
@@ -97,11 +98,11 @@ export class Devourer extends Script {
         if (!INPUT.isControlDown()) return;
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
-        // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
-        // console.log(`myHero:` + OBJECT_MANAGER.myHero);
-        OBJECT_MANAGER.entities.forEach(h => {
-            console.log(`entities: ${h.networkId} ${h.typeName}`);
-        });
+        // console.log(`myHero: ` + OBJECT_MANAGER.myHero.ptr);
+
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     console.log(`${h.typeName} getCurrentAnimIndex: ` + h.skeleton.getCurrentAnimIndex());
+        // });
         // OBJECT_MANAGER.creeps.forEach(h => {
         //     console.log(`creep:${h.typeName} ${h.boundingRadius}`);
         // });
@@ -111,12 +112,18 @@ export class Devourer extends Script {
     @Subscribe("DrawEvent")
     onDraw() {
         // console.log("draw");
-
         // OBJECT_MANAGER.heroes.forEach(h => {
         //     if (h.isIllusion()) {
         //         const screenPos = CLIENT.worldToScreen(h.position);
         //         GRAPHICS.drawRect(screenPos.x, screenPos.y, 10, 10);
         //     }
         // });
+    }
+
+    @Subscribe("RequestStartAnimEvent")
+    onAnimationStart(args: NativePointer[]) {
+        // Dont update state if we are shooting
+        
+        // console.log(`RequestStartAnimEvent: ${args[1]} ${args[1].read32BitString()}`);
     }
 }

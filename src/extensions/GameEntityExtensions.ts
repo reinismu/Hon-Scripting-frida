@@ -1,4 +1,4 @@
-import { IUnitEntity, IEntityItem, IEntityState, IEntityAbility, ISlaveEntity, IHeroEntity } from "../honIdaStructs";
+import { IUnitEntity, IEntityItem, IEntityState, IEntityAbility, ISlaveEntity, IHeroEntity, IVisualEntity } from "../honIdaStructs";
 import { tryGetTypeInfo } from "../objects/RTTI";
 import { SHARED_MODULE, IGAME } from "../game/Globals";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
@@ -62,10 +62,27 @@ declare module "../honIdaStructs" {
         isMagicImmune(): boolean;
         isPhysicalImmune(): boolean;
     }
+
     interface IHeroEntity {
         isIllusion(): boolean;
     }
+
+    interface IVisualEntity {
+        getModelId(): number;
+    }
 }
+
+IVisualEntity.prototype.getModelId = function(): number {
+    const self = this as IVisualEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x4C8)
+            .readPointer(),
+        "int",
+        ["pointer"]
+    )(self.ptr) as number;
+};
 
 IHeroEntity.prototype.isIllusion = function (): boolean {
     const self = this as IHeroEntity;
