@@ -87,7 +87,7 @@ export class Action {
         this.buffer.write("\x00\x00\x00\x00\x00", 10, 5, "ascii");
         this.buffer.writeUInt16LE(entity ? entity.networkId : 0xFFFF, 15);
         this.buffer[17] = 0;
-        // console.log(`this.buffer ${new Uint8Array(this.buffer.slice(0, 0x12))}`);
+        console.log(`this.buffer ${new Uint8Array(this.buffer.slice(0, 0x12))}`);
         this.rawBuffer.writeByteArray(this.buffer);
 
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
@@ -107,7 +107,7 @@ export class Action {
         this.rawBuffer.writeByteArray(this.buffer);
 
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
-    }
+    } 
 
     public castSpell(entity: IGameEntity, slot: number) {
         this.myBuffer.size = 0x6;

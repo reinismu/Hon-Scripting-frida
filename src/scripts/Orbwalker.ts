@@ -21,8 +21,8 @@ export class Orbwalker {
         this.walker = walker;
     }
 
-    public orbwalk(position: Vec2) {
-        if (this.canAttack.active(500)) {
+    public orbwalk(position: Vec2, justWalk: boolean = false) {
+        if (!justWalk && this.canAttack.active(500)) {
             const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange());
             if (target) {
                 const turnTime = this.msToTurnToTarget(target);

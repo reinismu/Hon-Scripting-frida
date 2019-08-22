@@ -10,8 +10,10 @@ import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { IGAME } from "../game/Globals";
 import { Vec3, Vector } from "../utils/Vector";
 import { shitPrediction } from "./Prediction";
+import { Orbwalker } from "./Orbwalker";
 
 export class Nitro extends Script {
+    private orbwalker = new Orbwalker(this.myHero);
     private delayCastQ = false;
     private forceSnapshotSend = false;
     private myHeroCached: IUnitEntity | null = null;
@@ -106,6 +108,7 @@ export class Nitro extends Script {
         this.doQLogic();
         this.doLexLogic();
         this.doGhostMarchersLogic();
+        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition, true);
     }
 
     @Subscribe("DrawEvent")
@@ -117,6 +120,15 @@ export class Nitro extends Script {
         //     });
         // }
         // console.log("draw");
+    }
+
+    @Subscribe("SendGameDataEvent")
+    onSendGameDataEvent(args: NativePointer[]) {
+        // if (!INPUT.isControlDown()) return;
+        // Dont update state if we are shooting
+        const buffer = new MyBuffer(args[1]);
+        const data = new Uint8Array(buffer.dataBuffer);
+        console.log(data);
     }
 
     @Subscribe("SendClientSnapshotEvent")

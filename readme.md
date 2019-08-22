@@ -42,7 +42,7 @@ Tool to easily interact with game
 * DONE Anti illusion logic 
 * DONE Accursed ult ignore
 * DONE Item usage!
-* Orbwalking
+* DONE Orbwalking
     * DONE AttackSpeed
     * DONE AttackRange
     * DONE OnGameEntityCreate
@@ -54,8 +54,8 @@ Tool to easily interact with game
 
 ## Top tier Heroes
 
-* Nitro
-* Thunderbringer
+* DONE Nitro
+* DONE Thunderbringer
 * Soulstealer
 * Oogie
 * Artesia
@@ -63,6 +63,6 @@ Tool to easily interact with game
 * Armadon
 * Pebbles
 * Deadlift
-* Devo if can improve prediction? 
+* WIP Devo if can improve prediction? 
 * Gauntlet - super grabs
 * Maliken maybe with good orbwalker

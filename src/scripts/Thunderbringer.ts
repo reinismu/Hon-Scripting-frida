@@ -81,9 +81,9 @@ export class Thunderbringer extends Script {
         // OBJECT_MANAGER.heroes.forEach(h => {
         //     console.log(`isAlive: ${h.isAlive}`);
         // });
-        // this.doQLogic();
-        // this.doWLogic();
-        // this.doGhostMarchersLogic();
+        this.doQLogic();
+        this.doWLogic();
+        this.doGhostMarchersLogic();
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }
 
@@ -99,8 +99,8 @@ export class Thunderbringer extends Script {
         // if (!INPUT.isControlDown()) return;
         // Dont update state if we are shooting
 
-        const buffer = new MyBuffer(args[1]);
-        const data = new Uint8Array(buffer.dataBuffer);
-        console.log(data);
+        // const buffer = new MyBuffer(args[1]);
+        // const data = new Uint8Array(buffer.dataBuffer);
+        // console.log(data);
     }
 }
