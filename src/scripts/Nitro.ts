@@ -11,6 +11,7 @@ import { IGAME } from "../game/Globals";
 import { Vec3, Vector, Vector2d } from "../utils/Vector";
 import { shitPrediction } from "./Prediction";
 import { Orbwalker } from "./Orbwalker";
+import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 
 export class Nitro extends Script {
     private orbwalker = new Orbwalker(this.myHero);
@@ -52,7 +53,7 @@ export class Nitro extends Script {
             this.forceSnapshotSend = false;
             setTimeout(() => {
                 this.delayCastQ = false;
-            }, 250)
+            }, 250);
         }
     }
 
@@ -101,7 +102,7 @@ export class Nitro extends Script {
             return;
         }
         const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if(!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
+        if (!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
             return;
         }
 
@@ -153,37 +154,38 @@ export class Nitro extends Script {
         // console.log(`drawIndicatorFlag:` + IGAME.mysteriousStruct.drawIndicatorFlag);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
+        console.log(`MyVelocity: ` + Vector2d.length(VELOCITY_UPDATER.getVelocity(this.myHero)));
+        console.log(`moveSpeed: ` + this.myHero.getMoveSpeed(true));
         // const checkVec = { ...this.myHero.facingVector(), z: 0 };
-        OBJECT_MANAGER.heroes.forEach(h => {
-            // console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
-            console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
-            // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
-            for (let i = 0; i < 80; i++) {
-                const tool = h.getTool(i);
-                if (tool == null) continue;
-                console.log(`tool ${i}: ${tool.typeName}`);
-            }
-        });
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     // console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
+        //     console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
+        //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
+        //     for (let i = 0; i < 80; i++) {
+        //         const tool = h.getTool(i);
+        //         if (tool == null) continue;
+        //         console.log(`tool ${i}: ${tool.typeName}`);
+        //     }
+        // });
 
         // console.log(`getCurrentPhysicalHealth:${this.myHero.getCurrentPhysicalHealth()}`);
         // console.log(`getPhysicalResistance:${this.myHero.getPhysicalResistance()}`);
-        this.doShrunkensLogic()
-        this.doLexLogic();
-        this.doGhostMarchersLogic();
-        this.doElderLogic();
-        this.doGeometersLogic();
-        this.doQLogic();
+        // this.doShrunkensLogic()
+        // this.doLexLogic();
+        // this.doGhostMarchersLogic();
+        // this.doElderLogic();
+        // this.doGeometersLogic();
+        // this.doQLogic();
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition, true);
     }
 
     @Subscribe("DrawEvent")
     onDraw() {
-        // if (this.myHeroCached != null) {
-        //     OBJECT_MANAGER.heroes.forEach(h => {
-        //         const drawVec = CLIENT.worldToScreen(this.shitPrediction(h));
-        //         GRAPHICS.drawRect(drawVec.x, drawVec.y, 8, 8);
-        //     });
-        // }
+        OBJECT_MANAGER.heroes.forEach(h => {
+            const velocity = VELOCITY_UPDATER.getVelocity(h);
+            const drawVec = CLIENT.worldToScreen(Vector.add(h.position, { ...velocity, z: 0 }));
+            GRAPHICS.drawRect(drawVec.x, drawVec.y, 8, 8);
+        });
         // console.log("draw");
     }
 

@@ -89,9 +89,6 @@ export class ObjectManager {
             this.cachedHeroMap.delete(index);
             this.cachedCreepMap.delete(index);
             this.cachedNeutralMap.delete(index);
-            if (index == this.iGame.myPlayer.heroNetworkId) {
-                this.cachedMyHero = null;
-            }
             return new EntityDespawnedEvent(index);
         }
         const cachedEntity = this.cachedEntityMap.get(index);
@@ -119,9 +116,6 @@ export class ObjectManager {
                 this.cachedHeroMap.delete(index);
                 this.cachedCreepMap.delete(index);
                 this.cachedNeutralMap.delete(index);
-                if (index == this.iGame.myPlayer.heroNetworkId) {
-                    this.cachedMyHero = null;
-                }
                 return new EntityDespawnedEvent(index);
             }
         }

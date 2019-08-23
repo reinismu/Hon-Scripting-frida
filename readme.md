@@ -47,10 +47,12 @@ Tool to easily interact with game
     * DONE AttackRange
     * DONE OnGameEntityCreate
     *
+* prediction math
+    * Hero Velocity
+    * Vector prediction
 * IsStunned/Silenced etc..
 * draw circle
 * isMoving
-* prediction math
 
 ## Top tier Heroes
 

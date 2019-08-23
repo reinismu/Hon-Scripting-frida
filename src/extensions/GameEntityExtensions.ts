@@ -56,7 +56,7 @@ declare module "../honIdaStructs" {
         getMana(): number;
         getMaxMana(): number;
         getManaRegen(): number;
-        getMoveSpeed(smth: boolean): number;
+        getMoveSpeed(smth: boolean): number; // use default 1
         getEvasionMelee(): number;
         getEvasionRanged(): number;
         getAttackSpeed(): number;
@@ -354,7 +354,7 @@ IUnitEntity.prototype.getMoveSpeed = function(smth: boolean = true): number {
             .add(0x780)
             .readPointer(),
         "float",
-        ["pointer", "boolean"]
+        ["pointer", "char"]
     )(self.ptr, smth ? 1 : 0) as number;
 };
 
