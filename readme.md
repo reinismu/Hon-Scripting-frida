@@ -48,7 +48,7 @@ Tool to easily interact with game
     * DONE OnGameEntityCreate
     *
 * prediction math
-    * Hero Velocity
+    * DONE Hero Velocity
     * Vector prediction
 * IsStunned/Silenced etc..
 * draw circle

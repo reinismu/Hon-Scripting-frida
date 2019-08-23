@@ -7,36 +7,14 @@ import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER, ObjectManager } from "../objects/ObjectManager";
-import { Vec2, Vector } from "../utils/Vector";
-import { shitPrediction } from "./Prediction";
+import { Vec2, Vector, Vector2d } from "../utils/Vector";
+import { shitPrediction, goodPrediction, opPrediction } from "./Prediction";
 import { RESOURCE_MANAGER } from "../objects/ResourceManager";
-
-function sqr(x: number) {
-    return x * x;
-}
-
-function dist2(v: Vec2, w: Vec2) {
-    return sqr(v.x - w.x) + sqr(v.y - w.y);
-}
-
-function distToSegmentSquared(p: Vec2, v: Vec2, w: Vec2) {
-    var l2 = dist2(v, w);
-
-    if (l2 == 0) return dist2(p, v);
-
-    var t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
-
-    if (t < 0) return dist2(p, v);
-    if (t > 1) return dist2(p, w);
-
-    return dist2(p, { x: v.x + t * (w.x - v.x), y: v.y + t * (w.y - v.y) });
-}
-
-function distToSegment(p: Vec2, v: Vec2, w: Vec2) {
-    return Math.sqrt(distToSegmentSquared(p, v, w));
-}
+import { Orbwalker } from "./Orbwalker";
+import { IGAME } from "../game/Globals";
 
 export class Devourer extends Script {
+    private orbwalker = new Orbwalker(this.myHero);
     private lastCast = 0;
 
     constructor() {
@@ -44,10 +22,9 @@ export class Devourer extends Script {
         EventBus.getDefault().register(this);
     }
 
-    private canHit(unit: IUnitEntity, collisionEntities: IUnitEntity[], hookRadius: number, hookRange: number) {
-        const targetPos = shitPrediction(unit, 100);
+    private canHit(unit: IUnitEntity, shootPos: Vec2, collisionEntities: IUnitEntity[], hookRadius: number, hookRange: number) {
         console.log(`q collistion entity count: ${collisionEntities.length}`);
-        if (Vector.distance2d(targetPos, this.myHero.position) > hookRange) {
+        if (Vector2d.distance(shootPos, this.myHero.position) > hookRange) {
             return false;
         }
         const startPos = this.myHero.position;
@@ -56,14 +33,14 @@ export class Devourer extends Script {
                 u =>
                     !u.ptr.equals(this.myHero.ptr) &&
                     !u.ptr.equals(unit.ptr) &&
-                    distToSegmentSquared(u.position, startPos, targetPos) < sqr(hookRadius + u.boundingRadius)
+                    Vector2d.distToSegmentSquared(u.position, startPos, shootPos) < (hookRadius + u.boundingRadius) * (hookRadius + u.boundingRadius)
             )
         ) {
             return false;
         }
         return true;
     }
-
+    //Cancel if see that it wont hit
     doQLogic() {
         if (this.lastCast + 100 > Date.now()) {
             return;
@@ -84,10 +61,14 @@ export class Devourer extends Script {
         const collisionEntities = heroes
             .concat(creeps, neutrals)
             .filter(u => !u.isDead() && u.position.distance2dSqr(this.myHero.position) < range * range);
-        if (!this.canHit(enemyHero, collisionEntities, 70, range)) {
+
+        const targetPos = opPrediction(this.myHero, enemyHero, 1600, 500, range, 65);
+        if (!targetPos) {
             return;
         }
-        const targetPos = shitPrediction(enemyHero, 100);
+        if (!this.canHit(enemyHero, targetPos, collisionEntities, 75, range)) {
+            return;
+        }
         this.lastCast = Date.now();
         console.log("now: " + this.lastCast);
         ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
@@ -106,6 +87,7 @@ export class Devourer extends Script {
         // OBJECT_MANAGER.creeps.forEach(h => {
         //     console.log(`creep:${h.typeName} ${h.boundingRadius}`);
         // });
+        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         this.doQLogic();
     }
 
@@ -123,7 +105,6 @@ export class Devourer extends Script {
     @Subscribe("RequestStartAnimEvent")
     onAnimationStart(args: NativePointer[]) {
         // Dont update state if we are shooting
-        
         // console.log(`RequestStartAnimEvent: ${args[1]} ${args[1].read32BitString()}`);
     }
 }

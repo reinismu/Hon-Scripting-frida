@@ -1,4 +1,4 @@
-export interface Vec3 extends Vec2{
+export interface Vec3 extends Vec2 {
     z: number;
 }
 
@@ -55,11 +55,11 @@ export namespace Vector2d {
     }
 
     export function add(self: Vec2, vec: Vec2): Vec2 {
-        return { x: vec.x + self.x, y: vec.y + self.y};
+        return { x: vec.x + self.x, y: vec.y + self.y };
     }
 
     export function sub(self: Vec2, vec: Vec2): Vec2 {
-        return { x: self.x - vec.x, y: self.y - vec.y};
+        return { x: self.x - vec.x, y: self.y - vec.y };
     }
 
     export function div(self: Vec2, length: number): Vec2 {
@@ -67,11 +67,11 @@ export namespace Vector2d {
     }
 
     export function mul(self: Vec2, length: number): Vec2 {
-        return { x: self.x * length, y: self.y * length};
+        return { x: self.x * length, y: self.y * length };
     }
 
     export function dot(self: Vec2, vec: Vec2): number {
-        return  self.x * vec.x + self.y * vec.y;
+        return self.x * vec.x + self.y * vec.y;
     }
 
     export function lengthSqt(self: Vec2): number {
@@ -92,5 +92,30 @@ export namespace Vector2d {
 
     export function extendTo(self: Vec2, pos: Vec2, length: number): Vec2 {
         return add(self, mul(normalized(sub(pos, self)), length));
+    }
+
+    function sqr(x: number) {
+        return x * x;
+    }
+
+    function dist2(v: Vec2, w: Vec2) {
+        return sqr(v.x - w.x) + sqr(v.y - w.y);
+    }
+
+    export function distToSegmentSquared(p: Vec2, v: Vec2, w: Vec2) {
+        var l2 = dist2(v, w);
+
+        if (l2 == 0) return dist2(p, v);
+
+        var t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+
+        if (t < 0) return dist2(p, v);
+        if (t > 1) return dist2(p, w);
+
+        return dist2(p, { x: v.x + t * (w.x - v.x), y: v.y + t * (w.y - v.y) });
+    }
+
+    export function distToSegment(p: Vec2, v1: Vec2, v2: Vec2) {
+        return Math.sqrt(distToSegmentSquared(p, v1, v2));
     }
 }

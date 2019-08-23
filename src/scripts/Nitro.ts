@@ -154,8 +154,8 @@ export class Nitro extends Script {
         // console.log(`drawIndicatorFlag:` + IGAME.mysteriousStruct.drawIndicatorFlag);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
-        console.log(`MyVelocity: ` + Vector2d.length(VELOCITY_UPDATER.getVelocity(this.myHero)));
-        console.log(`moveSpeed: ` + this.myHero.getMoveSpeed(true));
+        // console.log(`MyVelocity: ` + Vector2d.length(VELOCITY_UPDATER.getVelocity(this.myHero)));
+        // console.log(`moveSpeed: ` + this.myHero.getMoveSpeed(true));
         // const checkVec = { ...this.myHero.facingVector(), z: 0 };
         // OBJECT_MANAGER.heroes.forEach(h => {
         //     // console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
