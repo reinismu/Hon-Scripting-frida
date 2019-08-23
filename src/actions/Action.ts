@@ -69,6 +69,21 @@ export class Action {
         this.bufferConstruct(this.myBuffer.ptr);
         this.myBuffer.myData = this.rawBuffer;
     }
+
+    public stop(entity: IUnitEntity | null = null) {
+        this.myBuffer.size = 3;
+        this.myBuffer.allocatedSize = 3;
+        this.myBuffer.currentOffset = 0;
+        this.myBuffer.someFlag = 0;
+
+        this.buffer[0] = 32;
+        this.buffer.writeUInt16LE(entity ? entity.networkId : 0xFFFF, 1);
+        
+        this.rawBuffer.writeByteArray(this.buffer);
+
+        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+    }
+
     /**
      * @param pos 
      * @param flag 

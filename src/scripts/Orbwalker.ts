@@ -32,7 +32,7 @@ export class Orbwalker {
         if (!justWalk && this.canAttack.isTrue(500)) {
             const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange());
             if (target) {
-                const turnTime = this.msToTurnToTarget(target);
+                const turnTime = this.msToTurnToPos(target.position);
                 if (this.canAttack.isTrue()) {
                     this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown());
                     this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 200);
@@ -57,8 +57,8 @@ export class Orbwalker {
         }
     }
 
-    private msToTurnToTarget(target: IUnitEntity): number {
-        const angle = this.turnAngle(this.walker, target.position);
+    public msToTurnToPos(pos: Vec2): number {
+        const angle = this.turnAngle(this.walker, pos);
         return angle * 0.8; // Magic number TODO fix
     }
 

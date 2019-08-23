@@ -59,11 +59,11 @@ export function opPrediction(
     const destTillStart = Vector2d.distToSegment(target.position, source.position, goodPos);
     const delta = destTillStart - possibilityRadius;
 
-    console.log(`delta  ${delta} `);
-    console.log(`target.boundingRadius  ${target.boundingRadius} `);
-    console.log(`actionTime  ${actionTime} `);
-    console.log(`possibilityRadius  ${possibilityRadius}`);
-    console.log(`destTillStart  ${destTillStart}`);
+    // console.log(`delta  ${delta} `);
+    // console.log(`target.boundingRadius  ${target.boundingRadius} `);
+    // console.log(`actionTime  ${actionTime} `);
+    // console.log(`possibilityRadius  ${possibilityRadius}`);
+    // console.log(`destTillStart  ${destTillStart}`);
 
     if (destTillStart <= possibilityRadius) {
         return goodPos;
