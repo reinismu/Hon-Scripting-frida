@@ -21,6 +21,8 @@ export class Devourer extends Script {
     private canNotStop = new DelayedCondition();
     private hookCastPosition: Vec2 | null = null;
     private hookTarget: IUnitEntity | null = null;
+    private hookTargetAnimationIndex = 0;
+    private turnToTargetDelay: number = 0;
     private canStopCheck = new DelayedCondition();
 
     constructor() {
@@ -49,8 +51,6 @@ export class Devourer extends Script {
     }
 
     // Check for 3 weakest heroes
-    // Cancel if see that it wont hit
-    // Turn around
     doQLogic() {
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.canActivate()) {
@@ -58,22 +58,24 @@ export class Devourer extends Script {
         }
         if (!this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.hookCastPosition && this.hookTarget) {
             this.canStopCheck.delay(50);
-            console.log(`Hook stop check!`);
-
-            const targetPos = this.getQPredictionPos(q, this.hookTarget);
+            if (this.hookTargetAnimationIndex != this.hookTarget.animation) {
+                this.stopHook();
+                return;
+            }
+            // console.log(`msPassed: ` + this.canNotStop.msPassed());
+            const targetPos = this.getQPredictionPos(q, this.hookTarget, this.turnToTargetDelay - this.canNotStop.msPassed());
             if (!targetPos) {
                 this.stopHook();
                 return;
             }
-
-            const dist = Vector2d.distance(targetPos, this.hookCastPosition)
-            console.log("Hook prediction change: " + dist)
-            if(dist > 100) {
+            const deviation = Vector2d.distToSegment(targetPos, this.myHero.position, this.hookCastPosition);
+            // console.log("Deviation: " + deviation);
+            if (deviation > 100) {
                 this.stopHook();
                 return;
             }
         }
-        if (this.lastCast + 600 > Date.now()) {
+        if (this.lastCast + 500 > Date.now()) {
             return;
         }
         const range = q.getDynamicRange() + 20;
@@ -82,7 +84,7 @@ export class Devourer extends Script {
             return;
         }
 
-        const targetPos = this.getQPredictionPos(q, enemyHero);
+        const targetPos = this.getQPredictionPos(q, enemyHero, this.orbwalker.msToTurnToPos(enemyHero.position));
         if (!targetPos) {
             return;
         }
@@ -91,18 +93,21 @@ export class Devourer extends Script {
         this.lastCast = Date.now();
         this.hookCastPosition = targetPos;
         this.hookTarget = enemyHero;
-        this.canNotStop.delay(300 + this.orbwalker.msToTurnToPos(targetPos));
+        this.hookTargetAnimationIndex = enemyHero.animation;
+        this.turnToTargetDelay = this.orbwalker.msToTurnToPos(targetPos);
+        this.canNotStop.delay(350 + this.turnToTargetDelay);
     }
 
-    private stopHook(){
+    private stopHook() {
         ACTION.stop(this.myHero);
         console.log(`Stop Hook`);
+        this.turnToTargetDelay = 0;
         this.hookCastPosition = null;
         this.hookTarget = null;
         this.canNotStop.restart();
     }
 
-    private getQPredictionPos(q: IEntityAbility, target: IUnitEntity): Vec2 | null {
+    private getQPredictionPos(q: IEntityAbility, target: IUnitEntity, additionalDelay: number = 0): Vec2 | null {
         const range = q.getDynamicRange() + 20;
 
         const heroes = OBJECT_MANAGER.heroes as IUnitEntity[];
@@ -113,7 +118,7 @@ export class Devourer extends Script {
             .concat(creeps, neutrals)
             .filter(u => !u.isDead() && u.position.distance2dSqr(this.myHero.position) < range * range);
 
-        const targetPos = opPrediction(this.myHero, target, 1600, 500 + this.orbwalker.msToTurnToPos(target.position), range, 65);
+        const targetPos = opPrediction(this.myHero, target, 1600, 500 + additionalDelay, range, 55);
         if (!targetPos) {
             return null;
         }

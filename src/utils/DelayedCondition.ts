@@ -6,6 +6,10 @@ export class DelayedCondition {
         return this.lastDelayStart + this.delayedMilis - inMS < Date.now();
     }
 
+    public msPassed(): number {
+        return Date.now() - this.lastDelayStart;
+    }
+
     public restart() {
         this.lastDelayStart = 0;
         this.delayedMilis = 0;
