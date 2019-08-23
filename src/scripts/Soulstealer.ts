@@ -23,7 +23,7 @@ export class Soulstealer extends Script {
     }
 
     doQDemonHardLogic() {
-        if (!this.justCasted.active()) {
+        if (!this.justCasted.isTrue()) {
             return;
         }
         for (const hand of this.demonHands) {
@@ -51,7 +51,7 @@ export class Soulstealer extends Script {
     }
 
     doGhostMarchersLogic() {
-        if (!this.justCasted.active()) {
+        if (!this.justCasted.isTrue()) {
             return;
         }
         const boots = this.myHero.getItem("Item_EnhancedMarchers");
@@ -68,6 +68,7 @@ export class Soulstealer extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         if (!INPUT.isControlDown()) return;
+        this.orbwalker.refreshWalker(this.myHero);
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
@@ -91,16 +92,16 @@ export class Soulstealer extends Script {
 
         this.doQDemonHardLogic();
         this.doGhostMarchersLogic();
-        if(this.justCasted.active()) {
+        if(this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }
 
     @Subscribe("DrawEvent")
     onDraw() {
-        const drawVec = Vector.extendDir(OBJECT_MANAGER.myHero.position, { ...OBJECT_MANAGER.myHero.facingVector(), z: 0}, 100);
-        const screenpos = CLIENT.worldToScreen(drawVec);
-        GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
+        // const drawVec = Vector.extendDir(OBJECT_MANAGER.myHero.position, { ...OBJECT_MANAGER.myHero.facingVector(), z: 0}, 100);
+        // const screenpos = CLIENT.worldToScreen(drawVec);
+        // GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
         // console.log("draw");
     }
     @Subscribe("SendGameDataEvent")

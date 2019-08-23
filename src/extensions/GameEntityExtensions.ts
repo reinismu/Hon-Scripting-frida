@@ -68,6 +68,9 @@ declare module "../honIdaStructs" {
         getCanAttack(): boolean;
         isMagicImmune(): boolean;
         isPhysicalImmune(): boolean;
+        isMagicImmune(): boolean;
+        isInvulnerable(): boolean;
+        isBarbed(): boolean;
     }
 
     interface IHeroEntity {
@@ -157,6 +160,30 @@ IUnitEntity.prototype.isPhysicalImmune = function(): boolean {
         }
     }
     return false;
+};
+
+IUnitEntity.prototype.isBarbed = function(): boolean {
+    const self = this as IUnitEntity;
+    for (let i = 0; i < 80; i++) {
+        const tool = self.getTool(i);
+        if (tool == null) continue;
+        if ("State_Excruciator" == tool.typeName) {
+            return true;
+        }
+    }
+    return false;
+};
+
+IUnitEntity.prototype.isInvulnerable = function(): boolean {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x9C8)
+            .readPointer(),
+        "bool",
+        ["pointer"]
+    )(self.ptr) as boolean;
 };
 
 IUnitEntity.prototype.isDead = function(): boolean {

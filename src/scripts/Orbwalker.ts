@@ -4,6 +4,7 @@ import { Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { ACTION, Action } from "../actions/Action";
 import { TARGET_SELECTOR } from "./TargetSelector";
+import { OBJECT_MANAGER } from "../objects/ObjectManager";
 
 const MIN_MOVE_DIST = 80;
 
@@ -21,19 +22,25 @@ export class Orbwalker {
         this.walker = walker;
     }
 
+    public refreshWalker(walker: IUnitEntity) {
+        this.walker = walker;
+    }
+
     public orbwalk(position: Vec2, justWalk: boolean = false) {
-        if (!justWalk && this.canAttack.active(500)) {
+        this.walker = OBJECT_MANAGER.myHero;
+        // console.log("orbwalk!");
+        if (!justWalk && this.canAttack.isTrue(500)) {
             const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange());
             if (target) {
                 const turnTime = this.msToTurnToTarget(target);
-                if (this.canAttack.active()) {
+                if (this.canAttack.isTrue()) {
                     this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown());
                     this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 200);
                     ACTION.attack(target);
                     return;
                 }
-                if (this.canAttack.active(turnTime)) {
-                    if (this.canFaceTheEnemy.active()) {
+                if (this.canAttack.isTrue(turnTime)) {
+                    if (this.canFaceTheEnemy.isTrue()) {
                         this.canFaceTheEnemy.delay(turnTime + 250);
                         ACTION.move(Vector2d.extendTo(this.walker.position, target.position, 30));
                     }
@@ -41,7 +48,7 @@ export class Orbwalker {
                 }
             }
         }
-        if (this.canMove.active()) {
+        if (this.canMove.isTrue()) {
             if (Vector2d.distance(position, this.walker.position) < 80) {
                 return;
             }
@@ -70,7 +77,7 @@ export class Orbwalker {
         if (!(entity instanceof IProjectile)) {
             return;
         }
-        console.log(`Projectile spawn delta ${Date.now() - this.lastProjSpawned}`);
+        // console.log(`Projectile spawn delta ${Date.now() - this.lastProjSpawned}`);
         this.lastProjSpawned = Date.now();
     }
 }

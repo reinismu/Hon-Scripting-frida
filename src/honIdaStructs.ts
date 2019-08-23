@@ -5376,8 +5376,8 @@ export class IUnitEntity extends IVisualEntity {
 	}
 
 // gap_2B8 -> type: uint8 [136] 
-// field_340 -> type: short 
-	get field_340(): number {
+// stateFlags -> type: short 
+	get stateFlags(): number {
 		return this.align(0x340).readS16();
 	}
 
@@ -59264,6 +59264,6121 @@ export class IPetEntity_vtbl extends CObj {
 
 // inheritence: CObj
 export class IProjectile_vtbl extends CObj {
+
+}
+
+// inheritence: CObj
+export class Vtable_iEntityDefinition_vtbl extends CObj {
+
+// sub_E6F080 -> type: char *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char * 
+	public sub_E6F080() {
+		return null;
+	}
+
+// sub_E6F0A0 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public sub_E6F0A0() {
+		return null;
+	}
+
+// sub_E6BAB0 -> type: long long (*)(long long, unsigned int, unsigned char *, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: long long unsigned int unsigned char * unsigned int -> ret: long long 
+	public sub_E6BAB0() {
+		return null;
+	}
+
+// sub_E6C0F0 -> type: long long (*)(long long, unsigned int, unsigned char *, long long, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: long long unsigned int unsigned char * long long unsigned int -> ret: long long 
+	public sub_E6C0F0() {
+		return null;
+	}
+
+// sub_E6A160 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public sub_E6A160() {
+		return null;
+	}
+
+// sub_E6A390 -> type: void (*)(void *) __attribute__((fastcall)) 
+// function 
+// args: void * -> ret: void 
+	public sub_E6A390() {
+		return null;
+	}
+
+// __cxa_pure_virtual -> type: void *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void * 
+	public __cxa_pure_virtual() {
+		return null;
+	}
+
+// sub_E6C940 -> type: uint64 *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: uint64 * 
+	public sub_E6C940() {
+		return null;
+	}
+
+// sub_E6DD90 -> type: long long (*)(long long, long long) __attribute__((fastcall)) 
+// function 
+// args: long long long long -> ret: long long 
+	public sub_E6DD90() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
+export class IEntityAbility_vtbl extends CObj {
+
+// vfunc_14932912 -> type: unsigned long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned long long 
+	public vfunc_14932912() {
+		return null;
+	}
+
+// vfunc_14780096 -> type: long long *(*)(void *) __attribute__((fastcall)) 
+// function 
+// args: void * -> ret: long long * 
+	public vfunc_14780096() {
+		return null;
+	}
+
+// vfunc_14780176 -> type: void (*)(void *) __attribute__((fastcall)) 
+// function 
+// args: void * -> ret: void 
+	public vfunc_14780176() {
+		return null;
+	}
+
+// vfunc_12124208 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124208() {
+		return null;
+	}
+
+// vfunc_12124224 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124224() {
+		return null;
+	}
+
+// nullsub_3 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_3() {
+		return null;
+	}
+
+// nullsub_4 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_4() {
+		return null;
+	}
+
+// vfunc_12124272 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124272() {
+		return null;
+	}
+
+// vfunc_12124288 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124288() {
+		return null;
+	}
+
+// vfunc_12124304 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124304() {
+		return null;
+	}
+
+// vfunc_12135232 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12135232() {
+		return null;
+	}
+
+// vfunc_12135248 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12135248() {
+		return null;
+	}
+
+// vfunc_12135264 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12135264() {
+		return null;
+	}
+
+// vfunc_12124368 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124368() {
+		return null;
+	}
+
+// vfunc_12124384 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124384() {
+		return null;
+	}
+
+// vfunc_12124400 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124400() {
+		return null;
+	}
+
+// vfunc_12124416 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124416() {
+		return null;
+	}
+
+// vfunc_12124432 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124432() {
+		return null;
+	}
+
+// vfunc_12124448 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124448() {
+		return null;
+	}
+
+// vfunc_12124464 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124464() {
+		return null;
+	}
+
+// vfunc_12124480 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124480() {
+		return null;
+	}
+
+// vfunc_12124496 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124496() {
+		return null;
+	}
+
+// vfunc_12124512 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124512() {
+		return null;
+	}
+
+// vfunc_12124528 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124528() {
+		return null;
+	}
+
+// vfunc_12124544 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124544() {
+		return null;
+	}
+
+// vfunc_12124560 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124560() {
+		return null;
+	}
+
+// vfunc_12124576 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124576() {
+		return null;
+	}
+
+// vfunc_12124592 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124592() {
+		return null;
+	}
+
+// vfunc_12124608 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124608() {
+		return null;
+	}
+
+// vfunc_12124624 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124624() {
+		return null;
+	}
+
+// vfunc_12124640 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124640() {
+		return null;
+	}
+
+// vfunc_12124656 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124656() {
+		return null;
+	}
+
+// vfunc_12124672 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124672() {
+		return null;
+	}
+
+// vfunc_12124688 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124688() {
+		return null;
+	}
+
+// vfunc_12124704 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124704() {
+		return null;
+	}
+
+// vfunc_12124720 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124720() {
+		return null;
+	}
+
+// vfunc_12124736 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124736() {
+		return null;
+	}
+
+// vfunc_12124752 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124752() {
+		return null;
+	}
+
+// vfunc_12124768 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124768() {
+		return null;
+	}
+
+// vfunc_12124784 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124784() {
+		return null;
+	}
+
+// vfunc_12124800 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124800() {
+		return null;
+	}
+
+// vfunc_12124816 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124816() {
+		return null;
+	}
+
+// vfunc_12124832 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124832() {
+		return null;
+	}
+
+// vfunc_12124848 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124848() {
+		return null;
+	}
+
+// vfunc_12124864 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124864() {
+		return null;
+	}
+
+// vfunc_12124880 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124880() {
+		return null;
+	}
+
+// vfunc_12124896 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124896() {
+		return null;
+	}
+
+// vfunc_12124912 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124912() {
+		return null;
+	}
+
+// vfunc_12124928 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124928() {
+		return null;
+	}
+
+// vfunc_12124944 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124944() {
+		return null;
+	}
+
+// vfunc_12124960 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124960() {
+		return null;
+	}
+
+// vfunc_12124976 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124976() {
+		return null;
+	}
+
+// vfunc_12124992 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124992() {
+		return null;
+	}
+
+// vfunc_12125008 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125008() {
+		return null;
+	}
+
+// vfunc_12125024 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125024() {
+		return null;
+	}
+
+// vfunc_12125040 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125040() {
+		return null;
+	}
+
+// vfunc_12125056 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125056() {
+		return null;
+	}
+
+// vfunc_12125072 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125072() {
+		return null;
+	}
+
+// vfunc_12125088 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125088() {
+		return null;
+	}
+
+// vfunc_12125104 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125104() {
+		return null;
+	}
+
+// vfunc_12125120 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125120() {
+		return null;
+	}
+
+// vfunc_14783056 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_14783056() {
+		return null;
+	}
+
+// vfunc_14783072 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783072() {
+		return null;
+	}
+
+// vfunc_14783088 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783088() {
+		return null;
+	}
+
+// vfunc_14783104 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_14783104() {
+		return null;
+	}
+
+// vfunc_14783120 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783120() {
+		return null;
+	}
+
+// vfunc_14783136 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783136() {
+		return null;
+	}
+
+// vfunc_14783152 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_14783152() {
+		return null;
+	}
+
+// vfunc_14783168 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783168() {
+		return null;
+	}
+
+// vfunc_14783184 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783184() {
+		return null;
+	}
+
+// vfunc_12125280 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125280() {
+		return null;
+	}
+
+// vfunc_12125296 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125296() {
+		return null;
+	}
+
+// vfunc_12125312 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125312() {
+		return null;
+	}
+
+// vfunc_12125328 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125328() {
+		return null;
+	}
+
+// vfunc_12125344 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125344() {
+		return null;
+	}
+
+// vfunc_12125360 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125360() {
+		return null;
+	}
+
+// vfunc_12125376 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125376() {
+		return null;
+	}
+
+// vfunc_12125392 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125392() {
+		return null;
+	}
+
+// vfunc_12125408 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125408() {
+		return null;
+	}
+
+// vfunc_12125424 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125424() {
+		return null;
+	}
+
+// vfunc_12125440 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125440() {
+		return null;
+	}
+
+// vfunc_12125456 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125456() {
+		return null;
+	}
+
+// vfunc_12125472 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125472() {
+		return null;
+	}
+
+// vfunc_12125488 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125488() {
+		return null;
+	}
+
+// vfunc_12125504 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125504() {
+		return null;
+	}
+
+// vfunc_12125520 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125520() {
+		return null;
+	}
+
+// vfunc_12125536 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125536() {
+		return null;
+	}
+
+// vfunc_12125552 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125552() {
+		return null;
+	}
+
+// vfunc_12125568 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125568() {
+		return null;
+	}
+
+// vfunc_12125584 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125584() {
+		return null;
+	}
+
+// vfunc_12125600 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125600() {
+		return null;
+	}
+
+// vfunc_12125616 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125616() {
+		return null;
+	}
+
+// vfunc_12125632 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125632() {
+		return null;
+	}
+
+// vfunc_12125648 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125648() {
+		return null;
+	}
+
+// vfunc_12125664 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125664() {
+		return null;
+	}
+
+// vfunc_12125680 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125680() {
+		return null;
+	}
+
+// vfunc_12125696 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125696() {
+		return null;
+	}
+
+// vfunc_12125712 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125712() {
+		return null;
+	}
+
+// vfunc_12125728 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125728() {
+		return null;
+	}
+
+// vfunc_12125744 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125744() {
+		return null;
+	}
+
+// vfunc_12125760 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125760() {
+		return null;
+	}
+
+// vfunc_12125776 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125776() {
+		return null;
+	}
+
+// vfunc_12125792 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125792() {
+		return null;
+	}
+
+// vfunc_12125808 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125808() {
+		return null;
+	}
+
+// vfunc_12125824 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125824() {
+		return null;
+	}
+
+// vfunc_12125840 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125840() {
+		return null;
+	}
+
+// vfunc_12125856 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125856() {
+		return null;
+	}
+
+// vfunc_12125872 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125872() {
+		return null;
+	}
+
+// vfunc_12125888 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125888() {
+		return null;
+	}
+
+// vfunc_12125904 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125904() {
+		return null;
+	}
+
+// vfunc_12125920 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125920() {
+		return null;
+	}
+
+// vfunc_12125936 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125936() {
+		return null;
+	}
+
+// vfunc_12125952 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125952() {
+		return null;
+	}
+
+// vfunc_12125968 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125968() {
+		return null;
+	}
+
+// vfunc_12125984 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125984() {
+		return null;
+	}
+
+// vfunc_12126000 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126000() {
+		return null;
+	}
+
+// vfunc_12126016 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126016() {
+		return null;
+	}
+
+// vfunc_12126032 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126032() {
+		return null;
+	}
+
+// vfunc_14783200 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_14783200() {
+		return null;
+	}
+
+// _ZN14IEntityAbility8BaselineEv -> type: long long (*)(IEntityAbility *) __attribute__((fastcall)) 
+// function 
+// args: IEntityAbility * -> ret: long long 
+	public _ZN14IEntityAbility8BaselineEv() {
+		return null;
+	}
+
+// _ZNK14IEntityAbility11GetSnapshotER15CEntitySnapshotj -> type: long long (*)(IEntityAbility *) __attribute__((fastcall)) 
+// function 
+// args: IEntityAbility * -> ret: long long 
+	public _ZNK14IEntityAbility11GetSnapshotER15CEntitySnapshotj() {
+		return null;
+	}
+
+// _ZN14IEntityAbility12ReadSnapshotER15CEntitySnapshotj -> type: char (*)(IEntityAbility *) __attribute__((fastcall)) 
+// function 
+// args: IEntityAbility * -> ret: char 
+	public _ZN14IEntityAbility12ReadSnapshotER15CEntitySnapshotj() {
+		return null;
+	}
+
+// _ZN14IEntityAbility21GetSnapshotVisibilityER22SEntSnapShotVisibility -> type: long long (*)(long long, long long) __attribute__((fastcall)) 
+// function 
+// args: long long long long -> ret: long long 
+	public _ZN14IEntityAbility21GetSnapshotVisibilityER22SEntSnapShotVisibility() {
+		return null;
+	}
+
+// _ZNK11IGameEntity15IsEnemySnapshotERjS0_ -> type: bool (*)(IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * -> ret: bool 
+	public _ZNK11IGameEntity15IsEnemySnapshotERjS0_() {
+		return null;
+	}
+
+// vfunc_14783216 -> type: long long (*)(IEntityAbility *) __attribute__((fastcall)) 
+// function 
+// args: IEntityAbility * -> ret: long long 
+	public vfunc_14783216() {
+		return null;
+	}
+
+// vfunc_12604784 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_12604784() {
+		return null;
+	}
+
+// vfunc_14783280 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783280() {
+		return null;
+	}
+
+// vfunc_14783312 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783312() {
+		return null;
+	}
+
+// vfunc_14783328 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783328() {
+		return null;
+	}
+
+// nullsub_5 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_5() {
+		return null;
+	}
+
+// vfunc_14955136 -> type: void (*)(IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * -> ret: void 
+	public vfunc_14955136() {
+		return null;
+	}
+
+// nullsub_7 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_7() {
+		return null;
+	}
+
+// nullsub_8 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_8() {
+		return null;
+	}
+
+// nullsub_9 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_9() {
+		return null;
+	}
+
+// nullsub_13 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_13() {
+		return null;
+	}
+
+// vfunc_12126240 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126240() {
+		return null;
+	}
+
+// nullsub_10 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_10() {
+		return null;
+	}
+
+// nullsub_11 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_11() {
+		return null;
+	}
+
+// __usercall -> type: char 
+	get __usercall(): number {
+		return this.align(0x450).readS8();
+	}
+
+// vfunc_12126304 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_12126304() {
+		return null;
+	}
+
+// vfunc_12126320 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_12126320() {
+		return null;
+	}
+
+// vfunc_14937328 -> type: char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: char 
+	public vfunc_14937328() {
+		return null;
+	}
+
+// vfunc_14969024 -> type: char (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: char 
+	public vfunc_14969024() {
+		return null;
+	}
+
+// copyIGameEntity -> type: long long (*)(IGameEntity *, IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * IGameEntity * -> ret: long long 
+	public copyIGameEntity() {
+		return null;
+	}
+
+// nullsub_12 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_12() {
+		return null;
+	}
+
+// vfunc_12126384 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_12126384() {
+		return null;
+	}
+
+// _ZN11IGameEntity10AddToSceneERK5CVec4IfEiRK11SClientView -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public _ZN11IGameEntity10AddToSceneERK5CVec4IfEiRK11SClientView() {
+		return null;
+	}
+
+// vfunc_14955216 -> type: char (*)(IEntityTool *, long long, long long) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * long long long long -> ret: char 
+	public vfunc_14955216() {
+		return null;
+	}
+
+// _ZN11IEntityTool14UpdateIsActiveEv -> type: void (*)(IEntityTool *) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * -> ret: void 
+	public _ZN11IEntityTool14UpdateIsActiveEv() {
+		return null;
+	}
+
+// vfunc_14783344 -> type: long long (*)(uint32 *, int) __attribute__((fastcall)) 
+// function 
+// args: uint32 * int -> ret: long long 
+	public vfunc_14783344() {
+		return null;
+	}
+
+// vfunc_14939488 -> type: long long (*)(IEntityTool *) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * -> ret: long long 
+	public vfunc_14939488() {
+		return null;
+	}
+
+// vfunc_14969472 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14969472() {
+		return null;
+	}
+
+// vfunc_14783360 -> type: long long (*)(IEntityTool *) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * -> ret: long long 
+	public vfunc_14783360() {
+		return null;
+	}
+
+// _ZN14IEntityAbility7LevelUpEv -> type: char (*)(IEntityAbility *) __attribute__((fastcall)) 
+// function 
+// args: IEntityAbility * -> ret: char 
+	public _ZN14IEntityAbility7LevelUpEv() {
+		return null;
+	}
+
+// vfunc_14781968 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14781968() {
+		return null;
+	}
+
+// vfunc_14783472 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_14783472() {
+		return null;
+	}
+
+// vfunc_14783488 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783488() {
+		return null;
+	}
+
+// vfunc_14783504 -> type: short (*)(long long, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: long long unsigned int -> ret: short 
+	public vfunc_14783504() {
+		return null;
+	}
+
+// vfunc_14783536 -> type: short (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: short 
+	public vfunc_14783536() {
+		return null;
+	}
+
+// vfunc_14783568 -> type: long long (*)(uint16 *, short) __attribute__((fastcall)) 
+// function 
+// args: uint16 * short -> ret: long long 
+	public vfunc_14783568() {
+		return null;
+	}
+
+// vfunc_14968368 -> type: long long (*)(long long, int, int) __attribute__((fastcall)) 
+// function 
+// args: long long int int -> ret: long long 
+	public vfunc_14968368() {
+		return null;
+	}
+
+// vfunc_14783680 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14783680() {
+		return null;
+	}
+
+// vfunc_14783824 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14783824() {
+		return null;
+	}
+
+// vfunc_14783968 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783968() {
+		return null;
+	}
+
+// vfunc_14784064 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14784064() {
+		return null;
+	}
+
+// vfunc_14784208 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14784208() {
+		return null;
+	}
+
+// vfunc_14784304 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14784304() {
+		return null;
+	}
+
+// vfunc_14784448 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14784448() {
+		return null;
+	}
+
+// vfunc_14784544 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14784544() {
+		return null;
+	}
+
+// vfunc_14784640 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14784640() {
+		return null;
+	}
+
+// vfunc_14784752 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14784752() {
+		return null;
+	}
+
+// vfunc_14784848 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14784848() {
+		return null;
+	}
+
+// vfunc_14784960 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14784960() {
+		return null;
+	}
+
+// vfunc_14785072 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14785072() {
+		return null;
+	}
+
+// vfunc_14785168 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14785168() {
+		return null;
+	}
+
+// vfunc_14785280 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14785280() {
+		return null;
+	}
+
+// vfunc_14785376 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14785376() {
+		return null;
+	}
+
+// vfunc_14785488 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14785488() {
+		return null;
+	}
+
+// vfunc_14785984 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14785984() {
+		return null;
+	}
+
+// vfunc_14786480 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14786480() {
+		return null;
+	}
+
+// vfunc_14786976 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14786976() {
+		return null;
+	}
+
+// vfunc_14787472 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14787472() {
+		return null;
+	}
+
+// vfunc_14787968 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14787968() {
+		return null;
+	}
+
+// vfunc_14788464 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14788464() {
+		return null;
+	}
+
+// vfunc_14788960 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14788960() {
+		return null;
+	}
+
+// vfunc_14789456 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14789456() {
+		return null;
+	}
+
+// vfunc_14789952 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14789952() {
+		return null;
+	}
+
+// vfunc_14790448 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14790448() {
+		return null;
+	}
+
+// vfunc_14790944 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14790944() {
+		return null;
+	}
+
+// vfunc_14791440 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14791440() {
+		return null;
+	}
+
+// vfunc_14791936 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14791936() {
+		return null;
+	}
+
+// vfunc_14792432 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14792432() {
+		return null;
+	}
+
+// vfunc_14792928 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14792928() {
+		return null;
+	}
+
+// vfunc_14793424 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14793424() {
+		return null;
+	}
+
+// vfunc_14793920 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14793920() {
+		return null;
+	}
+
+// vfunc_14794416 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14794416() {
+		return null;
+	}
+
+// vfunc_14794912 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14794912() {
+		return null;
+	}
+
+// vfunc_14795408 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14795408() {
+		return null;
+	}
+
+// vfunc_14795904 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14795904() {
+		return null;
+	}
+
+// vfunc_14796400 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14796400() {
+		return null;
+	}
+
+// vfunc_14796896 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14796896() {
+		return null;
+	}
+
+// vfunc_14797392 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14797392() {
+		return null;
+	}
+
+// vfunc_14797888 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14797888() {
+		return null;
+	}
+
+// vfunc_14798384 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14798384() {
+		return null;
+	}
+
+// vfunc_14798880 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14798880() {
+		return null;
+	}
+
+// vfunc_14799376 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14799376() {
+		return null;
+	}
+
+// vfunc_14799872 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14799872() {
+		return null;
+	}
+
+// vfunc_14800368 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14800368() {
+		return null;
+	}
+
+// vfunc_14800864 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14800864() {
+		return null;
+	}
+
+// vfunc_14801360 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14801360() {
+		return null;
+	}
+
+// vfunc_14801856 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14801856() {
+		return null;
+	}
+
+// vfunc_14802352 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14802352() {
+		return null;
+	}
+
+// vfunc_14802848 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14802848() {
+		return null;
+	}
+
+// vfunc_14803344 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14803344() {
+		return null;
+	}
+
+// vfunc_14803840 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14803840() {
+		return null;
+	}
+
+// vfunc_14804336 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14804336() {
+		return null;
+	}
+
+// vfunc_14804832 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14804832() {
+		return null;
+	}
+
+// vfunc_14805328 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14805328() {
+		return null;
+	}
+
+// vfunc_14805824 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14805824() {
+		return null;
+	}
+
+// vfunc_14806320 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14806320() {
+		return null;
+	}
+
+// vfunc_14806816 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14806816() {
+		return null;
+	}
+
+// vfunc_14807312 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14807312() {
+		return null;
+	}
+
+// vfunc_14807808 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14807808() {
+		return null;
+	}
+
+// vfunc_14808304 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14808304() {
+		return null;
+	}
+
+// vfunc_14808800 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14808800() {
+		return null;
+	}
+
+// vfunc_14809296 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14809296() {
+		return null;
+	}
+
+// vfunc_14809792 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14809792() {
+		return null;
+	}
+
+// vfunc_14810288 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14810288() {
+		return null;
+	}
+
+// vfunc_14810784 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14810784() {
+		return null;
+	}
+
+// vfunc_14811280 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14811280() {
+		return null;
+	}
+
+// vfunc_14811776 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14811776() {
+		return null;
+	}
+
+// vfunc_14812272 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14812272() {
+		return null;
+	}
+
+// vfunc_14812768 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14812768() {
+		return null;
+	}
+
+// vfunc_14812912 -> type: unsigned char (*)(ISlaveEntity *) __attribute__((fastcall)) 
+// function 
+// args: ISlaveEntity * -> ret: unsigned char 
+	public vfunc_14812912() {
+		return null;
+	}
+
+// vfunc_14813056 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14813056() {
+		return null;
+	}
+
+// vfunc_14813200 -> type: unsigned char (*)(IEntityState *) __attribute__((fastcall)) 
+// function 
+// args: IEntityState * -> ret: unsigned char 
+	public vfunc_14813200() {
+		return null;
+	}
+
+// vfunc_14813344 -> type: unsigned char (*)(ISlaveEntity *) __attribute__((fastcall)) 
+// function 
+// args: ISlaveEntity * -> ret: unsigned char 
+	public vfunc_14813344() {
+		return null;
+	}
+
+// vfunc_14813488 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14813488() {
+		return null;
+	}
+
+// vfunc_14813632 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14813632() {
+		return null;
+	}
+
+// vfunc_14813776 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14813776() {
+		return null;
+	}
+
+// vfunc_14813920 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14813920() {
+		return null;
+	}
+
+// vfunc_14814064 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814064() {
+		return null;
+	}
+
+// vfunc_14814208 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814208() {
+		return null;
+	}
+
+// vfunc_14814352 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814352() {
+		return null;
+	}
+
+// vfunc_14814496 -> type: unsigned char (*)(IEntityTool *) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * -> ret: unsigned char 
+	public vfunc_14814496() {
+		return null;
+	}
+
+// vfunc_14814640 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814640() {
+		return null;
+	}
+
+// vfunc_14814784 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814784() {
+		return null;
+	}
+
+// vfunc_14814928 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814928() {
+		return null;
+	}
+
+// vfunc_14815072 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815072() {
+		return null;
+	}
+
+// vfunc_14815216 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815216() {
+		return null;
+	}
+
+// vfunc_14815360 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815360() {
+		return null;
+	}
+
+// vfunc_14815504 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815504() {
+		return null;
+	}
+
+// vfunc_14815648 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815648() {
+		return null;
+	}
+
+// vfunc_14815792 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815792() {
+		return null;
+	}
+
+// vfunc_14815936 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815936() {
+		return null;
+	}
+
+// vfunc_14816080 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14816080() {
+		return null;
+	}
+
+// vfunc_14816192 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816192() {
+		return null;
+	}
+
+// vfunc_14816336 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816336() {
+		return null;
+	}
+
+// vfunc_14816480 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816480() {
+		return null;
+	}
+
+// vfunc_14816624 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816624() {
+		return null;
+	}
+
+// vfunc_14816768 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816768() {
+		return null;
+	}
+
+// vfunc_14816912 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816912() {
+		return null;
+	}
+
+// vfunc_14817056 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14817056() {
+		return null;
+	}
+
+// vfunc_14817152 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14817152() {
+		return null;
+	}
+
+// vfunc_14817264 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14817264() {
+		return null;
+	}
+
+// vfunc_14817360 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14817360() {
+		return null;
+	}
+
+// vfunc_14817856 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14817856() {
+		return null;
+	}
+
+// vfunc_14818240 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14818240() {
+		return null;
+	}
+
+// vfunc_14818352 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14818352() {
+		return null;
+	}
+
+// vfunc_14818448 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14818448() {
+		return null;
+	}
+
+// vfunc_14818544 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14818544() {
+		return null;
+	}
+
+// vfunc_14818640 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14818640() {
+		return null;
+	}
+
+// vfunc_14818736 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14818736() {
+		return null;
+	}
+
+// vfunc_14818880 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14818880() {
+		return null;
+	}
+
+// vfunc_14819024 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819024() {
+		return null;
+	}
+
+// vfunc_14819168 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819168() {
+		return null;
+	}
+
+// vfunc_14819312 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819312() {
+		return null;
+	}
+
+// vfunc_14819456 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819456() {
+		return null;
+	}
+
+// vfunc_14819600 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819600() {
+		return null;
+	}
+
+// vfunc_14819744 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819744() {
+		return null;
+	}
+
+// vfunc_14819888 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819888() {
+		return null;
+	}
+
+// vfunc_14820032 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14820032() {
+		return null;
+	}
+
+// vfunc_14820144 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14820144() {
+		return null;
+	}
+
+// vfunc_14820256 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14820256() {
+		return null;
+	}
+
+// vfunc_14820368 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14820368() {
+		return null;
+	}
+
+// vfunc_14820480 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14820480() {
+		return null;
+	}
+
+// vfunc_14820592 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14820592() {
+		return null;
+	}
+
+// vfunc_14820736 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14820736() {
+		return null;
+	}
+
+// vfunc_14821120 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14821120() {
+		return null;
+	}
+
+// vfunc_14821616 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14821616() {
+		return null;
+	}
+
+// vfunc_14821760 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14821760() {
+		return null;
+	}
+
+// vfunc_14821872 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14821872() {
+		return null;
+	}
+
+// vfunc_14821984 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14821984() {
+		return null;
+	}
+
+// vfunc_14822128 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822128() {
+		return null;
+	}
+
+// vfunc_14822272 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822272() {
+		return null;
+	}
+
+// vfunc_14822416 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822416() {
+		return null;
+	}
+
+// vfunc_14822560 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822560() {
+		return null;
+	}
+
+// vfunc_14822704 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14822704() {
+		return null;
+	}
+
+// vfunc_14822800 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822800() {
+		return null;
+	}
+
+// vfunc_14822944 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822944() {
+		return null;
+	}
+
+// vfunc_14823088 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14823088() {
+		return null;
+	}
+
+// vfunc_14823184 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14823184() {
+		return null;
+	}
+
+// vfunc_14823296 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14823296() {
+		return null;
+	}
+
+// vfunc_14823440 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14823440() {
+		return null;
+	}
+
+// vfunc_14823584 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14823584() {
+		return null;
+	}
+
+// vfunc_14823728 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14823728() {
+		return null;
+	}
+
+// vfunc_14823872 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14823872() {
+		return null;
+	}
+
+// vfunc_14824016 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14824016() {
+		return null;
+	}
+
+// vfunc_14824112 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14824112() {
+		return null;
+	}
+
+// vfunc_14955168 -> type: char (*)(IEntityTool *) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * -> ret: char 
+	public vfunc_14955168() {
+		return null;
+	}
+
+// vfunc_14824224 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_14824224() {
+		return null;
+	}
+
+// vfunc_14782608 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14782608() {
+		return null;
+	}
+
+// vfunc_14824240 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14824240() {
+		return null;
+	}
+
+// vfunc_14824256 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14824256() {
+		return null;
+	}
+
+// vfunc_14956592 -> type: IEntityDefinition *(*)(IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * -> ret: IEntityDefinition * 
+	public vfunc_14956592() {
+		return null;
+	}
+
+// vfunc_14969264 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14969264() {
+		return null;
+	}
+
+// vfunc_14939232 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14939232() {
+		return null;
+	}
+
+// vfunc_14939360 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14939360() {
+		return null;
+	}
+
+// _ZN11IEntityTool19ExecuteActionScriptE19EEntityActionScriptP11IUnitEntityRK5CVec3IfEP12CCombatEvent -> type: void (*)(IGameEntity *, long long, long long, CVec3 *, long long) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * long long long long CVec3 * long long -> ret: void 
+	public _ZN11IEntityTool19ExecuteActionScriptE19EEntityActionScriptP11IUnitEntityRK5CVec3IfEP12CCombatEvent() {
+		return null;
+	}
+
+// vfunc_14824272 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14824272() {
+		return null;
+	}
+
+// vfunc_14824368 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14824368() {
+		return null;
+	}
+
+// vfunc_14824480 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14824480() {
+		return null;
+	}
+
+// vfunc_14824576 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14824576() {
+		return null;
+	}
+
+// vfunc_14824688 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14824688() {
+		return null;
+	}
+
+// vfunc_14824784 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14824784() {
+		return null;
+	}
+
+// vfunc_14824896 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14824896() {
+		return null;
+	}
+
+// vfunc_14824992 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14824992() {
+		return null;
+	}
+
+// vfunc_14825104 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14825104() {
+		return null;
+	}
+
+// vfunc_14825200 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14825200() {
+		return null;
+	}
+
+// vfunc_14825312 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14825312() {
+		return null;
+	}
+
+// vfunc_14825408 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14825408() {
+		return null;
+	}
+
+// vfunc_14825504 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14825504() {
+		return null;
+	}
+
+// vfunc_14825600 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14825600() {
+		return null;
+	}
+
+// vfunc_14825696 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14825696() {
+		return null;
+	}
+
+// vfunc_14825792 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14825792() {
+		return null;
+	}
+
+// vfunc_14825904 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14825904() {
+		return null;
+	}
+
+// vfunc_14826016 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14826016() {
+		return null;
+	}
+
+// vfunc_14826160 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14826160() {
+		return null;
+	}
+
+// vfunc_14826272 -> type: void (*)(uint8 *, double) __attribute__((fastcall)) 
+// function 
+// args: uint8 * double -> ret: void 
+	public vfunc_14826272() {
+		return null;
+	}
+
+// vfunc_14826528 -> type: void (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void 
+	public vfunc_14826528() {
+		return null;
+	}
+
+// vfunc_14826736 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14826736() {
+		return null;
+	}
+
+// vfunc_14826832 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14826832() {
+		return null;
+	}
+
+// vfunc_14827056 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14827056() {
+		return null;
+	}
+
+// vfunc_14827280 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14827280() {
+		return null;
+	}
+
+// vfunc_14827392 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14827392() {
+		return null;
+	}
+
+// vfunc_14827488 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14827488() {
+		return null;
+	}
+
+// vfunc_14827584 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14827584() {
+		return null;
+	}
+
+// vfunc_14827680 -> type: __m128i (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: __m128i 
+	public vfunc_14827680() {
+		return null;
+	}
+
+// vfunc_14827776 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14827776() {
+		return null;
+	}
+
+// vfunc_14828000 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14828000() {
+		return null;
+	}
+
+// vfunc_14828096 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14828096() {
+		return null;
+	}
+
+// vfunc_14828320 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14828320() {
+		return null;
+	}
+
+// vfunc_14828432 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14828432() {
+		return null;
+	}
+
+// vfunc_14828528 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14828528() {
+		return null;
+	}
+
+// vfunc_14828752 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14828752() {
+		return null;
+	}
+
+// vfunc_14828848 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14828848() {
+		return null;
+	}
+
+// vfunc_14828960 -> type: void (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void 
+	public vfunc_14828960() {
+		return null;
+	}
+
+// vfunc_14829168 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14829168() {
+		return null;
+	}
+
+// vfunc_14829280 -> type: void (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void 
+	public vfunc_14829280() {
+		return null;
+	}
+
+// vfunc_14829488 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14829488() {
+		return null;
+	}
+
+// vfunc_14829584 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14829584() {
+		return null;
+	}
+
+// vfunc_14829680 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14829680() {
+		return null;
+	}
+
+// vfunc_14829776 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14829776() {
+		return null;
+	}
+
+// vfunc_14829888 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14829888() {
+		return null;
+	}
+
+// vfunc_14829984 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14829984() {
+		return null;
+	}
+
+// vfunc_14830208 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14830208() {
+		return null;
+	}
+
+// vfunc_14830432 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14830432() {
+		return null;
+	}
+
+// vfunc_14830576 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14830576() {
+		return null;
+	}
+
+// vfunc_14830688 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14830688() {
+		return null;
+	}
+
+// vfunc_14830800 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14830800() {
+		return null;
+	}
+
+// vfunc_14830912 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14830912() {
+		return null;
+	}
+
+// vfunc_14831056 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14831056() {
+		return null;
+	}
+
+// vfunc_14831168 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14831168() {
+		return null;
+	}
+
+// vfunc_14831280 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14831280() {
+		return null;
+	}
+
+// vfunc_14831376 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14831376() {
+		return null;
+	}
+
+// vfunc_14831488 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14831488() {
+		return null;
+	}
+
+// vfunc_14831584 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14831584() {
+		return null;
+	}
+
+// vfunc_14831696 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14831696() {
+		return null;
+	}
+
+// vfunc_14831792 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14831792() {
+		return null;
+	}
+
+// vfunc_14831904 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14831904() {
+		return null;
+	}
+
+// vfunc_14832000 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14832000() {
+		return null;
+	}
+
+// vfunc_14832096 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14832096() {
+		return null;
+	}
+
+// vfunc_14832192 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14832192() {
+		return null;
+	}
+
+// vfunc_14832336 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14832336() {
+		return null;
+	}
+
+// vfunc_14832480 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14832480() {
+		return null;
+	}
+
+// vfunc_14832624 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14832624() {
+		return null;
+	}
+
+// vfunc_14832768 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14832768() {
+		return null;
+	}
+
+// vfunc_14832912 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14832912() {
+		return null;
+	}
+
+// vfunc_14833008 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14833008() {
+		return null;
+	}
+
+// vfunc_14833104 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14833104() {
+		return null;
+	}
+
+// vfunc_14833248 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14833248() {
+		return null;
+	}
+
+// vfunc_14833360 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14833360() {
+		return null;
+	}
+
+// vfunc_14833456 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14833456() {
+		return null;
+	}
+
+// vfunc_14833552 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14833552() {
+		return null;
+	}
+
+// vfunc_14833664 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14833664() {
+		return null;
+	}
+
+// vfunc_14833776 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14833776() {
+		return null;
+	}
+
+// vfunc_14833872 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14833872() {
+		return null;
+	}
+
+// vfunc_14833968 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14833968() {
+		return null;
+	}
+
+// vfunc_14834112 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14834112() {
+		return null;
+	}
+
+// vfunc_14834256 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14834256() {
+		return null;
+	}
+
+// vfunc_14834400 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14834400() {
+		return null;
+	}
+
+// vfunc_14834544 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14834544() {
+		return null;
+	}
+
+// vfunc_14834640 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14834640() {
+		return null;
+	}
+
+// vfunc_14834736 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14834736() {
+		return null;
+	}
+
+// vfunc_14834848 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14834848() {
+		return null;
+	}
+
+// vfunc_14834944 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14834944() {
+		return null;
+	}
+
+// vfunc_14835088 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14835088() {
+		return null;
+	}
+
+// vfunc_14835184 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14835184() {
+		return null;
+	}
+
+// vfunc_14835296 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14835296() {
+		return null;
+	}
+
+// vfunc_14835408 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14835408() {
+		return null;
+	}
+
+// vfunc_14835552 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14835552() {
+		return null;
+	}
+
+// vfunc_14835696 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14835696() {
+		return null;
+	}
+
+// vfunc_14835840 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14835840() {
+		return null;
+	}
+
+// vfunc_14835952 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14835952() {
+		return null;
+	}
+
+// vfunc_14836048 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14836048() {
+		return null;
+	}
+
+// vfunc_14836160 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14836160() {
+		return null;
+	}
+
+// vfunc_14836256 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14836256() {
+		return null;
+	}
+
+// vfunc_14836352 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14836352() {
+		return null;
+	}
+
+// vfunc_14836496 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14836496() {
+		return null;
+	}
+
+// vfunc_14836640 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14836640() {
+		return null;
+	}
+
+// vfunc_14836784 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14836784() {
+		return null;
+	}
+
+// vfunc_14837008 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14837008() {
+		return null;
+	}
+
+// vfunc_14837104 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14837104() {
+		return null;
+	}
+
+// vfunc_14837248 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14837248() {
+		return null;
+	}
+
+// vfunc_14837392 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14837392() {
+		return null;
+	}
+
+// vfunc_14837536 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14837536() {
+		return null;
+	}
+
+// vfunc_14837680 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14837680() {
+		return null;
+	}
+
+// vfunc_14837824 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14837824() {
+		return null;
+	}
+
+// vfunc_14837968 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14837968() {
+		return null;
+	}
+
+// vfunc_14838064 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14838064() {
+		return null;
+	}
+
+// vfunc_14838208 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14838208() {
+		return null;
+	}
+
+// vfunc_14838352 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14838352() {
+		return null;
+	}
+
+// vfunc_14838496 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14838496() {
+		return null;
+	}
+
+// vfunc_14838592 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14838592() {
+		return null;
+	}
+
+// vfunc_14838688 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14838688() {
+		return null;
+	}
+
+// vfunc_14838784 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14838784() {
+		return null;
+	}
+
+// vfunc_14838880 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14838880() {
+		return null;
+	}
+
+// vfunc_14838976 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14838976() {
+		return null;
+	}
+
+// vfunc_14839072 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14839072() {
+		return null;
+	}
+
+// vfunc_14839216 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14839216() {
+		return null;
+	}
+
+// vfunc_14839360 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14839360() {
+		return null;
+	}
+
+// vfunc_14839456 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14839456() {
+		return null;
+	}
+
+// vfunc_14839600 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14839600() {
+		return null;
+	}
+
+// vfunc_14839744 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14839744() {
+		return null;
+	}
+
+// vfunc_14941552 -> type: void (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void 
+	public vfunc_14941552() {
+		return null;
+	}
+
+// vfunc_14941712 -> type: void (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void 
+	public vfunc_14941712() {
+		return null;
+	}
+
+// vfunc_14782176 -> type: char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: char 
+	public vfunc_14782176() {
+		return null;
+	}
+
+// vfunc_14782496 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14782496() {
+		return null;
+	}
+
+// vfunc_14782544 -> type: bool (*)(uint8 *) __attribute__((fastcall)) 
+// function 
+// args: uint8 * -> ret: bool 
+	public vfunc_14782544() {
+		return null;
+	}
+
+// vfunc_14943744 -> type: char (*)(long long, long long, long long) __attribute__((fastcall)) 
+// function 
+// args: long long long long long long -> ret: char 
+	public vfunc_14943744() {
+		return null;
+	}
+
+// vfunc_14946160 -> type: char (*)(IEntityTool *, long long, long long, long long, int, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * long long long long long long int unsigned int -> ret: char 
+	public vfunc_14946160() {
+		return null;
+	}
+
+// vfunc_14951232 -> type: char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: char 
+	public vfunc_14951232() {
+		return null;
+	}
+
+// vfunc_14951680 -> type: void *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void * 
+	public vfunc_14951680() {
+		return null;
+	}
+
+// vfunc_14952448 -> type: void (*)(CVec3 *, unsigned char) __attribute__((fastcall)) 
+// function 
+// args: CVec3 * unsigned char -> ret: void 
+	public vfunc_14952448() {
+		return null;
+	}
+
+// vfunc_14954736 -> type: char (*)(long long, const IUnitEntity *, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: long long const IUnitEntity * unsigned int -> ret: char 
+	public vfunc_14954736() {
+		return null;
+	}
+
+// vfunc_14954976 -> type: char (*)(long long, long long) __attribute__((fastcall)) 
+// function 
+// args: long long long long -> ret: char 
+	public vfunc_14954976() {
+		return null;
+	}
+
+// vfunc_14958288 -> type: unsigned char *(*)(uint8 *) __attribute__((fastcall)) 
+// function 
+// args: uint8 * -> ret: unsigned char * 
+	public vfunc_14958288() {
+		return null;
+	}
+
+// vfunc_14958432 -> type: char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: char 
+	public vfunc_14958432() {
+		return null;
+	}
+
+// vfunc_14958448 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14958448() {
+		return null;
+	}
+
+// vfunc_14958656 -> type: char (*)(IEntityTool *) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * -> ret: char 
+	public vfunc_14958656() {
+		return null;
+	}
+
+// vfunc_14941920 -> type: bool (*)(long long, long long) __attribute__((fastcall)) 
+// function 
+// args: long long long long -> ret: bool 
+	public vfunc_14941920() {
+		return null;
+	}
+
+// vfunc_14942144 -> type: bool (*)(long long, long long) __attribute__((fastcall)) 
+// function 
+// args: long long long long -> ret: bool 
+	public vfunc_14942144() {
+		return null;
+	}
+
+// vfunc_14839760 -> type: long long (*)(uint64 *, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: uint64 * unsigned int -> ret: long long 
+	public vfunc_14839760() {
+		return null;
+	}
+
+// vfunc_14839856 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14839856() {
+		return null;
+	}
+
+// vfunc_14839904 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14839904() {
+		return null;
+	}
+
+// vfunc_14840016 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14840016() {
+		return null;
+	}
+
+// vfunc_14840112 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14840112() {
+		return null;
+	}
+
+// vfunc_14840208 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14840208() {
+		return null;
+	}
+
+// vfunc_14840352 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14840352() {
+		return null;
+	}
+
+// n -> type: void *(*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void * 
+	public n() {
+		return null;
+	}
+
+}
+
+// inheritence: CObj
+export class IEntityItem_vtbl extends CObj {
+
+// vfunc_14932912 -> type: unsigned long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned long long 
+	public vfunc_14932912() {
+		return null;
+	}
+
+// sub_F0E6C0 -> type: long long *(*)(void *) __attribute__((fastcall)) 
+// function 
+// args: void * -> ret: long long * 
+	public sub_F0E6C0() {
+		return null;
+	}
+
+// deleteIEntityItem -> type: void (*)(void *) __attribute__((fastcall)) 
+// function 
+// args: void * -> ret: void 
+	public deleteIEntityItem() {
+		return null;
+	}
+
+// vfunc_12124208 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124208() {
+		return null;
+	}
+
+// vfunc_12124224 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124224() {
+		return null;
+	}
+
+// nullsub_3 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_3() {
+		return null;
+	}
+
+// nullsub_4 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_4() {
+		return null;
+	}
+
+// vfunc_12124272 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124272() {
+		return null;
+	}
+
+// vfunc_12124288 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124288() {
+		return null;
+	}
+
+// vfunc_12124304 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124304() {
+		return null;
+	}
+
+// vfunc_12135232 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12135232() {
+		return null;
+	}
+
+// vfunc_12135248 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12135248() {
+		return null;
+	}
+
+// vfunc_12135264 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12135264() {
+		return null;
+	}
+
+// vfunc_12124368 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124368() {
+		return null;
+	}
+
+// vfunc_12124384 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124384() {
+		return null;
+	}
+
+// vfunc_12124400 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124400() {
+		return null;
+	}
+
+// vfunc_12124416 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124416() {
+		return null;
+	}
+
+// vfunc_12124432 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124432() {
+		return null;
+	}
+
+// vfunc_12124448 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124448() {
+		return null;
+	}
+
+// vfunc_12124464 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124464() {
+		return null;
+	}
+
+// vfunc_12124480 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124480() {
+		return null;
+	}
+
+// vfunc_12124496 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124496() {
+		return null;
+	}
+
+// vfunc_12124512 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124512() {
+		return null;
+	}
+
+// vfunc_12124528 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124528() {
+		return null;
+	}
+
+// vfunc_12124544 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124544() {
+		return null;
+	}
+
+// vfunc_12124560 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124560() {
+		return null;
+	}
+
+// vfunc_12124576 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124576() {
+		return null;
+	}
+
+// vfunc_12124592 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124592() {
+		return null;
+	}
+
+// vfunc_12124608 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124608() {
+		return null;
+	}
+
+// vfunc_12124624 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124624() {
+		return null;
+	}
+
+// vfunc_12124640 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124640() {
+		return null;
+	}
+
+// vfunc_12124656 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124656() {
+		return null;
+	}
+
+// vfunc_12124672 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124672() {
+		return null;
+	}
+
+// vfunc_12124688 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124688() {
+		return null;
+	}
+
+// vfunc_12124704 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124704() {
+		return null;
+	}
+
+// vfunc_12124720 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124720() {
+		return null;
+	}
+
+// vfunc_12124736 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124736() {
+		return null;
+	}
+
+// vfunc_12124752 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124752() {
+		return null;
+	}
+
+// vfunc_12124768 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124768() {
+		return null;
+	}
+
+// vfunc_12124784 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124784() {
+		return null;
+	}
+
+// vfunc_12124800 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124800() {
+		return null;
+	}
+
+// vfunc_12124816 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124816() {
+		return null;
+	}
+
+// vfunc_12124832 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124832() {
+		return null;
+	}
+
+// vfunc_12124848 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124848() {
+		return null;
+	}
+
+// vfunc_12124864 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124864() {
+		return null;
+	}
+
+// vfunc_12124880 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124880() {
+		return null;
+	}
+
+// vfunc_12124896 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124896() {
+		return null;
+	}
+
+// vfunc_12124912 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124912() {
+		return null;
+	}
+
+// vfunc_12124928 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124928() {
+		return null;
+	}
+
+// vfunc_12124944 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124944() {
+		return null;
+	}
+
+// vfunc_12124960 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124960() {
+		return null;
+	}
+
+// vfunc_12124976 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124976() {
+		return null;
+	}
+
+// vfunc_12124992 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12124992() {
+		return null;
+	}
+
+// vfunc_12125008 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125008() {
+		return null;
+	}
+
+// vfunc_12125024 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125024() {
+		return null;
+	}
+
+// vfunc_12125040 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125040() {
+		return null;
+	}
+
+// vfunc_12125056 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125056() {
+		return null;
+	}
+
+// vfunc_12125072 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125072() {
+		return null;
+	}
+
+// vfunc_12125088 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125088() {
+		return null;
+	}
+
+// vfunc_12125104 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125104() {
+		return null;
+	}
+
+// vfunc_12125120 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125120() {
+		return null;
+	}
+
+// vfunc_14783056 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_14783056() {
+		return null;
+	}
+
+// vfunc_14783072 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783072() {
+		return null;
+	}
+
+// vfunc_14783088 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783088() {
+		return null;
+	}
+
+// vfunc_14783104 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_14783104() {
+		return null;
+	}
+
+// vfunc_14783120 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783120() {
+		return null;
+	}
+
+// vfunc_14783136 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783136() {
+		return null;
+	}
+
+// vfunc_12125232 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125232() {
+		return null;
+	}
+
+// vfunc_12125248 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125248() {
+		return null;
+	}
+
+// vfunc_12125264 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125264() {
+		return null;
+	}
+
+// vfunc_12125280 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125280() {
+		return null;
+	}
+
+// vfunc_12125296 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125296() {
+		return null;
+	}
+
+// vfunc_12125312 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125312() {
+		return null;
+	}
+
+// sub_F104C0 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public sub_F104C0() {
+		return null;
+	}
+
+// sub_F104D0 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public sub_F104D0() {
+		return null;
+	}
+
+// sub_F104E0 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public sub_F104E0() {
+		return null;
+	}
+
+// vfunc_12125376 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125376() {
+		return null;
+	}
+
+// vfunc_12125392 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125392() {
+		return null;
+	}
+
+// vfunc_12125408 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125408() {
+		return null;
+	}
+
+// vfunc_12125424 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125424() {
+		return null;
+	}
+
+// vfunc_12125440 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125440() {
+		return null;
+	}
+
+// vfunc_12125456 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125456() {
+		return null;
+	}
+
+// vfunc_12125472 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125472() {
+		return null;
+	}
+
+// vfunc_12125488 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125488() {
+		return null;
+	}
+
+// vfunc_12125504 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125504() {
+		return null;
+	}
+
+// vfunc_12125520 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125520() {
+		return null;
+	}
+
+// vfunc_12125536 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125536() {
+		return null;
+	}
+
+// vfunc_12125552 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125552() {
+		return null;
+	}
+
+// vfunc_12125568 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125568() {
+		return null;
+	}
+
+// vfunc_12125584 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125584() {
+		return null;
+	}
+
+// vfunc_12125600 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125600() {
+		return null;
+	}
+
+// vfunc_12125616 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125616() {
+		return null;
+	}
+
+// vfunc_12125632 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125632() {
+		return null;
+	}
+
+// vfunc_12125648 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125648() {
+		return null;
+	}
+
+// vfunc_12125664 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125664() {
+		return null;
+	}
+
+// vfunc_12125680 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125680() {
+		return null;
+	}
+
+// vfunc_12125696 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125696() {
+		return null;
+	}
+
+// vfunc_12125712 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125712() {
+		return null;
+	}
+
+// vfunc_12125728 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125728() {
+		return null;
+	}
+
+// vfunc_12125744 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125744() {
+		return null;
+	}
+
+// vfunc_12125760 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125760() {
+		return null;
+	}
+
+// vfunc_12125776 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125776() {
+		return null;
+	}
+
+// vfunc_12125792 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125792() {
+		return null;
+	}
+
+// vfunc_12125808 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125808() {
+		return null;
+	}
+
+// vfunc_12125824 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125824() {
+		return null;
+	}
+
+// vfunc_12125840 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125840() {
+		return null;
+	}
+
+// vfunc_12125856 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125856() {
+		return null;
+	}
+
+// vfunc_12125872 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125872() {
+		return null;
+	}
+
+// vfunc_12125888 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125888() {
+		return null;
+	}
+
+// vfunc_12125904 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125904() {
+		return null;
+	}
+
+// vfunc_12125920 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125920() {
+		return null;
+	}
+
+// vfunc_12125936 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125936() {
+		return null;
+	}
+
+// vfunc_12125952 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125952() {
+		return null;
+	}
+
+// vfunc_12125968 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125968() {
+		return null;
+	}
+
+// vfunc_12125984 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12125984() {
+		return null;
+	}
+
+// vfunc_12126000 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126000() {
+		return null;
+	}
+
+// vfunc_12126016 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126016() {
+		return null;
+	}
+
+// vfunc_12126032 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126032() {
+		return null;
+	}
+
+// sub_F104F0 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public sub_F104F0() {
+		return null;
+	}
+
+// _ZN11IEntityItem8BaselineEv -> type: long long (*)(IEntityItem *) __attribute__((fastcall)) 
+// function 
+// args: IEntityItem * -> ret: long long 
+	public _ZN11IEntityItem8BaselineEv() {
+		return null;
+	}
+
+// _ZNK11IEntityItem11GetSnapshotER15CEntitySnapshotj -> type: long long (*)(IEntityItem *) __attribute__((fastcall)) 
+// function 
+// args: IEntityItem * -> ret: long long 
+	public _ZNK11IEntityItem11GetSnapshotER15CEntitySnapshotj() {
+		return null;
+	}
+
+// _ZN11IEntityItem12ReadSnapshotER15CEntitySnapshotj -> type: char (*)(IEntityItem *) __attribute__((fastcall)) 
+// function 
+// args: IEntityItem * -> ret: char 
+	public _ZN11IEntityItem12ReadSnapshotER15CEntitySnapshotj() {
+		return null;
+	}
+
+// _ZN11IEntityTool21GetSnapshotVisibilityER22SEntSnapShotVisibility -> type: uint32 *(*)(long long, uint8 *) __attribute__((fastcall)) 
+// function 
+// args: long long uint8 * -> ret: uint32 * 
+	public _ZN11IEntityTool21GetSnapshotVisibilityER22SEntSnapShotVisibility() {
+		return null;
+	}
+
+// _ZNK11IEntityItem15IsEnemySnapshotERjS0_ -> type: long long (*)(IEntityItem *) __attribute__((fastcall)) 
+// function 
+// args: IEntityItem * -> ret: long long 
+	public _ZNK11IEntityItem15IsEnemySnapshotERjS0_() {
+		return null;
+	}
+
+// vfunc_14783216 -> type: long long (*)(IEntityAbility *) __attribute__((fastcall)) 
+// function 
+// args: IEntityAbility * -> ret: long long 
+	public vfunc_14783216() {
+		return null;
+	}
+
+// vfunc_12604784 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_12604784() {
+		return null;
+	}
+
+// vfunc_14783280 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783280() {
+		return null;
+	}
+
+// vfunc_14783312 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783312() {
+		return null;
+	}
+
+// vfunc_14783328 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783328() {
+		return null;
+	}
+
+// nullsub_5 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_5() {
+		return null;
+	}
+
+// sub_F0EBD0 -> type: char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: char 
+	public sub_F0EBD0() {
+		return null;
+	}
+
+// nullsub_7 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_7() {
+		return null;
+	}
+
+// nullsub_8 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_8() {
+		return null;
+	}
+
+// nullsub_9 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_9() {
+		return null;
+	}
+
+// nullsub_13 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_13() {
+		return null;
+	}
+
+// vfunc_12126240 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_12126240() {
+		return null;
+	}
+
+// nullsub_10 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_10() {
+		return null;
+	}
+
+// nullsub_11 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_11() {
+		return null;
+	}
+
+// __usercall -> type: char 
+	get __usercall(): number {
+		return this.align(0x450).readS8();
+	}
+
+// vfunc_12126304 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_12126304() {
+		return null;
+	}
+
+// vfunc_12126320 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_12126320() {
+		return null;
+	}
+
+// sub_F0EDB0 -> type: char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: char 
+	public sub_F0EDB0() {
+		return null;
+	}
+
+// j_vfunc_14969024 -> type: char (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: char 
+	public j_vfunc_14969024() {
+		return null;
+	}
+
+// copyIGameEntity -> type: long long (*)(IGameEntity *, IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * IGameEntity * -> ret: long long 
+	public copyIGameEntity() {
+		return null;
+	}
+
+// nullsub_12 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_12() {
+		return null;
+	}
+
+// vfunc_12126384 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_12126384() {
+		return null;
+	}
+
+// _ZN11IGameEntity10AddToSceneERK5CVec4IfEiRK11SClientView -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public _ZN11IGameEntity10AddToSceneERK5CVec4IfEiRK11SClientView() {
+		return null;
+	}
+
+// vfunc_14955216 -> type: char (*)(IEntityTool *, long long, long long) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * long long long long -> ret: char 
+	public vfunc_14955216() {
+		return null;
+	}
+
+// _ZN11IEntityItem14UpdateIsActiveEv -> type: long long (*)(IEntityItem *) __attribute__((fastcall)) 
+// function 
+// args: IEntityItem * -> ret: long long 
+	public _ZN11IEntityItem14UpdateIsActiveEv() {
+		return null;
+	}
+
+// vfunc_14783344 -> type: long long (*)(uint32 *, int) __attribute__((fastcall)) 
+// function 
+// args: uint32 * int -> ret: long long 
+	public vfunc_14783344() {
+		return null;
+	}
+
+// vfunc_14939488 -> type: long long (*)(IEntityTool *) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * -> ret: long long 
+	public vfunc_14939488() {
+		return null;
+	}
+
+// vfunc_14969472 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14969472() {
+		return null;
+	}
+
+// vfunc_14783360 -> type: long long (*)(IEntityTool *) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * -> ret: long long 
+	public vfunc_14783360() {
+		return null;
+	}
+
+// nullsub_178 -> type: void (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: void 
+	public nullsub_178() {
+		return null;
+	}
+
+// vfunc_14862464 -> type: long long (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: long long 
+	public vfunc_14862464() {
+		return null;
+	}
+
+// sub_F10520 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public sub_F10520() {
+		return null;
+	}
+
+// sub_F10580 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public sub_F10580() {
+		return null;
+	}
+
+// vfunc_14783504 -> type: short (*)(long long, unsigned int) __attribute__((fastcall)) 
+// function 
+// args: long long unsigned int -> ret: short 
+	public vfunc_14783504() {
+		return null;
+	}
+
+// vfunc_14783536 -> type: short (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: short 
+	public vfunc_14783536() {
+		return null;
+	}
+
+// vfunc_14783568 -> type: long long (*)(uint16 *, short) __attribute__((fastcall)) 
+// function 
+// args: uint16 * short -> ret: long long 
+	public vfunc_14783568() {
+		return null;
+	}
+
+// vfunc_14968368 -> type: long long (*)(long long, int, int) __attribute__((fastcall)) 
+// function 
+// args: long long int int -> ret: long long 
+	public vfunc_14968368() {
+		return null;
+	}
+
+// vfunc_14783680 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14783680() {
+		return null;
+	}
+
+// vfunc_14783824 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14783824() {
+		return null;
+	}
+
+// vfunc_14783968 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14783968() {
+		return null;
+	}
+
+// vfunc_14784064 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14784064() {
+		return null;
+	}
+
+// vfunc_14784208 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14784208() {
+		return null;
+	}
+
+// vfunc_14784304 -> type: const wchar_t **(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: const wchar_t ** 
+	public vfunc_14784304() {
+		return null;
+	}
+
+// vfunc_14784448 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14784448() {
+		return null;
+	}
+
+// vfunc_14784544 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14784544() {
+		return null;
+	}
+
+// vfunc_14784640 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14784640() {
+		return null;
+	}
+
+// vfunc_14784752 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14784752() {
+		return null;
+	}
+
+// vfunc_14784848 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14784848() {
+		return null;
+	}
+
+// vfunc_14784960 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14784960() {
+		return null;
+	}
+
+// vfunc_14785072 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14785072() {
+		return null;
+	}
+
+// vfunc_14785168 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14785168() {
+		return null;
+	}
+
+// vfunc_14785280 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14785280() {
+		return null;
+	}
+
+// vfunc_14785376 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14785376() {
+		return null;
+	}
+
+// vfunc_14785488 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14785488() {
+		return null;
+	}
+
+// vfunc_14785984 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14785984() {
+		return null;
+	}
+
+// vfunc_14786480 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14786480() {
+		return null;
+	}
+
+// vfunc_14786976 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14786976() {
+		return null;
+	}
+
+// vfunc_14787472 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14787472() {
+		return null;
+	}
+
+// vfunc_14787968 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14787968() {
+		return null;
+	}
+
+// vfunc_14788464 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14788464() {
+		return null;
+	}
+
+// vfunc_14788960 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14788960() {
+		return null;
+	}
+
+// vfunc_14789456 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14789456() {
+		return null;
+	}
+
+// vfunc_14789952 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14789952() {
+		return null;
+	}
+
+// vfunc_14790448 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14790448() {
+		return null;
+	}
+
+// vfunc_14790944 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14790944() {
+		return null;
+	}
+
+// vfunc_14791440 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14791440() {
+		return null;
+	}
+
+// vfunc_14791936 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14791936() {
+		return null;
+	}
+
+// vfunc_14792432 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14792432() {
+		return null;
+	}
+
+// vfunc_14792928 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14792928() {
+		return null;
+	}
+
+// vfunc_14793424 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14793424() {
+		return null;
+	}
+
+// vfunc_14793920 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14793920() {
+		return null;
+	}
+
+// vfunc_14794416 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14794416() {
+		return null;
+	}
+
+// vfunc_14794912 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14794912() {
+		return null;
+	}
+
+// vfunc_14795408 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14795408() {
+		return null;
+	}
+
+// vfunc_14795904 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14795904() {
+		return null;
+	}
+
+// vfunc_14796400 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14796400() {
+		return null;
+	}
+
+// vfunc_14796896 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14796896() {
+		return null;
+	}
+
+// vfunc_14797392 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14797392() {
+		return null;
+	}
+
+// vfunc_14797888 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14797888() {
+		return null;
+	}
+
+// vfunc_14798384 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14798384() {
+		return null;
+	}
+
+// vfunc_14798880 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14798880() {
+		return null;
+	}
+
+// vfunc_14799376 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14799376() {
+		return null;
+	}
+
+// vfunc_14799872 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14799872() {
+		return null;
+	}
+
+// vfunc_14800368 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14800368() {
+		return null;
+	}
+
+// vfunc_14800864 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14800864() {
+		return null;
+	}
+
+// vfunc_14801360 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14801360() {
+		return null;
+	}
+
+// vfunc_14801856 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14801856() {
+		return null;
+	}
+
+// vfunc_14802352 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14802352() {
+		return null;
+	}
+
+// vfunc_14802848 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14802848() {
+		return null;
+	}
+
+// vfunc_14803344 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14803344() {
+		return null;
+	}
+
+// vfunc_14803840 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14803840() {
+		return null;
+	}
+
+// vfunc_14804336 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14804336() {
+		return null;
+	}
+
+// vfunc_14804832 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14804832() {
+		return null;
+	}
+
+// vfunc_14805328 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14805328() {
+		return null;
+	}
+
+// vfunc_14805824 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14805824() {
+		return null;
+	}
+
+// vfunc_14806320 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14806320() {
+		return null;
+	}
+
+// vfunc_14806816 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14806816() {
+		return null;
+	}
+
+// vfunc_14807312 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14807312() {
+		return null;
+	}
+
+// vfunc_14807808 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14807808() {
+		return null;
+	}
+
+// vfunc_14808304 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14808304() {
+		return null;
+	}
+
+// vfunc_14808800 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14808800() {
+		return null;
+	}
+
+// vfunc_14809296 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14809296() {
+		return null;
+	}
+
+// vfunc_14809792 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14809792() {
+		return null;
+	}
+
+// vfunc_14810288 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14810288() {
+		return null;
+	}
+
+// vfunc_14810784 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14810784() {
+		return null;
+	}
+
+// vfunc_14811280 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14811280() {
+		return null;
+	}
+
+// vfunc_14811776 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14811776() {
+		return null;
+	}
+
+// vfunc_14812272 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14812272() {
+		return null;
+	}
+
+// vfunc_14812768 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14812768() {
+		return null;
+	}
+
+// vfunc_14812912 -> type: unsigned char (*)(ISlaveEntity *) __attribute__((fastcall)) 
+// function 
+// args: ISlaveEntity * -> ret: unsigned char 
+	public vfunc_14812912() {
+		return null;
+	}
+
+// vfunc_14813056 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14813056() {
+		return null;
+	}
+
+// vfunc_14813200 -> type: unsigned char (*)(IEntityState *) __attribute__((fastcall)) 
+// function 
+// args: IEntityState * -> ret: unsigned char 
+	public vfunc_14813200() {
+		return null;
+	}
+
+// vfunc_14813344 -> type: unsigned char (*)(ISlaveEntity *) __attribute__((fastcall)) 
+// function 
+// args: ISlaveEntity * -> ret: unsigned char 
+	public vfunc_14813344() {
+		return null;
+	}
+
+// vfunc_14813488 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14813488() {
+		return null;
+	}
+
+// vfunc_14813632 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14813632() {
+		return null;
+	}
+
+// vfunc_14813776 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14813776() {
+		return null;
+	}
+
+// vfunc_14813920 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14813920() {
+		return null;
+	}
+
+// vfunc_14814064 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814064() {
+		return null;
+	}
+
+// vfunc_14814208 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814208() {
+		return null;
+	}
+
+// vfunc_14814352 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814352() {
+		return null;
+	}
+
+// vfunc_14814496 -> type: unsigned char (*)(IEntityTool *) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * -> ret: unsigned char 
+	public vfunc_14814496() {
+		return null;
+	}
+
+// vfunc_14814640 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814640() {
+		return null;
+	}
+
+// vfunc_14814784 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814784() {
+		return null;
+	}
+
+// vfunc_14814928 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14814928() {
+		return null;
+	}
+
+// vfunc_14815072 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815072() {
+		return null;
+	}
+
+// vfunc_14815216 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815216() {
+		return null;
+	}
+
+// vfunc_14815360 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815360() {
+		return null;
+	}
+
+// vfunc_14815504 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815504() {
+		return null;
+	}
+
+// vfunc_14815648 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815648() {
+		return null;
+	}
+
+// vfunc_14815792 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815792() {
+		return null;
+	}
+
+// vfunc_14815936 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14815936() {
+		return null;
+	}
+
+// vfunc_14816080 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14816080() {
+		return null;
+	}
+
+// vfunc_14816192 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816192() {
+		return null;
+	}
+
+// vfunc_14816336 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816336() {
+		return null;
+	}
+
+// vfunc_14816480 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816480() {
+		return null;
+	}
+
+// vfunc_14816624 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816624() {
+		return null;
+	}
+
+// vfunc_14816768 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816768() {
+		return null;
+	}
+
+// vfunc_14816912 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14816912() {
+		return null;
+	}
+
+// vfunc_14817056 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14817056() {
+		return null;
+	}
+
+// vfunc_14817152 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14817152() {
+		return null;
+	}
+
+// vfunc_14817264 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14817264() {
+		return null;
+	}
+
+// vfunc_14817360 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14817360() {
+		return null;
+	}
+
+// vfunc_14817856 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14817856() {
+		return null;
+	}
+
+// vfunc_14818240 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14818240() {
+		return null;
+	}
+
+// vfunc_14818352 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14818352() {
+		return null;
+	}
+
+// vfunc_14818448 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14818448() {
+		return null;
+	}
+
+// vfunc_14818544 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14818544() {
+		return null;
+	}
+
+// vfunc_14818640 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14818640() {
+		return null;
+	}
+
+// vfunc_14818736 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14818736() {
+		return null;
+	}
+
+// vfunc_14818880 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14818880() {
+		return null;
+	}
+
+// vfunc_14819024 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819024() {
+		return null;
+	}
+
+// vfunc_14819168 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819168() {
+		return null;
+	}
+
+// vfunc_14819312 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819312() {
+		return null;
+	}
+
+// vfunc_14819456 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819456() {
+		return null;
+	}
+
+// vfunc_14819600 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819600() {
+		return null;
+	}
+
+// vfunc_14819744 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819744() {
+		return null;
+	}
+
+// vfunc_14819888 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14819888() {
+		return null;
+	}
+
+// vfunc_14820032 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14820032() {
+		return null;
+	}
+
+// vfunc_14820144 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14820144() {
+		return null;
+	}
+
+// vfunc_14820256 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14820256() {
+		return null;
+	}
+
+// vfunc_14820368 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14820368() {
+		return null;
+	}
+
+// vfunc_14820480 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14820480() {
+		return null;
+	}
+
+// vfunc_14820592 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14820592() {
+		return null;
+	}
+
+// vfunc_14820736 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14820736() {
+		return null;
+	}
+
+// vfunc_14821120 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14821120() {
+		return null;
+	}
+
+// vfunc_14821616 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14821616() {
+		return null;
+	}
+
+// vfunc_14821760 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14821760() {
+		return null;
+	}
+
+// vfunc_14821872 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14821872() {
+		return null;
+	}
+
+// vfunc_14821984 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14821984() {
+		return null;
+	}
+
+// vfunc_14822128 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822128() {
+		return null;
+	}
+
+// vfunc_14822272 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822272() {
+		return null;
+	}
+
+// vfunc_14822416 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822416() {
+		return null;
+	}
+
+// vfunc_14822560 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822560() {
+		return null;
+	}
+
+// vfunc_14822704 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14822704() {
+		return null;
+	}
+
+// vfunc_14822800 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822800() {
+		return null;
+	}
+
+// vfunc_14822944 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14822944() {
+		return null;
+	}
+
+// vfunc_14823088 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14823088() {
+		return null;
+	}
+
+// vfunc_14823184 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14823184() {
+		return null;
+	}
+
+// vfunc_14823296 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14823296() {
+		return null;
+	}
+
+// vfunc_14823440 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14823440() {
+		return null;
+	}
+
+// vfunc_14823584 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14823584() {
+		return null;
+	}
+
+// vfunc_14823728 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14823728() {
+		return null;
+	}
+
+// vfunc_14823872 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14823872() {
+		return null;
+	}
+
+// vfunc_14824016 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14824016() {
+		return null;
+	}
+
+// vfunc_14824112 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14824112() {
+		return null;
+	}
+
+// vfunc_14955168 -> type: char (*)(IEntityTool *) __attribute__((fastcall)) 
+// function 
+// args: IEntityTool * -> ret: char 
+	public vfunc_14955168() {
+		return null;
+	}
+
+// vfunc_14824224 -> type: char (*)() __attribute__((fastcall)) 
+// function 
+// args:  -> ret: char 
+	public vfunc_14824224() {
+		return null;
+	}
+
+// sub_F26ED0 -> type: long long (*)(uint8 *) __attribute__((fastcall)) 
+// function 
+// args: uint8 * -> ret: long long 
+	public sub_F26ED0() {
+		return null;
+	}
+
+// vfunc_14824240 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14824240() {
+		return null;
+	}
+
+// vfunc_14824256 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14824256() {
+		return null;
+	}
+
+// vfunc_14956592 -> type: IEntityDefinition *(*)(IGameEntity *) __attribute__((fastcall)) 
+// function 
+// args: IGameEntity * -> ret: IEntityDefinition * 
+	public vfunc_14956592() {
+		return null;
+	}
+
+// vfunc_14969264 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14969264() {
+		return null;
+	}
+
+// vfunc_14939232 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14939232() {
+		return null;
+	}
+
+// vfunc_14939360 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14939360() {
+		return null;
+	}
+
+// _ZN11IEntityItem19ExecuteActionScriptE19EEntityActionScriptP11IUnitEntityRK5CVec3IfEP12CCombatEvent -> type: long long (*)(long long, unsigned int, long long, long long, long long) __attribute__((fastcall)) 
+// function 
+// args: long long unsigned int long long long long long long -> ret: long long 
+	public _ZN11IEntityItem19ExecuteActionScriptE19EEntityActionScriptP11IUnitEntityRK5CVec3IfEP12CCombatEvent() {
+		return null;
+	}
+
+// vfunc_14824272 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14824272() {
+		return null;
+	}
+
+// vfunc_14824368 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14824368() {
+		return null;
+	}
+
+// vfunc_14824480 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14824480() {
+		return null;
+	}
+
+// vfunc_14824576 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14824576() {
+		return null;
+	}
+
+// vfunc_14824688 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14824688() {
+		return null;
+	}
+
+// vfunc_14824784 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14824784() {
+		return null;
+	}
+
+// vfunc_14824896 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14824896() {
+		return null;
+	}
+
+// vfunc_14824992 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14824992() {
+		return null;
+	}
+
+// vfunc_14825104 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14825104() {
+		return null;
+	}
+
+// vfunc_14825200 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14825200() {
+		return null;
+	}
+
+// vfunc_14825312 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14825312() {
+		return null;
+	}
+
+// vfunc_14825408 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14825408() {
+		return null;
+	}
+
+// vfunc_14825504 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14825504() {
+		return null;
+	}
+
+// vfunc_14825600 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14825600() {
+		return null;
+	}
+
+// vfunc_14825696 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14825696() {
+		return null;
+	}
+
+// vfunc_14825792 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14825792() {
+		return null;
+	}
+
+// vfunc_14825904 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14825904() {
+		return null;
+	}
+
+// vfunc_14826016 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14826016() {
+		return null;
+	}
+
+// vfunc_14826160 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14826160() {
+		return null;
+	}
+
+// vfunc_14826272 -> type: void (*)(uint8 *, double) __attribute__((fastcall)) 
+// function 
+// args: uint8 * double -> ret: void 
+	public vfunc_14826272() {
+		return null;
+	}
+
+// vfunc_14826528 -> type: void (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void 
+	public vfunc_14826528() {
+		return null;
+	}
+
+// vfunc_14826736 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14826736() {
+		return null;
+	}
+
+// vfunc_14826832 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14826832() {
+		return null;
+	}
+
+// vfunc_14827056 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14827056() {
+		return null;
+	}
+
+// vfunc_14827280 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14827280() {
+		return null;
+	}
+
+// vfunc_14827392 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14827392() {
+		return null;
+	}
+
+// vfunc_14827488 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14827488() {
+		return null;
+	}
+
+// vfunc_14827584 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14827584() {
+		return null;
+	}
+
+// vfunc_14827680 -> type: __m128i (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: __m128i 
+	public vfunc_14827680() {
+		return null;
+	}
+
+// vfunc_14827776 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14827776() {
+		return null;
+	}
+
+// vfunc_14828000 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14828000() {
+		return null;
+	}
+
+// vfunc_14828096 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14828096() {
+		return null;
+	}
+
+// vfunc_14828320 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14828320() {
+		return null;
+	}
+
+// vfunc_14828432 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14828432() {
+		return null;
+	}
+
+// vfunc_14828528 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14828528() {
+		return null;
+	}
+
+// vfunc_14828752 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14828752() {
+		return null;
+	}
+
+// vfunc_14828848 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14828848() {
+		return null;
+	}
+
+// vfunc_14828960 -> type: void (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void 
+	public vfunc_14828960() {
+		return null;
+	}
+
+// vfunc_14829168 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14829168() {
+		return null;
+	}
+
+// vfunc_14829280 -> type: void (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void 
+	public vfunc_14829280() {
+		return null;
+	}
+
+// vfunc_14829488 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14829488() {
+		return null;
+	}
+
+// vfunc_14829584 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14829584() {
+		return null;
+	}
+
+// vfunc_14829680 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14829680() {
+		return null;
+	}
+
+// vfunc_14829776 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14829776() {
+		return null;
+	}
+
+// vfunc_14829888 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14829888() {
+		return null;
+	}
+
+// vfunc_14829984 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14829984() {
+		return null;
+	}
+
+// vfunc_14830208 -> type: float (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: float 
+	public vfunc_14830208() {
+		return null;
+	}
+
+// vfunc_14830432 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14830432() {
+		return null;
+	}
+
+// vfunc_14830576 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14830576() {
+		return null;
+	}
+
+// vfunc_14830688 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14830688() {
+		return null;
+	}
+
+// vfunc_14830800 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14830800() {
+		return null;
+	}
+
+// vfunc_14830912 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14830912() {
+		return null;
+	}
+
+// vfunc_14831056 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14831056() {
+		return null;
+	}
+
+// vfunc_14831168 -> type: double (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: double 
+	public vfunc_14831168() {
+		return null;
+	}
+
+// vfunc_14831280 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14831280() {
+		return null;
+	}
+
+// vfunc_14831376 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14831376() {
+		return null;
+	}
+
+// vfunc_14831488 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14831488() {
+		return null;
+	}
+
+// vfunc_14831584 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14831584() {
+		return null;
+	}
+
+// vfunc_14831696 -> type: long long (*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: long long 
+	public vfunc_14831696() {
+		return null;
+	}
+
+// vfunc_14831792 -> type: void *(*)(uint64 *) __attribute__((fastcall)) 
+// function 
+// args: uint64 * -> ret: void * 
+	public vfunc_14831792() {
+		return null;
+	}
+
+// sub_F105A0 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public sub_F105A0() {
+		return null;
+	}
+
+// vfunc_14832000 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14832000() {
+		return null;
+	}
+
+// vfunc_14832096 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14832096() {
+		return null;
+	}
+
+// vfunc_14832192 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14832192() {
+		return null;
+	}
+
+// vfunc_14832336 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14832336() {
+		return null;
+	}
+
+// vfunc_14832480 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14832480() {
+		return null;
+	}
+
+// vfunc_14832624 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14832624() {
+		return null;
+	}
+
+// vfunc_14832768 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14832768() {
+		return null;
+	}
+
+// vfunc_14832912 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14832912() {
+		return null;
+	}
+
+// vfunc_14833008 -> type: long long (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: long long 
+	public vfunc_14833008() {
+		return null;
+	}
+
+// vfunc_14833104 -> type: unsigned char (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: unsigned char 
+	public vfunc_14833104() {
+		return null;
+	}
+
+// vfunc_14833248 -> type: void *(*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: void * 
+	public vfunc_14833248() {
+		return null;
+	}
+
+// vfunc_14833360 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14833360() {
+		return null;
+	}
+
+// vfunc_14833456 -> type: bool (*)(long long) __attribute__((fastcall)) 
+// function 
+// args: long long -> ret: bool 
+	public vfunc_14833456() {
+		return null;
+	}
 
 }
 

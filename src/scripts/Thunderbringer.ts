@@ -84,6 +84,9 @@ export class Thunderbringer extends Script {
         this.doQLogic();
         this.doWLogic();
         this.doGhostMarchersLogic();
+        if (this.lastCast + 100 > Date.now()) {
+            return;
+        }
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }
 

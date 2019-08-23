@@ -69,7 +69,7 @@ export class Devourer extends Script {
             return;
         }
         const q = this.myHero.getTool(0) as IEntityAbility;
-        if (!q.isReady()) {
+        if (!q.canActivate()) {
             return;
         }
         const range = q.getDynamicRange() + 20;
