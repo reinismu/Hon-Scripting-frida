@@ -14,7 +14,7 @@ import { Orbwalker } from "./Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 
-export class Devourer extends Script {
+export class Kinesis extends Script {
     private orbwalker = new Orbwalker(this.myHero);
     private lastCast = 0;
     // HOOK stuff
@@ -24,6 +24,9 @@ export class Devourer extends Script {
     private hookTargetAnimationIndex = 0;
     private turnToTargetDelay: number = 0;
     private canStopCheck = new DelayedCondition();
+
+    private justCasted = new DelayedCondition();
+    private justCastedR = new DelayedCondition();
 
     constructor() {
         super();
@@ -51,7 +54,7 @@ export class Devourer extends Script {
     }
 
     // Check for 3 weakest heroes
-    doQLogic() {
+    doDevourerQLogic() {
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.canActivate()) {
             return;
@@ -90,6 +93,7 @@ export class Devourer extends Script {
         }
 
         ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
+        this.justCasted.delay(500);
         this.lastCast = Date.now();
         this.hookCastPosition = targetPos;
         this.hookTarget = enemyHero;
@@ -130,6 +134,85 @@ export class Devourer extends Script {
         return targetPos;
     }
 
+    private doQLogic() {
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate()) {
+            return;
+        }
+        if (q.typeName == "Ability_Devourer1") {
+            this.doDevourerQLogic();
+            return;
+        } else if (q.typeName == "Ability_Kenisis1") {
+            if (!this.justCasted.isTrue()) {
+                return;
+            }
+            const dev = OBJECT_MANAGER.heroes.find(
+                h => h.typeName == "Hero_Devourer" && Vector2d.distance(h.position, this.myHero.position) + 20 < q.getDynamicRange()
+            );
+            if (dev) {
+                this.justCasted.delay(80);
+                ACTION.castSpellEntity(this.myHero, 0, dev);
+                return;
+            }
+        }
+    }
+
+    doWLogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const w = this.myHero.getTool(1) as IEntityAbility;
+        if (!w.canActivate()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 20);
+        if (!enemyHero) {
+            return;
+        }
+
+        this.justCasted.delay(80);
+        ACTION.castSpellEntity(this.myHero, 1, enemyHero);
+    }
+
+    doRLogic() {
+        if (!this.justCastedR.isTrue() || !this.justCastedR.isTrue()) {
+            return;
+        }
+        const r = this.myHero.getTool(3) as IEntityAbility;
+        if (!r.canActivate()) {
+            return;
+        }
+        if(this.myHero.hasTool("State_Kenisis_Ability4_Modifier")) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(r.getDynamicRange() + 20);
+        if (!enemyHero || enemyHero.getHealthPercent() < 25) {
+            return;
+        }
+
+        this.justCastedR.delay(1000);
+        ACTION.castSpellEntity(this.myHero, 3, enemyHero);
+    }
+
+    doSilenceLogic() {
+        if (this.lastCast + 50 > Date.now()) {
+            return;
+        }
+        const silence = this.myHero.getItem("Item_Silence");
+        if (!silence) {
+            return;
+        }
+        if (!silence.item.canActivate()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(silence.item.getDynamicRange());
+        if (!enemyHero) {
+            return;
+        }
+        this.lastCast = Date.now();
+        ACTION.castSpellEntity(this.myHero, silence.index, enemyHero);
+    }
+
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
@@ -144,15 +227,27 @@ export class Devourer extends Script {
         // OBJECT_MANAGER.creeps.forEach(h => {
         //     console.log(`creep:${h.typeName} ${h.boundingRadius}`);
         // });
-        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
+        //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
+        //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
+        //     for (let i = 0; i < 80; i++) {
+        //         const tool = h.getTool(i);
+        //         if (tool == null) continue;
+        //         console.log(`tool ${i}: ${tool.typeName}`);
+        //     }
+        // });
         this.doQLogic();
+        this.doRLogic();
+        this.doWLogic();
+        this.doSilenceLogic();
+        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }
 
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
         // if (!INPUT.isControlDown()) return;
         // Dont update state if we are shooting
-
         // const buffer = new MyBuffer(args[1]);
         // const data = new Uint8Array(buffer.dataBuffer);
         // console.log(data);

@@ -1,7 +1,7 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
 import { GRAPHICS } from "../graphics/Graphics";
-import { IEntityAbility, IHeroEntity } from "../honIdaStructs";
+import { IEntityAbility, IHeroEntity, IFileChangeCallback } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
@@ -11,43 +11,102 @@ import { Orbwalker } from "./Orbwalker";
 import { IGAME } from "../game/Globals";
 import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
+import { opPrediction, opPredictionCircular } from "./Prediction";
 
-export class Soulstealer extends Script {
+export class Pyromancer extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
-    private demonHands = [{ index: 7, range: 700 }, { index: 6, range: 450 }, { index: 5, range: 200 }];
 
-     constructor() {
+    constructor() {
         super();
         EventBus.getDefault().register(this);
     }
 
-    doQDemonHardLogic() {
+    doQLogic() {
         if (!this.justCasted.isTrue()) {
             return;
         }
-        for (const hand of this.demonHands) {
-            const tool = this.myHero.getTool(hand.index) as IEntityAbility;
-            if (!tool.canActivate()) {
-                continue;
-            }
-            const enemiesInRadius = this.areEnemiesNearPoint(Vector2d.extendDir(this.myHero.position, this.myHero.facingVector(), hand.range), 120);
-            if (enemiesInRadius.length > 0) {
-                const best = enemiesInRadius.sort((h1, h2) => h1.getCurrentMagicalHealth() - h2.getCurrentMagicalHealth())[0];
-                this.justCasted.delay(350);
-                ACTION.move(Vector2d.extendTo(this.myHero.position, best.position, 60));
-                setTimeout(() => {
-                    ACTION.castSpell2(this.myHero, hand.index);
-                }, 150);
-                return;
-            }
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate()) {
+            return;
         }
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 200);
+        if (!enemyHero) {
+            return;
+        }
+
+        const castLocation = opPrediction(
+            this.myHero,
+            enemyHero,
+            1600,
+            q.getAdjustedCastTime() + this.orbwalker.msToTurnToPos(enemyHero.position),
+            q.getDynamicRange() + 200,
+            150
+        );
+        if (!castLocation) {
+            return;
+        }
+        const closerCastLocation = Vector2d.extendTo(this.myHero.position, castLocation, 700);
+        this.justCasted.delay(450);
+        ACTION.castSpellPosition(this.myHero, 0, closerCastLocation.x, closerCastLocation.y);
     }
 
-    private areEnemiesNearPoint(pos: Vec2, radius: number): IHeroEntity[] {
-        return OBJECT_MANAGER.heroes.filter(
-            h => !h.isDead() && h.isEnemy(this.myHero) && !h.isMagicImmune() && !h.isIllusion() && Vector2d.distance(h.position, pos) < radius
+    doWLogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const w = this.myHero.getTool(1) as IEntityAbility;
+        if (!w.canActivate()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 200);
+        if (!enemyHero) {
+            return;
+        }
+        const impactDelayMs = 500;
+        const castLocation = opPredictionCircular(
+            this.myHero,
+            enemyHero,
+            w.getAdjustedCastTime() + this.orbwalker.msToTurnToPos(enemyHero.position) + impactDelayMs,
+            w.getDynamicRange(),
+            160
         );
+        if (!castLocation) {
+            return;
+        }
+
+        this.justCasted.delay(450);
+        ACTION.castSpellPosition(this.myHero, 1, castLocation.x, castLocation.y);
+    }
+
+    doRLogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const r = this.myHero.getTool(3) as IEntityAbility;
+        if (!r.canActivate()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(r.getDynamicRange() + 20);
+        if (!enemyHero) {
+            return;
+        }
+        if(enemyHero.getCurrentMagicalHealth() > this.getRDamage()) {
+            return;
+        }
+        this.justCasted.delay(500);
+        ACTION.castSpellEntity(this.myHero, 3, enemyHero);
+    }
+
+    private getRDamage(): number {
+        const r = this.myHero.getTool(3) as IEntityAbility;
+        const boosted = this.myHero.hasTool("State_Pyromancer_Ult_Boost_Art");
+        const damages = [0, 450,650, 850];
+        let damage = damages[r.level]
+        if(boosted) {
+            damage += 200;
+        }
+        return damage;
     }
 
     doGhostMarchersLogic() {
@@ -61,6 +120,7 @@ export class Soulstealer extends Script {
         if (!boots.item.canActivate()) {
             return;
         }
+
         this.justCasted.delay(50);
         ACTION.castSpell2(this.myHero, boots.index);
     }
@@ -87,12 +147,17 @@ export class Soulstealer extends Script {
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
-        if (!INPUT.isControlDown()) return;
         this.orbwalker.refreshWalker(this.myHero);
+        if (!INPUT.isControlDown()) return;
+
+        // const spell = this.myHero.getTool(0) as IEntityAbility;
+        // console.log(`typeName:` + this.myHero.typeName);
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`Entities:` + OBJECT_MANAGER.entitiesCount);
-        // console.log(`getAdjustedAttackCooldown:` +  OBJECT_MANAGER.myHero.getAdjustedAttackCooldown());
+        // console.log(`getRDamage:` + this.getRDamage());
+        // console.log(`getDynamicRange:` + spell.getDynamicRange());
+        // console.log(`getAdjustedActionTime:` +  spell.getAdjustedActionTime());
         // console.log(`getAdjustedAttackActionTime:` +  OBJECT_MANAGER.myHero.getAdjustedAttackActionTime());
         // console.log(`getAdjustedAttackDuration:` +  OBJECT_MANAGER.myHero.getAdjustedAttackDuration());
         // // console.log(`getCanAttack:` +  OBJECT_MANAGER.myHero.getCanAttack());
@@ -110,10 +175,14 @@ export class Soulstealer extends Script {
         //     }
         // });
 
+        this.doRLogic();
         this.doShrunkensLogic();
-        this.doQDemonHardLogic();
         this.doGhostMarchersLogic();
-        if(this.justCasted.isTrue()) {
+        this.doWLogic();
+        this.doQLogic();
+        // this.doQDemonHardLogic();
+        // this.doGhostMarchersLogic();
+        if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }

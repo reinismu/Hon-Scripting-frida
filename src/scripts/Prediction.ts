@@ -71,6 +71,47 @@ export function opPrediction(
     return Vector2d.extendTo(goodPos, target.position, delta);
 }
 
+export function opPredictionCircular(
+    source: IUnitEntity,
+    target: IUnitEntity,
+    castDelayMs: number,
+    range: number,
+    radius: number
+): Vec2 | null {
+    const eneVelocity = VELOCITY_UPDATER.getVelocity(target);
+    if (eneVelocity.x == 0 && eneVelocity.y == 0) {
+        if (Vector2d.distance(target.position, source.position) <= range) {
+            return target.position;
+        }
+        return null;
+    }
+
+    const latency = 0.1;
+
+    let goodPos = Vector2d.add(target.position, Vector2d.mul(eneVelocity, castDelayMs / 1000 + latency));
+
+    const eneMoveSpeed = target.getMoveSpeed(true);
+    const actionTime = castDelayMs / 1000 + latency;
+    const possibilityRadius = actionTime * eneMoveSpeed - target.boundingRadius - radius;
+
+    const destTillStart = Vector2d.distToSegment(target.position, source.position, goodPos);
+    const delta = destTillStart - possibilityRadius;
+
+    console.log(`delta  ${delta} `);
+    console.log(`target.boundingRadius  ${target.boundingRadius} `);
+    console.log(`actionTime  ${actionTime} `);
+    console.log(`possibilityRadius  ${possibilityRadius}`);
+    console.log(`destTillStart  ${destTillStart}`);
+
+    if (destTillStart > possibilityRadius) {
+        goodPos = Vector2d.extendTo(goodPos, target.position, delta);
+    }
+    if (Vector2d.distance(goodPos, source.position) <= range) {
+        return goodPos;
+    }
+    return null;
+}
+
 /**
  * Return the firing solution for a projectile starting at 'src' with
  * velocity 'v', to hit a target, 'dst'.

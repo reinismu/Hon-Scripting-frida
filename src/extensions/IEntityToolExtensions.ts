@@ -14,6 +14,10 @@ declare module "../honIdaStructs" {
         getDynamicRange(): number;
         getActivateManaCost(): number;
         getManaCost(): number;
+        getCastTime(): number;
+        getAdjustedCastTime(): number;
+        getCastActionTime(): number;
+        getAdjustedActionTime(): number;
     }
 }
 
@@ -54,6 +58,54 @@ IEntityTool.prototype.getManaCost = function(): number {
             .add(0xA70)
             .readPointer(),
         "float",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IEntityTool.prototype.getCastTime = function(): number {
+    const self = this as IEntityTool;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0xAF8)
+            .readPointer(),
+        "int",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IEntityTool.prototype.getAdjustedCastTime = function(): number {
+    const self = this as IEntityTool;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x9E8)
+            .readPointer(),
+        "int",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IEntityTool.prototype.getCastActionTime = function(): number {
+    const self = this as IEntityTool;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0xB40)
+            .readPointer(),
+        "int",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IEntityTool.prototype.getAdjustedActionTime = function(): number {
+    const self = this as IEntityTool;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x9E0)
+            .readPointer(),
+        "int",
         ["pointer"]
     )(self.ptr) as number;
 };

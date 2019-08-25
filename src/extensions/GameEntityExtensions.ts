@@ -71,6 +71,8 @@ declare module "../honIdaStructs" {
         isMagicImmune(): boolean;
         isInvulnerable(): boolean;
         isBarbed(): boolean;
+        isStaffed(): boolean;
+        hasTool(name: string): boolean;
     }
 
     interface IHeroEntity {
@@ -136,6 +138,25 @@ const isEnemy = new NativeFunction(SHARED_MODULE.getExportByName("_ZNK11IUnitEnt
 IUnitEntity.prototype.isEnemy = function(entity: IUnitEntity): boolean {
     const self = this as IUnitEntity;
     return isEnemy(self.ptr, entity.ptr) as boolean;
+};
+
+
+IUnitEntity.prototype.hasTool = function(name: string): boolean {
+    const self = this as IUnitEntity;
+    for (let i = 0; i < 80; i++) {
+        const tool = self.getTool(i);
+        if (tool == null) continue;
+        if (name == tool.typeName) {
+            return true;
+        }
+    }
+    return false;
+};
+
+IUnitEntity.prototype.isStaffed = function(): boolean {
+    const self = this as IUnitEntity;
+    
+    return self.hasTool("");
 };
 
 IUnitEntity.prototype.isMagicImmune = function(): boolean {

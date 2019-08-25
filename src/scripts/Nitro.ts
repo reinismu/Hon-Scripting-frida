@@ -9,7 +9,7 @@ import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { IGAME } from "../game/Globals";
 import { Vec3, Vector, Vector2d } from "../utils/Vector";
-import { shitPrediction } from "./Prediction";
+import { shitPrediction, opPrediction, goodPrediction } from "./Prediction";
 import { Orbwalker } from "./Orbwalker";
 import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 
@@ -33,15 +33,18 @@ export class Nitro extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(q.getDynamicRange() + 80);
+        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(q.getDynamicRange() + 50);
         if (!enemyHero) {
             return;
         }
 
-        const castLocation = shitPrediction(enemyHero);
+        const castLocation = opPrediction(this.myHero, enemyHero, q.getDynamicRange() * 2, 0, q.getDynamicRange() + 50, 1);
+        if(!castLocation) {
+            return;
+        }
         if (this.delayCastQ) {
             this.forceSnapshotSend = true;
-            CLIENT.sendFakeMousePosToServer(castLocation.x, castLocation.y, castLocation.z);
+            CLIENT.sendFakeMousePosToServer(castLocation.x, castLocation.y, enemyHero.position.z);
             this.forceSnapshotSend = false;
             console.log(`Cast Q ${Date.now()}`);
             ACTION.castSpell(this.myHero, 0);
@@ -49,7 +52,7 @@ export class Nitro extends Script {
         } else {
             this.delayCastQ = true;
             this.forceSnapshotSend = true;
-            CLIENT.sendFakeMousePosToServer(castLocation.x, castLocation.y, castLocation.z);
+            CLIENT.sendFakeMousePosToServer(castLocation.x, castLocation.y, enemyHero.position.z);
             this.forceSnapshotSend = false;
             setTimeout(() => {
                 this.delayCastQ = false;
@@ -170,22 +173,22 @@ export class Nitro extends Script {
 
         // console.log(`getCurrentPhysicalHealth:${this.myHero.getCurrentPhysicalHealth()}`);
         // console.log(`getPhysicalResistance:${this.myHero.getPhysicalResistance()}`);
-        // this.doShrunkensLogic()
-        // this.doLexLogic();
-        // this.doGhostMarchersLogic();
-        // this.doElderLogic();
-        // this.doGeometersLogic();
-        // this.doQLogic();
+        this.doShrunkensLogic()
+        this.doLexLogic();
+        this.doGhostMarchersLogic();
+        this.doElderLogic();
+        this.doGeometersLogic();
+        this.doQLogic();
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition, true);
     }
 
     @Subscribe("DrawEvent")
     onDraw() {
-        OBJECT_MANAGER.heroes.forEach(h => {
-            const velocity = VELOCITY_UPDATER.getVelocity(h);
-            const drawVec = CLIENT.worldToScreen(Vector.add(h.position, { ...velocity, z: 0 }));
-            GRAPHICS.drawRect(drawVec.x, drawVec.y, 8, 8);
-        });
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     const velocity = VELOCITY_UPDATER.getVelocity(h);
+        //     const drawVec = CLIENT.worldToScreen(Vector.add(h.position, { ...velocity, z: 0 }));
+        //     GRAPHICS.drawRect(drawVec.x, drawVec.y, 8, 8);
+        // });
         // console.log("draw");
     }
 
