@@ -13,7 +13,8 @@ console.log("Hello from typescript. Process id: " + Process.id);
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript = new Pyromancer();
+    const testScript = new Devourer();
+
 }, 200);
 // const testScript = new Kinesis();
 // const testScript = new Pyromancer();

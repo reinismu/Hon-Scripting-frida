@@ -51,6 +51,8 @@ Tool to easily interact with game
     * DONE Hero Velocity
     * Vector prediction
 * IsStunned/Silenced etc..
+* Improve dev
+* Improve nitro farm
 * draw circle
 * isMoving
 

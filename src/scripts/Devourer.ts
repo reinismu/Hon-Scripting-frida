@@ -130,6 +130,46 @@ export class Devourer extends Script {
         return targetPos;
     }
 
+    doWLogic() {
+        if (this.lastCast + 100 > Date.now()) {
+            return;
+        }
+        const w = this.myHero.getTool(1) as IEntityAbility;
+        if (!w.canActivate()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(270);
+        if (!enemyHero) {
+            if (this.myHero.hasTool("State_Devourer_Ability2_Self")) {
+                this.lastCast = Date.now();
+                ACTION.castSpell2(this.myHero, 1);
+            }
+            return;
+        }
+
+        if (!this.myHero.hasTool("State_Devourer_Ability2_Self")) {
+            this.lastCast = Date.now();
+            ACTION.castSpell2(this.myHero, 1);
+        }
+    }
+
+    doRLogic() {
+        if (this.lastCast + 100 > Date.now()) {
+            return;
+        }
+        const r = this.myHero.getTool(3) as IEntityAbility;
+        if (!r.canActivate()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(r.getDynamicRange() + 20);
+        if (!enemyHero) {
+            return;
+        }
+
+        this.lastCast = Date.now();
+        ACTION.castSpellEntity(this.myHero, 3, enemyHero);
+    }
+
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
@@ -139,12 +179,27 @@ export class Devourer extends Script {
         // console.log(`myHero: ` + OBJECT_MANAGER.myHero.ptr);
 
         // OBJECT_MANAGER.heroes.forEach(h => {
+        //     console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
+        //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
+        //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
+        //     for (let i = 0; i < 80; i++) {
+        //         const tool = h.getTool(i);
+        //         if (tool == null) continue;
+        //         console.log(`tool ${i}: ${tool.typeName}`);
+        //     }
+        // });
+        // OBJECT_MANAGER.heroes.forEach(h => {
         //     console.log(`${h.typeName} getCurrentAnimIndex: ` + h.skeleton.getCurrentAnimIndex());
         // });
         // OBJECT_MANAGER.creeps.forEach(h => {
         //     console.log(`creep:${h.typeName} ${h.boundingRadius}`);
         // });
+        this.doWLogic();
+        if (this.myHero.hasTool("State_Devourer_Ability4_ControlGrowth")) {
+            return;
+        }
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
+        this.doRLogic();
         this.doQLogic();
     }
 
@@ -152,10 +207,9 @@ export class Devourer extends Script {
     onSendGameDataEvent(args: NativePointer[]) {
         // if (!INPUT.isControlDown()) return;
         // Dont update state if we are shooting
-
-        // const buffer = new MyBuffer(args[1]);
-        // const data = new Uint8Array(buffer.dataBuffer);
-        // console.log(data);
+        const buffer = new MyBuffer(args[1]);
+        const data = new Uint8Array(buffer.dataBuffer);
+        console.log(data);
     }
 
     @Subscribe("DrawEvent")

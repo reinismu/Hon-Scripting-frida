@@ -147,7 +147,7 @@ export class Kinesis extends Script {
                 return;
             }
             const dev = OBJECT_MANAGER.heroes.find(
-                h => h.typeName == "Hero_Devourer" && Vector2d.distance(h.position, this.myHero.position) + 20 < q.getDynamicRange()
+                h => h.typeName == "Hero_Devourer" && !h.isMagicImmune() && Vector2d.distance(h.position, this.myHero.position) + 20 < q.getDynamicRange()
             );
             if (dev) {
                 this.justCasted.delay(80);
@@ -165,7 +165,7 @@ export class Kinesis extends Script {
         if (!w.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 20);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(620);
         if (!enemyHero) {
             return;
         }

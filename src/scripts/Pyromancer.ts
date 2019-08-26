@@ -41,7 +41,7 @@ export class Pyromancer extends Script {
             1600,
             q.getAdjustedCastTime() + this.orbwalker.msToTurnToPos(enemyHero.position),
             q.getDynamicRange() + 200,
-            150
+            70
         );
         if (!castLocation) {
             return;
