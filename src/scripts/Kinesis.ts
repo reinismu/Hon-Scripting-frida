@@ -147,13 +147,26 @@ export class Kinesis extends Script {
                 return;
             }
             const dev = OBJECT_MANAGER.heroes.find(
-                h => h.typeName == "Hero_Devourer" && !h.isMagicImmune() && Vector2d.distance(h.position, this.myHero.position) + 20 < q.getDynamicRange()
+                h =>
+                    (h.typeName == "Hero_Devourer" || h.typeName == "Hero_Kunas") &&
+                    !h.isMagicImmune() &&
+                    Vector2d.distance(h.position, this.myHero.position) + 20 < q.getDynamicRange()
             );
             if (dev) {
                 this.justCasted.delay(80);
                 ACTION.castSpellEntity(this.myHero, 0, dev);
                 return;
             }
+        } else if (q.typeName == "Ability_Kunas1") {
+            if (!this.justCasted.isTrue()) {
+                return;
+            }
+            const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 20);
+            if (!enemyHero) {
+                return;
+            }
+            this.justCasted.delay(150);
+            ACTION.castSpellEntity(this.myHero, 0, enemyHero);
         }
     }
 
@@ -182,7 +195,7 @@ export class Kinesis extends Script {
         if (!r.canActivate()) {
             return;
         }
-        if(this.myHero.hasTool("State_Kenisis_Ability4_Modifier")) {
+        if (this.myHero.hasTool("State_Kenisis_Ability4_Modifier")) {
             return;
         }
         const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(r.getDynamicRange() + 20);
@@ -256,10 +269,10 @@ export class Kinesis extends Script {
         //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
+        this.doRLogic();
         this.doSilenceLogic();
         this.doShrunkensLogic();
         this.doQLogic();
-        this.doRLogic();
         this.doWLogic();
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }

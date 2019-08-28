@@ -9,13 +9,14 @@ import { Kinesis } from "./scripts/Kinesis";
 import { Pyromancer } from "./scripts/Pyromancer";
 import { Bushwack } from "./scripts/Bushwack";
 import { WitchSlayer } from "./scripts/WitchSlayer";
+import { Parallax } from "./scripts/Parallax";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript = new Pyromancer();
+    const testScript = new Parallax();
 }, 200);
 // const testScript = new WitchSlayer();
 // const testScript = new Bushwack();

@@ -1,9 +1,8 @@
-import { CClientEntity, IGameEntity, IHeroEntity, IUnitEntity, IGame, ICreepEntity, INeutralEntity, IProjectile } from "../honIdaStructs";
+import { CClientEntity, IGameEntity, IHeroEntity, IUnitEntity, IGame, ICreepEntity, INeutralEntity, IProjectile, IGadgetEntity } from "../honIdaStructs";
 import { tryGetTypeInfo } from "./RTTI";
 import { CLIENT_ENTITY_ARRAY, CLIENT_ENTITY_ARRAY_SIZE, IGAME } from "../game/Globals";
 import { EventBus } from "eventbus-ts";
 import { Event } from "eventbus-ts/dist/Event";
-import { isNullOrUndefined } from "util";
 
 const CLIENT_ENTITY_SIZE = 0x930;
 
@@ -21,6 +20,7 @@ export class ObjectManager {
     private cachedHeroMap: Map<number, IHeroEntity> = new Map();
     private cachedCreepMap: Map<number, ICreepEntity> = new Map();
     private cachedNeutralMap: Map<number, INeutralEntity> = new Map();
+    private cachedGadgetMap: Map<number, IGadgetEntity> = new Map();
     /**
      * Idea is that lowest network id for same hero will be the real one.
      */
@@ -56,6 +56,12 @@ export class ObjectManager {
             (ptr: NativePointer): IGameEntity => {
                 return new IProjectile(ptr);
             }
+        ],
+        [
+            "13IGadgetEntity",
+            (ptr: NativePointer): IGameEntity => {
+                return new IGadgetEntity(ptr);
+            }
         ]
     ]);
 
@@ -89,6 +95,7 @@ export class ObjectManager {
             this.cachedHeroMap.delete(index);
             this.cachedCreepMap.delete(index);
             this.cachedNeutralMap.delete(index);
+            this.cachedGadgetMap.delete(index);
             return new EntityDespawnedEvent(index);
         }
         const cachedEntity = this.cachedEntityMap.get(index);
@@ -109,6 +116,8 @@ export class ObjectManager {
                     this.cachedCreepMap.set(index, newEntity);
                 } else if (newEntity instanceof INeutralEntity) {
                     this.cachedNeutralMap.set(index, newEntity);
+                } else if (newEntity instanceof IGadgetEntity) {
+                    this.cachedGadgetMap.set(index, newEntity);
                 }
                 return new EntitySpawnedEvent(newEntity);
             } else {
@@ -116,6 +125,7 @@ export class ObjectManager {
                 this.cachedHeroMap.delete(index);
                 this.cachedCreepMap.delete(index);
                 this.cachedNeutralMap.delete(index);
+                this.cachedGadgetMap.delete(index);
                 return new EntityDespawnedEvent(index);
             }
         }
@@ -168,6 +178,10 @@ export class ObjectManager {
 
     get neutrals(): INeutralEntity[] {
         return Array.from(this.cachedNeutralMap.values());
+    }
+
+    get gadgets(): IGadgetEntity[] {
+        return Array.from(this.cachedGadgetMap.values());
     }
 
     get myHero(): IHeroEntity {

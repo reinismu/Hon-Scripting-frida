@@ -10578,8 +10578,13 @@ export class IBuildingEntity extends IUnitEntity {
 // align -> type: int 
 }
 
-// inheritence: CObj
-export class IGadgetEntity extends CObj {
+// inheritence: IUnitEntity
+export class IGadgetEntity extends IUnitEntity {
+
+// field_1520 -> type: long long 
+	get field_1520(): Int64 {
+		return this.align(0x1520).readS64();
+	}
 
 }
 

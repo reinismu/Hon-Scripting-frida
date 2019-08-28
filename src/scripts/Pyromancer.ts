@@ -35,7 +35,7 @@ export class Pyromancer extends Script {
         if (!enemyHero) {
             return;
         }
-        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 70);
+        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 100);
     }
 
     doWLogic() {
@@ -47,7 +47,7 @@ export class Pyromancer extends Script {
         if (!enemyHero) {
             return;
         }
-        this.stoppableW.cast(w, 1, this.myHero, enemyHero, 100, 500);
+        this.stoppableW.cast(w, 1, this.myHero, enemyHero, 150, 500);
     }
 
     doRLogic() {
@@ -149,8 +149,8 @@ export class Pyromancer extends Script {
         this.doRLogic();
         this.doShrunkensLogic();
         this.doGhostMarchersLogic();
-        this.doWLogic();
         this.doQLogic();
+        this.doWLogic();
         // this.doQDemonHardLogic();
         // this.doGhostMarchersLogic();
         if (this.justCasted.isTrue()) {
