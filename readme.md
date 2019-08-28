@@ -47,19 +47,20 @@ Tool to easily interact with game
     * DONE AttackRange
     * DONE OnGameEntityCreate
     *
-* prediction math
+* DONE Improve dev
+* DONE prediction math
     * DONE Hero Velocity
-    * Vector prediction
+    * DONE Vector prediction
+* KINDA DONE isMoving
 * IsStunned/Silenced etc..
-* Improve dev
 * Improve nitro farm
 * draw circle
-* isMoving
 
 ## Top tier Heroes
 
 * DONE Nitro
 * DONE Thunderbringer
+* DONE Devo if can improve prediction? 
 * Soulstealer
 * Oogie
 * Artesia
@@ -67,6 +68,5 @@ Tool to easily interact with game
 * Armadon
 * Pebbles
 * Deadlift
-* WIP Devo if can improve prediction? 
 * Gauntlet - super grabs
 * Maliken maybe with good orbwalker

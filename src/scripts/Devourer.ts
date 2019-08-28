@@ -25,6 +25,8 @@ export class Devourer extends Script {
     private turnToTargetDelay: number = 0;
     private canStopCheck = new DelayedCondition();
 
+    private justCasted = new DelayedCondition();
+
     constructor() {
         super();
         EventBus.getDefault().register(this);
@@ -75,7 +77,7 @@ export class Devourer extends Script {
                 return;
             }
         }
-        if (this.lastCast + 500 > Date.now()) {
+        if (this.lastCast + 500 > Date.now() || !this.justCasted.isTrue()) {
             return;
         }
         const range = q.getDynamicRange() + 20;
@@ -90,6 +92,7 @@ export class Devourer extends Script {
         }
 
         ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
+        this.justCasted.delay(300);
         this.lastCast = Date.now();
         this.hookCastPosition = targetPos;
         this.hookTarget = enemyHero;
@@ -100,6 +103,7 @@ export class Devourer extends Script {
 
     private stopHook() {
         ACTION.stop(this.myHero);
+        this.justCasted.restart();
         console.log(`Stop Hook`);
         this.turnToTargetDelay = 0;
         this.hookCastPosition = null;
@@ -131,7 +135,7 @@ export class Devourer extends Script {
     }
 
     doWLogic() {
-        if (this.lastCast + 100 > Date.now()) {
+        if (!this.justCasted.isTrue()) {
             return;
         }
         const w = this.myHero.getTool(1) as IEntityAbility;
@@ -141,20 +145,20 @@ export class Devourer extends Script {
         const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(270);
         if (!enemyHero) {
             if (this.myHero.hasTool("State_Devourer_Ability2_Self")) {
-                this.lastCast = Date.now();
+                this.justCasted.delay(150);
                 ACTION.castSpell2(this.myHero, 1);
             }
             return;
         }
 
         if (!this.myHero.hasTool("State_Devourer_Ability2_Self")) {
-            this.lastCast = Date.now();
+            this.justCasted.delay(150);
             ACTION.castSpell2(this.myHero, 1);
         }
     }
 
     doRLogic() {
-        if (this.lastCast + 100 > Date.now()) {
+        if (!this.justCasted.isTrue()) {
             return;
         }
         const r = this.myHero.getTool(3) as IEntityAbility;
@@ -166,7 +170,7 @@ export class Devourer extends Script {
             return;
         }
 
-        this.lastCast = Date.now();
+        this.justCasted.delay(450);
         ACTION.castSpellEntity(this.myHero, 3, enemyHero);
     }
 
@@ -198,7 +202,9 @@ export class Devourer extends Script {
         if (this.myHero.hasTool("State_Devourer_Ability4_ControlGrowth")) {
             return;
         }
-        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
+        if(this.justCasted.isTrue()) {
+            this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
+        }
         this.doRLogic();
         this.doQLogic();
     }
@@ -207,9 +213,9 @@ export class Devourer extends Script {
     onSendGameDataEvent(args: NativePointer[]) {
         // if (!INPUT.isControlDown()) return;
         // Dont update state if we are shooting
-        const buffer = new MyBuffer(args[1]);
-        const data = new Uint8Array(buffer.dataBuffer);
-        console.log(data);
+        // const buffer = new MyBuffer(args[1]);
+        // const data = new Uint8Array(buffer.dataBuffer);
+        // console.log(data);
     }
 
     @Subscribe("DrawEvent")

@@ -213,10 +213,29 @@ export class Kinesis extends Script {
         ACTION.castSpellEntity(this.myHero, silence.index, enemyHero);
     }
 
+    doShrunkensLogic() {
+        if (this.lastCast + 50 > Date.now()) {
+            return;
+        }
+        const shrunken = this.myHero.getItem("Item_Immunity");
+        if (!shrunken) {
+            return;
+        }
+        if (!shrunken.item.canActivate()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
+        if (!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
+            return;
+        }
+
+        ACTION.castSpell2(this.myHero, shrunken.index);
+    }
+
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
-        if (!INPUT.isControlDown()) return;
+        if (!INPUT.isControlDown() || this.myHero.isDead()) return;
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`myHero: ` + OBJECT_MANAGER.myHero.ptr);
@@ -237,10 +256,11 @@ export class Kinesis extends Script {
         //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
+        this.doSilenceLogic();
+        this.doShrunkensLogic();
         this.doQLogic();
         this.doRLogic();
         this.doWLogic();
-        this.doSilenceLogic();
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }
 

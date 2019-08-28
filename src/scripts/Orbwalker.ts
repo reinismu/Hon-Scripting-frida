@@ -11,8 +11,8 @@ const MIN_MOVE_DIST = 80;
 export class Orbwalker {
     private walker: IUnitEntity;
 
-    private canMove = new DelayedCondition();
-    private canAttack = new DelayedCondition();
+    canMove = new DelayedCondition();
+    canAttack = new DelayedCondition();
     private canFaceTheEnemy = new DelayedCondition();
 
     private lastProjSpawned = 0;
