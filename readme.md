@@ -52,6 +52,7 @@ Tool to easily interact with game
     * DONE Hero Velocity
     * DONE Vector prediction
 * KINDA DONE isMoving
+* Extract stoppable spell logic 
 * IsStunned/Silenced etc..
 * Improve nitro farm
 * draw circle

@@ -2,6 +2,7 @@ import { IUnitEntity, IEntityItem, IEntityState, IEntityAbility, ISlaveEntity, I
 import { tryGetTypeInfo } from "../objects/RTTI";
 import { SHARED_MODULE, IGAME } from "../game/Globals";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { Vec2, Vector2d } from "../utils/Vector";
 
 const toolInitMap = new Map([
     [
@@ -37,6 +38,7 @@ const physicalImmunityStates = new Set(["State_Accursed_Ability4", "State_VoidTa
 declare module "../honIdaStructs" {
     interface IUnitEntity {
         facingVector(): { x: number; y: number };
+        getMsToTurnToPos(pos: Vec2): number;
         getTool(index: number): ISlaveEntity | null;
         getItem(name: string): { index: number; item: IEntityItem } | null;
         isEnemy(entity: IUnitEntity): boolean;
@@ -83,6 +85,21 @@ declare module "../honIdaStructs" {
         getModelId(): number;
     }
 }
+
+function turnAngle(entity: IUnitEntity, pos: Vec2) {
+    const faceVec = Vector2d.normalized(entity.facingVector());
+    const targetVec = Vector2d.normalized(Vector2d.sub(pos, entity.position));
+    return radianToDegree(Math.acos(Vector2d.dot(faceVec, targetVec)));
+}
+
+function radianToDegree(rad: number): number {
+    return (rad * 180) / Math.PI;
+}
+
+IUnitEntity.prototype.getMsToTurnToPos = function(pos: Vec2): number {
+    const angle = turnAngle(this as IUnitEntity, pos);
+    return angle * 0.8; // Magic number TODO fix
+};
 
 IVisualEntity.prototype.getModelId = function(): number {
     const self = this as IVisualEntity;

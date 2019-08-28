@@ -87,7 +87,7 @@ export class Kinesis extends Script {
             return;
         }
 
-        const targetPos = this.getQPredictionPos(q, enemyHero, this.orbwalker.msToTurnToPos(enemyHero.position));
+        const targetPos = this.getQPredictionPos(q, enemyHero, this.myHero.getMsToTurnToPos(enemyHero.position));
         if (!targetPos) {
             return;
         }
@@ -98,7 +98,7 @@ export class Kinesis extends Script {
         this.hookCastPosition = targetPos;
         this.hookTarget = enemyHero;
         this.hookTargetAnimationIndex = enemyHero.animation;
-        this.turnToTargetDelay = this.orbwalker.msToTurnToPos(targetPos);
+        this.turnToTargetDelay = this.myHero.getMsToTurnToPos(targetPos);
         this.canNotStop.delay(350 + this.turnToTargetDelay);
     }
 

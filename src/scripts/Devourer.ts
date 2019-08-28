@@ -13,9 +13,11 @@ import { RESOURCE_MANAGER } from "../objects/ResourceManager";
 import { Orbwalker } from "./Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
+import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 
 export class Devourer extends Script {
     private orbwalker = new Orbwalker(this.myHero);
+    private hook = new StoppableLineSpell();
     private lastCast = 0;
     // HOOK stuff
     private canNotStop = new DelayedCondition();
@@ -32,52 +34,9 @@ export class Devourer extends Script {
         EventBus.getDefault().register(this);
     }
 
-    private canHit(unit: IUnitEntity, shootPos: Vec2, collisionEntities: IUnitEntity[], hookRadius: number, hookRange: number) {
-        // console.log(`q collistion entity count: ${collisionEntities.length}`);
-        if (Vector2d.distance(shootPos, this.myHero.position) > hookRange) {
-            return false;
-        }
-        const startPos = this.myHero.position;
-        if (
-            collisionEntities.some(
-                u =>
-                    !u.ptr.equals(this.myHero.ptr) &&
-                    !u.ptr.equals(unit.ptr) &&
-                    Vector2d.distToSegmentSquared(u.position, startPos, shootPos) <
-                        (hookRadius + u.boundingRadius) * (hookRadius + u.boundingRadius)
-            )
-        ) {
-            return false;
-        }
-        return true;
-    }
-
-    // Check for 3 weakest heroes
     doQLogic() {
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.canActivate()) {
-            return;
-        }
-        if (!this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.hookCastPosition && this.hookTarget) {
-            this.canStopCheck.delay(50);
-            if (this.hookTargetAnimationIndex != this.hookTarget.animation) {
-                this.stopHook();
-                return;
-            }
-            // console.log(`msPassed: ` + this.canNotStop.msPassed());
-            const targetPos = this.getQPredictionPos(q, this.hookTarget, this.turnToTargetDelay - this.canNotStop.msPassed());
-            if (!targetPos) {
-                this.stopHook();
-                return;
-            }
-            const deviation = Vector2d.distToSegment(targetPos, this.myHero.position, this.hookCastPosition);
-            // console.log("Deviation: " + deviation);
-            if (deviation > 100) {
-                this.stopHook();
-                return;
-            }
-        }
-        if (this.lastCast + 500 > Date.now() || !this.justCasted.isTrue()) {
             return;
         }
         const range = q.getDynamicRange() + 20;
@@ -85,53 +44,42 @@ export class Devourer extends Script {
         if (!enemyHero) {
             return;
         }
+        this.hook.cast(
+            q,
+            this.myHero,
+            enemyHero,
+            1600,
+            55,
+            (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => {
+                const hookRange = spell.getDynamicRange() + 20;
+                const hookRadius = 75;
 
-        const targetPos = this.getQPredictionPos(q, enemyHero, this.orbwalker.msToTurnToPos(enemyHero.position));
-        if (!targetPos) {
-            return;
-        }
+                const heroes = OBJECT_MANAGER.heroes as IUnitEntity[];
+                const creeps = OBJECT_MANAGER.creeps as IUnitEntity[];
+                const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
 
-        ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
-        this.justCasted.delay(300);
-        this.lastCast = Date.now();
-        this.hookCastPosition = targetPos;
-        this.hookTarget = enemyHero;
-        this.hookTargetAnimationIndex = enemyHero.animation;
-        this.turnToTargetDelay = this.orbwalker.msToTurnToPos(targetPos);
-        this.canNotStop.delay(350 + this.turnToTargetDelay);
-    }
+                const collisionEntities = heroes
+                    .concat(creeps, neutrals)
+                    .filter(u => !u.isDead() && u.position.distance2dSqr(this.myHero.position) < hookRange * hookRange);
 
-    private stopHook() {
-        ACTION.stop(this.myHero);
-        this.justCasted.restart();
-        console.log(`Stop Hook`);
-        this.turnToTargetDelay = 0;
-        this.hookCastPosition = null;
-        this.hookTarget = null;
-        this.canNotStop.restart();
-    }
-
-    private getQPredictionPos(q: IEntityAbility, target: IUnitEntity, additionalDelay: number = 0): Vec2 | null {
-        const range = q.getDynamicRange() + 20;
-
-        const heroes = OBJECT_MANAGER.heroes as IUnitEntity[];
-        const creeps = OBJECT_MANAGER.creeps as IUnitEntity[];
-        const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
-
-        const collisionEntities = heroes
-            .concat(creeps, neutrals)
-            .filter(u => !u.isDead() && u.position.distance2dSqr(this.myHero.position) < range * range);
-
-        const targetPos = opPrediction(this.myHero, target, 1600, 500 + additionalDelay, range, 55);
-        if (!targetPos) {
-            return null;
-        }
-
-        if (!this.canHit(target, targetPos, collisionEntities, 75, range)) {
-            return null;
-        }
-
-        return targetPos;
+                if (Vector2d.distance(castPos, this.myHero.position) > hookRange) {
+                    return false;
+                }
+                const startPos = this.myHero.position;
+                if (
+                    collisionEntities.some(
+                        u =>
+                            !u.ptr.equals(this.myHero.ptr) &&
+                            !u.ptr.equals(target.ptr) &&
+                            Vector2d.distToSegmentSquared(u.position, startPos, castPos) <
+                                (hookRadius + u.boundingRadius) * (hookRadius + u.boundingRadius)
+                    )
+                ) {
+                    return false;
+                }
+                return true;
+            }
+        );
     }
 
     doWLogic() {
@@ -142,7 +90,7 @@ export class Devourer extends Script {
         if (!w.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(270);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(300);
         if (!enemyHero) {
             if (this.myHero.hasTool("State_Devourer_Ability2_Self")) {
                 this.justCasted.delay(150);
@@ -202,7 +150,7 @@ export class Devourer extends Script {
         if (this.myHero.hasTool("State_Devourer_Ability4_ControlGrowth")) {
             return;
         }
-        if(this.justCasted.isTrue()) {
+        if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
         this.doRLogic();

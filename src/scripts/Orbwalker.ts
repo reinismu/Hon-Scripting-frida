@@ -15,8 +15,6 @@ export class Orbwalker {
     canAttack = new DelayedCondition();
     private canFaceTheEnemy = new DelayedCondition();
 
-    private lastProjSpawned = 0;
-
     constructor(walker: IUnitEntity) {
         EventBus.getDefault().register(this);
         this.walker = walker;
@@ -28,11 +26,11 @@ export class Orbwalker {
 
     public orbwalk(position: Vec2, justWalk: boolean = false) {
         this.walker = OBJECT_MANAGER.myHero;
-        // console.log("orbwalk!");
+
         if (!justWalk && this.canAttack.isTrue(500)) {
             const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange());
             if (target) {
-                const turnTime = this.msToTurnToPos(target.position);
+                const turnTime = this.walker.getMsToTurnToPos(target.position);
                 if (this.canAttack.isTrue()) {
                     this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown());
                     this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 200);
@@ -49,7 +47,7 @@ export class Orbwalker {
             }
         }
         if (this.canMove.isTrue()) {
-            if (Vector2d.distance(position, this.walker.position) < 80) {
+            if (Vector2d.distance(position, this.walker.position) < MIN_MOVE_DIST) {
                 return;
             }
             this.canMove.delay(150);
@@ -57,27 +55,10 @@ export class Orbwalker {
         }
     }
 
-    public msToTurnToPos(pos: Vec2): number {
-        const angle = this.turnAngle(this.walker, pos);
-        return angle * 0.8; // Magic number TODO fix
-    }
-
-    private turnAngle(entity: IUnitEntity, pos: Vec2) {
-        const faceVec = Vector2d.normalized(entity.facingVector());
-        const targetVec = Vector2d.normalized(Vector2d.sub(pos, entity.position));
-        return this.radianToDegree(Math.acos(Vector2d.dot(faceVec, targetVec)));
-    }
-
-    private radianToDegree(rad: number): number {
-        return (rad * 180) / Math.PI;
-    }
-
     @Subscribe("EntitySpawnedEvent")
     onGameEntitySpawned(entity: IGameEntity) {
         if (!(entity instanceof IProjectile)) {
             return;
         }
-        // console.log(`Projectile spawn delta ${Date.now() - this.lastProjSpawned}`);
-        this.lastProjSpawned = Date.now();
     }
 }

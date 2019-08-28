@@ -39,7 +39,7 @@ export class WitchSlayer extends Script {
             this.myHero,
             enemyHero,
             1600,
-            q.getAdjustedCastTime() + this.orbwalker.msToTurnToPos(enemyHero.position),
+            q.getAdjustedCastTime() + this.myHero.getMsToTurnToPos(enemyHero.position),
             q.getDynamicRange() + 200,
             70
         );

@@ -39,7 +39,7 @@ export class Pyromancer extends Script {
             this.myHero,
             enemyHero,
             1600,
-            q.getAdjustedCastTime() + this.orbwalker.msToTurnToPos(enemyHero.position),
+            q.getAdjustedCastTime() + this.myHero.getMsToTurnToPos(enemyHero.position),
             q.getDynamicRange() + 200,
             70
         );
@@ -67,7 +67,7 @@ export class Pyromancer extends Script {
         const castLocation = opPredictionCircular(
             this.myHero,
             enemyHero,
-            w.getAdjustedCastTime() + this.orbwalker.msToTurnToPos(enemyHero.position) + impactDelayMs,
+            w.getAdjustedCastTime() + this.myHero.getMsToTurnToPos(enemyHero.position) + impactDelayMs,
             w.getDynamicRange(),
             160
         );
