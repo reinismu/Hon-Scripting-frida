@@ -15,7 +15,7 @@ console.log("Hello from typescript. Process id: " + Process.id);
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript = new Devourer();
+    const testScript = new Pyromancer();
 }, 200);
 // const testScript = new WitchSlayer();
 // const testScript = new Bushwack();

@@ -1,15 +1,11 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { GRAPHICS } from "../graphics/Graphics";
 import { IEntityAbility, IUnitEntity, Console } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
-import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER, ObjectManager } from "../objects/ObjectManager";
-import { Vec2, Vector, Vector2d } from "../utils/Vector";
-import { shitPrediction, goodPrediction, opPrediction } from "./Prediction";
-import { RESOURCE_MANAGER } from "../objects/ResourceManager";
+import { Vec2, Vector2d } from "../utils/Vector";
 import { Orbwalker } from "./Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
@@ -17,17 +13,8 @@ import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 
 export class Devourer extends Script {
     private orbwalker = new Orbwalker(this.myHero);
-    private hook = new StoppableLineSpell();
-    private lastCast = 0;
-    // HOOK stuff
-    private canNotStop = new DelayedCondition();
-    private hookCastPosition: Vec2 | null = null;
-    private hookTarget: IUnitEntity | null = null;
-    private hookTargetAnimationIndex = 0;
-    private turnToTargetDelay: number = 0;
-    private canStopCheck = new DelayedCondition();
-
     private justCasted = new DelayedCondition();
+    private hook = new StoppableLineSpell(this.justCasted);
 
     constructor() {
         super();
@@ -46,6 +33,7 @@ export class Devourer extends Script {
         }
         this.hook.cast(
             q,
+            0,
             this.myHero,
             enemyHero,
             1600,
@@ -60,16 +48,16 @@ export class Devourer extends Script {
 
                 const collisionEntities = heroes
                     .concat(creeps, neutrals)
-                    .filter(u => !u.isDead() && u.position.distance2dSqr(this.myHero.position) < hookRange * hookRange);
+                    .filter(u => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
 
-                if (Vector2d.distance(castPos, this.myHero.position) > hookRange) {
+                if (Vector2d.distance(castPos, caster.position) > hookRange) {
                     return false;
                 }
-                const startPos = this.myHero.position;
+                const startPos = caster.position;
                 if (
                     collisionEntities.some(
                         u =>
-                            !u.ptr.equals(this.myHero.ptr) &&
+                            !u.ptr.equals(caster.ptr) &&
                             !u.ptr.equals(target.ptr) &&
                             Vector2d.distToSegmentSquared(u.position, startPos, castPos) <
                                 (hookRadius + u.boundingRadius) * (hookRadius + u.boundingRadius)
@@ -150,10 +138,10 @@ export class Devourer extends Script {
         if (this.myHero.hasTool("State_Devourer_Ability4_ControlGrowth")) {
             return;
         }
+        this.doRLogic();
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
-        this.doRLogic();
         this.doQLogic();
     }
 

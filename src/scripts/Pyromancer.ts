@@ -12,9 +12,13 @@ import { IGAME } from "../game/Globals";
 import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
+import { StoppableLineSpell } from "../utils/StoppableLineSpell";
+import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
 
 export class Pyromancer extends Script {
     private justCasted = new DelayedCondition();
+    private stoppableQ = new StoppableLineSpell(this.justCasted);
+    private stoppableW = new StoppableCircularSpell(this.justCasted);
     private orbwalker = new Orbwalker(this.myHero);
 
     constructor() {
@@ -23,9 +27,6 @@ export class Pyromancer extends Script {
     }
 
     doQLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.canActivate()) {
             return;
@@ -34,27 +35,10 @@ export class Pyromancer extends Script {
         if (!enemyHero) {
             return;
         }
-
-        const castLocation = opPrediction(
-            this.myHero,
-            enemyHero,
-            1600,
-            q.getAdjustedCastTime() + this.myHero.getMsToTurnToPos(enemyHero.position),
-            q.getDynamicRange() + 200,
-            70
-        );
-        if (!castLocation) {
-            return;
-        }
-        const closerCastLocation = Vector2d.extendTo(this.myHero.position, castLocation, 700);
-        this.justCasted.delay(450);
-        ACTION.castSpellPosition(this.myHero, 0, closerCastLocation.x, closerCastLocation.y);
+        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 70);
     }
 
     doWLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
         const w = this.myHero.getTool(1) as IEntityAbility;
         if (!w.canActivate()) {
             return;
@@ -63,20 +47,7 @@ export class Pyromancer extends Script {
         if (!enemyHero) {
             return;
         }
-        const impactDelayMs = 500;
-        const castLocation = opPredictionCircular(
-            this.myHero,
-            enemyHero,
-            w.getAdjustedCastTime() + this.myHero.getMsToTurnToPos(enemyHero.position) + impactDelayMs,
-            w.getDynamicRange(),
-            160
-        );
-        if (!castLocation) {
-            return;
-        }
-
-        this.justCasted.delay(450);
-        ACTION.castSpellPosition(this.myHero, 1, castLocation.x, castLocation.y);
+        this.stoppableW.cast(w, 1, this.myHero, enemyHero, 100, 500);
     }
 
     doRLogic() {
@@ -91,19 +62,19 @@ export class Pyromancer extends Script {
         if (!enemyHero) {
             return;
         }
-        if(enemyHero.getCurrentMagicalHealth() > this.getRDamage()) {
+        if (enemyHero.getCurrentMagicalHealth() > this.getRDamage()) {
             return;
         }
-        this.justCasted.delay(500);
+        this.justCasted.delay(r.getAdjustedActionTime());
         ACTION.castSpellEntity(this.myHero, 3, enemyHero);
     }
 
     private getRDamage(): number {
         const r = this.myHero.getTool(3) as IEntityAbility;
         const boosted = this.myHero.hasTool("State_Pyromancer_Ult_Boost_Art");
-        const damages = [0, 450,650, 850];
-        let damage = damages[r.level]
-        if(boosted) {
+        const damages = [0, 450, 650, 850];
+        let damage = damages[r.level];
+        if (boosted) {
             damage += 200;
         }
         return damage;

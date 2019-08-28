@@ -2,9 +2,9 @@ import { IEntityAbility, IUnitEntity } from "../honIdaStructs";
 import { DelayedCondition } from "./DelayedCondition";
 import { Vec2, Vector2d } from "./Vector";
 import { ACTION } from "../actions/Action";
-import { opPrediction } from "../scripts/Prediction";
+import { opPrediction, opPredictionCircular } from "../scripts/Prediction";
 
-export class StoppableLineSpell {
+export class StoppableCircularSpell {
     private caster: IUnitEntity | null = null;
 
     private canNotStop = new DelayedCondition();
@@ -32,8 +32,8 @@ export class StoppableLineSpell {
         spellIndex: number,
         caster: IUnitEntity,
         target: IUnitEntity,
-        projectileSpeed: number,
-        projectileRadius: number,
+        radius: number,
+        impactDelay: number = 0,
         noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean = () => true
     ) {
         this.caster = caster;
@@ -52,17 +52,16 @@ export class StoppableLineSpell {
                 spell,
                 caster,
                 this.castTarget,
-                spellActivationTime + this.turnToTargetDelay - this.canNotStop.msPassed(),
-                projectileSpeed,
-                projectileRadius,
+                spellActivationTime + this.turnToTargetDelay - this.canNotStop.msPassed() + impactDelay,
+                radius,
                 noCollisionCheck
             );
             if (!targetPos) {
                 this.stopCast();
                 return;
             }
-            const deviation = Vector2d.distToSegment(targetPos, caster.position, this.castPosition);
-            if (deviation > 100) {
+            const deviation = Vector2d.distance(targetPos, this.castPosition);
+            if (deviation > radius) {
                 this.stopCast();
                 return;
             }
@@ -75,9 +74,8 @@ export class StoppableLineSpell {
             spell,
             caster,
             target,
-            spellActivationTime + caster.getMsToTurnToPos(target.position),
-            projectileSpeed,
-            projectileRadius,
+            spellActivationTime + caster.getMsToTurnToPos(target.position) + impactDelay,
+            radius,
             noCollisionCheck
         );
         if (!targetPos) {
@@ -103,13 +101,12 @@ export class StoppableLineSpell {
         caster: IUnitEntity,
         target: IUnitEntity,
         delay: number = 0,
-        projectileSpeed: number,
-        projectileRadius: number,
+        radius: number,
         noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean
     ): Vec2 | null {
         const range = spell.getDynamicRange() + 20;
 
-        const targetPos = opPrediction(caster, target, projectileSpeed, delay, range, projectileRadius);
+        const targetPos = opPredictionCircular(caster, target, delay, range, radius);
         if (!targetPos) {
             return null;
         }
