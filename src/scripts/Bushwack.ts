@@ -35,7 +35,7 @@ export class Bushwack extends Script {
             return;
         }
 
-        this.canCast.delay(150);
+        this.canCast.delay(250);
         ACTION.castSpellEntity(this.myHero, 0, enemyHero);
     }
 
@@ -62,7 +62,7 @@ export class Bushwack extends Script {
             return;
         }
 
-        this.canCast.delay(150);
+        this.canCast.delay(250);
         ACTION.castSpellPosition(this.myHero, 1, castLocation.x, castLocation.y);
     }
 
@@ -105,7 +105,21 @@ export class Bushwack extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+
+        if (INPUT.isCharDown("C")) {
+            this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
+        if (INPUT.isCharDown("V")) {
+            this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
         if (!INPUT.isControlDown()) return;
+        // console.log(`isButtonDown ${"A".charCodeAt(0)}:` + INPUT.isCharDown("A"));
+        // console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
+        // console.log(`getFinalMaxAttackDamage:` + this.myHero.getFinalMaxAttackDamage());
 
         // const spell = this.myHero.getTool(0) as IEntityAbility;
         // console.log(`typeName:` + this.myHero.typeName);
@@ -134,10 +148,10 @@ export class Bushwack extends Script {
 
         this.doShrunkensLogic();
         this.doGhostMarchersLogic();
-        // if (this.orbwalker.canMove.isTrue()) {
-        //     this.doWLogic();
+        if (this.orbwalker.canMove.isTrue()) {
+            this.doWLogic();
             this.doQLogic();
-        // }
+        }
         // this.doQDemonHardLogic();
         // this.doGhostMarchersLogic();
         if (this.canCast.isTrue()) {

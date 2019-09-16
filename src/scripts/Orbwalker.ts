@@ -4,7 +4,7 @@ import { Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { ACTION, Action } from "../actions/Action";
 import { TARGET_SELECTOR } from "./TargetSelector";
-import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { OBJECT_MANAGER, ObjectManager } from "../objects/ObjectManager";
 
 const MIN_MOVE_DIST = 80;
 
@@ -26,9 +26,68 @@ export class Orbwalker {
 
     public orbwalk(position: Vec2, justWalk: boolean = false) {
         this.walker = OBJECT_MANAGER.myHero;
+        const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange());
 
+        this.orbwalkTarget(target, position, justWalk);
+    }
+
+    public lastHit(position: Vec2) {
+        this.walker = OBJECT_MANAGER.myHero;
+        const target = this.getKillableCreep();
+
+        this.orbwalkTarget(target, position);
+    }
+
+    public laneClear(position: Vec2) {
+        this.walker = OBJECT_MANAGER.myHero;
+        let target = this.getKillableCreep();
+        if (!target) {
+            target = this.getMaxHpCreep();
+        }
+        this.orbwalkTarget(target, position);
+    }
+
+    private getKillableCreep(): IUnitEntity | null {
+        const closestKillableCreep = OBJECT_MANAGER.creeps
+            .filter(c => !c.isDead() && c.getCurrentPhysicalHealth() <= this.walker.getFinalMinAttackDamage())
+            .sort((h1, h2) => h1.position.distance2d(this.walker.position) - h2.position.distance2d(this.walker.position))[0];
+        if (!closestKillableCreep) {
+            return null;
+        }
+        const dist = Vector2d.distance(closestKillableCreep.position, this.walker.position);
+        if (dist > this.walker.getAttackRange() + 20) {
+            return null;
+        }
+
+        return closestKillableCreep;
+    }
+
+    private getMaxHpCreep(): IUnitEntity | null {
+        const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
+        const creeps = OBJECT_MANAGER.creeps as IUnitEntity[];
+        const creep = neutrals
+            .concat(creeps)
+            .filter(
+                c =>
+                    !c.isDead() &&
+                    c.isEnemy(this.walker) &&
+                    Vector2d.distance(c.position, this.walker.position) < this.walker.getAttackRange() + 20
+            )
+            .sort((h1, h2) => h1.health - h2.health)[0];
+
+        if (!creep) {
+            return null;
+        }
+        const dist = Vector2d.distance(creep.position, this.walker.position);
+        if (dist > this.walker.getAttackRange() + 20) {
+            return null;
+        }
+
+        return creep;
+    }
+
+    private orbwalkTarget(target: IUnitEntity | null, position: Vec2, justWalk: boolean = false) {
         if (!justWalk && this.canAttack.isTrue(500)) {
-            const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange());
             if (target) {
                 const turnTime = this.walker.getMsToTurnToPos(target.position);
                 if (this.canAttack.isTrue()) {

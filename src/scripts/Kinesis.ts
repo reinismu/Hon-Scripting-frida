@@ -13,10 +13,10 @@ import { RESOURCE_MANAGER } from "../objects/ResourceManager";
 import { Orbwalker } from "./Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
+import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 
 export class Kinesis extends Script {
     private orbwalker = new Orbwalker(this.myHero);
-    private lastCast = 0;
     // HOOK stuff
     private canNotStop = new DelayedCondition();
     private hookCastPosition: Vec2 | null = null;
@@ -26,31 +26,13 @@ export class Kinesis extends Script {
     private canStopCheck = new DelayedCondition();
 
     private justCasted = new DelayedCondition();
+
+    private hook = new StoppableLineSpell(this.justCasted);
     private justCastedR = new DelayedCondition();
 
     constructor() {
         super();
         EventBus.getDefault().register(this);
-    }
-
-    private canHit(unit: IUnitEntity, shootPos: Vec2, collisionEntities: IUnitEntity[], hookRadius: number, hookRange: number) {
-        // console.log(`q collistion entity count: ${collisionEntities.length}`);
-        if (Vector2d.distance(shootPos, this.myHero.position) > hookRange) {
-            return false;
-        }
-        const startPos = this.myHero.position;
-        if (
-            collisionEntities.some(
-                u =>
-                    !u.ptr.equals(this.myHero.ptr) &&
-                    !u.ptr.equals(unit.ptr) &&
-                    Vector2d.distToSegmentSquared(u.position, startPos, shootPos) <
-                        (hookRadius + u.boundingRadius) * (hookRadius + u.boundingRadius)
-            )
-        ) {
-            return false;
-        }
-        return true;
     }
 
     // Check for 3 weakest heroes
@@ -59,79 +41,48 @@ export class Kinesis extends Script {
         if (!q.canActivate()) {
             return;
         }
-        if (!this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.hookCastPosition && this.hookTarget) {
-            this.canStopCheck.delay(50);
-            if (this.hookTargetAnimationIndex != this.hookTarget.animation) {
-                this.stopHook();
-                return;
-            }
-            // console.log(`msPassed: ` + this.canNotStop.msPassed());
-            const targetPos = this.getQPredictionPos(q, this.hookTarget, this.turnToTargetDelay - this.canNotStop.msPassed());
-            if (!targetPos) {
-                this.stopHook();
-                return;
-            }
-            const deviation = Vector2d.distToSegment(targetPos, this.myHero.position, this.hookCastPosition);
-            // console.log("Deviation: " + deviation);
-            if (deviation > 100) {
-                this.stopHook();
-                return;
-            }
-        }
-        if (this.lastCast + 500 > Date.now()) {
-            return;
-        }
         const range = q.getDynamicRange() + 20;
         const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(range);
         if (!enemyHero) {
             return;
         }
+        this.hook.cast(
+            q,
+            0,
+            this.myHero,
+            enemyHero,
+            1600,
+            55,
+            (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => {
+                const hookRange = spell.getDynamicRange() + 20;
+                const hookRadius = 75;
 
-        const targetPos = this.getQPredictionPos(q, enemyHero, this.myHero.getMsToTurnToPos(enemyHero.position));
-        if (!targetPos) {
-            return;
-        }
+                const heroes = OBJECT_MANAGER.heroes as IUnitEntity[];
+                const creeps = OBJECT_MANAGER.creeps as IUnitEntity[];
+                const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
 
-        ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
-        this.justCasted.delay(500);
-        this.lastCast = Date.now();
-        this.hookCastPosition = targetPos;
-        this.hookTarget = enemyHero;
-        this.hookTargetAnimationIndex = enemyHero.animation;
-        this.turnToTargetDelay = this.myHero.getMsToTurnToPos(targetPos);
-        this.canNotStop.delay(350 + this.turnToTargetDelay);
-    }
+                const collisionEntities = heroes
+                    .concat(creeps, neutrals)
+                    .filter(u => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
 
-    private stopHook() {
-        ACTION.stop(this.myHero);
-        console.log(`Stop Hook`);
-        this.turnToTargetDelay = 0;
-        this.hookCastPosition = null;
-        this.hookTarget = null;
-        this.canNotStop.restart();
-    }
-
-    private getQPredictionPos(q: IEntityAbility, target: IUnitEntity, additionalDelay: number = 0): Vec2 | null {
-        const range = q.getDynamicRange() + 20;
-
-        const heroes = OBJECT_MANAGER.heroes as IUnitEntity[];
-        const creeps = OBJECT_MANAGER.creeps as IUnitEntity[];
-        const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
-
-        const collisionEntities = heroes
-            .concat(creeps, neutrals)
-            .filter(u => !u.isDead() && u.position.distance2dSqr(this.myHero.position) < range * range);
-
-        const targetPos = opPrediction(this.myHero, target, 1600, 500 + additionalDelay, range, 55);
-        if (!targetPos) {
-            return null;
-        }
-
-        if (!this.canHit(target, targetPos, collisionEntities, 75, range)) {
-            return null;
-        }
-
-        return targetPos;
+                if (Vector2d.distance(castPos, caster.position) > hookRange) {
+                    return false;
+                }
+                const startPos = caster.position;
+                if (
+                    collisionEntities.some(
+                        u =>
+                            !u.ptr.equals(caster.ptr) &&
+                            !u.ptr.equals(target.ptr) &&
+                            Vector2d.distToSegmentSquared(u.position, startPos, castPos) <
+                                (hookRadius + u.boundingRadius) * (hookRadius + u.boundingRadius)
+                    )
+                ) {
+                    return false;
+                }
+                return true;
+            }
+        );
     }
 
     private doQLogic() {
@@ -147,7 +98,7 @@ export class Kinesis extends Script {
                 return;
             }
             const dev = OBJECT_MANAGER.heroes.find(
-                h =>
+                h => h.isEnemy(this.myHero) && 
                     (h.typeName == "Hero_Devourer" || h.typeName == "Hero_Kunas") &&
                     !h.isMagicImmune() &&
                     Vector2d.distance(h.position, this.myHero.position) + 20 < q.getDynamicRange()
@@ -208,7 +159,7 @@ export class Kinesis extends Script {
     }
 
     doSilenceLogic() {
-        if (this.lastCast + 50 > Date.now()) {
+        if (!this.justCasted.isTrue()) {
             return;
         }
         const silence = this.myHero.getItem("Item_Silence");
@@ -222,12 +173,12 @@ export class Kinesis extends Script {
         if (!enemyHero) {
             return;
         }
-        this.lastCast = Date.now();
+        this.justCasted.delay(150);
         ACTION.castSpellEntity(this.myHero, silence.index, enemyHero);
     }
 
     doShrunkensLogic() {
-        if (this.lastCast + 50 > Date.now()) {
+        if (!this.justCasted.isTrue()) {
             return;
         }
         const shrunken = this.myHero.getItem("Item_Immunity");
@@ -242,6 +193,7 @@ export class Kinesis extends Script {
             return;
         }
 
+        this.justCasted.delay(150);
         ACTION.castSpell2(this.myHero, shrunken.index);
     }
 

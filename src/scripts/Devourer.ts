@@ -129,7 +129,9 @@ export class Devourer extends Script {
         //     }
         // });
         // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName} getCurrentAnimIndex: ` + h.skeleton.getCurrentAnimIndex());
+        //     console.log(`${h.typeName} field_10C: ` + h.field_10C);
+        //     console.log(`${h.typeName} boundingRadius: ` + h.boundingRadius);
+        //     console.log(`${h.typeName} field_114: ` + h.field_114);
         // });
         // OBJECT_MANAGER.creeps.forEach(h => {
         //     console.log(`creep:${h.typeName} ${h.boundingRadius}`);

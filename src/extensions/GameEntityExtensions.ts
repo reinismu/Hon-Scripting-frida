@@ -66,6 +66,13 @@ declare module "../honIdaStructs" {
         getAdjustedAttackCooldown(): number;
         getAdjustedAttackActionTime(): number;
         getAdjustedAttackDuration(): number;
+        callFloatVTable(offset: number): number;
+
+        getFinalMinAttackDamage(): number;
+        getFinalMaxAttackDamage(): number;
+        getMinAttackDamage(): number;
+        getMaxAttackDamage(): number;
+        getAdditionalAttackDamage(): number;
         // Not sure if useful as it is allways true
         getCanAttack(): boolean;
         isMagicImmune(): boolean;
@@ -95,6 +102,55 @@ function turnAngle(entity: IUnitEntity, pos: Vec2) {
 function radianToDegree(rad: number): number {
     return (rad * 180) / Math.PI;
 }
+
+IUnitEntity.prototype.callFloatVTable = function(offset: number): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(offset)
+            .readPointer(),
+        "float",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+IUnitEntity.prototype.getFinalMinAttackDamage = function(): number {
+    const self = this as IUnitEntity;
+    const baseMinAttackDmg = self.getMinAttackDamage();
+    const baseMaxAttackDmg = self.getMaxAttackDamage();
+    const avgBaseAttackDmg = (baseMinAttackDmg + baseMaxAttackDmg) / 2;
+    const additonalAttackDamage = self.getAdditionalAttackDamage();
+    const baseAttackDmgModifier = self.callFloatVTable(0x838);
+    const allAttackDmgModifier = self.callFloatVTable(0x848);
+    return (avgBaseAttackDmg * baseAttackDmgModifier + additonalAttackDamage) * allAttackDmgModifier - avgBaseAttackDmg + baseMinAttackDmg;
+};
+
+IUnitEntity.prototype.getFinalMaxAttackDamage = function(): number {
+    const self = this as IUnitEntity;
+    const baseMinAttackDmg = self.getMinAttackDamage();
+    const baseMaxAttackDmg = self.getMaxAttackDamage();
+    const avgBaseAttackDmg = (baseMinAttackDmg + baseMaxAttackDmg) / 2;
+    const additonalAttackDamage = self.getAdditionalAttackDamage();
+    const baseAttackDmgModifier = self.callFloatVTable(0x838);
+    const allAttackDmgModifier = self.callFloatVTable(0x848);
+    return (avgBaseAttackDmg * baseAttackDmgModifier + additonalAttackDamage) * allAttackDmgModifier - avgBaseAttackDmg + baseMaxAttackDmg;
+};
+
+IUnitEntity.prototype.getMinAttackDamage = function(): number {
+    const self = this as IUnitEntity;
+    return self.callFloatVTable(0xcf8);
+};
+
+IUnitEntity.prototype.getAdditionalAttackDamage = function(): number {
+    const self = this as IUnitEntity;
+    return self.callFloatVTable(0x858);
+};
+
+IUnitEntity.prototype.getMaxAttackDamage = function(): number {
+    const self = this as IUnitEntity;
+    return self.callFloatVTable(0xd00);
+};
 
 IUnitEntity.prototype.getMsToTurnToPos = function(pos: Vec2): number {
     const angle = turnAngle(this as IUnitEntity, pos);
@@ -157,7 +213,6 @@ IUnitEntity.prototype.isEnemy = function(entity: IUnitEntity): boolean {
     return isEnemy(self.ptr, entity.ptr) as boolean;
 };
 
-
 IUnitEntity.prototype.hasTool = function(name: string): boolean {
     const self = this as IUnitEntity;
     for (let i = 0; i < 80; i++) {
@@ -172,7 +227,7 @@ IUnitEntity.prototype.hasTool = function(name: string): boolean {
 
 IUnitEntity.prototype.isStaffed = function(): boolean {
     const self = this as IUnitEntity;
-    
+
     return self.hasTool("");
 };
 
@@ -217,7 +272,7 @@ IUnitEntity.prototype.isInvulnerable = function(): boolean {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x9C8)
+            .add(0x9c8)
             .readPointer(),
         "bool",
         ["pointer"]
@@ -425,7 +480,7 @@ IUnitEntity.prototype.getAttackSpeed = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x7C8)
+            .add(0x7c8)
             .readPointer(),
         "float",
         ["pointer"]
@@ -437,7 +492,7 @@ IUnitEntity.prototype.getAttackRange = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x7A8)
+            .add(0x7a8)
             .readPointer(),
         "float",
         ["pointer"]
@@ -449,7 +504,7 @@ IUnitEntity.prototype.getAdjustedAttackCooldown = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x10D0)
+            .add(0x10d0)
             .readPointer(),
         "float",
         ["pointer"]
@@ -461,7 +516,7 @@ IUnitEntity.prototype.getAdjustedAttackActionTime = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x10C0)
+            .add(0x10c0)
             .readPointer(),
         "float",
         ["pointer"]
@@ -473,7 +528,7 @@ IUnitEntity.prototype.getAdjustedAttackDuration = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x10C8)
+            .add(0x10c8)
             .readPointer(),
         "float",
         ["pointer"]
@@ -485,7 +540,7 @@ IUnitEntity.prototype.getCanAttack = function(): boolean {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0xDF8)
+            .add(0xdf8)
             .readPointer(),
         "bool",
         ["pointer"]

@@ -5018,7 +5018,7 @@ export class IVisualEntity extends IGameEntity {
 
 // field_10C -> type: int 
 	get field_10C(): number {
-		return this.align(0x10c).readS32();
+		return this.align(0x10c).readFloat();
 	}
 
 // boundingRadius -> type: float 
@@ -5028,7 +5028,7 @@ export class IVisualEntity extends IGameEntity {
 
 // field_114 -> type: int 
 	get field_114(): number {
-		return this.align(0x114).readS32();
+		return this.align(0x114).readFloat();
 	}
 
 // field_118 -> type: int 

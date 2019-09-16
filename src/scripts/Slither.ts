@@ -1,7 +1,7 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
 import { GRAPHICS } from "../graphics/Graphics";
-import { IEntityAbility, IHeroEntity, IFileChangeCallback, IGadgetEntity } from "../honIdaStructs";
+import { IEntityAbility, IHeroEntity, IFileChangeCallback } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
@@ -13,12 +13,11 @@ import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
-import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 
-export class Parallax extends Script {
-    private justCasted = new DelayedCondition();
+export class Slither extends Script {
+    private canCast = new DelayedCondition();
+    private stoppableQ = new StoppableLineSpell(this.canCast);
     private orbwalker = new Orbwalker(this.myHero);
-    private gadget: IGadgetEntity | null = null;
 
     constructor() {
         super();
@@ -26,49 +25,37 @@ export class Parallax extends Script {
     }
 
     doQLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 50);
-        if (!enemyHero || !this.gadget) {
-            return;
-        }
-        const castPos = opPrediction(this.gadget, enemyHero, 2000, this.myHero.getMsToTurnToPos(enemyHero.position), 4000, 50);
-        if (!castPos || Vector2d.distance(this.myHero.position, castPos) > q.getDynamicRange()) {
-            return;
-        }
-        this.justCasted.delay(400);
-        ACTION.castSpellPosition(this.myHero, 0, castPos.x, castPos.y);
-    }
-
-    doWLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const w = this.myHero.getTool(1) as IEntityAbility;
-        if (!w.canActivate() || !this.gadget) {
-            return;
-        }
-        const msTillGadget = Vector2d.distance(this.myHero.position, this.gadget.position) / 2;
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(200, this.gadget);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 100);
         if (!enemyHero) {
             return;
         }
-        const eneVelocity = VELOCITY_UPDATER.getVelocity(enemyHero);
-        const enemyPositionAfterDelay = Vector2d.add(enemyHero.position, Vector2d.mul(eneVelocity, msTillGadget / 1000));
-        if (Vector2d.distance(enemyPositionAfterDelay, this.gadget.position) > 230) {
+        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 100);
+    }
+
+
+    doWLogic() {
+        if (!this.canCast.isTrue()) {
             return;
         }
-        this.justCasted.delay(150);
-        ACTION.castSpell2(this.myHero, 1);
+        const w = this.myHero.getTool(1) as IEntityAbility;
+        if (!w.canActivate()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange());
+        if (!enemyHero) {
+            return;
+        }
+        const castLocation = enemyHero.position;
+
+        ACTION.castSpellPosition(this.myHero, 1, castLocation.x, castLocation.y);
     }
 
     doGhostMarchersLogic() {
-        if (!this.justCasted.isTrue()) {
+        if (!this.canCast.isTrue()) {
             return;
         }
         const boots = this.myHero.getItem("Item_EnhancedMarchers");
@@ -79,12 +66,12 @@ export class Parallax extends Script {
             return;
         }
 
-        this.justCasted.delay(50);
+        this.canCast.delay(50);
         ACTION.castSpell2(this.myHero, boots.index);
     }
 
     doShrunkensLogic() {
-        if (!this.justCasted.isTrue()) {
+        if (!this.canCast.isTrue()) {
             return;
         }
         const shrunken = this.myHero.getItem("Item_Immunity");
@@ -99,23 +86,29 @@ export class Parallax extends Script {
             return;
         }
 
-        this.justCasted.delay(50);
+        this.canCast.delay(50);
         ACTION.castSpell2(this.myHero, shrunken.index);
     }
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
-        this.gadget = OBJECT_MANAGER.gadgets.find(g => g.typeName == "Gadget_Parallax_Ability1") || null;
+
         if (INPUT.isCharDown("C")) {
-            this.doQLogic();
-            if (this.justCasted.isTrue()) {
-                this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
-            }
+            this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
+        if (INPUT.isCharDown("V")) {
+            this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
 
         if (!INPUT.isControlDown()) return;
+        // console.log(`isButtonDown ${"A".charCodeAt(0)}:` + INPUT.isCharDown("A"));
+        // console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
+        // console.log(`getFinalMaxAttackDamage:` + this.myHero.getFinalMaxAttackDamage());
+
         // const spell = this.myHero.getTool(0) as IEntityAbility;
         // console.log(`typeName:` + this.myHero.typeName);
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
@@ -127,8 +120,8 @@ export class Parallax extends Script {
         // console.log(`getAdjustedAttackActionTime:` +  OBJECT_MANAGER.myHero.getAdjustedAttackActionTime());
         // console.log(`getAdjustedAttackDuration:` +  OBJECT_MANAGER.myHero.getAdjustedAttackDuration());
         // // console.log(`getCanAttack:` +  OBJECT_MANAGER.myHero.getCanAttack());
-        // OBJECT_MANAGER.gadgets.forEach(h => {
-        //     console.log(`gadget: ${h.typeName} -> ${new NativePointer(h.field_B8)} : me ${this.player.networkId}`);
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     console.log(`isAlive: ${h.isAlive}`);
         // });
         // this.doWLogic();
 
@@ -143,11 +136,13 @@ export class Parallax extends Script {
 
         this.doShrunkensLogic();
         this.doGhostMarchersLogic();
-        this.doWLogic();
-        this.doQLogic();
+        if (this.orbwalker.canMove.isTrue()) {
+            this.doQLogic();
+            this.doWLogic();
+        }
         // this.doQDemonHardLogic();
         // this.doGhostMarchersLogic();
-        if (this.justCasted.isTrue()) {
+        if (this.canCast.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }

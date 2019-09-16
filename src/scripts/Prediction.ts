@@ -53,14 +53,16 @@ export function opPrediction(
     }
     const latency = 0.1;
     const eneMoveSpeed = target.getMoveSpeed(true);
+    const boundingRadius = 50; // target.boundingRadius broken
     const actionTime = Vector2d.distance(source.position, goodPos) / projectileSpeed + castDelayMs / 1000 + latency;
-    const possibilityRadius = actionTime * eneMoveSpeed - target.boundingRadius - radius;
+    const possibilityRadius = actionTime * eneMoveSpeed - boundingRadius- radius;
 
     const destTillStart = Vector2d.distToSegment(target.position, source.position, goodPos);
     const delta = destTillStart - possibilityRadius;
 
     // console.log(`delta  ${delta} `);
     // console.log(`target.boundingRadius  ${target.boundingRadius} `);
+    // console.log(`target.movespeed  ${eneMoveSpeed} `);
     // console.log(`actionTime  ${actionTime} `);
     // console.log(`possibilityRadius  ${possibilityRadius}`);
     // console.log(`destTillStart  ${destTillStart}`);

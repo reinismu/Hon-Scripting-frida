@@ -52,7 +52,7 @@ export class StoppableLineSpell {
                 spell,
                 caster,
                 this.castTarget,
-                spellActivationTime + this.turnToTargetDelay - this.canNotStop.msPassed(),
+                spellActivationTime + this.turnToTargetDelay - this.canNotStop.msPassed() + 50,
                 projectileSpeed,
                 projectileRadius,
                 noCollisionCheck
