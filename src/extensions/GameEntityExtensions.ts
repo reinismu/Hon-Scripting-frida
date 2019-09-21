@@ -77,11 +77,13 @@ declare module "../honIdaStructs" {
         getCanAttack(): boolean;
         isMagicImmune(): boolean;
         isPhysicalImmune(): boolean;
-        isMagicImmune(): boolean;
         isInvulnerable(): boolean;
         isBarbed(): boolean;
         isStaffed(): boolean;
+        isDisabled(): boolean;
+        isSilenced(): boolean;
         hasTool(name: string): boolean;
+        hasAnyOfTool(names: Set<string>): boolean;
     }
 
     interface IHeroEntity {
@@ -225,10 +227,34 @@ IUnitEntity.prototype.hasTool = function(name: string): boolean {
     return false;
 };
 
+IUnitEntity.prototype.hasAnyOfTool = function(names: Set<string>): boolean {
+    const self = this as IUnitEntity;
+    for (let i = 0; i < 80; i++) {
+        const tool = self.getTool(i);
+        if (tool == null) continue;
+        if (names.has(tool.typeName)) {
+            return true;
+        }
+    }
+    return false;
+};
+
 IUnitEntity.prototype.isStaffed = function(): boolean {
     const self = this as IUnitEntity;
+    // TODO check for buff
+    return self.hasTool("Item_Intelligence7");
+};
 
-    return self.hasTool("");
+IUnitEntity.prototype.isDisabled = function(): boolean {
+    const self = this as IUnitEntity;
+    // TODO check for buff
+    return self.hasAnyOfTool(new Set(["State_Stunned", "State_Item4K", "State_Maliken_Ability4_Fear", "State_Kenisis_Ability4_Modifier"]));
+};
+
+IUnitEntity.prototype.isSilenced = function(): boolean {
+    const self = this as IUnitEntity;
+    // TODO check for buff
+    return self.hasAnyOfTool(new Set(["State_Item5K"]));
 };
 
 IUnitEntity.prototype.isMagicImmune = function(): boolean {

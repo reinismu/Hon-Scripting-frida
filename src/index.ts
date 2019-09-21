@@ -7,6 +7,7 @@ import { IGAME } from "./game/Globals";
 import { Devourer } from "./scripts/Devourer";
 import { Kinesis } from "./scripts/Kinesis";
 import { Pyromancer } from "./scripts/Pyromancer";
+import { Oogie } from "./scripts/Oogie";
 import { Slither } from "./scripts/Slither";
 import { Bushwack } from "./scripts/Bushwack";
 import { WitchSlayer } from "./scripts/WitchSlayer";
@@ -17,7 +18,7 @@ console.log("Hello from typescript. Process id: " + Process.id);
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript = new Devourer();
+    const testScript = new Oogie();
 }, 200);
 // const testScript = new Slither();
 // const testScript = new Parallax();
