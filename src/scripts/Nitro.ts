@@ -160,15 +160,19 @@ export class Nitro extends Script {
         // console.log(`MyVelocity: ` + Vector2d.length(VELOCITY_UPDATER.getVelocity(this.myHero)));
         // console.log(`moveSpeed: ` + this.myHero.getMoveSpeed(true));
         // const checkVec = { ...this.myHero.facingVector(), z: 0 };
-        // OBJECT_MANAGER.heroes.forEach(h => {
+        OBJECT_MANAGER.heroes.forEach(h => {
+            // console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
+            console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
+            // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
+            for (let i = 0; i < 80; i++) {
+                const tool = h.getTool(i);
+                if (tool == null) continue;
+                console.log(`tool ${i}: ${tool.typeName}`);
+            }
+        });
+        // OBJECT_MANAGER.gadgets.forEach(h => {
         //     // console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
-        //     console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
-        //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
-        //     for (let i = 0; i < 80; i++) {
-        //         const tool = h.getTool(i);
-        //         if (tool == null) continue;
-        //         console.log(`tool ${i}: ${tool.typeName}`);
-        //     }
+        //     console.log(`${h.typeName}`);
         // });
 
         // console.log(`getCurrentPhysicalHealth:${this.myHero.getCurrentPhysicalHealth()}`);

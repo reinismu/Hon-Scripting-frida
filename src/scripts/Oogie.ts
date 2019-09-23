@@ -14,7 +14,7 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
-import { doGhostMarchersLogic, doShrunkensLogic, doSheepstickLogic, doNullFireLogic } from "./Items";
+import { doGhostMarchersLogic, doShrunkensLogic, doSheepstickLogic, doNullFireLogic, doGrimoireOfPowerLogic, doHellfireLogic } from "./Items";
 
 export class Oogie extends Script {
     private justCasted = new DelayedCondition();
@@ -35,7 +35,13 @@ export class Oogie extends Script {
         if (!enemyHero) {
             return;
         }
-        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 200, 750);
+
+        const targetPos = opPredictionCircular(this.myHero, enemyHero, 750, q.getDynamicRange(), 200);
+        if(!targetPos) {
+            return;
+        }
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
     }
 
     doWLogic() {
@@ -46,7 +52,7 @@ export class Oogie extends Script {
         if (!w.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(300);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(400);
         if (!enemyHero) {
             if (this.myHero.hasTool("State_Oogie_Ability2")) {
                 this.justCasted.delay(150);
@@ -82,23 +88,27 @@ export class Oogie extends Script {
         // });
         // this.doWLogic();
 
-        OBJECT_MANAGER.heroes.forEach(h => {
-            // console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
-            console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
-            for (let i = 0; i < 80; i++) {
-                const tool = h.getTool(i);
-                if (tool == null) continue;
-                console.log(`tool ${i}: ${tool.typeName}`);
-            }
-        });
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     // console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
+        //     for (let i = 0; i < 80; i++) {
+        //         const tool = h.getTool(i);
+        //         if (tool == null) continue;
+        //         console.log(`tool ${i}: ${tool.typeName}`);
+        //     }
+        // });
 
         doShrunkensLogic(this.myHero, this.justCasted);
         doSheepstickLogic(this.myHero, this.justCasted);
         doNullFireLogic(this.myHero, this.justCasted);
+        doHellfireLogic(this.myHero, this.justCasted);
+        doGrimoireOfPowerLogic(this.myHero, this.justCasted);
         doGhostMarchersLogic(this.myHero, this.justCasted);
-        
+
         this.doWLogic();
-        this.doQLogic();
+        if (this.orbwalker.canAttack.isTrue()) {
+            this.doQLogic();
+        }
 
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);

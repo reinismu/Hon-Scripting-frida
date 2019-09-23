@@ -40,7 +40,8 @@ export class StoppableLineSpell {
         if (!spell.canActivate()) {
             return;
         }
-        const spellActivationTime = spell.getAdjustedActionTime();
+        const spellActivationTime = spell.getAdjustedCastTime();
+        // console.log(`spellActivationTime: ${spellActivationTime}`);
         if (!this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.castPosition && this.castTarget) {
             this.canStopCheck.delay(50);
             if (this.castTargetAnimationIndex != this.castTarget.animation) {

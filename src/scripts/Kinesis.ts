@@ -14,6 +14,7 @@ import { Orbwalker } from "./Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
+import { doSheepstickLogic } from "./Items";
 
 export class Kinesis extends Script {
     private orbwalker = new Orbwalker(this.myHero);
@@ -150,7 +151,7 @@ export class Kinesis extends Script {
             return;
         }
         const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(r.getDynamicRange() + 20);
-        if (!enemyHero || enemyHero.getHealthPercent() < 25) {
+        if (!enemyHero || enemyHero.getHealthPercent() < 25 || enemyHero.isDisabled()) {
             return;
         }
 
@@ -196,12 +197,14 @@ export class Kinesis extends Script {
         this.justCasted.delay(150);
         ACTION.castSpell2(this.myHero, shrunken.index);
     }
+    
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
         if (!INPUT.isControlDown() || this.myHero.isDead()) return;
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
+
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`myHero: ` + OBJECT_MANAGER.myHero.ptr);
 
@@ -224,8 +227,10 @@ export class Kinesis extends Script {
         this.doRLogic();
         this.doSilenceLogic();
         this.doShrunkensLogic();
+        doSheepstickLogic(this.myHero, this.justCasted);
         this.doQLogic();
         this.doWLogic();
+
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }
 

@@ -148,7 +148,7 @@ export class Bushwack extends Script {
 
         this.doShrunkensLogic();
         this.doGhostMarchersLogic();
-        if (this.orbwalker.canMove.isTrue()) {
+        if (this.orbwalker.canAttack.isTrue()) {
             this.doWLogic();
             this.doQLogic();
         }

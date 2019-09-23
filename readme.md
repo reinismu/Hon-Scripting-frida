@@ -53,6 +53,7 @@ Tool to easily interact with game
     * DONE Vector prediction
 * KINDA DONE isMoving
 * Empath in hero issues
+* nullstone
 * Extract stoppable spell logic 
 * IsStunned/Silenced etc..
 * Improve nitro farm

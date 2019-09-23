@@ -47,6 +47,7 @@ export class Devourer extends Script {
                 const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
 
                 const collisionEntities = heroes
+                    .filter(h => !h.isEnemy(this.myHero))
                     .concat(creeps, neutrals)
                     .filter(u => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
 

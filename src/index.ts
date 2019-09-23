@@ -12,15 +12,18 @@ import { Slither } from "./scripts/Slither";
 import { Bushwack } from "./scripts/Bushwack";
 import { WitchSlayer } from "./scripts/WitchSlayer";
 import { Parallax } from "./scripts/Parallax";
+import { MasterOfArms } from "./scripts/MasterOfArms";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript = new Oogie();
+    const testScript = new MasterOfArms();
 }, 200);
+// const testScript = new MasterOfArms();
 // const testScript = new Slither();
+// const testScript = new Oogie();
 // const testScript = new Parallax();
 // const testScript = new WitchSlayer();
 // const testScript = new Bushwack();

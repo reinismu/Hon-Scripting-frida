@@ -242,7 +242,7 @@ IUnitEntity.prototype.hasAnyOfTool = function(names: Set<string>): boolean {
 IUnitEntity.prototype.isStaffed = function(): boolean {
     const self = this as IUnitEntity;
     // TODO check for buff
-    return self.hasTool("Item_Intelligence7");
+    return self.hasAnyOfTool(new Set(["Item_Intelligence7", "Item_MastersLegacy", "State_MastersLegacy"]));
 };
 
 IUnitEntity.prototype.isDisabled = function(): boolean {
