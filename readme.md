@@ -14,6 +14,11 @@ Tool to easily interact with game
 * Requires `Clang` and `Python`
 * Run `npm run generate-ida-structs`
 
+### Running
+
+* `npm install`
+* `sudo ./inject.sh <pid>`
+* `sudo npm run frida-watch` <-- auto hot reload
 
 ## Version update
 
