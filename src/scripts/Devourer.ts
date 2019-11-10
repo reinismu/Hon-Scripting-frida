@@ -10,6 +10,7 @@ import { Orbwalker } from "./Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
+import { tryUseAllItems } from "./Items";
 
 export class Devourer extends Script {
     private orbwalker = new Orbwalker(this.myHero);
@@ -102,7 +103,7 @@ export class Devourer extends Script {
         if (!r.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(r.getDynamicRange() + 20);
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(r.getDynamicRange() + 20);
         if (!enemyHero) {
             return;
         }
@@ -141,6 +142,7 @@ export class Devourer extends Script {
         if (this.myHero.hasTool("State_Devourer_Ability4_ControlGrowth")) {
             return;
         }
+        tryUseAllItems(this.myHero, this.justCasted);
         this.doRLogic();
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);

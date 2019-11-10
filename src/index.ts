@@ -13,14 +13,22 @@ import { Bushwack } from "./scripts/Bushwack";
 import { WitchSlayer } from "./scripts/WitchSlayer";
 import { Parallax } from "./scripts/Parallax";
 import { MasterOfArms } from "./scripts/MasterOfArms";
+import { Armadon } from "./scripts/Armadon";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript = new MasterOfArms();
+    const testScript23 = new Nitro();
+
+
+
 }, 200);
+
+
+
+// const testScript = new Armadon();
 // const testScript = new MasterOfArms();
 // const testScript = new Slither();
 // const testScript = new Oogie();
@@ -36,3 +44,4 @@ setTimeout(() => {
 
 // console.log(`watch: ${IGAME.mysteriousStruct.ptr.add(0x2b8)}`);
 
+// add sand scepter

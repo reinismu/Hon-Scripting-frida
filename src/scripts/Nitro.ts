@@ -12,13 +12,15 @@ import { Vec3, Vector, Vector2d } from "../utils/Vector";
 import { shitPrediction, opPrediction, goodPrediction } from "./Prediction";
 import { Orbwalker } from "./Orbwalker";
 import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
+import { DelayedCondition } from "../utils/DelayedCondition";
+import { tryUseAllItems } from "./Items";
 
 export class Nitro extends Script {
     private orbwalker = new Orbwalker(this.myHero);
     private delayCastQ = false;
     private forceSnapshotSend = false;
     private myHeroCached: IUnitEntity | null = null;
-    private lastCast = 0;
+    private canCast = new DelayedCondition();
 
     constructor() {
         super();
@@ -26,7 +28,7 @@ export class Nitro extends Script {
     }
 
     doQLogic() {
-        if (this.lastCast + 100 > Date.now()) {
+        if (!this.canCast.isTrue()) {
             return;
         }
         const q = this.myHero.getTool(0) as IEntityAbility;
@@ -48,7 +50,7 @@ export class Nitro extends Script {
             this.forceSnapshotSend = false;
             console.log(`Cast Q ${Date.now()}`);
             ACTION.castSpell(this.myHero, 0);
-            this.lastCast = Date.now();
+            this.canCast.delay(100);
         } else {
             this.delayCastQ = true;
             this.forceSnapshotSend = true;
@@ -58,96 +60,6 @@ export class Nitro extends Script {
                 this.delayCastQ = false;
             }, 250);
         }
-    }
-
-    doLexLogic() {
-        if (this.lastCast + 50 > Date.now()) {
-            return;
-        }
-        const lex = this.myHero.getItem("Item_LexTalionis");
-        if (!lex) {
-            return;
-        }
-        if (!lex.item.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(lex.item.getDynamicRange());
-        if (!enemyHero) {
-            return;
-        }
-        this.lastCast = Date.now();
-        ACTION.castSpellEntity(this.myHero, lex.index, enemyHero);
-    }
-
-    doGhostMarchersLogic() {
-        if (this.lastCast + 50 > Date.now()) {
-            return;
-        }
-        const boots = this.myHero.getItem("Item_EnhancedMarchers");
-        if (!boots) {
-            return;
-        }
-        if (!boots.item.canActivate()) {
-            return;
-        }
-        ACTION.castSpell2(this.myHero, boots.index);
-    }
-
-    doShrunkensLogic() {
-        if (this.lastCast + 50 > Date.now()) {
-            return;
-        }
-        const shrunken = this.myHero.getItem("Item_Immunity");
-        if (!shrunken) {
-            return;
-        }
-        if (!shrunken.item.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if (!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
-            return;
-        }
-
-        ACTION.castSpell2(this.myHero, shrunken.index);
-    }
-
-    doElderLogic() {
-        if (this.lastCast + 50 > Date.now()) {
-            return;
-        }
-        const elder = this.myHero.getItem("Item_ElderParasite");
-        if (!elder) {
-            return;
-        }
-        if (!elder.item.canActivate()) {
-            return;
-        }
-        const q = this.myHero.getTool(0) as IEntityAbility;
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(q.getDynamicRange());
-        if (!enemyHero) {
-            return;
-        }
-        ACTION.castSpell2(this.myHero, elder.index);
-    }
-
-    doGeometersLogic() {
-        if (this.lastCast + 50 > Date.now()) {
-            return;
-        }
-        const geo = this.myHero.getItem("Item_ManaBurn2");
-        if (!geo) {
-            return;
-        }
-        if (!geo.item.canActivate()) {
-            return;
-        }
-        const q = this.myHero.getTool(0) as IEntityAbility;
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(q.getDynamicRange() - 200);
-        if (!enemyHero) {
-            return;
-        }
-        ACTION.castSpell2(this.myHero, geo.index);
     }
 
     @Subscribe("MainLoopEvent")
@@ -160,16 +72,16 @@ export class Nitro extends Script {
         // console.log(`MyVelocity: ` + Vector2d.length(VELOCITY_UPDATER.getVelocity(this.myHero)));
         // console.log(`moveSpeed: ` + this.myHero.getMoveSpeed(true));
         // const checkVec = { ...this.myHero.facingVector(), z: 0 };
-        OBJECT_MANAGER.heroes.forEach(h => {
-            // console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
-            console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
-            // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
-            for (let i = 0; i < 80; i++) {
-                const tool = h.getTool(i);
-                if (tool == null) continue;
-                console.log(`tool ${i}: ${tool.typeName}`);
-            }
-        });
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     // console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
+        //     console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
+        //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
+        //     for (let i = 0; i < 80; i++) {
+        //         const tool = h.getTool(i);
+        //         if (tool == null) continue;
+        //         console.log(`tool ${i}: ${tool.typeName}`);
+        //     }
+        // });
         // OBJECT_MANAGER.gadgets.forEach(h => {
         //     // console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
         //     console.log(`${h.typeName}`);
@@ -177,12 +89,9 @@ export class Nitro extends Script {
 
         // console.log(`getCurrentPhysicalHealth:${this.myHero.getCurrentPhysicalHealth()}`);
         // console.log(`getPhysicalResistance:${this.myHero.getPhysicalResistance()}`);
-        this.doShrunkensLogic()
-        this.doLexLogic();
-        this.doGhostMarchersLogic();
-        this.doElderLogic();
-        this.doGeometersLogic();
+        
         this.doQLogic();
+        tryUseAllItems(this.myHero, this.canCast);
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition, true);
     }
 

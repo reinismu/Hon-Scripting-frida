@@ -22,7 +22,7 @@ class WritableClientState extends CClientState {
 export class Client {
     iGame: IGame;
     // Only method in cgame that calls CHostClient::SendClientSnapshot
-    private sendClientSnapshot = new NativeFunction(GAME_MODULE.base.add(0x1fce60), "void", ["pointer", "pointer"], {
+    private sendClientSnapshot = new NativeFunction(GAME_MODULE.base.add(0x1FCF30), "void", ["pointer", "pointer"], {
         scheduling: "exclusive"
     });
 

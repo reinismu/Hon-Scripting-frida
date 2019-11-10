@@ -14,17 +14,10 @@ import { Orbwalker } from "./Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
-import { doSheepstickLogic } from "./Items";
+import { doSheepstickLogic, tryUseAllItems } from "./Items";
 
 export class Kinesis extends Script {
     private orbwalker = new Orbwalker(this.myHero);
-    // HOOK stuff
-    private canNotStop = new DelayedCondition();
-    private hookCastPosition: Vec2 | null = null;
-    private hookTarget: IUnitEntity | null = null;
-    private hookTargetAnimationIndex = 0;
-    private turnToTargetDelay: number = 0;
-    private canStopCheck = new DelayedCondition();
 
     private justCasted = new DelayedCondition();
 
@@ -140,7 +133,7 @@ export class Kinesis extends Script {
     }
 
     doRLogic() {
-        if (!this.justCastedR.isTrue() || !this.justCastedR.isTrue()) {
+        if (!this.justCasted.isTrue() || !this.justCastedR.isTrue()) {
             return;
         }
         const r = this.myHero.getTool(3) as IEntityAbility;
@@ -150,59 +143,33 @@ export class Kinesis extends Script {
         if (this.myHero.hasTool("State_Kenisis_Ability4_Modifier")) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(r.getDynamicRange() + 20);
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(r.getDynamicRange() + 20);
         if (!enemyHero || enemyHero.getHealthPercent() < 25 || enemyHero.isDisabled()) {
             return;
         }
 
+        this.justCasted.delay(250);
         this.justCastedR.delay(1000);
         ACTION.castSpellEntity(this.myHero, 3, enemyHero);
-    }
-
-    doSilenceLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const silence = this.myHero.getItem("Item_Silence");
-        if (!silence) {
-            return;
-        }
-        if (!silence.item.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(silence.item.getDynamicRange());
-        if (!enemyHero) {
-            return;
-        }
-        this.justCasted.delay(150);
-        ACTION.castSpellEntity(this.myHero, silence.index, enemyHero);
-    }
-
-    doShrunkensLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const shrunken = this.myHero.getItem("Item_Immunity");
-        if (!shrunken) {
-            return;
-        }
-        if (!shrunken.item.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if (!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
-            return;
-        }
-
-        this.justCasted.delay(150);
-        ACTION.castSpell2(this.myHero, shrunken.index);
     }
     
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+
+        if (INPUT.isCharDown("C")) {
+            this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
+        if (INPUT.isCharDown("V")) {
+            this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+    
         if (!INPUT.isControlDown() || this.myHero.isDead()) return;
+
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
 
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
@@ -225,9 +192,7 @@ export class Kinesis extends Script {
         //     }
         // });
         this.doRLogic();
-        this.doSilenceLogic();
-        this.doShrunkensLogic();
-        doSheepstickLogic(this.myHero, this.justCasted);
+        tryUseAllItems(this.myHero, this.justCasted);
         this.doQLogic();
         this.doWLogic();
 

@@ -13,6 +13,8 @@ export class Orbwalker {
 
     canMove = new DelayedCondition();
     canAttack = new DelayedCondition();
+    isNotAttacking = new DelayedCondition();
+
     private canFaceTheEnemy = new DelayedCondition();
 
     constructor(walker: IUnitEntity) {
@@ -90,9 +92,10 @@ export class Orbwalker {
         if (!justWalk && this.canAttack.isTrue(500)) {
             if (target) {
                 const turnTime = this.walker.getMsToTurnToPos(target.position);
+                this.isNotAttacking.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
                 if (this.canAttack.isTrue()) {
                     this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown());
-                    this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 200);
+                    this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
                     ACTION.attack(target);
                     return;
                 }

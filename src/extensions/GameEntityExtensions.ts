@@ -248,7 +248,15 @@ IUnitEntity.prototype.isStaffed = function(): boolean {
 IUnitEntity.prototype.isDisabled = function(): boolean {
     const self = this as IUnitEntity;
     // TODO check for buff
-    return self.hasAnyOfTool(new Set(["State_Stunned", "State_Item4K", "State_Maliken_Ability4_Fear", "State_Kenisis_Ability4_Modifier"]));
+    return self.hasAnyOfTool(
+        new Set([
+            "State_Stunned",
+            "State_Item4K",
+            "State_Maliken_Ability4_Fear",
+            "State_Kenisis_Ability4_Modifier",
+            "State_WitchSlayer_Ability2"
+        ])
+    );
 };
 
 IUnitEntity.prototype.isSilenced = function(): boolean {

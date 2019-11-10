@@ -14,7 +14,7 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
-import { doGhostMarchersLogic, doShrunkensLogic, doSheepstickLogic, doNullFireLogic, doGrimoireOfPowerLogic, doHellfireLogic } from "./Items";
+import { doGhostMarchersLogic, doShrunkensLogic, doSheepstickLogic, doNullFireLogic, doGrimoireOfPowerLogic, doHellfireLogic, tryUseAllItems } from "./Items";
 
 export class Oogie extends Script {
     private justCasted = new DelayedCondition();
@@ -98,12 +98,7 @@ export class Oogie extends Script {
         //     }
         // });
 
-        doShrunkensLogic(this.myHero, this.justCasted);
-        doSheepstickLogic(this.myHero, this.justCasted);
-        doNullFireLogic(this.myHero, this.justCasted);
-        doHellfireLogic(this.myHero, this.justCasted);
-        doGrimoireOfPowerLogic(this.myHero, this.justCasted);
-        doGhostMarchersLogic(this.myHero, this.justCasted);
+        tryUseAllItems(this.myHero, this.justCasted);
 
         this.doWLogic();
         if (this.orbwalker.canAttack.isTrue()) {

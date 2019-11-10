@@ -13,9 +13,11 @@ import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
+import { tryUseAllItems } from "./Items";
 
 export class WitchSlayer extends Script {
     private justCasted = new DelayedCondition();
+    private justCastedQ = new DelayedCondition();
     private stoppableQ = new StoppableLineSpell(this.justCasted);
     private orbwalker = new Orbwalker(this.myHero);
 
@@ -29,25 +31,28 @@ export class WitchSlayer extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 200);
+        const qRange = 750;
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(qRange);
         if (!enemyHero) {
             return;
         }
-        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 90);
+        this.justCastedQ.delay(500);
+        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 90, () => true, 250, qRange);
     }
 
     doWLogic() {
-        if (!this.justCasted.isTrue()) {
+        if (!this.justCasted.isTrue() || !this.justCastedQ.isTrue()) {
             return;
         }
         const w = this.myHero.getTool(1) as IEntityAbility;
         if (!w.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 20);
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(w.getDynamicRange() + 20);
         if (!enemyHero) {
             return;
         }
+
         this.justCasted.delay(150);
         ACTION.castSpellEntity(this.myHero, 1, enemyHero);
     }
@@ -64,7 +69,7 @@ export class WitchSlayer extends Script {
         if (!enemyHero) {
             return;
         }
-        if(enemyHero.getCurrentMagicalHealth() > this.getRDamage()) {
+        if (enemyHero.getCurrentMagicalHealth() > this.getRDamage() || enemyHero.getHealthPercent() > 17 || enemyHero.isDisabled()) {
             return;
         }
         this.justCasted.delay(500);
@@ -74,48 +79,12 @@ export class WitchSlayer extends Script {
     private getRDamage(): number {
         const r = this.myHero.getTool(3) as IEntityAbility;
         const boosted = this.myHero.hasTool("State_Pyromancer_Ult_Boost_Art");
-        const damages = [0, 500 ,650, 850];
-        let damage = damages[r.level]
-        if(boosted) {
+        const damages = [0, 500, 650, 850];
+        let damage = damages[r.level];
+        if (boosted) {
             damage += 200;
         }
         return damage;
-    }
-
-    doGhostMarchersLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const boots = this.myHero.getItem("Item_EnhancedMarchers");
-        if (!boots) {
-            return;
-        }
-        if (!boots.item.canActivate()) {
-            return;
-        }
-
-        this.justCasted.delay(50);
-        ACTION.castSpell2(this.myHero, boots.index);
-    }
-
-    doShrunkensLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const shrunken = this.myHero.getItem("Item_Immunity");
-        if (!shrunken) {
-            return;
-        }
-        if (!shrunken.item.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if (!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
-            return;
-        }
-
-        this.justCasted.delay(50);
-        ACTION.castSpell2(this.myHero, shrunken.index);
     }
 
     @Subscribe("MainLoopEvent")
@@ -148,11 +117,12 @@ export class WitchSlayer extends Script {
         //     }
         // });
 
-        this.doRLogic();
-        this.doShrunkensLogic();
-        this.doGhostMarchersLogic();
         this.doWLogic();
+        tryUseAllItems(this.myHero, this.justCasted);
+
+        this.doRLogic();
         this.doQLogic();
+
         // this.doQDemonHardLogic();
         // this.doGhostMarchersLogic();
         if (this.justCasted.isTrue()) {

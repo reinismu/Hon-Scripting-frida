@@ -34,7 +34,9 @@ export class StoppableLineSpell {
         target: IUnitEntity,
         projectileSpeed: number,
         projectileRadius: number,
-        noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean = () => true
+        noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean = () => true,
+        extendRange: number | null = null,
+        rangeOverride: number | null = null
     ) {
         this.caster = caster;
         if (!spell.canActivate()) {
@@ -56,7 +58,8 @@ export class StoppableLineSpell {
                 spellActivationTime + this.turnToTargetDelay - this.canNotStop.msPassed(),
                 projectileSpeed,
                 projectileRadius,
-                noCollisionCheck
+                noCollisionCheck,
+                rangeOverride || spell.getDynamicRange() + 20
             );
             if (!targetPos) {
                 this.stopCast();
@@ -79,13 +82,18 @@ export class StoppableLineSpell {
             spellActivationTime + caster.getMsToTurnToPos(target.position),
             projectileSpeed,
             projectileRadius,
-            noCollisionCheck
+            noCollisionCheck,
+            rangeOverride || spell.getDynamicRange() + 20
         );
         if (!targetPos) {
             return;
         }
-
-        ACTION.castSpellPosition(caster, spellIndex, targetPos.x, targetPos.y);
+        if (extendRange) {
+            const extendPos = Vector2d.extendTo(caster.position, targetPos, extendRange);
+            ACTION.castSpellPosition(caster, spellIndex, extendPos.x, extendPos.y);
+        } else {
+            ACTION.castSpellPosition(caster, spellIndex, targetPos.x, targetPos.y);
+        }
         this.castPosition = targetPos;
         this.castTarget = target;
         this.castTargetAnimationIndex = target.animation;
@@ -106,10 +114,9 @@ export class StoppableLineSpell {
         delay: number = 0,
         projectileSpeed: number,
         projectileRadius: number,
-        noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean
+        noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean,
+        range: number
     ): Vec2 | null {
-        const range = spell.getDynamicRange() + 20;
-
         const targetPos = opPrediction(caster, target, projectileSpeed, delay, range, projectileRadius);
         if (!targetPos) {
             return null;
