@@ -2,6 +2,7 @@ import { IHeroEntity, IUnitEntity } from "../honIdaStructs";
 import "../extensions/GameEntityExtensions";
 import "../extensions/CVec3Extensions";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { Vec2 } from "../utils/Vector";
 
 export class TargetSelector {
     getClosestEnemyHero(): IHeroEntity | null {
@@ -15,11 +16,17 @@ export class TargetSelector {
         return null;
     }
 
-    getEasiestPhysicalKillInRange(range: number): IHeroEntity | null {
-        const me = OBJECT_MANAGER.myHero;
+    getEasiestPhysicalKillInRange(range: number, fromPosition: Vec2 = OBJECT_MANAGER.myHero.position): IHeroEntity | null {
         const enemy = OBJECT_MANAGER.heroes
             .filter(
-                h => h.health > 0 && !h.isIllusion() && h.isEnemy(me) && h.position.distance2d(me.position) < range && !h.isPhysicalImmune() && !h.isInvulnerable() && !this.isBarbedWithHp(h)
+                h =>
+                    h.health > 0 &&
+                    !h.isIllusion() &&
+                    h.isEnemy(OBJECT_MANAGER.myHero) &&
+                    h.position.distance2d(fromPosition) < range &&
+                    !h.isPhysicalImmune() &&
+                    !h.isInvulnerable() &&
+                    !isBarbedWithHp(h)
             )
             .sort((h1, h2) => h1.getCurrentPhysicalHealth() - h2.getCurrentPhysicalHealth())[0];
         if (enemy) {
@@ -31,7 +38,14 @@ export class TargetSelector {
     getEasiestMagicalKillInRange(range: number, from: IUnitEntity = OBJECT_MANAGER.myHero): IHeroEntity | null {
         const enemy = OBJECT_MANAGER.heroes
             .filter(
-                h => h.health > 0 && !h.isIllusion() && h.isEnemy(from) && h.position.distance2d(from.position) < range && !h.isMagicImmune() && !h.isInvulnerable() && !this.isBarbedWithHp(h)
+                h =>
+                    h.health > 0 &&
+                    !h.isIllusion() &&
+                    h.isEnemy(from) &&
+                    h.position.distance2d(from.position) < range &&
+                    !h.isMagicImmune() &&
+                    !h.isInvulnerable() &&
+                    !isBarbedWithHp(h)
             )
             .sort((h1, h2) => h1.getCurrentMagicalHealth() - h2.getCurrentMagicalHealth())[0];
         if (enemy) {
@@ -43,7 +57,14 @@ export class TargetSelector {
     getBestMagicalDisableInRange(range: number, from: IUnitEntity = OBJECT_MANAGER.myHero): IHeroEntity | null {
         const enemy = OBJECT_MANAGER.heroes
             .filter(
-                h => h.health > 0 && !h.isIllusion() && h.isEnemy(from) && h.position.distance2d(from.position) < range && !h.isMagicImmune() && !h.isInvulnerable() && !h.isDisabled()
+                h =>
+                    h.health > 0 &&
+                    !h.isIllusion() &&
+                    h.isEnemy(from) &&
+                    h.position.distance2d(from.position) < range &&
+                    !h.isMagicImmune() &&
+                    !h.isInvulnerable() &&
+                    !h.isDisabled()
             )
             .sort((h1, h2) => h1.getMaxHealth() - h2.getMaxHealth())[0];
         if (enemy) {
@@ -52,9 +73,41 @@ export class TargetSelector {
         return null;
     }
 
-    private isBarbedWithHp(unit: IUnitEntity) {
-        return unit.isBarbed() && unit.getHealthPercent() > 18;
+    getAllyInTrouble(range: number, minTroublePoints: number = 40, excludeSet: Set<IUnitEntity> = new Set(), from: IUnitEntity = OBJECT_MANAGER.myHero): IHeroEntity | null {
+        const ally = OBJECT_MANAGER.heroes
+            .filter(
+                h =>
+                    h.health > 0 &&
+                    !excludeSet.has(h) &&
+                    !h.isIllusion() &&
+                    !h.isEnemy(from) &&
+                    h.position.distance2d(from.position) < range &&
+                    !h.isMagicImmune() &&
+                    !h.isInvulnerable() &&
+                    getTroublePoints(h) > minTroublePoints
+            )
+            .sort((h1, h2) => getTroublePoints(h2) - getTroublePoints(h1))[0];
+        if (ally) {
+            return ally;
+        }
+        return null;
     }
+
+}
+
+// in range 0ish till 270
+export function getTroublePoints(unit: IHeroEntity): number {
+    const isDisabledPoints = unit.isDisabled() ? 20 : 0;
+    return unit.getEnemiesFightingMe(550).length * 10 + isDisabledPoints + getHealthTroubleScore(unit.getHealthPercent());
+}
+
+// https://www.desmos.com/calculator/dqrus8v1xk
+function getHealthTroubleScore(healthPercent: number): number {
+    return (1000 / (healthPercent + 20) - 5) * 5 - 16;
+}
+
+function isBarbedWithHp(unit: IUnitEntity) {
+    return unit.isBarbed() && unit.getHealthPercent() > 18;
 }
 
 export const TARGET_SELECTOR = new TargetSelector();

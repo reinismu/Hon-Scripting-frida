@@ -14,20 +14,22 @@ import { WitchSlayer } from "./scripts/WitchSlayer";
 import { Parallax } from "./scripts/Parallax";
 import { MasterOfArms } from "./scripts/MasterOfArms";
 import { Armadon } from "./scripts/Armadon";
+import { Accursed } from "./scripts/Accursed";
+import { Jeraziah } from "./scripts/Jeraziah";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Nitro();
+    const testScript23 = new Jeraziah();
 
-
-
+    
 }, 200);
 
 
-
+// const testScript = new Accursed();
+// const testScript = new Jeraziah();
 // const testScript = new Armadon();
 // const testScript = new MasterOfArms();
 // const testScript = new Slither();

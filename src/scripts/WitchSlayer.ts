@@ -36,8 +36,8 @@ export class WitchSlayer extends Script {
         if (!enemyHero) {
             return;
         }
-        this.justCastedQ.delay(500);
-        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 90, () => true, 250, qRange);
+        this.justCastedQ.delay(1200);
+        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 120, () => true, 250, qRange);
     }
 
     doWLogic() {
@@ -90,6 +90,15 @@ export class WitchSlayer extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        if (INPUT.isCharDown("C")) {
+            this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
+        if (INPUT.isCharDown("V")) {
+            this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
         if (!INPUT.isControlDown()) return;
 
         // const spell = this.myHero.getTool(0) as IEntityAbility;

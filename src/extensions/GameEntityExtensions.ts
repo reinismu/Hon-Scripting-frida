@@ -39,6 +39,7 @@ declare module "../honIdaStructs" {
     interface IUnitEntity {
         facingVector(): { x: number; y: number };
         getMsToTurnToPos(pos: Vec2): number;
+        isFacing(pos: Vec2 | IUnitEntity): boolean;
         getTool(index: number): ISlaveEntity | null;
         getItem(name: string): { index: number; item: IEntityItem } | null;
         isEnemy(entity: IUnitEntity): boolean;
@@ -82,8 +83,12 @@ declare module "../honIdaStructs" {
         isStaffed(): boolean;
         isDisabled(): boolean;
         isSilenced(): boolean;
+        isMelee(): boolean;
         hasTool(name: string): boolean;
         hasAnyOfTool(names: Set<string>): boolean;
+        getEnemiesFightingMe(range: number): IHeroEntity[]
+        getEnemiesInRange(range: number): IHeroEntity[]
+        getAlliesInRange(range: number): IHeroEntity[]
     }
 
     interface IHeroEntity {
@@ -156,7 +161,17 @@ IUnitEntity.prototype.getMaxAttackDamage = function(): number {
 
 IUnitEntity.prototype.getMsToTurnToPos = function(pos: Vec2): number {
     const angle = turnAngle(this as IUnitEntity, pos);
-    return angle * 0.8; // Magic number TODO fix
+    return angle * 0.8; // Magic number TODO fix (Works okish)
+};
+
+IUnitEntity.prototype.isFacing = function(pos: Vec2 | IUnitEntity): boolean {
+    const angle = turnAngle(this as IUnitEntity, pos instanceof IUnitEntity ? pos.position : pos);
+    return angle < 75; 
+};
+
+IUnitEntity.prototype.isMelee = function(): boolean {
+    const self = this as IUnitEntity;
+    return self.getAttackRange() < 210; 
 };
 
 IVisualEntity.prototype.getModelId = function(): number {
@@ -585,4 +600,25 @@ IUnitEntity.prototype.facingVector = function(): { x: number; y: number } {
     const self = this as IUnitEntity;
     const radians = self.facingAngle * 0.01745329252 + Math.PI / 2;
     return { x: Math.cos(radians), y: Math.sin(radians) };
+};
+
+IUnitEntity.prototype.getEnemiesFightingMe = function(range: number): IHeroEntity[] {
+    const self = this as IUnitEntity;
+    return self.getEnemiesInRange(range).filter(
+        h => h.isFacing(self)
+    )
+};
+
+IUnitEntity.prototype.getEnemiesInRange = function(range: number): IHeroEntity[] {
+    const self = this as IUnitEntity;
+    return OBJECT_MANAGER.heroes.filter(
+        h => h.health > 0 && !h.isIllusion() && h.isEnemy(self) && h.position.distance2d(self.position) < range
+    )
+};
+
+IUnitEntity.prototype.getAlliesInRange = function(range: number): IHeroEntity[] {
+    const self = this as IUnitEntity;
+    return OBJECT_MANAGER.heroes.filter(
+        h => h.health > 0 && !h.isIllusion() && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+    )
 };

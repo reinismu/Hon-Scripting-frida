@@ -119,6 +119,7 @@ export class MasterOfArms extends Script {
             this.doELogic();
         }
 
+
         if (this.canCast.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }

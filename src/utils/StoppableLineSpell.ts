@@ -99,8 +99,8 @@ export class StoppableLineSpell {
         this.castTargetAnimationIndex = target.animation;
         this.turnToTargetDelay = caster.getMsToTurnToPos(target.position);
 
-        this.justCasted.delay(spellActivationTime + this.turnToTargetDelay);
-        this.canNotStop.delay(spellActivationTime + this.turnToTargetDelay);
+        this.justCasted.delay(spellActivationTime + this.turnToTargetDelay + 100);
+        this.canNotStop.delay(spellActivationTime + this.turnToTargetDelay + 100);
     }
 
     isCasting(): boolean {

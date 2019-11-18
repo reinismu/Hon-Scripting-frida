@@ -4,10 +4,12 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { Vector2d } from "../utils/Vector";
 
-
 export function tryUseAllItems(unit: IUnitEntity, justCasted: DelayedCondition) {
     doShrunkensLogic(unit, justCasted);
+    doExcruciatorLogic(unit, justCasted);
     doSheepstickLogic(unit, justCasted);
+    doBarrierIdolLogic(unit, justCasted);
+    doAstrolabeLogic(unit, justCasted);
     doArmorOfTheMadMage(unit, justCasted);
     doCodexLogic(unit, justCasted);
     doNullFireLogic(unit, justCasted);
@@ -47,12 +49,73 @@ export function doShrunkensLogic(unit: IUnitEntity, justCasted: DelayedCondition
         return;
     }
     const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-    if (!enemyHero || Vector2d.distance(enemyHero.position, unit.position) > 550) {
+    if (!enemyHero || unit.getEnemiesFightingMe(550).length == 0) {
         return;
     }
 
     justCasted.delay(50);
     ACTION.castSpell2(unit, shrunken.index);
+}
+
+export function doExcruciatorLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
+    if (!justCasted.isTrue()) {
+        return;
+    }
+    const shrunken = unit.getItem("Item_Excruciator");
+    if (!shrunken) {
+        return;
+    }
+    if (!shrunken.item.canActivate()) {
+        return;
+    }
+    const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
+    if (!enemyHero || unit.getEnemiesFightingMe(550).length < 2) {
+        return;
+    }
+
+    justCasted.delay(50);
+    ACTION.castSpell2(unit, shrunken.index);
+}
+
+export function doBarrierIdolLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
+    if (!justCasted.isTrue()) {
+        return;
+    }
+    const shrunken = unit.getItem("Item_BarrierIdol");
+    if (!shrunken) {
+        return;
+    }
+    if (!shrunken.item.canActivate()) {
+        return;
+    }
+    const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
+    if (!enemyHero || unit.getEnemiesFightingMe(550).length < 1) {
+        return;
+    }
+
+    justCasted.delay(50);
+    ACTION.castSpell2(unit, shrunken.index);
+}
+
+export function doAstrolabeLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
+    if (!justCasted.isTrue()) {
+        return;
+    }
+    const astrolabe = unit.getItem("Item_Astrolabe");
+    if (!astrolabe) {
+        return;
+    }
+    if (!astrolabe.item.canActivate()) {
+        return;
+    }
+    
+    const ally = TARGET_SELECTOR.getAllyInTrouble(900, 65);
+    if (!ally) {
+        return;
+    }
+
+    justCasted.delay(100);
+    ACTION.castSpell2(unit, astrolabe.index);
 }
 
 export function doArmorOfTheMadMage(unit: IUnitEntity, justCasted: DelayedCondition) {
@@ -67,7 +130,7 @@ export function doArmorOfTheMadMage(unit: IUnitEntity, justCasted: DelayedCondit
         return;
     }
     const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-    if (!enemyHero || Vector2d.distance(enemyHero.position, unit.position) > 550) {
+    if (!enemyHero || unit.getEnemiesFightingMe(550).length == 0) {
         return;
     }
 
@@ -107,7 +170,7 @@ export function doHypercrownLogic(unit: IUnitEntity, justCasted: DelayedConditio
         return;
     }
     const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-    if (!enemyHero || Vector2d.distance(enemyHero.position, unit.position) > 750) {
+    if (!enemyHero || unit.getEnemiesFightingMe(750).length == 0) {
         return;
     }
 

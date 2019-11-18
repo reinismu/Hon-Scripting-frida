@@ -28,8 +28,17 @@ export class Orbwalker {
 
     public orbwalk(position: Vec2, justWalk: boolean = false) {
         this.walker = OBJECT_MANAGER.myHero;
-        const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange());
+        if (!this.walker.isMelee()) {
+            const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 30);
+            this.orbwalkTarget(target, position, justWalk);
+            return;
+        }
 
+        const wantedTarget = TARGET_SELECTOR.getEasiestPhysicalKillInRange(300, position);
+        let target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 50);
+        if(wantedTarget) {
+            target = wantedTarget == target ? target : null;
+        }
         this.orbwalkTarget(target, position, justWalk);
     }
 
@@ -57,7 +66,7 @@ export class Orbwalker {
             return null;
         }
         const dist = Vector2d.distance(closestKillableCreep.position, this.walker.position);
-        if (dist > this.walker.getAttackRange() + 20) {
+        if (dist > this.walker.getAttackRange() + 25) {
             return null;
         }
 
@@ -73,7 +82,7 @@ export class Orbwalker {
                 c =>
                     !c.isDead() &&
                     c.isEnemy(this.walker) &&
-                    Vector2d.distance(c.position, this.walker.position) < this.walker.getAttackRange() + 20
+                    Vector2d.distance(c.position, this.walker.position) < this.walker.getAttackRange() + 25
             )
             .sort((h1, h2) => h1.health - h2.health)[0];
 
