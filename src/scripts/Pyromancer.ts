@@ -14,6 +14,7 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
+import { tryUseAllItems } from "./Items";
 
 export class Pyromancer extends Script {
     private justCasted = new DelayedCondition();
@@ -43,7 +44,7 @@ export class Pyromancer extends Script {
         if (!w.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 200);
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(w.getDynamicRange() + 200);
         if (!enemyHero) {
             return;
         }
@@ -119,6 +120,16 @@ export class Pyromancer extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+
+        if (INPUT.isCharDown("C")) {
+            this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
+        if (INPUT.isCharDown("V")) {
+            this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
         if (!INPUT.isControlDown()) return;
 
         // const spell = this.myHero.getTool(0) as IEntityAbility;
@@ -147,12 +158,13 @@ export class Pyromancer extends Script {
         // });
 
         this.doRLogic();
-        this.doShrunkensLogic();
-        this.doGhostMarchersLogic();
+        // this.doShrunkensLogic();
+        // this.doGhostMarchersLogic();
         this.doQLogic();
         this.doWLogic();
         // this.doQDemonHardLogic();
         // this.doGhostMarchersLogic();
+        tryUseAllItems(this.myHero, this.justCasted);
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }

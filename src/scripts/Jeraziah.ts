@@ -108,14 +108,14 @@ export class Jeraziah extends Script {
 
         if (!INPUT.isControlDown()) return;
 
-        OBJECT_MANAGER.heroes.forEach(h => {
-            console.log(`${h.typeName}`);
-            for (let i = 0; i < 80; i++) {
-                const tool = h.getTool(i) as IEntityAbility;
-                if (tool == null) continue;
-                console.log(`tool ${i}: ${tool.typeName} range ${tool.dynamicRange}`);
-            }
-        });
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     console.log(`${h.typeName}`);
+        //     for (let i = 0; i < 80; i++) {
+        //         const tool = h.getTool(i) as IEntityAbility;
+        //         if (tool == null) continue;
+        //         console.log(`tool ${i}: ${tool.typeName} range ${tool.dynamicRange}`);
+        //     }
+        // });
 
         // this.doRLogic();
         this.doQLogic();

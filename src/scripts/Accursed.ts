@@ -13,6 +13,7 @@ import { OBJECT_MANAGER } from "../objects/ObjectManager";
 
 export class Accursed extends Script {
     private canCast = new DelayedCondition();
+    private canCastR = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
 
     constructor() {
@@ -28,7 +29,7 @@ export class Accursed extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(q.getDynamicRange());
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange());
         const allyInTrouble = TARGET_SELECTOR.getAllyInTrouble(q.getDynamicRange(), 40, new Set([this.myHero]));
         let castHero = allyInTrouble;
 
@@ -64,7 +65,7 @@ export class Accursed extends Script {
     }
 
     doRLogic() {
-        if (!this.canCast.isTrue()) {
+        if (!this.canCastR.isTrue()) {
             return;
         }
         const r = this.myHero.getTool(3) as IEntityAbility;
@@ -74,10 +75,10 @@ export class Accursed extends Script {
         if (this.myHero.getHealthPercent() > 25) {
             return;
         }
-        if (this.myHero.getEnemiesFightingMe(350).length == 0) {
+        if (this.myHero.getEnemiesFightingMe(450).length == 0) {
             return;
         }
-        this.canCast.delay(250);
+        this.canCastR.isTrue(150);
         ACTION.castSpell2(this.myHero, 3);
     }
 

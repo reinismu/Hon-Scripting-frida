@@ -108,7 +108,7 @@ export class Devourer extends Script {
             return;
         }
 
-        this.justCasted.delay(450);
+        this.justCasted.delay(850);
         ACTION.castSpellEntity(this.myHero, 3, enemyHero);
     }
 

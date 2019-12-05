@@ -12,6 +12,7 @@ import { IGAME } from "../game/Globals";
 import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
+import { tryUseAllItems } from "./Items";
 
 export class Bushwack extends Script {
     private canCast = new DelayedCondition();
@@ -146,9 +147,8 @@ export class Bushwack extends Script {
         //     }
         // });
 
-        this.doShrunkensLogic();
-        this.doGhostMarchersLogic();
         if (this.orbwalker.canAttack.isTrue()) {
+            tryUseAllItems(this.myHero, this.canCast);
             this.doWLogic();
             this.doQLogic();
         }
