@@ -6,6 +6,7 @@ import { Vector2d } from "../utils/Vector";
 
 export function tryUseAllItems(unit: IUnitEntity, justCasted: DelayedCondition) {
     doShrunkensLogic(unit, justCasted);
+    doInsantariusLogic(unit, justCasted);
     doExcruciatorLogic(unit, justCasted);
     doSheepstickLogic(unit, justCasted);
     doBarrierIdolLogic(unit, justCasted);
@@ -37,6 +38,56 @@ export function doGhostMarchersLogic(unit: IUnitEntity, justCasted: DelayedCondi
     ACTION.castSpell2(unit, boots.index);
 }
 
+const insantariusOnCooldown = new DelayedCondition();
+export function doInsantariusLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
+    if (!justCasted.isTrue()) {
+        return;
+    }
+    const insantarius = unit.getItem("Item_Insanitarius");
+    if (!insantarius) {
+        return;
+    }
+
+    if (!insantarius.item.canActivate()) {
+        return;
+    }
+    function isInsantariusActive() {
+        return unit.hasTool("State_Insanitarius");
+    }
+    if (isInsantariusActive()) {
+        if (insantariusOnCooldown.isTrue()) {
+
+            if (unit.getEnemiesInRange(850).length == 0) {
+                justCasted.delay(50);
+                insantariusOnCooldown.delay(100);
+                ACTION.castSpell2(unit, insantarius.index);
+                return;
+            }
+
+            if (unit.health < 150) {
+                justCasted.delay(50);
+                insantariusOnCooldown.delay(100);
+                ACTION.castSpell2(unit, insantarius.index);
+                ACTION.castSpell2(unit, insantarius.index);
+                return;
+            }
+        }
+        return;
+    }
+
+    if (unit.getEnemiesFightingMe(550).length == 0 && unit.getEnemiesInRange(unit.getAttackRange() + 30).length == 0) {
+        return;
+    }
+
+    if (unit.getEnemiesFightingMe(550).length == 0 && unit.getEnemiesInRange(unit.getAttackRange() + 30).length == 0) {
+        return;
+    }
+
+    justCasted.delay(50);
+    ACTION.castSpell2(unit, insantarius.index);
+    insantariusOnCooldown.delay(4800);
+}
+
 export function doShrunkensLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
     if (!justCasted.isTrue()) {
         return;
@@ -48,8 +99,7 @@ export function doShrunkensLogic(unit: IUnitEntity, justCasted: DelayedCondition
     if (!shrunken.item.canActivate()) {
         return;
     }
-    const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-    if (!enemyHero || unit.getEnemiesFightingMe(550).length == 0) {
+    if (unit.getEnemiesFightingMe(550).length == 0) {
         return;
     }
 
@@ -108,7 +158,7 @@ export function doAstrolabeLogic(unit: IUnitEntity, justCasted: DelayedCondition
     if (!astrolabe.item.canActivate()) {
         return;
     }
-    
+
     const ally = TARGET_SELECTOR.getAllyInTrouble(900, 65);
     if (!ally) {
         return;

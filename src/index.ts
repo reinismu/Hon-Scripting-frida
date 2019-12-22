@@ -16,14 +16,19 @@ import { MasterOfArms } from "./scripts/MasterOfArms";
 import { Armadon } from "./scripts/Armadon";
 import { Accursed } from "./scripts/Accursed";
 import { Jeraziah } from "./scripts/Jeraziah";
+import { Maliken } from "./scripts/Maliken";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Nitro();
+    const testScript23 = new Maliken();
 
+
+
+
+    
 
 }, 200);
 
@@ -33,6 +38,7 @@ setTimeout(() => {
 // const testScript = new Jeraziah();
 // const testScript = new Devourer();
 // const testScript = new MasterOfArms();
+// const testScript = new Maliken();
 // const testScript = new Slither();
 // const testScript = new Oogie();
 // const testScript = new Parallax();

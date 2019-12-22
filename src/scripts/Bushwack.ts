@@ -67,42 +67,6 @@ export class Bushwack extends Script {
         ACTION.castSpellPosition(this.myHero, 1, castLocation.x, castLocation.y);
     }
 
-    doGhostMarchersLogic() {
-        if (!this.canCast.isTrue()) {
-            return;
-        }
-        const boots = this.myHero.getItem("Item_EnhancedMarchers");
-        if (!boots) {
-            return;
-        }
-        if (!boots.item.canActivate()) {
-            return;
-        }
-
-        this.canCast.delay(50);
-        ACTION.castSpell2(this.myHero, boots.index);
-    }
-
-    doShrunkensLogic() {
-        if (!this.canCast.isTrue()) {
-            return;
-        }
-        const shrunken = this.myHero.getItem("Item_Immunity");
-        if (!shrunken) {
-            return;
-        }
-        if (!shrunken.item.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if (!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
-            return;
-        }
-
-        this.canCast.delay(50);
-        ACTION.castSpell2(this.myHero, shrunken.index);
-    }
-
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);

@@ -56,6 +56,7 @@ export class Kinesis extends Script {
                 const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
 
                 const collisionEntities = heroes
+                    .filter(h => !h.isEnemy(this.myHero))
                     .concat(creeps, neutrals)
                     .filter(u => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
 
@@ -193,8 +194,8 @@ export class Kinesis extends Script {
         // });
         this.doRLogic();
         tryUseAllItems(this.myHero, this.justCasted);
-        this.doQLogic();
         this.doWLogic();
+        this.doQLogic();
 
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }

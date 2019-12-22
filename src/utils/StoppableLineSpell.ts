@@ -36,7 +36,8 @@ export class StoppableLineSpell {
         projectileRadius: number,
         noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean = () => true,
         extendRange: number | null = null,
-        rangeOverride: number | null = null
+        rangeOverride: number | null = null,
+        tryStop: boolean = true
     ) {
         this.caster = caster;
         if (!spell.canActivate()) {
@@ -44,7 +45,7 @@ export class StoppableLineSpell {
         }
         const spellActivationTime = spell.getAdjustedCastTime();
         // console.log(`spellActivationTime: ${spellActivationTime}`);
-        if (!this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.castPosition && this.castTarget) {
+        if (tryStop && !this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.castPosition && this.castTarget) {
             this.canStopCheck.delay(50);
             if (this.castTargetAnimationIndex != this.castTarget.animation) {
                 this.stopCast();
@@ -99,7 +100,7 @@ export class StoppableLineSpell {
         this.castTargetAnimationIndex = target.animation;
         this.turnToTargetDelay = caster.getMsToTurnToPos(target.position);
 
-        this.justCasted.delay(spellActivationTime + this.turnToTargetDelay + 100);
+        this.justCasted.delay(spellActivationTime + this.turnToTargetDelay + 200);
         this.canNotStop.delay(spellActivationTime + this.turnToTargetDelay + 100);
     }
 
