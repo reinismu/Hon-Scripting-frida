@@ -17,35 +17,43 @@ import { Armadon } from "./scripts/Armadon";
 import { Accursed } from "./scripts/Accursed";
 import { Jeraziah } from "./scripts/Jeraziah";
 import { Maliken } from "./scripts/Maliken";
+import { SoulReaper } from "./scripts/SoulReaper";
+import { Scout } from "./scripts/Scout";
+import { Blacksmith } from "./scripts/Blacksmith";
+import { Gauntlet } from "./scripts/Gauntlet";
+import { Predator } from "./scripts/Predator";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Maliken();
+    const testScript23 = new Predator();
 
-
-
-
-    
 
 }, 200);
 
 
-// const testScript = new Accursed();
+// Arti?
+
+// const testScript = new Gauntlet();
 // const testScript = new Armadon();
+// const testScript = new Blacksmith();
 // const testScript = new Jeraziah();
 // const testScript = new Devourer();
+// const testScript = new Gountlet();
 // const testScript = new MasterOfArms();
 // const testScript = new Maliken();
+// const testScript = new Predator();
 // const testScript = new Slither();
 // const testScript = new Oogie();
 // const testScript = new Parallax();
 // const testScript = new WitchSlayer();
+// const testScript = new Scout();
 // const testScript = new Bushwack();
 // const testScript = new Kinesis();
 // const testScript = new Pyromancer();
+// const testScript = new SoulReaper();
 // const testScript = new Thunderbringer();
 // const testScript = new Nitro();
 // const testScript = new Soulstealer(); // <-- pretty shit

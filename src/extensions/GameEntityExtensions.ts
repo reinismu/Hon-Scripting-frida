@@ -58,6 +58,7 @@ declare module "../honIdaStructs" {
         getHealthRegen(): number;
         getMana(): number;
         getMaxMana(): number;
+        getManaPercent(): number;
         getManaRegen(): number;
         getMoveSpeed(smth: boolean): number; // use default 1
         getEvasionMelee(): number;
@@ -474,6 +475,11 @@ IUnitEntity.prototype.getMaxMana = function(): number {
         "float",
         ["pointer"]
     )(self.ptr) as number;
+};
+
+IUnitEntity.prototype.getManaPercent = function(): number {
+    const self = this as IUnitEntity;
+    return self.getMana() * 100 / self.getMaxMana();
 };
 
 IUnitEntity.prototype.getManaRegen = function(): number {

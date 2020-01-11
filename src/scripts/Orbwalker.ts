@@ -1,6 +1,6 @@
 import { EventBus, Subscribe } from "eventbus-ts";
 import { IGameEntity, IUnitEntity, IProjectile } from "../honIdaStructs";
-import { Vec2, Vector2d } from "../utils/Vector";
+import { Vec2, Vector2d, Vector } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { ACTION, Action } from "../actions/Action";
 import { TARGET_SELECTOR } from "./TargetSelector";
@@ -34,10 +34,17 @@ export class Orbwalker {
             return;
         }
 
-        const wantedTarget = TARGET_SELECTOR.getEasiestPhysicalKillInRange(300, position);
-        let target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 50);
-        if(wantedTarget) {
-            target = wantedTarget == target ? target : null;
+        const wantedTarget = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
+            this.walker.getAttackRange() + 40 + this.walker.getMoveSpeed(true) / 2,
+            position
+        );
+        let target = null;
+        if (wantedTarget) {
+            position = Vector.extendDir(wantedTarget.position, { ...wantedTarget.facingVector(), z: 0 }, 70);
+            target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 50);
+            if (target?.networkId != wantedTarget.networkId) {
+                target = null;
+            }
         }
         this.orbwalkTarget(target, position, justWalk);
     }
@@ -97,13 +104,24 @@ export class Orbwalker {
         return creep;
     }
 
+    private getAttackSlowTime(): number {
+        if (this.walker.hasAnyOfTool(new Set(["State_Gauntlet_Ability1"]))) {
+            console.log("slowed attack");
+            return 300;
+        }
+        if (this.walker.isMelee()) {
+            return 50;
+        }
+        return 0;
+    }
+
     private orbwalkTarget(target: IUnitEntity | null, position: Vec2, justWalk: boolean = false) {
         if (!justWalk && this.canAttack.isTrue(500)) {
             if (target) {
                 const turnTime = this.walker.getMsToTurnToPos(target.position);
                 this.isNotAttacking.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
                 if (this.canAttack.isTrue()) {
-                    this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown());
+                    this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown() + this.getAttackSlowTime());
                     this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
                     ACTION.attack(target);
                     return;

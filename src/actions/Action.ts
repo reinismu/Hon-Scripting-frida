@@ -70,6 +70,15 @@ export class Action {
         this.myBuffer.myData = this.rawBuffer;
     }
 
+    private toArray(buffer: Buffer): number[] {
+        const array: number[] = [];
+        const from = new Uint8Array(buffer);
+        for (let i = 0; i < from.length; i++) {
+            array.push(from[i]);
+        }
+        return array;
+    }
+
     public stop(entity: IUnitEntity | null = null) {
         this.myBuffer.size = 3;
         this.myBuffer.allocatedSize = 3;
@@ -77,16 +86,16 @@ export class Action {
         this.myBuffer.someFlag = 0;
 
         this.buffer[0] = 32;
-        this.buffer.writeUInt16LE(entity ? entity.networkId : 0xFFFF, 1);
-        
-        this.rawBuffer.writeByteArray(this.buffer);
+        this.buffer.writeUInt16LE(entity ? entity.networkId : 0xffff, 1);
+
+        this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
     }
 
     /**
-     * @param pos 
-     * @param flag 
+     * @param pos
+     * @param flag
      * @param entity allows to move specific entity in selection
      */
     public move(pos: Vec2, flag: number = 0x2, entity: IUnitEntity | null = null) {
@@ -100,10 +109,10 @@ export class Action {
         this.buffer.writeFloatLE(pos.x, 2);
         this.buffer.writeFloatLE(pos.y, 6);
         this.buffer.write("\x00\x00\x00\x00\x00", 10, 5, "ascii");
-        this.buffer.writeUInt16LE(entity ? entity.networkId : 0xFFFF, 15);
+        this.buffer.writeUInt16LE(entity ? entity.networkId : 0xffff, 15);
         this.buffer[17] = 0;
         // console.log(`this.buffer ${new Uint8Array(this.buffer.slice(0, 0x12))}`);
-        this.rawBuffer.writeByteArray(this.buffer);
+        this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
     }
@@ -119,10 +128,10 @@ export class Action {
         this.buffer.writeUInt16LE(target.networkId, 2);
         this.buffer.write("\x00\x00\x00\x00\x00\xFF\xFF\x00", 4, 8, "ascii");
 
-        this.rawBuffer.writeByteArray(this.buffer);
+        this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
-    } 
+    }
 
     public castSpell(entity: IGameEntity, slot: number) {
         this.myBuffer.size = 0x6;
@@ -134,7 +143,7 @@ export class Action {
         this.buffer.writeUInt32LE(entity.networkId, 1);
         this.buffer[5] = slot;
 
-        this.rawBuffer.writeByteArray(this.buffer);
+        this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
     }
@@ -151,7 +160,7 @@ export class Action {
         this.buffer[4] = 0;
         this.buffer[5] = 0;
 
-        this.rawBuffer.writeByteArray(this.buffer);
+        this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
     }
@@ -170,7 +179,7 @@ export class Action {
         this.buffer.writeFloatLE(x, 6);
         this.buffer.writeFloatLE(y, 10);
 
-        this.rawBuffer.writeByteArray(this.buffer);
+        this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
     }
@@ -188,7 +197,7 @@ export class Action {
         this.buffer[5] = 0; //dunno
         this.buffer.writeUInt16LE(target.networkId, 6);
 
-        this.rawBuffer.writeByteArray(this.buffer);
+        this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
         this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
     }

@@ -43,8 +43,8 @@ export class StoppableLineSpell {
         if (!spell.canActivate()) {
             return;
         }
-        const spellActivationTime = spell.getAdjustedCastTime();
-        // console.log(`spellActivationTime: ${spellActivationTime}`);
+        const spellActivationTime = Math.max(spell.getAdjustedCastTime(),spell.getAdjustedActionTime()); // make sure this is correct for other heroes!
+        console.log(`spellActivationTime: ${spellActivationTime}`);
         if (tryStop && !this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.castPosition && this.castTarget) {
             this.canStopCheck.delay(50);
             if (this.castTargetAnimationIndex != this.castTarget.animation) {

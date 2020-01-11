@@ -138,7 +138,7 @@ export class Maliken extends Script {
         this.doRLogic();
         this.doWLogic();
         tryUseAllItems(this.myHero, this.justCasted);
-        this.doQLogic();
+        // this.doQLogic();
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }
 
