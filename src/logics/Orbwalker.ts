@@ -28,9 +28,8 @@ export class Orbwalker {
     }
 
     public orbwalk(position: Vec2, justWalk: boolean = false) {
-        this.walker = OBJECT_MANAGER.myHero;
         if (!this.walker.isMelee()) {
-            const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 30);
+            const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 30, this.walker.position);
             this.orbwalkTarget(target, position, justWalk);
             return;
         }
@@ -42,7 +41,7 @@ export class Orbwalker {
         let target = null;
         if (wantedTarget) {
             position = Vector.extendDir(wantedTarget.position, { ...wantedTarget.facingVector(), z: 0 }, 70);
-            target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 50);
+            target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 50, this.walker.position);
             if (target?.networkId != wantedTarget.networkId) {
                 target = null;
             }
@@ -51,14 +50,12 @@ export class Orbwalker {
     }
 
     public lastHit(position: Vec2) {
-        this.walker = OBJECT_MANAGER.myHero;
         const target = this.getKillableCreep();
 
         this.orbwalkTarget(target, position);
     }
 
     public laneClear(position: Vec2) {
-        this.walker = OBJECT_MANAGER.myHero;
         let target = this.getKillableCreep();
         if (!target) {
             target = this.getMaxHpCreep();

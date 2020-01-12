@@ -44,7 +44,7 @@ export class MyBuffer extends IBuffer {
 
 const MAX_INDEX = 100;
 const BUFFER_SIZE = 0x20;
-const ACTION_DELAY_MS = 50;
+const ACTION_DELAY_MS = 20;
 class ActionQueue {
     private hostClient: CHostClient;
 
@@ -78,6 +78,7 @@ class ActionQueue {
     }
 
     private send(index: number) {
+        // console.log(`Send index ${index}`);
         this.sendGameData(this.hostClient.ptr, this.circularBuffer.add(index * BUFFER_SIZE), 0);
     }
 
@@ -197,7 +198,6 @@ export class Action {
         this.buffer.writeUInt16LE(0xffff, 4);
         this.buffer.write("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 6, 10, "ascii");
 
-        console.log(`this.buffer ${new Uint8Array(this.buffer.slice(0, 0x10))}`);
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
         this.send();
