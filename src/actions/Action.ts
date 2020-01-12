@@ -1,6 +1,8 @@
 import { CHostClient, IBuffer, IGameEntity, IUnitEntity } from "../honIdaStructs";
 import { K2_MODULE, IGAME } from "../game/Globals";
 import { Vec2 } from "../utils/Vector";
+import { EventBus, Subscribe } from "eventbus-ts";
+import { DelayedCondition } from "../utils/DelayedCondition";
 
 export class MyBuffer extends IBuffer {
     get myVtable(): NativePointer {
@@ -40,6 +42,60 @@ export class MyBuffer extends IBuffer {
     }
 }
 
+const MAX_INDEX = 100;
+const BUFFER_SIZE = 0x20;
+const ACTION_DELAY_MS = 50;
+class ActionQueue {
+    private hostClient: CHostClient;
+
+    private circularBuffer = Memory.alloc(BUFFER_SIZE * MAX_INDEX);
+    private currentIndex = 0;
+    private actionIndexQueue: number[] = [];
+    private canSend = new DelayedCondition();
+
+    private sendGameData = new NativeFunction(K2_MODULE.getExportByName("_ZN11CHostClient12SendGameDataERK7IBufferb"), "pointer", [
+        "pointer",
+        "pointer",
+        "bool"
+    ]);
+
+    constructor(hostClient: CHostClient) {
+        this.hostClient = hostClient;
+        EventBus.getDefault().register(this);
+    }
+
+    public queue(buffer: MyBuffer) {
+        if (this.actionIndexQueue.length >= MAX_INDEX) {
+            console.log("Exceeded max actions!");
+            return;
+        }
+        Memory.copy(this.circularBuffer.add(this.currentIndex * BUFFER_SIZE), buffer.ptr, BUFFER_SIZE);
+        this.actionIndexQueue.push(this.currentIndex);
+        this.currentIndex++;
+        if (this.currentIndex >= MAX_INDEX) {
+            this.currentIndex = 0;
+        }
+    }
+
+    private send(index: number) {
+        this.sendGameData(this.hostClient.ptr, this.circularBuffer.add(index * BUFFER_SIZE), 0);
+    }
+
+    @Subscribe("MainLoopEvent")
+    onMainLoop() {
+        if (!this.canSend.isTrue()) {
+            return;
+        }
+
+        const index = this.actionIndexQueue.shift();
+        if (index === undefined) {
+            return;
+        }
+        this.send(index);
+        this.canSend.delay(ACTION_DELAY_MS);
+    }
+}
+
 export class Action {
     private myBuffer: MyBuffer;
     private rawBuffer: NativePointer;
@@ -57,11 +113,16 @@ export class Action {
     private isLeaver = new NativeFunction(K2_MODULE.getExportByName("_ZN11CHostClient8IsLeaverEv"), "bool", ["pointer"]);
 
     private hostClient: CHostClient;
+    private useQueue: boolean;
+    private actionQueue: ActionQueue;
 
-    constructor(hostClient: CHostClient) {
+    constructor(hostClient: CHostClient, useQueue: boolean = true) {
         this.hostClient = hostClient;
+        this.useQueue = useQueue;
+        this.actionQueue = new ActionQueue(this.hostClient);
+
         this.rawBuffer = Memory.alloc(0x2000);
-        this.myBuffer = new MyBuffer(Memory.alloc(0x20));
+        this.myBuffer = new MyBuffer(Memory.alloc(BUFFER_SIZE));
         this.myBuffer.allocatedSize = 0;
         this.myBuffer.size = 0;
         this.myBuffer.currentOffset = 0;
@@ -79,6 +140,13 @@ export class Action {
         return array;
     }
 
+    public send() {
+        if (!this.useQueue) {
+            this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+        }
+        this.actionQueue.queue(this.myBuffer);
+    }
+
     public stop(entity: IUnitEntity | null = null) {
         this.myBuffer.size = 3;
         this.myBuffer.allocatedSize = 3;
@@ -90,7 +158,7 @@ export class Action {
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+        this.send();
     }
 
     /**
@@ -114,10 +182,33 @@ export class Action {
         // console.log(`this.buffer ${new Uint8Array(this.buffer.slice(0, 0x12))}`);
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+        this.send();
     }
 
-    public attack(target: IGameEntity, flag: number = 0x8) {
+    public select(entity: IGameEntity) {
+        this.myBuffer.size = 0x10;
+        this.myBuffer.allocatedSize = 0x10;
+        this.myBuffer.currentOffset = 0;
+        this.myBuffer.someFlag = 0;
+
+        this.buffer[0] = 90;
+        this.buffer[1] = 1;
+        this.buffer.writeUInt16LE(entity.networkId, 2);
+        this.buffer.writeUInt16LE(0xffff, 4);
+        this.buffer.write("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 6, 10, "ascii");
+
+        console.log(`this.buffer ${new Uint8Array(this.buffer.slice(0, 0x10))}`);
+        this.rawBuffer.writeByteArray(this.toArray(this.buffer));
+
+        this.send();
+    }
+
+    /**
+     * @param target
+     * @param flag
+     * @param entity allows to move specific entity in selection
+     */
+    public attack(target: IGameEntity, flag: number = 0x8, entity: IUnitEntity | null = null) {
         this.myBuffer.size = 0x12;
         this.myBuffer.allocatedSize = 0x12;
         this.myBuffer.currentOffset = 0;
@@ -126,11 +217,13 @@ export class Action {
         this.buffer[0] = 31;
         this.buffer[1] = flag & 255;
         this.buffer.writeUInt16LE(target.networkId, 2);
-        this.buffer.write("\x00\x00\x00\x00\x00\xFF\xFF\x00", 4, 8, "ascii");
+        this.buffer.write("\x00\x00\x00\x00\x00", 4, 5, "ascii");
+        this.buffer.writeUInt16LE(entity ? entity.networkId : 0xffff, 9);
+        this.buffer[11] = 0;
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+        this.send();
     }
 
     public castSpell(entity: IGameEntity, slot: number) {
@@ -145,7 +238,7 @@ export class Action {
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+        this.send();
     }
 
     public castSpell2(entity: IGameEntity, slot: number) {
@@ -162,7 +255,7 @@ export class Action {
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+        this.send();
     }
 
     public castSpellPosition(entity: IGameEntity, slot: number, x: number, y: number) {
@@ -181,7 +274,7 @@ export class Action {
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+        this.send();
     }
 
     public castSpellEntity(entity: IGameEntity, slot: number, target: IGameEntity) {
@@ -199,7 +292,7 @@ export class Action {
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
+        this.send();
     }
 }
 

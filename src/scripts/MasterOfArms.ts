@@ -7,7 +7,7 @@ import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
-import { Orbwalker } from "./Orbwalker";
+import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";

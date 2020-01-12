@@ -11,66 +11,15 @@ import { tryUseAllItems } from "./Items";
 import { Vector2d, Vec2 } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
+import { IllustionController } from "../logics/IllusionController";
 
-export class Gauntlet extends Script {
+export class Andromeda extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
-    private grab = new StoppableLineSpell(this.justCasted);
 
     constructor() {
         super();
         EventBus.getDefault().register(this);
-    }
-
-    doGrabLogic() {
-        const e = this.myHero.getTool(1) as IEntityAbility;
-        if (!e.canActivate()) {
-            return;
-        }
-
-        const range = e.getDynamicRange();
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(range);
-        if (!enemyHero) {
-            return;
-        }
-        this.grab.cast(
-            e,
-            2,
-            this.myHero,
-            enemyHero,
-            1600,
-            50,
-            (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => {
-                const hookRange = spell.getDynamicRange() + 20;
-                const hookRadius = 75;
-
-                const heroes = OBJECT_MANAGER.heroes as IUnitEntity[];
-
-                const collisionEntities = heroes
-                    .filter(h => !h.isEnemy(this.myHero))
-                    .filter(u => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
-
-                if (Vector2d.distance(castPos, caster.position) > hookRange) {
-                    return false;
-                }
-                const startPos = caster.position;
-                if (
-                    collisionEntities.some(
-                        u =>
-                            !u.ptr.equals(caster.ptr) &&
-                            !u.ptr.equals(target.ptr) &&
-                            Vector2d.distToSegmentSquared(u.position, startPos, castPos) <
-                                (hookRadius + u.boundingRadius) * (hookRadius + u.boundingRadius)
-                    )
-                ) {
-                    return false;
-                }
-                return true;
-            },
-            null,
-            null,
-            this.myHero.getEnemiesInRange(this.myHero.getAttackRange() + 100).length == 0
-        );
     }
 
     doQLogic() {
@@ -88,7 +37,6 @@ export class Gauntlet extends Script {
 
         this.justCasted.delay(200);
         ACTION.castSpell2(this.myHero, 0);
-        // this.orbwalker.canAttack.delay(200);
     }
 
     doRLogic() {
@@ -122,6 +70,7 @@ export class Gauntlet extends Script {
         }
 
         if (!INPUT.isControlDown()) return;
+        new IllustionController(this.myHero).control(null);
 
         // OBJECT_MANAGER.heroes.forEach(h => {
         //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
@@ -138,13 +87,19 @@ export class Gauntlet extends Script {
         this.doRLogic();
         // this.doRLogic();
         this.doQLogic();
-        if (this.orbwalker.canAttack.isTrue()) {
-            this.doGrabLogic();
-        }
         // this.doWLogic();
 
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
+    }
+
+    @Subscribe("SendGameDataEvent")
+    onSendGameDataEvent(args: NativePointer[]) {
+        // if (!INPUT.isControlDown()) return;
+
+        const buffer = new MyBuffer(args[1]);
+        const data = new Uint8Array(buffer.dataBuffer);
+        console.log(data);
     }
 }

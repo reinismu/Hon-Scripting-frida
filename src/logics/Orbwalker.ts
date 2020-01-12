@@ -2,9 +2,10 @@ import { EventBus, Subscribe } from "eventbus-ts";
 import { IGameEntity, IUnitEntity, IProjectile } from "../honIdaStructs";
 import { Vec2, Vector2d, Vector } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { ACTION, Action } from "../actions/Action";
-import { TARGET_SELECTOR } from "./TargetSelector";
-import { OBJECT_MANAGER, ObjectManager } from "../objects/ObjectManager";
+import { ACTION } from "../actions/Action";
+import { TARGET_SELECTOR } from "../scripts/TargetSelector";
+import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { CLIENT } from "../game/Client";
 
 const MIN_MOVE_DIST = 80;
 
@@ -123,13 +124,13 @@ export class Orbwalker {
                 if (this.canAttack.isTrue()) {
                     this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown() + this.getAttackSlowTime());
                     this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
-                    ACTION.attack(target);
+                    this.attack(target);
                     return;
                 }
                 if (this.canAttack.isTrue(turnTime)) {
                     if (this.canFaceTheEnemy.isTrue()) {
                         this.canFaceTheEnemy.delay(turnTime + 250);
-                        ACTION.move(Vector2d.extendTo(this.walker.position, target.position, 30));
+                        this.move(Vector2d.extendTo(this.walker.position, target.position, 30));
                     }
                     return;
                 }
@@ -140,8 +141,18 @@ export class Orbwalker {
                 return;
             }
             this.canMove.delay(150);
-            ACTION.move(position);
+            this.move(position);
         }
+    }
+
+    private attack(target: IUnitEntity) {
+        ACTION.attack(target, 0x8, this.walker);
+    }
+
+    private move(position: Vec2) {
+        // ACTION.select(this.walker);
+        // CLIENT.sendFakeMousePosToServer(position.x, position.y, this.walker.position.z);
+        ACTION.move(position, 0x2, this.walker);
     }
 
     @Subscribe("EntitySpawnedEvent")

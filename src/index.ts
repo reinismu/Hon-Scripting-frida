@@ -22,13 +22,15 @@ import { Scout } from "./scripts/Scout";
 import { Blacksmith } from "./scripts/Blacksmith";
 import { Gauntlet } from "./scripts/Gauntlet";
 import { Predator } from "./scripts/Predator";
+import { Andromeda } from "./scripts/Andromeda";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Predator();
+    const testScript23 = new Andromeda();
+
 
 
 }, 200);
@@ -36,8 +38,9 @@ setTimeout(() => {
 
 // Arti?
 
-// const testScript = new Gauntlet();
 // const testScript = new Armadon();
+// const testScript = new Andromeda();
+// const testScript = new Gauntlet();
 // const testScript = new Blacksmith();
 // const testScript = new Jeraziah();
 // const testScript = new Devourer();

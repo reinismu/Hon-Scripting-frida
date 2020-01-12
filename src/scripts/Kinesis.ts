@@ -10,7 +10,7 @@ import { OBJECT_MANAGER, ObjectManager } from "../objects/ObjectManager";
 import { Vec2, Vector, Vector2d } from "../utils/Vector";
 import { shitPrediction, goodPrediction, opPrediction } from "./Prediction";
 import { RESOURCE_MANAGER } from "../objects/ResourceManager";
-import { Orbwalker } from "./Orbwalker";
+import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";

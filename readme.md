@@ -57,10 +57,14 @@ Tool to easily interact with game
     * DONE Hero Velocity
     * DONE Vector prediction
 * KINDA DONE isMoving
-* Empath in hero issues
+* DONE Empath in hero issues
+* DONE Extract stoppable spell logic 
+* DONE IsStunned/Silenced etc..
 * nullstone
-* Extract stoppable spell logic 
-* IsStunned/Silenced etc..
+* Andromeda
+    * Ult -> pk back logic
+    * illusion control
+* I my own hero
 * Improve nitro farm
 * draw circle
 * Auto pick champ

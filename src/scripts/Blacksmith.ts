@@ -4,7 +4,7 @@ import { IEntityAbility, IUnitEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { TARGET_SELECTOR } from "./TargetSelector";
-import { Orbwalker } from "./Orbwalker";
+import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { tryUseAllItems } from "./Items";
