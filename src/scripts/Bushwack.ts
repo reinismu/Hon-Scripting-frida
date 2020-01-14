@@ -13,10 +13,12 @@ import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { tryUseAllItems } from "./Items";
+import { IllustionController } from "../logics/IllusionController";
 
 export class Bushwack extends Script {
     private canCast = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
+    private illusionController = new IllustionController(this.myHero);
 
     constructor() {
         super();
@@ -31,7 +33,7 @@ export class Bushwack extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(q.getDynamicRange() + 20);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 20);
         if (!enemyHero) {
             return;
         }
@@ -70,6 +72,8 @@ export class Bushwack extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        this.illusionController.refreshHero(this.myHero);
+        this.illusionController.control();
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);

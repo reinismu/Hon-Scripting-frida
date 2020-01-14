@@ -10,7 +10,7 @@ import { CLIENT } from "../game/Client";
 const MIN_MOVE_DIST = 80;
 
 export class Orbwalker {
-    private walker: IUnitEntity;
+    protected walker: IUnitEntity;
 
     canMove = new DelayedCondition();
     canAttack = new DelayedCondition();
@@ -102,7 +102,7 @@ export class Orbwalker {
         return creep;
     }
 
-    private getAttackSlowTime(): number {
+    protected getAttackSlowTime(): number {
         if (this.walker.hasAnyOfTool(new Set(["State_Gauntlet_Ability1"]))) {
             console.log("slowed attack");
             return 300;
@@ -110,6 +110,11 @@ export class Orbwalker {
         if (this.walker.isMelee()) {
             return 50;
         }
+        return 0;
+    }
+
+
+    protected getMoveSlowTime(): number {
         return 0;
     }
 
@@ -137,7 +142,7 @@ export class Orbwalker {
             if (Vector2d.distance(position, this.walker.position) < MIN_MOVE_DIST) {
                 return;
             }
-            this.canMove.delay(150);
+            this.canMove.delay(150 + this.getMoveSlowTime());
             this.move(position);
         }
     }

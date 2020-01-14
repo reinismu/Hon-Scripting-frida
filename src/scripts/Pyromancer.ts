@@ -15,12 +15,14 @@ import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
 import { tryUseAllItems } from "./Items";
+import { IllustionController } from "../logics/IllusionController";
 
 export class Pyromancer extends Script {
     private justCasted = new DelayedCondition();
     private stoppableQ = new StoppableLineSpell(this.justCasted);
     private stoppableW = new StoppableCircularSpell(this.justCasted);
     private orbwalker = new Orbwalker(this.myHero);
+    private illusionController = new IllustionController(this.myHero);
 
     constructor() {
         super();
@@ -120,6 +122,8 @@ export class Pyromancer extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        this.illusionController.refreshHero(this.myHero);
+        this.illusionController.control();
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);

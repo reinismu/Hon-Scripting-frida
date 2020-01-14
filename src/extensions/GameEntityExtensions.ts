@@ -37,7 +37,7 @@ const physicalImmunityStates = new Set(["State_Accursed_Ability4", "State_VoidTa
 
 declare module "../honIdaStructs" {
     interface IUnitEntity {
-        facingVector(): { x: number; y: number };
+        facingVector(): Vec2;
         getMsToTurnToPos(pos: Vec2): number;
         isFacing(pos: Vec2 | IUnitEntity): boolean;
         getTool(index: number): ISlaveEntity | null;

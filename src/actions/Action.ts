@@ -44,7 +44,7 @@ export class MyBuffer extends IBuffer {
 
 const MAX_INDEX = 100;
 const BUFFER_SIZE = 0x20;
-const ACTION_DELAY_MS = 20;
+const ACTION_DELAY_MS = 50;
 class ActionQueue {
     private hostClient: CHostClient;
 
@@ -141,8 +141,8 @@ export class Action {
         return array;
     }
 
-    public send() {
-        if (!this.useQueue) {
+    public send(insta: boolean = false) {
+        if (!this.useQueue && !insta) {
             this.sendGameData(this.hostClient.ptr, this.myBuffer.ptr, 0);
         }
         this.actionQueue.queue(this.myBuffer);
@@ -238,7 +238,7 @@ export class Action {
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.send();
+        this.send(true);
     }
 
     public castSpell2(entity: IGameEntity, slot: number) {
@@ -255,7 +255,7 @@ export class Action {
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.send();
+        this.send(true);
     }
 
     public castSpellPosition(entity: IGameEntity, slot: number, x: number, y: number) {
@@ -274,7 +274,7 @@ export class Action {
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.send();
+        this.send(true);
     }
 
     public castSpellEntity(entity: IGameEntity, slot: number, target: IGameEntity) {
@@ -292,7 +292,7 @@ export class Action {
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 
-        this.send();
+        this.send(true);
     }
 }
 

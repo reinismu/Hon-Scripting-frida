@@ -69,18 +69,47 @@ export class Andromeda extends Script {
         if (!r.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(r.getDynamicRange() + 20);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(r.getDynamicRange() + 20);
         if (!enemyHero) {
             return;
         }
-        this.justCasted.delay(300);
+        const currentEnemies = this.myHero.getEnemiesInRange(800).length;
+        const enemiesAtTele = enemyHero.getAlliesInRange(800).length;
+        if (currentEnemies <= enemiesAtTele) {
+            return;
+        }
         ACTION.castSpellEntity(this.myHero, 3, enemyHero);
+    }
+
+    doREscape() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const r = this.myHero.getTool(3) as IEntityAbility;
+        if (!r.canActivate()) {
+            return;
+        }
+
+        const enemiesFightingMeCount = this.myHero.getEnemiesFightingMe(500).length;
+        if (enemiesFightingMeCount == 0) {
+            return;
+        }
+        const teleAllies = this.myHero
+            .getAlliesInRange(r.getDynamicRange())
+            .filter(
+                h => h.getHealthPercent() > this.myHero.getHealthPercent() && enemiesFightingMeCount < h.getEnemiesFightingMe(650).length
+            );
+
+        if (teleAllies) {
+            ACTION.castSpellEntity(this.myHero, 3, teleAllies[0]);
+        }
     }
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
         this.illusionController.refreshHero(this.myHero);
+        this.illusionController.control();
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -93,7 +122,6 @@ export class Andromeda extends Script {
         }
 
         if (!INPUT.isControlDown()) return;
-        this.illusionController.control(null);
 
         // OBJECT_MANAGER.heroes.forEach(h => {
         //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
@@ -107,13 +135,14 @@ export class Andromeda extends Script {
         // });
 
         tryUseAllItems(this.myHero, this.justCasted);
-        
+
         if (this.myHero.isStaffed()) {
             this.doRLogic();
         }
         this.doQLogic();
         this.doWLogic();
-        // this.doRLogic();
+        this.doRLogic();
+        this.doREscape();
         // this.doWLogic();
 
         if (this.justCasted.isTrue()) {

@@ -29,7 +29,7 @@ console.log("Hello from typescript. Process id: " + Process.id);
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Andromeda();
+    const testScript23 = new Bushwack();
 
 
 
@@ -40,6 +40,7 @@ setTimeout(() => {
 
 // const testScript = new Armadon();
 // const testScript = new Andromeda();
+// const testScript = new Bushwack();
 // const testScript = new Gauntlet();
 // const testScript = new Blacksmith();
 // const testScript = new Jeraziah();
@@ -53,7 +54,6 @@ setTimeout(() => {
 // const testScript = new Parallax();
 // const testScript = new WitchSlayer();
 // const testScript = new Scout();
-// const testScript = new Bushwack();
 // const testScript = new Kinesis();
 // const testScript = new Pyromancer();
 // const testScript = new SoulReaper();

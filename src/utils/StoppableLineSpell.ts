@@ -43,7 +43,7 @@ export class StoppableLineSpell {
         if (!spell.canActivate()) {
             return;
         }
-        const spellActivationTime = Math.max(spell.getAdjustedCastTime(),spell.getAdjustedActionTime()); // make sure this is correct for other heroes!
+        const spellActivationTime = spell.getAdjustedActionTime(); // make sure this is correct for other heroes!
         console.log(`spellActivationTime: ${spellActivationTime}`);
         if (tryStop && !this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.castPosition && this.castTarget) {
             this.canStopCheck.delay(50);
@@ -69,6 +69,7 @@ export class StoppableLineSpell {
             const deviation = Vector2d.distToSegment(targetPos, caster.position, this.castPosition);
             if (deviation > 100) {
                 this.stopCast();
+                this.justCasted.delay(50);
                 return;
             }
         }
