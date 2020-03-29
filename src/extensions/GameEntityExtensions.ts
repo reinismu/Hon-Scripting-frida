@@ -3,6 +3,7 @@ import { tryGetTypeInfo } from "../objects/RTTI";
 import { SHARED_MODULE, IGAME } from "../game/Globals";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Vec2, Vector2d } from "../utils/Vector";
+import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 
 const toolInitMap = new Map([
     [
@@ -40,6 +41,7 @@ declare module "../honIdaStructs" {
         facingVector(): Vec2;
         getMsToTurnToPos(pos: Vec2): number;
         isFacing(pos: Vec2 | IUnitEntity): boolean;
+        isFacing(pos: Vec2 | IUnitEntity, checkAngle: number): boolean;
         getTool(index: number): ISlaveEntity | null;
         getItem(name: string): { index: number; item: IEntityItem } | null;
         isEnemy(entity: IUnitEntity): boolean;
@@ -87,9 +89,9 @@ declare module "../honIdaStructs" {
         isMelee(): boolean;
         hasTool(name: string): boolean;
         hasAnyOfTool(names: Set<string>): boolean;
-        getEnemiesFightingMe(range: number): IHeroEntity[]
-        getEnemiesInRange(range: number): IHeroEntity[]
-        getAlliesInRange(range: number): IHeroEntity[]
+        getEnemiesFightingMe(range: number): IHeroEntity[];
+        getEnemiesInRange(range: number): IHeroEntity[];
+        getAlliesInRange(range: number): IHeroEntity[];
     }
 
     interface IHeroEntity {
@@ -102,7 +104,8 @@ declare module "../honIdaStructs" {
 }
 
 function turnAngle(entity: IUnitEntity, pos: Vec2) {
-    const faceVec = Vector2d.normalized(entity.facingVector());
+    const velocity = VELOCITY_UPDATER.getVelocity(entity);
+    const faceVec = Vector2d.normalized(velocity.x != 0 || velocity.y != 0 ? velocity : entity.facingVector());
     const targetVec = Vector2d.normalized(Vector2d.sub(pos, entity.position));
     return radianToDegree(Math.acos(Vector2d.dot(faceVec, targetVec)));
 }
@@ -165,14 +168,14 @@ IUnitEntity.prototype.getMsToTurnToPos = function(pos: Vec2): number {
     return angle * 0.8; // Magic number TODO fix (Works okish)
 };
 
-IUnitEntity.prototype.isFacing = function(pos: Vec2 | IUnitEntity): boolean {
+IUnitEntity.prototype.isFacing = function(pos: Vec2 | IUnitEntity, checkAngle: number = 75): boolean {
     const angle = turnAngle(this as IUnitEntity, pos instanceof IUnitEntity ? pos.position : pos);
-    return angle < 75; 
+    return angle < checkAngle;
 };
 
 IUnitEntity.prototype.isMelee = function(): boolean {
     const self = this as IUnitEntity;
-    return self.getAttackRange() < 210; 
+    return self.getAttackRange() < 210;
 };
 
 IVisualEntity.prototype.getModelId = function(): number {
@@ -479,7 +482,7 @@ IUnitEntity.prototype.getMaxMana = function(): number {
 
 IUnitEntity.prototype.getManaPercent = function(): number {
     const self = this as IUnitEntity;
-    return self.getMana() * 100 / self.getMaxMana();
+    return (self.getMana() * 100) / self.getMaxMana();
 };
 
 IUnitEntity.prototype.getManaRegen = function(): number {
@@ -610,21 +613,19 @@ IUnitEntity.prototype.facingVector = function(): { x: number; y: number } {
 
 IUnitEntity.prototype.getEnemiesFightingMe = function(range: number): IHeroEntity[] {
     const self = this as IUnitEntity;
-    return self.getEnemiesInRange(range).filter(
-        h => h.isFacing(self)
-    )
+    return self.getEnemiesInRange(range).filter(h => h.isFacing(self));
 };
 
 IUnitEntity.prototype.getEnemiesInRange = function(range: number): IHeroEntity[] {
     const self = this as IUnitEntity;
     return OBJECT_MANAGER.heroes.filter(
         h => h.health > 0 && !h.isIllusion() && h.isEnemy(self) && h.position.distance2d(self.position) < range
-    )
+    );
 };
 
 IUnitEntity.prototype.getAlliesInRange = function(range: number): IHeroEntity[] {
     const self = this as IUnitEntity;
     return OBJECT_MANAGER.heroes.filter(
         h => h.health > 0 && !h.isIllusion() && !h.isEnemy(self) && h.position.distance2d(self.position) < range
-    )
+    );
 };

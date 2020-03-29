@@ -60,10 +60,11 @@ Tool to easily interact with game
 * DONE Empath in hero issues
 * DONE Extract stoppable spell logic 
 * DONE IsStunned/Silenced etc..
+* DONE Andromeda
+    * SKIP Ult -> pk back logic
+    * DONE illusion control
+* DONE add tablet pull to safety/danger
 * nullstone
-* Andromeda
-    * Ult -> pk back logic
-    * illusion control
 * I my own hero
 * Improve nitro farm
 * draw circle

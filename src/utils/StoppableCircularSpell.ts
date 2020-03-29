@@ -34,14 +34,15 @@ export class StoppableCircularSpell {
         target: IUnitEntity,
         radius: number,
         impactDelay: number = 0,
-        noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean = () => true
+        noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean = () => true,
+        tryStop: boolean = true
     ) {
         this.caster = caster;
         if (!spell.canActivate()) {
             return;
         }
         const spellActivationTime = spell.getAdjustedActionTime();
-        if (!this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.castPosition && this.castTarget) {
+        if (tryStop && !this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.castPosition && this.castTarget) {
             this.canStopCheck.delay(50);
             if (this.castTargetAnimationIndex != this.castTarget.animation) {
                 this.stopCast();
@@ -88,7 +89,7 @@ export class StoppableCircularSpell {
         this.castTargetAnimationIndex = target.animation;
         this.turnToTargetDelay = caster.getMsToTurnToPos(target.position);
 
-        this.justCasted.delay(spellActivationTime + this.turnToTargetDelay);
+        this.justCasted.delay(spellActivationTime + this.turnToTargetDelay + 50);
         this.canNotStop.delay(spellActivationTime + this.turnToTargetDelay);
     }
 

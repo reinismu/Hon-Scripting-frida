@@ -34,6 +34,7 @@ export class StoppableLineSpell {
         target: IUnitEntity,
         projectileSpeed: number,
         projectileRadius: number,
+        spellActivationTime: number,
         noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean = () => true,
         extendRange: number | null = null,
         rangeOverride: number | null = null,
@@ -43,10 +44,8 @@ export class StoppableLineSpell {
         if (!spell.canActivate()) {
             return;
         }
-        const spellActivationTime = spell.getAdjustedActionTime(); // make sure this is correct for other heroes!
-        console.log(`spellActivationTime: ${spellActivationTime}`);
         if (tryStop && !this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.castPosition && this.castTarget) {
-            this.canStopCheck.delay(50);
+            this.canStopCheck.delay(20);
             if (this.castTargetAnimationIndex != this.castTarget.animation) {
                 this.stopCast();
                 return;

@@ -37,7 +37,7 @@ export class WitchSlayer extends Script {
             return;
         }
         this.justCastedQ.delay(1200);
-        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 120, () => true, 250, qRange);
+        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 120,q.getAdjustedCastTime() + 50, () => true, 250, qRange);
     }
 
     doWLogic() {

@@ -38,7 +38,7 @@ export class Pyromancer extends Script {
         if (!enemyHero) {
             return;
         }
-        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 100);
+        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 100, q.getAdjustedCastTime() + 50);
     }
 
     doWLogic() {

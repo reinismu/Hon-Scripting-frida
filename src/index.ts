@@ -2,8 +2,6 @@ import { Nitro } from "./scripts/Nitro";
 import { initEventListener } from "./GameEventBus";
 import { Thunderbringer } from "./scripts/Thunderbringer";
 import { Soulstealer } from "./scripts/Soulstealer";
-import { monitor } from "./utils/MemoryAccessUtil";
-import { IGAME } from "./game/Globals";
 import { Devourer } from "./scripts/Devourer";
 import { Kinesis } from "./scripts/Kinesis";
 import { Pyromancer } from "./scripts/Pyromancer";
@@ -23,29 +21,34 @@ import { Blacksmith } from "./scripts/Blacksmith";
 import { Gauntlet } from "./scripts/Gauntlet";
 import { Predator } from "./scripts/Predator";
 import { Andromeda } from "./scripts/Andromeda";
+import { Goldenveil } from "./scripts/Goldenveil";
+import { Calamity } from "./scripts/Calamity";
+import { Flux } from "./scripts/Flux";
+import { Vindicator } from "./scripts/Vindicator";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Bushwack();
-
-
+    const testScript23 = new Devourer();
 
 }, 200);
 
 
 // Arti?
+// Restart Orbwalking on stun
 
 // const testScript = new Armadon();
 // const testScript = new Andromeda();
 // const testScript = new Bushwack();
 // const testScript = new Gauntlet();
+// const testScript = new Goldenveil();
+    // const testScript23 = new Flux();
 // const testScript = new Blacksmith();
 // const testScript = new Jeraziah();
 // const testScript = new Devourer();
-// const testScript = new Gountlet();
+// const testScript = new Gauntlet();
 // const testScript = new MasterOfArms();
 // const testScript = new Maliken();
 // const testScript = new Predator();

@@ -13,10 +13,12 @@ import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { tryUseAllItems } from "./Items";
+import { IllustionController } from "../logics/IllusionController";
 
 export class MasterOfArms extends Script {
     private canCast = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
+    private illusionController = new IllustionController(this.myHero);
 
     constructor() {
         super();
@@ -90,6 +92,9 @@ export class MasterOfArms extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        this.illusionController.refreshHero(this.myHero);
+        this.illusionController.control();
+
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -116,7 +121,7 @@ export class MasterOfArms extends Script {
             this.doQLogic();
             tryUseAllItems(this.myHero, this.canCast);
             this.doRLogic();
-            this.doELogic();
+            // this.doELogic();
         }
 
 

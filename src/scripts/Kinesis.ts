@@ -46,7 +46,8 @@ export class Kinesis extends Script {
             this.myHero,
             enemyHero,
             1600,
-            55,
+            50,
+            q.getAdjustedCastTime() + 50,
             (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => {
                 const hookRange = spell.getDynamicRange() + 20;
                 const hookRadius = 75;

@@ -91,7 +91,7 @@ class IllusionOrbwalker extends Orbwalker {
 
     private followAlly() {
         if (!this.followedHero) {
-            const getAlliesInRange = this.walker.getAlliesInRange(1500);
+            const getAlliesInRange = this.walker.getAlliesInRange(2500);
             if (getAlliesInRange) {
                 this.followedHero = getAlliesInRange[Math.floor(Math.random() * getAlliesInRange.length)];
             }
@@ -112,7 +112,7 @@ class IllusionOrbwalker extends Orbwalker {
 
     private attackWeakest() {
         if (!this.followedHero) {
-            this.followedHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(1500, this.walker.position);
+            this.followedHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(2000, this.walker.position);
         }
 
         if (!this.followedHero) {
@@ -158,7 +158,7 @@ class IllusionOrbwalker extends Orbwalker {
         if (rnd < 75) {
             return "AttackWeakest";
         }
-        if (rnd < 90) {
+        if (rnd < 95) {
             return "Yolo";
         }
         return null;

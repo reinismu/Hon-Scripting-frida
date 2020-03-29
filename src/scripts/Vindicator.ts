@@ -12,24 +12,18 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { tryUseAllItems } from "./Items";
 import { opPrediction } from "./Prediction";
+import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
+import { IllustionController } from "../logics/IllusionController";
 
-export class Maliken extends Script {
+export class Vindicator extends Script {
     private orbwalker = new Orbwalker(this.myHero);
     private justCasted = new DelayedCondition();
-    private throw = new StoppableLineSpell(this.justCasted);
-    private thrownSword: IGadgetEntity | null = null;
+    private stoppableW = new StoppableCircularSpell(this.justCasted);
+    private illusionController = new IllustionController(this.myHero);
 
     constructor() {
         super();
         EventBus.getDefault().register(this);
-    }
-
-    private hasThrownSword(): boolean {
-        return this.myHero.hasTool("State_Maliken_Ability1");
-    }
-
-    private isSlowedBySword(entity: IUnitEntity): boolean {
-        return entity.hasTool("State_Maliken_Ability1_Slow");
     }
 
     doQLogic() {
@@ -37,49 +31,23 @@ export class Maliken extends Script {
         if (!q.canActivate()) {
             return;
         }
-
-        if (this.hasThrownSword()) {
-            return;
-        }
-
-        const range = q.getDynamicRange();
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(range);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 100);
         if (!enemyHero) {
             return;
         }
-        this.throw.cast(
-            q,
-            0,
-            this.myHero,
-            enemyHero,
-            850,
-            350,
-            q.getAdjustedCastTime() + 50,
-            () => true,
-            null,
-            null,
-            this.myHero.getEnemiesInRange(this.myHero.getAttackRange() + 100).length == 0
-        );
+        this.stoppableW.cast(q, 0, this.myHero, enemyHero, 150, 300, () => true, false);
     }
 
-    doWLogic() {
-        if (!this.justCasted.isTrue()) {
+    doELogic() {
+        const e = this.myHero.getTool(2) as IEntityAbility;
+        if (!e.canActivate()) {
             return;
         }
-        const w = this.myHero.getTool(1) as IEntityAbility;
-        if (!w.canActivate()) {
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(e.getDynamicRange() + 90);
+        if (!enemyHero) {
             return;
         }
-        if (this.myHero.hasTool("State_Maliken_Ability2_Flame") && this.myHero.getHealthPercent() < 30) {
-            this.justCasted.delay(150);
-            ACTION.castSpell2(this.myHero, 1);
-            return;
-        }
-        if (this.myHero.hasTool("State_Maliken_Ability2_Healing") && this.myHero.getHealthPercent() > 36) {
-            this.justCasted.delay(150);
-            ACTION.castSpell2(this.myHero, 1);
-            return;
-        }
+        this.stoppableW.cast(e, 2, this.myHero, enemyHero, 150, 300, () => true, false);
     }
 
     doRLogic() {
@@ -99,6 +67,8 @@ export class Maliken extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        this.illusionController.refreshHero(this.myHero);
+        this.illusionController.control();
         // this.thrownSword = OBJECT_MANAGER.gadgets.find(g => g.typeName == "Gadget_Maliken_Ability1") || null;
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -136,9 +106,10 @@ export class Maliken extends Script {
         // OBJECT_MANAGER.creeps.forEach(h => {
         //     console.log(`creep:${h.typeName} ${h.boundingRadius}`);
         // });
-        this.doRLogic();
-        this.doWLogic();
+        // this.doRLogic();
         tryUseAllItems(this.myHero, this.justCasted);
+        this.doELogic();
+        this.doQLogic();
         // this.doQLogic();
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }

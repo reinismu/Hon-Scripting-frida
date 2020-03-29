@@ -11,11 +11,13 @@ import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { tryUseAllItems } from "./Items";
+import { IllustionController } from "../logics/IllusionController";
 
 export class Devourer extends Script {
     private orbwalker = new Orbwalker(this.myHero);
     private justCasted = new DelayedCondition();
     private hook = new StoppableLineSpell(this.justCasted);
+    private illusionController = new IllustionController(this.myHero);
 
     constructor() {
         super();
@@ -38,7 +40,8 @@ export class Devourer extends Script {
             this.myHero,
             enemyHero,
             1600,
-            55,
+            60,
+            q.getAdjustedCastTime() + 50, // make sure this is correct for other heroes!
             (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => {
                 const hookRange = spell.getDynamicRange() + 20;
                 const hookRadius = 75;
@@ -115,6 +118,8 @@ export class Devourer extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        this.illusionController.refreshHero(this.myHero);
+        this.illusionController.control();
         if (!INPUT.isControlDown()) return;
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);

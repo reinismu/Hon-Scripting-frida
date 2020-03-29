@@ -72,6 +72,28 @@ export class TargetSelector {
         }
         return null;
     }
+    /**
+     * Try to focus carries or dps focuses chars
+     * @param range 
+     * @param from 
+     */
+    getBestKillInRange(range: number, from: IUnitEntity = OBJECT_MANAGER.myHero): IHeroEntity | null {
+        const enemy = OBJECT_MANAGER.heroes
+            .filter(
+                h =>
+                    h.health > 0 &&
+                    !h.isIllusion() &&
+                    h.isEnemy(from) &&
+                    h.position.distance2d(from.position) < range &&
+                    !h.isMagicImmune() &&
+                    !h.isInvulnerable()
+            )
+            .sort((h1, h2) => h1.getMaxHealth() - h2.getMaxHealth())[0];
+        if (enemy) {
+            return enemy;
+        }
+        return null;
+    }
 
     getAllyInTrouble(range: number, minTroublePoints: number = 40, excludeSet: Set<IUnitEntity> = new Set(), from: IUnitEntity = OBJECT_MANAGER.myHero): IHeroEntity | null {
         const ally = OBJECT_MANAGER.heroes

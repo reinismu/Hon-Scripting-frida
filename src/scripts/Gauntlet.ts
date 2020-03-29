@@ -40,6 +40,7 @@ export class Gauntlet extends Script {
             enemyHero,
             1600,
             50,
+            e.getAdjustedCastTime() + 50,
             (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => {
                 const hookRange = spell.getDynamicRange() + 20;
                 const hookRadius = 75;

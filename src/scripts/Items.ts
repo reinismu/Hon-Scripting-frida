@@ -5,12 +5,17 @@ import { TARGET_SELECTOR } from "./TargetSelector";
 import { Vector2d } from "../utils/Vector";
 
 export function tryUseAllItems(unit: IUnitEntity, justCasted: DelayedCondition) {
+    if (!justCasted.isTrue()) {
+        return;
+    }
+
     doShrunkensLogic(unit, justCasted);
     doInsantariusLogic(unit, justCasted);
     doExcruciatorLogic(unit, justCasted);
     doSheepstickLogic(unit, justCasted);
     doBarrierIdolLogic(unit, justCasted);
     doAstrolabeLogic(unit, justCasted);
+    doTabletLogic(unit, justCasted);
     doArmorOfTheMadMage(unit, justCasted);
     doCodexLogic(unit, justCasted);
     doNullFireLogic(unit, justCasted);
@@ -56,7 +61,6 @@ export function doInsantariusLogic(unit: IUnitEntity, justCasted: DelayedConditi
     }
     if (isInsantariusActive()) {
         if (insantariusOnCooldown.isTrue()) {
-
             if (unit.getEnemiesInRange(850).length == 0) {
                 justCasted.delay(50);
                 insantariusOnCooldown.delay(100);
@@ -145,6 +149,37 @@ export function doBarrierIdolLogic(unit: IUnitEntity, justCasted: DelayedConditi
 
     justCasted.delay(50);
     ACTION.castSpell2(unit, shrunken.index);
+}
+
+export function doTabletLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
+    if (!justCasted.isTrue()) {
+        return;
+    }
+    const tablet = unit.getItem("Item_PushStaff");
+    if (!tablet) {
+        return;
+    }
+    if (!tablet.item.canActivate()) {
+        return;
+    }
+
+    // If easy kill then take it
+    const enemyToDestroyClose = TARGET_SELECTOR.getBestKillInRange(1050);
+    const enemyToDestroy = TARGET_SELECTOR.getBestKillInRange(800);
+    if (enemyToDestroy && enemyToDestroyClose?.networkId === enemyToDestroy.networkId && enemyToDestroy.isFacing(unit, 35)) {
+        justCasted.delay(170);
+        ACTION.castSpellEntity(unit, tablet.index, enemyToDestroy);
+        return;
+    }
+
+    // Throw ally in trouble towards me
+    const ally = TARGET_SELECTOR.getAllyInTrouble(800, 65);
+    if (!ally || !ally.isFacing(unit)) {
+        return;
+    }
+
+    justCasted.delay(170);
+    ACTION.castSpellEntity(unit, tablet.index, ally);
 }
 
 export function doAstrolabeLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
