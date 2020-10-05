@@ -283,12 +283,30 @@ export class Action {
         this.myBuffer.currentOffset = 0;
         this.myBuffer.someFlag = 0;
 
-        this.buffer[0] = 0x1d;
+        this.buffer[0] = 29;
         this.buffer.writeUInt32LE(entity.networkId, 1);
         this.buffer[3] = slot;
         this.buffer[4] = 0; //Modifier if shift or ctr pressed
         this.buffer[5] = 0; //dunno
         this.buffer.writeUInt16LE(target.networkId, 6);
+
+        this.rawBuffer.writeByteArray(this.toArray(this.buffer));
+
+        this.send(true);
+    }
+
+    public castSpellEntityRaw(entity: IGameEntity, slot: number, target: number) {
+        this.myBuffer.size = 8;
+        this.myBuffer.allocatedSize = 8;
+        this.myBuffer.currentOffset = 0;
+        this.myBuffer.someFlag = 0;
+
+        this.buffer[0] = 29;
+        this.buffer.writeUInt32LE(entity.networkId, 1);
+        this.buffer[3] = slot;
+        this.buffer[4] = 0; //Modifier if shift or ctr pressed
+        this.buffer[5] = 0; //dunno
+        this.buffer.writeUInt16LE(target, 6);
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
 

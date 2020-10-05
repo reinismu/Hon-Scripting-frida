@@ -69,15 +69,9 @@ export class Maliken extends Script {
         if (!w.canActivate()) {
             return;
         }
-        if (this.myHero.hasTool("State_Maliken_Ability2_Flame") && this.myHero.getHealthPercent() < 30) {
+        if (this.myHero.getEnemiesInRange(400).length > 1) {
             this.justCasted.delay(150);
             ACTION.castSpell2(this.myHero, 1);
-            return;
-        }
-        if (this.myHero.hasTool("State_Maliken_Ability2_Healing") && this.myHero.getHealthPercent() > 36) {
-            this.justCasted.delay(150);
-            ACTION.castSpell2(this.myHero, 1);
-            return;
         }
     }
 

@@ -23,29 +23,43 @@ import { Blacksmith } from "./scripts/Blacksmith";
 import { Gauntlet } from "./scripts/Gauntlet";
 import { Predator } from "./scripts/Predator";
 import { Andromeda } from "./scripts/Andromeda";
+import { Goldenveil } from "./scripts/Goldenveil";
+import { Calamity } from "./scripts/Calamity";
+import { Flux } from "./scripts/Flux";
+import { Vindicator } from "./scripts/Vindicator";
+import { updateOffsets } from "./updateOffsets";
+import { Torturer } from "./scripts/Torturer";
+import { Artilery } from "./scripts/Artilery";
+import { Pebbles } from "./scripts/Pebbles";
+import { Xemplar } from "./scripts/Xemplar";
+import { DementedShaman } from "./scripts/DementedShaman";
 
 console.log("Hello from typescript. Process id: " + Process.id);
+
+// updateOffsets()
 
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Bushwack();
+    const testScript23 = new Artilery();
 
-
+    
 
 }, 200);
 
 
-// Arti?
+//  Add pebble + pk in get 3+
+// Restart Orbwalking on stun
 
 // const testScript = new Armadon();
 // const testScript = new Andromeda();
 // const testScript = new Bushwack();
 // const testScript = new Gauntlet();
+// const testScript = new Goldenveil();
 // const testScript = new Blacksmith();
 // const testScript = new Jeraziah();
 // const testScript = new Devourer();
-// const testScript = new Gountlet();
+// const testScript = new Gauntlet();
 // const testScript = new MasterOfArms();
 // const testScript = new Maliken();
 // const testScript = new Predator();

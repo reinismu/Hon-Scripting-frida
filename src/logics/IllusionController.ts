@@ -21,31 +21,31 @@ export class IllustionController {
         this.mainHero = mainHero;
     }
 
-    public control() {
+    public control(justAttack: boolean = false) {
         const illusions = this.getIllusions();
 
-        illusions.forEach(ilus => {
+        illusions.forEach((ilus) => {
             let orbwalker = this.illusionOrbwalkers.get(ilus.networkId);
             if (!orbwalker) {
                 orbwalker = new IllusionOrbwalker(ilus);
                 this.illusionOrbwalkers.set(ilus.networkId, orbwalker);
             }
             orbwalker.refreshWalker(ilus);
-            orbwalker.useBrain();
+            orbwalker.useBrain(justAttack);
         });
 
         // Clean up
-        const netIds = illusions.map(i => i.networkId);
+        const netIds = illusions.map((i) => i.networkId);
         const allIds = Array.from(this.illusionOrbwalkers.keys());
         allIds
-            .filter(id => !netIds.includes(id))
-            .forEach(id => {
+            .filter((id) => !netIds.includes(id))
+            .forEach((id) => {
                 this.illusionOrbwalkers.delete(id);
             });
     }
 
     private getIllusions(): IUnitEntity[] {
-        return OBJECT_MANAGER.heroes.filter(h => h.typeName == this.mainHero.typeName && h.isIllusion());
+        return OBJECT_MANAGER.heroes.filter((h) => h.typeName == this.mainHero.typeName && h.isIllusion());
     }
 }
 
@@ -60,20 +60,20 @@ class IllusionOrbwalker extends Orbwalker {
     private followedPosition: Vec2 | null = null;
 
     protected getAttackSlowTime(): number {
-        return 300 + Math.random() * 100;
+        return 200 + Math.random() * 100;
     }
 
     protected getMoveSlowTime(): number {
         return 500 + Math.random() * 100;
     }
 
-    public useBrain() {
+    public useBrain(justAttack: boolean = false) {
         if (!this.canDoLogic.isTrue()) {
             return;
         }
         this.canDoLogic.delay(100);
         if (this.canChangeMind.isTrue()) {
-            this.currentMind = this.getChangedMind();
+            this.currentMind = justAttack ? "AttackWeakest" : this.getChangedMind();
             console.log(`CurrentMind after change ${this.currentMind}`);
             this.canChangeMind.delay(5500);
         }
@@ -82,16 +82,19 @@ class IllusionOrbwalker extends Orbwalker {
             return;
         }
 
-        switch(this.currentMind) {
-            case "FollowAlly": this.followAlly();
-            case "AttackWeakest": this.attackWeakest();
-            case "Yolo": this.goYolo();
+        switch (this.currentMind) {
+            case "FollowAlly":
+                this.followAlly();
+            case "AttackWeakest":
+                this.attackWeakest();
+            case "Yolo":
+                this.goYolo();
         }
     }
 
     private followAlly() {
-        if (!this.followedHero) {
-            const getAlliesInRange = this.walker.getAlliesInRange(1500);
+        if (!this.followedHero || this.followedHero.isDead) {
+            const getAlliesInRange = this.walker.getAlliesInRange(2500);
             if (getAlliesInRange) {
                 this.followedHero = getAlliesInRange[Math.floor(Math.random() * getAlliesInRange.length)];
             }
@@ -102,7 +105,6 @@ class IllusionOrbwalker extends Orbwalker {
                 this.orbwalk(this.walker.position.randomized(450));
                 return;
             }
-            this.orbwalk(this.walker.position);
             return;
         }
         const followPosition = Vector2d.extendDir(this.followedHero.position, this.followedHero.facingVector(), -100);
@@ -111,27 +113,20 @@ class IllusionOrbwalker extends Orbwalker {
     }
 
     private attackWeakest() {
-        if (!this.followedHero) {
-            this.followedHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(1500, this.walker.position);
-        }
+        if (!this.followedHero || this.followedHero.isDead) {
+            this.followedHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 800, this.walker.position);
+            this.orbwalk(OBJECT_MANAGER.myHero.position);
+        } else {
+            const followPosition = Vector2d.extendDir(this.followedHero.position, this.followedHero.facingVector(), 70);
 
-        if (!this.followedHero) {
-            if (Math.random() * 10 < 1) {
-                this.orbwalk(this.walker.position.randomized(450));
-                return;
-            }
-            this.orbwalk(this.walker.position);
-            return;
+            this.orbwalk(followPosition);
         }
-        const followPosition = Vector2d.extendDir(this.followedHero.position, this.followedHero.facingVector(), 70);
-
-        this.orbwalk(followPosition);
     }
 
     private goYolo() {
         if (!this.followedPosition) {
             if (Math.random() * 10 < 1) {
-                this.followedPosition  = this.walker.position.randomized(1050);
+                this.followedPosition = this.walker.position.randomized(1050);
                 return;
             }
             this.followedPosition = null;
@@ -142,7 +137,6 @@ class IllusionOrbwalker extends Orbwalker {
                 this.orbwalk(this.walker.position.randomized(450));
                 return;
             }
-            this.orbwalk(this.walker.position);
             return;
         }
 
@@ -158,7 +152,7 @@ class IllusionOrbwalker extends Orbwalker {
         if (rnd < 75) {
             return "AttackWeakest";
         }
-        if (rnd < 90) {
+        if (rnd < 95) {
             return "Yolo";
         }
         return null;

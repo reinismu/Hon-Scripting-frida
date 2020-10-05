@@ -1,18 +1,21 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { IEntityAbility, IHeroEntity, IUnitEntity } from "../honIdaStructs";
+import { IEntityAbility, IUnitEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
-import { TARGET_SELECTOR, getTroublePoints } from "./TargetSelector";
+import { TARGET_SELECTOR } from "./TargetSelector";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { tryUseAllItems } from "./Items";
+import { Vector2d } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { IllustionController } from "../logics/IllusionController";
 
-export class Jeraziah extends Script {
+export class Flux extends Script {
     private canCast = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
+    private illusionController = new IllustionController(this.myHero);
 
     constructor() {
         super();
@@ -27,49 +30,13 @@ export class Jeraziah extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const alliesInRange = this.myHero
-            .getAlliesInRange(q.getDynamicRange())
-            .sort((h1, h2) => getTroublePoints(h2) - getTroublePoints(h1));
-        if (alliesInRange.length == 0) {
-            return;
-        }
-
-        const allyToKillEnemy = alliesInRange.filter(h =>
-            h.getEnemiesInRange(250).filter(e => e.getHealthPercent() > 7 && e.getCurrentMagicalHealth() < this.getQDamage()).length > 0
-        )[0];
-
-        let castHero = null;
-        const bestHeal =
-            getTroublePoints(alliesInRange[0]) > 40 && alliesInRange[0].getEnemiesFightingMe(600).length ? alliesInRange[0] : null;
-
-        if (!allyToKillEnemy && !bestHeal) {
-            return;
-        }
-
-        if (!allyToKillEnemy && bestHeal) {
-            castHero = bestHeal;
-        } else if (allyToKillEnemy && !bestHeal) {
-            castHero = allyToKillEnemy;
-        } else if (bestHeal && allyToKillEnemy) {
-            //We got both
-            if (getTroublePoints(bestHeal) > 60) {
-                castHero = bestHeal;
-            } else {
-                castHero = allyToKillEnemy;
-            }
-        }
-
-        if (!castHero) {
+        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(420);
+        if (!enemyHero ) {
             return;
         }
 
         this.canCast.delay(250);
-        ACTION.castSpellEntity(this.myHero, 0, castHero);
-    }
-
-    private getQDamage(): number {
-        const q = this.myHero.getTool(0) as IEntityAbility;
-        return q.level * 90;
+        ACTION.castSpell2(this.myHero, 0);
     }
 
     doWLogic() {
@@ -80,23 +47,26 @@ export class Jeraziah extends Script {
         if (!w.canActivate()) {
             return;
         }
-        const ally = TARGET_SELECTOR.getAllyInTrouble(w.getDynamicRange(), 30);
-        if (!ally || ally.getEnemiesFightingMe(400).length == 0) {
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 20);
+        if (!enemyHero) {
             return;
         }
 
         this.canCast.delay(250);
-        ACTION.castSpellEntity(this.myHero, 1, ally);
+        ACTION.castSpellEntity(this.myHero, 1, enemyHero);
     }
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        this.illusionController.refreshHero(this.myHero);
+        this.illusionController.control();
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+
 
         if (INPUT.isCharDown("V")) {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
@@ -106,18 +76,21 @@ export class Jeraziah extends Script {
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName}`);
+        //     console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
         //     for (let i = 0; i < 80; i++) {
-        //         const tool = h.getTool(i) as IEntityAbility;
+        //         const tool = h.getTool(i);
         //         if (tool == null) continue;
-        //         console.log(`tool ${i}: ${tool.typeName} range ${tool.dynamicRange}`);
+        //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
 
-        // this.doRLogic();
-        this.doQLogic();
+
         this.doWLogic();
+        this.doQLogic();
         tryUseAllItems(this.myHero, this.canCast);
+        // if (this.orbwalker.isNotAttacking.isTrue()) {
+        //     this.doQLogic();
+        // }
 
         if (this.canCast.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);

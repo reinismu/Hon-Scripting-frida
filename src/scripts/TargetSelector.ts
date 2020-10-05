@@ -8,7 +8,7 @@ export class TargetSelector {
     getClosestEnemyHero(): IHeroEntity | null {
         const me = OBJECT_MANAGER.myHero;
         const enemy = OBJECT_MANAGER.heroes
-            .filter(h => !h.isDead() && h.isEnemy(me))
+            .filter((h) => !h.isDead() && h.isEnemy(me))
             .sort((h1, h2) => h1.position.distance2d(me.position) - h2.position.distance2d(me.position))[0];
         if (enemy) {
             return enemy;
@@ -16,17 +16,22 @@ export class TargetSelector {
         return null;
     }
 
-    getEasiestPhysicalKillInRange(range: number, fromPosition: Vec2 = OBJECT_MANAGER.myHero.position): IHeroEntity | null {
+    getEasiestPhysicalKillInRange(
+        range: number,
+        fromPosition: Vec2 = OBJECT_MANAGER.myHero.position,
+        customPredicate: (h: IHeroEntity) => boolean = () => true
+    ): IHeroEntity | null {
         const enemy = OBJECT_MANAGER.heroes
             .filter(
-                h =>
+                (h) =>
                     h.health > 0 &&
                     !h.isIllusion() &&
                     h.isEnemy(OBJECT_MANAGER.myHero) &&
                     h.position.distance2d(fromPosition) < range &&
                     !h.isPhysicalImmune() &&
                     !h.isInvulnerable() &&
-                    !isBarbedWithHp(h)
+                    !isBarbedWithHp(h) &&
+                    customPredicate(h)
             )
             .sort((h1, h2) => h1.getCurrentPhysicalHealth() - h2.getCurrentPhysicalHealth())[0];
         if (enemy) {
@@ -35,17 +40,22 @@ export class TargetSelector {
         return null;
     }
 
-    getEasiestMagicalKillInRange(range: number, from: IUnitEntity = OBJECT_MANAGER.myHero): IHeroEntity | null {
+    getEasiestMagicalKillInRange(
+        range: number,
+        from: IUnitEntity = OBJECT_MANAGER.myHero,
+        customPredicate: (h: IHeroEntity) => boolean = () => true
+    ): IHeroEntity | null {
         const enemy = OBJECT_MANAGER.heroes
             .filter(
-                h =>
+                (h) =>
                     h.health > 0 &&
                     !h.isIllusion() &&
                     h.isEnemy(from) &&
                     h.position.distance2d(from.position) < range &&
                     !h.isMagicImmune() &&
                     !h.isInvulnerable() &&
-                    !isBarbedWithHp(h)
+                    !isBarbedWithHp(h) &&
+                    customPredicate(h)
             )
             .sort((h1, h2) => h1.getCurrentMagicalHealth() - h2.getCurrentMagicalHealth())[0];
         if (enemy) {
@@ -57,7 +67,7 @@ export class TargetSelector {
     getBestMagicalDisableInRange(range: number, from: IUnitEntity = OBJECT_MANAGER.myHero): IHeroEntity | null {
         const enemy = OBJECT_MANAGER.heroes
             .filter(
-                h =>
+                (h) =>
                     h.health > 0 &&
                     !h.isIllusion() &&
                     h.isEnemy(from) &&
@@ -73,10 +83,15 @@ export class TargetSelector {
         return null;
     }
 
-    getAllyInTrouble(range: number, minTroublePoints: number = 40, excludeSet: Set<IUnitEntity> = new Set(), from: IUnitEntity = OBJECT_MANAGER.myHero): IHeroEntity | null {
+    getAllyInTrouble(
+        range: number,
+        minTroublePoints: number = 40,
+        excludeSet: Set<IUnitEntity> = new Set(),
+        from: IUnitEntity = OBJECT_MANAGER.myHero
+    ): IHeroEntity | null {
         const ally = OBJECT_MANAGER.heroes
             .filter(
-                h =>
+                (h) =>
                     h.health > 0 &&
                     !excludeSet.has(h) &&
                     !h.isIllusion() &&
@@ -92,11 +107,13 @@ export class TargetSelector {
         }
         return null;
     }
-
 }
 
 // in range 0ish till 270
-export function getTroublePoints(unit: IHeroEntity): number {
+export function getTroublePoints(unit: IUnitEntity): number {
+    if (!(unit instanceof IHeroEntity)) {
+        return 0;
+    }
     const isDisabledPoints = unit.isDisabled() ? 20 : 0;
     return unit.getEnemiesFightingMe(550).length * 10 + isDisabledPoints + getHealthTroubleScore(unit.getHealthPercent());
 }

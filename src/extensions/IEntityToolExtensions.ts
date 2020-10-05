@@ -1,5 +1,7 @@
-import { IEntityTool } from "../honIdaStructs";
+import { IEntityTool, IGameEntity } from "../honIdaStructs";
 import { SHARED_MODULE } from "../game/Globals";
+import { tryGetTypeInfo } from "../objects/RTTI";
+import { OBJECT_MANAGER } from "../objects/ObjectManager";
 
 const isReady = new NativeFunction(SHARED_MODULE.getExportByName("_ZNK11IEntityTool7IsReadyEv"), "bool", ["pointer"]);
 const getDynamicRange = new NativeFunction(SHARED_MODULE.getExportByName("_ZN11IEntityTool15GetDynamicRangeEb"), "float", [
@@ -10,6 +12,8 @@ const getDynamicRange = new NativeFunction(SHARED_MODULE.getExportByName("_ZN11I
 declare module "../honIdaStructs" {
     interface IEntityTool {
         isReady(): boolean;
+        isActive(): boolean;
+        getOwner(): IGameEntity | null;
         canActivate(): boolean;
         getDynamicRange(): number;
         getActivateManaCost(): number;
@@ -26,6 +30,11 @@ IEntityTool.prototype.isReady = function(): boolean {
     return isReady(self.ptr) as boolean;
 };
 
+IEntityTool.prototype.isActive = function(): boolean {
+    const self = this as IEntityTool;
+    return (self.allign & 1) === 1;
+};
+
 IEntityTool.prototype.canActivate = function(): boolean {
     const self = this as IEntityTool;
     return new NativeFunction(
@@ -36,6 +45,19 @@ IEntityTool.prototype.canActivate = function(): boolean {
         "bool",
         ["pointer"]
     )(self.ptr) as boolean;
+};
+
+IEntityTool.prototype.getOwner = function(): IGameEntity | null {
+    const self = this as IEntityTool;
+
+    return OBJECT_MANAGER.createGameEntity(new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x3E0)
+            .readPointer(),
+        "pointer",
+        ["pointer"]
+    )(self.ptr) as NativePointer)
 };
 
 IEntityTool.prototype.getActivateManaCost = function(): number {

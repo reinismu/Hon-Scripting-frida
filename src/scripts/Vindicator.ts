@@ -1,6 +1,6 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { IEntityAbility, IUnitEntity, Console } from "../honIdaStructs";
+import { IEntityAbility, IUnitEntity, Console, IGadgetEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { TARGET_SELECTOR } from "./TargetSelector";
@@ -11,12 +11,14 @@ import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { tryUseAllItems } from "./Items";
+import { opPrediction } from "./Prediction";
+import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
 import { IllustionController } from "../logics/IllusionController";
 
-export class Devourer extends Script {
+export class Vindicator extends Script {
     private orbwalker = new Orbwalker(this.myHero);
     private justCasted = new DelayedCondition();
-    private hook = new StoppableLineSpell(this.justCasted);
+    private stoppableW = new StoppableCircularSpell(this.justCasted);
     private illusionController = new IllustionController(this.myHero);
 
     constructor() {
@@ -29,72 +31,23 @@ export class Devourer extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const range = q.getDynamicRange() + 20;
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(range);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 100);
         if (!enemyHero) {
             return;
         }
-        this.hook.cast(
-            q,
-            0,
-            this.myHero,
-            enemyHero,
-            1600,
-            55,
-            (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => {
-                const hookRange = spell.getDynamicRange() + 20;
-                const hookRadius = 75;
-
-                const heroes = OBJECT_MANAGER.heroes as IUnitEntity[];
-                const creeps = OBJECT_MANAGER.creeps as IUnitEntity[];
-                const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
-
-                const collisionEntities = heroes
-                    .filter(h => !h.isEnemy(this.myHero))
-                    .concat(creeps, neutrals)
-                    .filter(u => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
-
-                if (Vector2d.distance(castPos, caster.position) > hookRange) {
-                    return false;
-                }
-                const startPos = caster.position;
-                if (
-                    collisionEntities.some(
-                        u =>
-                            !u.ptr.equals(caster.ptr) &&
-                            !u.ptr.equals(target.ptr) &&
-                            Vector2d.distToSegmentSquared(u.position, startPos, castPos) <
-                                (hookRadius + u.boundingRadius) * (hookRadius + u.boundingRadius)
-                    )
-                ) {
-                    return false;
-                }
-                return true;
-            }
-        );
+        this.stoppableW.cast(q, 0, this.myHero, enemyHero, 150, 300, () => true);
     }
 
-    doWLogic() {
-        if (!this.justCasted.isTrue()) {
+    doELogic() {
+        const e = this.myHero.getTool(2) as IEntityAbility;
+        if (!e.canActivate()) {
             return;
         }
-        const w = this.myHero.getTool(1) as IEntityAbility;
-        if (!w.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(300);
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(e.getDynamicRange() + 90);
         if (!enemyHero) {
-            if (this.myHero.hasTool("State_Devourer_Ability2_Self")) {
-                this.justCasted.delay(150);
-                ACTION.castSpell2(this.myHero, 1);
-            }
             return;
         }
-
-        if (!this.myHero.hasTool("State_Devourer_Ability2_Self")) {
-            this.justCasted.delay(150);
-            ACTION.castSpell2(this.myHero, 1);
-        }
+        this.stoppableW.cast(e, 2, this.myHero, enemyHero, 150, 300, () => true);
     }
 
     doRLogic() {
@@ -105,20 +58,28 @@ export class Devourer extends Script {
         if (!r.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(r.getDynamicRange() + 20);
-        if (!enemyHero) {
-            return;
+        if (this.myHero.getEnemiesInRange(400).length > 1) {
+            this.justCasted.delay(150);
+            ACTION.castSpell2(this.myHero, 3);
         }
-
-        this.justCasted.delay(850);
-        ACTION.castSpellEntity(this.myHero, 3, enemyHero);
     }
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
         this.illusionController.refreshHero(this.myHero);
-        this.illusionController.control();
+        this.illusionController.control(true);
+        // this.thrownSword = OBJECT_MANAGER.gadgets.find(g => g.typeName == "Gadget_Maliken_Ability1") || null;
+        if (INPUT.isCharDown("C")) {
+            this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
+        if (INPUT.isCharDown("V")) {
+            this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
         if (!INPUT.isControlDown()) return;
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
@@ -134,6 +95,9 @@ export class Devourer extends Script {
         //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
+        // OBJECT_MANAGER.gadgets.forEach(h => {
+        //     console.log(`gadget: ${h.typeName} -> ${new NativePointer(h.field_B8)} : me ${this.player.networkId}`);
+        // });
         // OBJECT_MANAGER.heroes.forEach(h => {
         //     console.log(`${h.typeName} field_10C: ` + h.field_10C);
         //     console.log(`${h.typeName} boundingRadius: ` + h.boundingRadius);
@@ -142,16 +106,12 @@ export class Devourer extends Script {
         // OBJECT_MANAGER.creeps.forEach(h => {
         //     console.log(`creep:${h.typeName} ${h.boundingRadius}`);
         // });
-        this.doWLogic();
-        if (this.myHero.hasTool("State_Devourer_Ability4_ControlGrowth")) {
-            return;
-        }
+        // this.doRLogic();
         tryUseAllItems(this.myHero, this.justCasted);
-        this.doRLogic();
-        if (this.justCasted.isTrue()) {
-            this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
-        }
+        this.doELogic();
         this.doQLogic();
+        // this.doQLogic();
+        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }
 
     @Subscribe("SendGameDataEvent")

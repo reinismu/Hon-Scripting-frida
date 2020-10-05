@@ -3,6 +3,7 @@ import { IUnitEntity } from "../honIdaStructs";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { Vector2d } from "../utils/Vector";
+import { OBJECT_MANAGER } from "../objects/ObjectManager";
 
 export function tryUseAllItems(unit: IUnitEntity, justCasted: DelayedCondition) {
     doShrunkensLogic(unit, justCasted);
@@ -13,6 +14,8 @@ export function tryUseAllItems(unit: IUnitEntity, justCasted: DelayedCondition) 
     doAstrolabeLogic(unit, justCasted);
     doArmorOfTheMadMage(unit, justCasted);
     doCodexLogic(unit, justCasted);
+    doDreamCatcherLogic(unit, justCasted);
+    doSoulTrapLogic(unit, justCasted);
     doNullFireLogic(unit, justCasted);
     doLexTalionisLogic(unit, justCasted);
     doHellfireLogic(unit, justCasted);
@@ -56,7 +59,6 @@ export function doInsantariusLogic(unit: IUnitEntity, justCasted: DelayedConditi
     }
     if (isInsantariusActive()) {
         if (insantariusOnCooldown.isTrue()) {
-
             if (unit.getEnemiesInRange(850).length == 0) {
                 justCasted.delay(50);
                 insantariusOnCooldown.delay(100);
@@ -290,6 +292,56 @@ export function doNullFireLogic(unit: IUnitEntity, justCasted: DelayedCondition)
     ACTION.castSpellEntity(unit, nullfire.index, enemyHero);
 }
 
+export function doSoulTrapLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
+    if (!justCasted.isTrue()) {
+        return;
+    }
+    const sourTrap = unit.getItem("Item_Soultrap");
+    if (!sourTrap) {
+        return;
+    }
+
+    if (!sourTrap.item.canActivate()) {
+        return;
+    }
+
+    const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(
+        sourTrap.item.getDynamicRange(),
+        OBJECT_MANAGER.myHero,
+        (hero) => !hero.hasTool("State_Soultrap_Enemy")
+    );
+    if (!enemyHero) {
+        return;
+    }
+    justCasted.delay(150);
+    ACTION.castSpellEntity(unit, sourTrap.index, enemyHero);
+}
+
+export function doDreamCatcherLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
+    if (!justCasted.isTrue()) {
+        return;
+    }
+    const dreamCatcher = unit.getItem("Item_Dreamcatcher");
+    if (!dreamCatcher) {
+        return;
+    }
+
+    if (!dreamCatcher.item.canActivate()) {
+        return;
+    }
+
+    const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(
+        dreamCatcher.item.getDynamicRange(),
+        OBJECT_MANAGER.myHero,
+        (hero) => !hero.hasTool("State_Dreamcatcher_Enemy")
+    );
+    if (!enemyHero) {
+        return;
+    }
+    justCasted.delay(150);
+    ACTION.castSpellEntity(unit, dreamCatcher.index, enemyHero);
+}
+
 export function doCodexLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
     if (!justCasted.isTrue()) {
         return;
@@ -307,7 +359,7 @@ export function doCodexLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
     if (!enemyHero) {
         return;
     }
-    justCasted.delay(50);
+    justCasted.delay(150);
     ACTION.castSpellEntity(unit, codex.index, enemyHero);
 }
 

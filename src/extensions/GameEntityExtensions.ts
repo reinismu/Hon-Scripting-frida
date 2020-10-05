@@ -90,6 +90,9 @@ declare module "../honIdaStructs" {
         getEnemiesFightingMe(range: number): IHeroEntity[]
         getEnemiesInRange(range: number): IHeroEntity[]
         getAlliesInRange(range: number): IHeroEntity[]
+        getAllAlliesInRange(range: number): IUnitEntity[]
+        getAllEnemiesInRange(range: number): IUnitEntity[]
+        getAllOthersInRange(range: number): IUnitEntity[]
     }
 
     interface IHeroEntity {
@@ -613,6 +616,48 @@ IUnitEntity.prototype.getEnemiesFightingMe = function(range: number): IHeroEntit
     return self.getEnemiesInRange(range).filter(
         h => h.isFacing(self)
     )
+};
+
+IUnitEntity.prototype.getAllAlliesInRange = function(range: number): IUnitEntity[] {
+    const self = this as IUnitEntity;
+    const heroEnemies = OBJECT_MANAGER.heroes.filter(
+        h => h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+    )
+    const creepEnemies = OBJECT_MANAGER.creeps.filter(
+        h => h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+    )
+    const neutralEnemies = OBJECT_MANAGER.neutrals.filter(
+        h => h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+    )
+    return [...heroEnemies,...creepEnemies, ...neutralEnemies];
+};
+
+IUnitEntity.prototype.getAllEnemiesInRange = function(range: number): IUnitEntity[] {
+    const self = this as IUnitEntity;
+    const heroEnemies = OBJECT_MANAGER.heroes.filter(
+        h => h.health > 0 && h.isEnemy(self) && h.position.distance2d(self.position) < range
+    )
+    const creepEnemies = OBJECT_MANAGER.creeps.filter(
+        h => h.health > 0 && h.isEnemy(self) && h.position.distance2d(self.position) < range
+    )
+    const neutralEnemies = OBJECT_MANAGER.neutrals.filter(
+        h => h.health > 0 && h.isEnemy(self) && h.position.distance2d(self.position) < range
+    )
+    return [...heroEnemies,...creepEnemies, ...neutralEnemies];
+};
+
+IUnitEntity.prototype.getAllOthersInRange = function(range: number): IUnitEntity[] {
+    const self = this as IUnitEntity;
+    const heroEnemies = OBJECT_MANAGER.heroes.filter(
+        h => h.ptr != self.ptr && h.health > 0 && !h.isIllusion() && h.position.distance2d(self.position) < range
+    )
+    const creepEnemies = OBJECT_MANAGER.creeps.filter(
+        h => h.ptr != self.ptr && h.health > 0 && h.position.distance2d(self.position) < range
+    )
+    const neutralEnemies = OBJECT_MANAGER.neutrals.filter(
+        h => h.ptr != self.ptr && h.health > 0 && h.position.distance2d(self.position) < range
+    )
+    return [...heroEnemies,...creepEnemies, ...neutralEnemies];
 };
 
 IUnitEntity.prototype.getEnemiesInRange = function(range: number): IHeroEntity[] {

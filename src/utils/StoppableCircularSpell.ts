@@ -122,7 +122,7 @@ export class StoppableCircularSpell {
         if (!this.caster) {
             return;
         }
-        console.log("Stop cast");
+        // console.log("Stop cast");
         ACTION.stop(this.caster);
         this.justCasted.restart();
         this.turnToTargetDelay = 0;

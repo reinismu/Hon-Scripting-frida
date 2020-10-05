@@ -4606,6 +4606,10 @@ export class IGameEntity extends CObj {
 	get field_4C(): number {
 		return this.align(0x4c).readS32();
 	}
+	
+	get isToggled(): boolean {
+		return this.align(0x4c).readS8() === 1;
+	}
 
 // field_50 -> type: int 
 	get field_50(): number {
@@ -4967,6 +4971,10 @@ export class IVisualEntity extends IGameEntity {
 // field_B8 -> type: long long 
 	get field_B8(): Int64 {
 		return this.align(0xb8).readS64();
+	}
+
+	get ownerId(): number {
+		return this.align(0xbc).readS32();
 	}
 
 // isAlive -> type: char 
@@ -9274,18 +9282,26 @@ export class CHTTPRequest extends CObj {
 // inheritence: IUnitEntity
 export class IHeroEntity extends IUnitEntity {
 
-// level -> type: int 
+	// level -> type: int 
 	get level(): number {
+		return this.align(0x1518).readS32();
+	}
+	// experience -> type: int 
+	get experience(): number {
+		return this.align(0x151c).readS32();
+	}
+	
+	get field_1520(): number {
 		return this.align(0x1520).readS32();
 	}
 
 // experience -> type: float 
-	get experience(): number {
+	get field_1524_2(): number {
 		return this.align(0x1524).readFloat();
 	}
 
 // field_1520 -> type: int 
-	get field_1520(): number {
+	get field_1520_2(): number {
 		return this.align(0x1528).readS32();
 	}
 

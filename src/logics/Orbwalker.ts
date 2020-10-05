@@ -124,7 +124,7 @@ export class Orbwalker {
                 const turnTime = this.walker.getMsToTurnToPos(target.position);
                 this.isNotAttacking.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
                 if (this.canAttack.isTrue()) {
-                    this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown() + this.getAttackSlowTime());
+                    this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown() + this.getAttackSlowTime() + 80);
                     this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
                     this.attack(target);
                     return;
