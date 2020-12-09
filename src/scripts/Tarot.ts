@@ -14,7 +14,7 @@ import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
 import { opPrediction } from "./Prediction";
 
-export class Andromeda extends Script {
+export class Tarot extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
@@ -32,7 +32,11 @@ export class Andromeda extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(q.getDynamicRange() + 20);
+        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
+            q.getDynamicRange(),
+            this.myHero.position,
+            (h) => h.getAllAlliesInRange(450).length !== 0
+        );
         if (!enemyHero) {
             return;
         }
@@ -45,66 +49,45 @@ export class Andromeda extends Script {
             return;
         }
         const w = this.myHero.getTool(1) as IEntityAbility;
-        if (!w.canActivate() || this.myHero.hasTool("State_Andromeda_Ability3_AttackRange")) {
+        if (!w.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 50);
+        const enemyProxyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.myHero.getAttackRange() + 50);
+        if (!enemyProxyHero) {
+            return;
+        }
+
+        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
+            w.getDynamicRange(),
+            this.myHero.position,
+            (h) => !h.isMagicImmune() && h !== enemyProxyHero && Vector2d.distance(h.position, enemyProxyHero.position) < 800
+        );
         if (!enemyHero) {
             return;
         }
-
-        const castLocation = opPrediction(this.myHero, enemyHero, 1400, 0, w.getDynamicRange() + 50, 250);
-        if (!castLocation) {
-            return;
-        }
         this.justCasted.delay(200);
-        ACTION.castSpellPosition(this.myHero, 1, castLocation.x, castLocation.y);
+        ACTION.castSpellEntity(this.myHero, 1, enemyHero);
     }
 
-    doRLogic() {
+    doELogic() {
         if (!this.justCasted.isTrue()) {
             return;
         }
-        const r = this.myHero.getTool(3) as IEntityAbility;
-        if (!r.canActivate()) {
+        const e = this.myHero.getTool(2) as IEntityAbility;
+        if (!e.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(r.getDynamicRange() + 20);
+
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(
+            e.getDynamicRange(),
+            this.myHero,
+            (h) => h.getAlliesInRange(400).length !== 0
+        );
         if (!enemyHero) {
             return;
         }
-        const currentEnemies = this.myHero.getEnemiesInRange(800).length;
-        const enemiesAtTele = enemyHero.getAlliesInRange(800).length;
-        if (currentEnemies <= enemiesAtTele) {
-            return;
-        }
         this.justCasted.delay(200);
-        ACTION.castSpellEntity(this.myHero, 3, enemyHero);
-    }
-
-    doREscape() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const r = this.myHero.getTool(3) as IEntityAbility;
-        if (!r.canActivate()) {
-            return;
-        }
-
-        const enemiesFightingMeCount = this.myHero.getEnemiesFightingMe(500).length;
-        if (enemiesFightingMeCount == 0) {
-            return;
-        }
-        const teleAllies = this.myHero
-            .getAlliesInRange(r.getDynamicRange())
-            .filter(
-                h => h.getHealthPercent() > this.myHero.getHealthPercent() && enemiesFightingMeCount < h.getEnemiesFightingMe(650).length
-            );
-
-        if (teleAllies.length > 0) {
-            this.justCasted.delay(200);
-            ACTION.castSpellEntity(this.myHero, 3, teleAllies[0]);
-        }
+        ACTION.castSpellEntity(this.myHero, 2, enemyHero);
     }
 
     @Subscribe("MainLoopEvent")
@@ -112,7 +95,6 @@ export class Andromeda extends Script {
         this.orbwalker.refreshWalker(this.myHero);
         this.illusionController.refreshHero(this.myHero);
         this.illusionController.control(this.myHero.level > 12);
-
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -123,12 +105,6 @@ export class Andromeda extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
-
-        if (this.myHero.isStaffed()) {
-            this.doRLogic();
-        }
-
-
 
         if (!INPUT.isControlDown()) return;
 
@@ -147,8 +123,7 @@ export class Andromeda extends Script {
 
         this.doQLogic();
         this.doWLogic();
-        this.doRLogic();
-        this.doREscape();
+        this.doELogic();
         // this.doWLogic();
 
         if (this.justCasted.isTrue()) {

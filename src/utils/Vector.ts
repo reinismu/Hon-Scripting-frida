@@ -50,6 +50,10 @@ export namespace Vector {
 }
 
 export namespace Vector2d {
+    export function distanceSqr(self: Vec2, vec: Vec2): number {
+        return Math.pow(self.x - vec.x, 2) + Math.pow(self.y - vec.y, 2);
+    }
+
     export function distance(self: Vec2, vec: Vec2): number {
         return Math.sqrt(Math.pow(self.x - vec.x, 2) + Math.pow(self.y - vec.y, 2));
     }
@@ -117,5 +121,26 @@ export namespace Vector2d {
 
     export function distToSegment(p: Vec2, v1: Vec2, v2: Vec2) {
         return Math.sqrt(distToSegmentSquared(p, v1, v2));
+    }
+
+    export function calcTangentPoints(self: Vec2, circleCenter: Vec2, radius: number): Vec2[] {
+        // find tangents
+        const dx = self.x - circleCenter.x;
+        const dy = self.y - circleCenter.y;
+        const dd = Math.sqrt(dx * dx + dy * dy);
+        if (dd <= radius) {
+            return [];
+        }
+        const a = Math.asin(radius / dd);
+        const b = Math.atan2(dy, dx);
+
+        const t = b - a;
+        const deltaTangent1 = { x: radius * Math.sin(t), y: radius * -Math.cos(t) };
+        const t2 = b + a;
+        const deltaTangent2 = { x: radius * Math.sin(t2), y: radius * -Math.cos(t2) };
+
+        const tangent1 = add(circleCenter, deltaTangent1);
+        const tangent2 = add(circleCenter, deltaTangent2);
+        return [tangent1, tangent2];
     }
 }

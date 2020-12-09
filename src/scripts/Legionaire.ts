@@ -11,7 +11,7 @@ import { tryUseAllItems } from "./Items";
 import { Vector2d } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 
-export class Blacksmith extends Script {
+export class Legionaire extends Script {
     private canCast = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
 
@@ -28,13 +28,13 @@ export class Blacksmith extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange());
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(200);
         if (!enemyHero) {
             return;
         }
 
         this.canCast.delay(250);
-        ACTION.castSpellEntity(this.myHero, 0, enemyHero);
+        ACTION.castSpell2(this.myHero, 0);
     }
 
     doWLogic() {
@@ -45,35 +45,13 @@ export class Blacksmith extends Script {
         if (!w.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange());
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(350);
         if (!enemyHero) {
             return;
         }
 
         this.canCast.delay(250);
-        ACTION.castSpellEntity(this.myHero, 1, enemyHero);
-    }
-
-    doELogic() {
-        if (!this.canCast.isTrue()) {
-            return;
-        }
-        const e = this.myHero.getTool(2) as IEntityAbility;
-        if (!e.canActivate() || this.myHero.hasTool("State_DwarfMagi_Ability3")) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if (!enemyHero) {
-            return;
-        }
-
-        const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
-        if (dist > 950) {
-            return;
-        }
-
-        this.canCast.delay(250);
-        ACTION.castSpellEntity(this.myHero, 2, this.myHero);
+        ACTION.castSpell2(this.myHero, 1);
     }
 
     doRLogic() {
@@ -81,19 +59,19 @@ export class Blacksmith extends Script {
             return;
         }
         const r = this.myHero.getTool(3) as IEntityAbility;
-        if (!r.canActivate() || !this.myHero.isStaffed()) {
+        if (!r.canActivate()) {
             return;
         }
-        if (this.myHero.getHealthPercent() > 40 && this.myHero.getManaPercent() > 30) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(r.getDynamicRange());
+        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(r.getDynamicRange());
         if (!enemyHero) {
             return;
         }
 
-        this.canCast.delay(250);
-        ACTION.castSpellEntity(this.myHero, 3, enemyHero);
+        if (enemyHero.health < r.level * 150 + 150) {
+            ACTION.castSpellEntity(this.myHero, 3, enemyHero);
+            this.canCast.delay(500);
+        }
+
     }
 
     @Subscribe("MainLoopEvent")
@@ -109,11 +87,14 @@ export class Blacksmith extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+        tryUseAllItems(this.myHero, this.canCast);
 
-        if (!INPUT.isControlDown()) return;
 
+        
         // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
+        //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
+        //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
         //     for (let i = 0; i < 80; i++) {
         //         const tool = h.getTool(i);
         //         if (tool == null) continue;
@@ -122,16 +103,13 @@ export class Blacksmith extends Script {
         // });
 
 
-        tryUseAllItems(this.myHero, this.canCast);
-        this.doWLogic();
-        this.doQLogic();
         this.doRLogic();
-        if (this.orbwalker.isNotAttacking.isTrue()) {
-            this.doELogic();
-        }
+        this.doQLogic();
+        // this.doQLogic();
+        // this.doWLogic();
 
-        if (this.canCast.isTrue()) {
-            this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
-        }
+
+        if (!INPUT.isControlDown()) return;
+        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }
 }

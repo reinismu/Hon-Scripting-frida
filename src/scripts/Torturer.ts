@@ -12,6 +12,7 @@ import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
 import {  tryUseAllItems } from "./Items";
+import { findBestCircularCast } from "../utils/BestCircularLocation";
 
 export class Torturer extends Script {
     private justCasted = new DelayedCondition();
@@ -37,6 +38,37 @@ export class Torturer extends Script {
             return;
         }
         this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 205, 1000, () => true);
+    }
+
+    doQLogicSpam() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const radius = 120;
+
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate()) {
+            return;
+        }
+        const enemyHeroes = this.myHero
+            .getEnemiesInRange(q.getDynamicRange() + radius)
+            .filter((h) => !h.isMagicImmune() && !h.isInvulnerable());
+
+        if (enemyHeroes.length === 0) {
+            return;
+        }
+        const lowestHpPercent = enemyHeroes.map((h) => h.getHealthPercent()).sort((a, b) => a - b)[0];
+        if (enemyHeroes.length === 1 || lowestHpPercent < 30) {
+            this.doQLogic();
+            return;
+        }
+        const bestloc = findBestCircularCast(this.myHero, q.getDynamicRange(), radius, q.getAdjustedActionTime(), enemyHeroes);
+        if (!bestloc) {
+            return;
+        }
+
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, bestloc.x, bestloc.y);
     }
 
     doWLogic() {
@@ -108,14 +140,14 @@ export class Torturer extends Script {
         const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(550);
         if (!enemyHero) {
             if (r.isToggled) {
-                this.justCasted.delay(150);
+                this.justCasted.delay(250);
                 ACTION.castSpell2(this.myHero, 3);
             }
             return;
         }
 
         if (!r.isToggled) {
-            this.justCasted.delay(150);
+            this.justCasted.delay(250);
             ACTION.castSpell2(this.myHero, 3);
         }
     }
@@ -169,7 +201,7 @@ export class Torturer extends Script {
         this.doELogic();
         this.doRLogic();
         this.doWLogic();
-        this.doQLogic();
+        this.doQLogicSpam();
 
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);

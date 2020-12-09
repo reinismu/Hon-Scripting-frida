@@ -1,22 +1,18 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { GRAPHICS } from "../graphics/Graphics";
-import { IEntityAbility, IHeroEntity, IFileChangeCallback } from "../honIdaStructs";
-import { ACTION, MyBuffer } from "../actions/Action";
+import { IEntityAbility, IHeroEntity } from "../honIdaStructs";
+import { ACTION } from "../actions/Action";
 import { INPUT } from "../input/Input";
-import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
-import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
-import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { opPrediction, opPredictionCircular } from "./Prediction";
 import { tryUseAllItems } from "./Items";
 import { IllustionController } from "../logics/IllusionController";
+import { OBJECT_MANAGER } from "../objects/ObjectManager";
 
-export class Bushwack extends Script {
-    private canCast = new DelayedCondition();
+export class Magebane extends Script {
+    private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
 
@@ -25,48 +21,45 @@ export class Bushwack extends Script {
         EventBus.getDefault().register(this);
     }
 
-    doQLogic() {
-        if (!this.canCast.isTrue()) {
-            return;
-        }
-        const q = this.myHero.getTool(0) as IEntityAbility;
-        if (!q.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 20);
-        if (!enemyHero) {
-            return;
-        }
-
-        this.canCast.delay(250);
-        ACTION.castSpellEntity(this.myHero, 0, enemyHero);
+    private getRPercent(level: number): number {
+        return [0, 1, 1.3, 1.6][level];
     }
 
-    doWLogic() {
-        if (!this.canCast.isTrue()) {
+    doRLogic() {
+        if (!this.justCasted.isTrue()) {
             return;
         }
-        const w = this.myHero.getTool(1) as IEntityAbility;
-        if (!w.canActivate() || w.level < 3) {
+        const r = this.myHero.getTool(3) as IEntityAbility;
+        if (!r.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
+
+        const dmgOnEnemy = (ene: IHeroEntity) => {
+            const missingMana = ene.getMaxMana() - ene.getMana();
+            return missingMana * this.getRPercent(r.level);
+        };
+
+        const enemyHero = OBJECT_MANAGER.heroes
+            .filter(
+                (h) =>
+                    h.health > 0 &&
+                    !h.isIllusion() &&
+                    h.isEnemy(this.myHero) &&
+                    h.position.distance2d(this.myHero.position) < r.getDynamicRange() &&
+                    !h.isMagicImmune() &&
+                    !h.isInvulnerable()
+            )
+            .sort((h1, h2) => dmgOnEnemy(h2) - dmgOnEnemy(h1))[0];
+
         if (!enemyHero) {
             return;
         }
-        const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
-        if (dist > 900) {
+
+        if (dmgOnEnemy(enemyHero) - 30 < enemyHero.getCurrentMagicalHealth()) {
             return;
         }
-
-        const castLocation = IGAME.mysteriousStruct.mousePosition;
-        const distToCast = Vector2d.distance(castLocation, this.myHero.position);
-        if (distToCast < 200) {
-            return;
-        }
-
-        this.canCast.delay(250);
-        ACTION.castSpellPosition(this.myHero, 1, castLocation.x, castLocation.y);
+        this.justCasted.delay(300);
+        ACTION.castSpellEntity(this.myHero, 3, enemyHero);
     }
 
     @Subscribe("MainLoopEvent")
@@ -74,6 +67,8 @@ export class Bushwack extends Script {
         this.orbwalker.refreshWalker(this.myHero);
         this.illusionController.refreshHero(this.myHero);
         this.illusionController.control(true);
+
+        tryUseAllItems(this.myHero, this.justCasted);
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -84,11 +79,11 @@ export class Bushwack extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+        if (this.orbwalker.canAttack.isTrue()) {
+            this.doRLogic();
+        }
 
         if (!INPUT.isControlDown()) return;
-        // console.log(`isButtonDown ${"A".charCodeAt(0)}:` + INPUT.isCharDown("A"));
-        // console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
-        // console.log(`getFinalMaxAttackDamage:` + this.myHero.getFinalMaxAttackDamage());
 
         // const spell = this.myHero.getTool(0) as IEntityAbility;
         // console.log(`typeName:` + this.myHero.typeName);
@@ -107,7 +102,8 @@ export class Bushwack extends Script {
         // this.doWLogic();
 
         // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     // console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
         //     for (let i = 0; i < 80; i++) {
         //         const tool = h.getTool(i);
         //         if (tool == null) continue;
@@ -115,27 +111,14 @@ export class Bushwack extends Script {
         //     }
         // });
 
-        if (this.orbwalker.canAttack.isTrue()) {
-            tryUseAllItems(this.myHero, this.canCast);
-            this.doWLogic();
-            this.doQLogic();
-        }
-        // this.doQDemonHardLogic();
-        // this.doGhostMarchersLogic();
-        if (this.canCast.isTrue()) {
+
+        if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }
 
-    @Subscribe("DrawEvent")
-    onDraw() {
-        // const drawVec = Vector.extendDir(OBJECT_MANAGER.myHero.position, { ...OBJECT_MANAGER.myHero.facingVector(), z: 0}, 100);
-        // const screenpos = CLIENT.worldToScreen(drawVec);
-        // GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
-        // console.log("draw");
-    }
     @Subscribe("SendGameDataEvent")
-    onSendGameDataEvent(args: NativePointer[]) {
+    onSendGameDataEvent() {
         // if (!INPUT.isControlDown()) return;
         // Dont update state if we are shooting
         // const buffer = new MyBuffer(args[1]);

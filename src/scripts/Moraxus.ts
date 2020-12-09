@@ -11,66 +11,17 @@ import { tryUseAllItems } from "./Items";
 import { Vector2d, Vec2 } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
+import { IllustionController } from "../logics/IllusionController";
+import { opPrediction } from "./Prediction";
 
-export class Gauntlet extends Script {
+export class Moraxus extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
-    private grab = new StoppableLineSpell(this.justCasted);
+    private illusionController = new IllustionController(this.myHero);
 
     constructor() {
         super();
         EventBus.getDefault().register(this);
-    }
-
-    doGrabLogic() {
-        const e = this.myHero.getTool(1) as IEntityAbility;
-        if (!e.canActivate()) {
-            return;
-        }
-
-        const range = e.getDynamicRange();
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(range);
-        if (!enemyHero) {
-            return;
-        }
-        this.grab.cast(
-            e,
-            2,
-            this.myHero,
-            enemyHero,
-            1600,
-            50,
-            (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => {
-                const hookRange = spell.getDynamicRange() + 20;
-                const hookRadius = 75;
-
-                const heroes = OBJECT_MANAGER.heroes as IUnitEntity[];
-
-                const collisionEntities = heroes
-                    .filter(h => !h.isEnemy(this.myHero))
-                    .filter(u => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
-
-                if (Vector2d.distance(castPos, caster.position) > hookRange) {
-                    return false;
-                }
-                const startPos = caster.position;
-                if (
-                    collisionEntities.some(
-                        u =>
-                            !u.ptr.equals(caster.ptr) &&
-                            !u.ptr.equals(target.ptr) &&
-                            Vector2d.distToSegmentSquared(u.position, startPos, castPos) <
-                                (hookRadius + u.boundingRadius) * (hookRadius + u.boundingRadius)
-                    )
-                ) {
-                    return false;
-                }
-                return true;
-            },
-            null,
-            null,
-            this.myHero.getEnemiesInRange(this.myHero.getAttackRange() + 100).length == 0
-        );
     }
 
     doQLogic() {
@@ -81,35 +32,40 @@ export class Gauntlet extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(450);
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(q.getDynamicRange() + 20);
         if (!enemyHero) {
             return;
         }
-
         this.justCasted.delay(200);
         ACTION.castSpell2(this.myHero, 0);
-        // this.orbwalker.canAttack.delay(200);
     }
 
-    doRLogic() {
+    doELogic() {
         if (!this.justCasted.isTrue()) {
             return;
         }
-        const r = this.myHero.getTool(3) as IEntityAbility;
-        if (!r.canActivate()) {
+        const e = this.myHero.getTool(2) as IEntityAbility;
+        if (!e.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(r.getDynamicRange() + 20);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(e.getDynamicRange());
         if (!enemyHero) {
             return;
         }
-        this.justCasted.delay(300);
-        ACTION.castSpellEntity(this.myHero, 3, enemyHero);
+
+        const castLocation = opPrediction(this.myHero, enemyHero, 1200, 100, e.getDynamicRange() - 50, 20);
+        if (!castLocation) {
+            return;
+        }
+        this.justCasted.delay(200);
+        ACTION.castSpellPosition(this.myHero, 2, castLocation.x, castLocation.y);
     }
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        this.illusionController.refreshHero(this.myHero);
+        this.illusionController.control(this.myHero.level > 2);
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -135,15 +91,24 @@ export class Gauntlet extends Script {
         // });
 
         tryUseAllItems(this.myHero, this.justCasted);
-        // this.doRLogic();
-        this.doQLogic();
-        if (this.orbwalker.canAttack.isTrue()) {
-            this.doGrabLogic();
+
+        if (this.orbwalker.canMove.isTrue()) {
+            // this.doQLogic();
+            this.doELogic();
+            // this.doWLogic();
         }
-        // this.doWLogic();
 
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }
+
+    // @Subscribe("SendGameDataEvent")
+    // onSendGameDataEvent(args: NativePointer[]) {
+    //     // if (!INPUT.isControlDown()) return;
+
+    //     const buffer = new MyBuffer(args[1]);
+    //     const data = new Uint8Array(buffer.dataBuffer);
+    //     console.log(data);
+    // }
 }

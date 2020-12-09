@@ -6,11 +6,16 @@ export class Input {
     private input = new CInput(K2_MODULE.getExportByName("g_pInput").readPointer());
 
     private ctrlDown = new NativeFunction(K2_MODULE.getExportByName("_ZN6CInput10IsCtrlDownEv"), "bool", ["pointer"]);
+    private shiftDown = new NativeFunction(K2_MODULE.getExportByName("_ZN6CInput11IsShiftDownEv"), "bool", ["pointer"]);
     private inputDown = new NativeFunction(K2_MODULE.getExportByName("_ZN6CInput12IsButtonDownE7EButton"), "bool", ["pointer", "char"]);
     private buttonToStringFunc = new NativeFunction(K2_MODULE.getExportByName("_ZN6CInput8ToStringE7EButton"), "pointer", ["pointer", "char"]);
 
     public isControlDown(): boolean {
         return this.ctrlDown(this.input.ptr) as boolean;
+    }
+
+    public isShiftDown(): boolean {
+        return this.shiftDown(this.input.ptr) as boolean;
     }
 
     public isButtonDown(button: number): boolean {

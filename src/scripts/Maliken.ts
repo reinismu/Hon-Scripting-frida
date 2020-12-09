@@ -69,9 +69,15 @@ export class Maliken extends Script {
         if (!w.canActivate()) {
             return;
         }
-        if (this.myHero.getEnemiesInRange(400).length > 1) {
+        if (this.myHero.hasTool("State_Maliken_Ability2_Flame") && this.myHero.getHealthPercent() < 30) {
             this.justCasted.delay(150);
             ACTION.castSpell2(this.myHero, 1);
+            return;
+        }
+        if (this.myHero.hasTool("State_Maliken_Ability2_Healing") && this.myHero.getHealthPercent() > 36) {
+            this.justCasted.delay(150);
+            ACTION.castSpell2(this.myHero, 1);
+            return;
         }
     }
 
@@ -92,6 +98,7 @@ export class Maliken extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        tryUseAllItems(this.myHero, this.justCasted);
         // this.thrownSword = OBJECT_MANAGER.gadgets.find(g => g.typeName == "Gadget_Maliken_Ability1") || null;
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -131,7 +138,6 @@ export class Maliken extends Script {
         // });
         this.doRLogic();
         this.doWLogic();
-        tryUseAllItems(this.myHero, this.justCasted);
         // this.doQLogic();
         this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
     }

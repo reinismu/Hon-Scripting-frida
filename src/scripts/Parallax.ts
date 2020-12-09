@@ -14,6 +14,7 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
+import { tryUseAllItems } from "./Items";
 
 export class Parallax extends Script {
     private justCasted = new DelayedCondition();
@@ -41,7 +42,7 @@ export class Parallax extends Script {
         if (!castPos || Vector2d.distance(this.myHero.position, castPos) > q.getDynamicRange()) {
             return;
         }
-        this.justCasted.delay(400);
+        this.justCasted.delay(250);
         ACTION.castSpellPosition(this.myHero, 0, castPos.x, castPos.y);
     }
 
@@ -63,44 +64,8 @@ export class Parallax extends Script {
         if (Vector2d.distance(enemyPositionAfterDelay, this.gadget.position) > 230) {
             return;
         }
-        this.justCasted.delay(150);
+        this.justCasted.delay(250);
         ACTION.castSpell2(this.myHero, 1);
-    }
-
-    doGhostMarchersLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const boots = this.myHero.getItem("Item_EnhancedMarchers");
-        if (!boots) {
-            return;
-        }
-        if (!boots.item.canActivate()) {
-            return;
-        }
-
-        this.justCasted.delay(50);
-        ACTION.castSpell2(this.myHero, boots.index);
-    }
-
-    doShrunkensLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const shrunken = this.myHero.getItem("Item_Immunity");
-        if (!shrunken) {
-            return;
-        }
-        if (!shrunken.item.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if (!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
-            return;
-        }
-
-        this.justCasted.delay(50);
-        ACTION.castSpell2(this.myHero, shrunken.index);
     }
 
     @Subscribe("MainLoopEvent")
@@ -141,12 +106,11 @@ export class Parallax extends Script {
         //     }
         // });
 
-        this.doShrunkensLogic();
-        this.doGhostMarchersLogic();
+        tryUseAllItems(this.myHero, this.justCasted);
         this.doWLogic();
         this.doQLogic();
-        // this.doQDemonHardLogic();
-        // this.doGhostMarchersLogic();
+
+
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }

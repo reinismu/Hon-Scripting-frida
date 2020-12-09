@@ -14,7 +14,16 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
-import { doGhostMarchersLogic, doShrunkensLogic, doSheepstickLogic, doNullFireLogic, doGrimoireOfPowerLogic, doHellfireLogic, tryUseAllItems } from "./Items";
+import {
+    doGhostMarchersLogic,
+    doShrunkensLogic,
+    doSheepstickLogic,
+    doNullFireLogic,
+    doGrimoireOfPowerLogic,
+    doHellfireLogic,
+    tryUseAllItems,
+} from "./Items";
+import { findBestCircularCast } from "../utils/BestCircularLocation";
 
 export class Oogie extends Script {
     private justCasted = new DelayedCondition();
@@ -37,11 +46,42 @@ export class Oogie extends Script {
         }
 
         const targetPos = opPredictionCircular(this.myHero, enemyHero, 750, q.getDynamicRange(), 200);
-        if(!targetPos) {
+        if (!targetPos) {
             return;
         }
         this.justCasted.delay(250);
         ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
+    }
+
+    doQLogicSpam() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const radius = 200;
+
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate()) {
+            return;
+        }
+        const enemyHeroes = this.myHero
+            .getEnemiesInRange(q.getDynamicRange() + radius)
+            .filter((h) => !h.isMagicImmune() && !h.isInvulnerable());
+
+        if (enemyHeroes.length === 0) {
+            return;
+        }
+        const lowestHpPercent = enemyHeroes.map((h) => h.getHealthPercent()).sort((a, b) => a - b)[0];
+        if (enemyHeroes.length === 1 || lowestHpPercent < 30) {
+            this.doQLogic();
+            return;
+        }
+        const bestloc = findBestCircularCast(this.myHero, q.getDynamicRange(), radius, 750, enemyHeroes);
+        if (!bestloc) {
+            return;
+        }
+
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, bestloc.x, bestloc.y);
     }
 
     doWLogic() {
@@ -70,6 +110,16 @@ export class Oogie extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        if (INPUT.isCharDown("C")) {
+            this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
+        if (INPUT.isCharDown("V")) {
+            this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
         if (!INPUT.isControlDown()) return;
 
         // const spell = this.myHero.getTool(0) as IEntityAbility;
@@ -102,7 +152,7 @@ export class Oogie extends Script {
 
         this.doWLogic();
         if (this.orbwalker.canAttack.isTrue()) {
-            this.doQLogic();
+            this.doQLogicSpam();
         }
 
         if (this.justCasted.isTrue()) {

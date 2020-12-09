@@ -33,23 +33,44 @@ import { Artilery } from "./scripts/Artilery";
 import { Pebbles } from "./scripts/Pebbles";
 import { Xemplar } from "./scripts/Xemplar";
 import { DementedShaman } from "./scripts/DementedShaman";
+import { Legionaire } from "./scripts/Legionaire";
+import { General } from "./scripts/General";
+import { Moraxus } from "./scripts/Moraxus";
+import { Deadlift } from "./scripts/Deadlift";
+import { ForsakenArcher } from "./scripts/ForsakenArcher";
+import { Ellonia } from "./scripts/Ellonia";
+import { Magebane } from "./scripts/Magebane";
+import { Shadowblade } from "./scripts/Shadowblade";
+import { Tarot } from "./scripts/Tarot";
+import { Midas } from "./scripts/Midas";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
-// updateOffsets()
+// Uncomment to log offsets
+// updateOffsets();
 
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Artilery();
+    const testScript23 = new Midas();
 
-    
+
+
 
 }, 200);
 
+// Fade immune to target attacks/spells target
+// Pebbles throw to team most dangerous
 
-//  Add pebble + pk in get 3+
+// projectile
+// Orb reset when enemy die
 // Restart Orbwalking on stun
+// Add on new buff callback
+
+// add rage in items
+//  Add pebble + pk in get 3+
+
+
 
 // const testScript = new Armadon();
 // const testScript = new Andromeda();

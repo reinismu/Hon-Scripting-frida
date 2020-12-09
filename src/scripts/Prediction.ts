@@ -6,6 +6,14 @@ export function shitPrediction(enemy: IUnitEntity, extendBy: number = 50): Vec3 
     return Vector.extendDir(enemy.position, { ...enemy.facingVector(), z: 0 }, extendBy);
 }
 
+export function unitPositionPrediction(target: IUnitEntity, delayMS: number) {
+    const eneVelocity = VELOCITY_UPDATER.getVelocity(target);
+    if (eneVelocity.x == 0 && eneVelocity.y == 0) {
+        return target.position;
+    }
+    return Vector2d.add(target.position, Vector2d.mul(eneVelocity, delayMS / 1000));
+}
+
 export function goodPrediction(
     source: IUnitEntity,
     target: IUnitEntity,
@@ -20,7 +28,9 @@ export function goodPrediction(
         }
         return null;
     }
-    const enemyPositionAfterDelay = Vector2d.add(target.position, Vector2d.mul(eneVelocity, castDelayMs / 1000));
+    
+    const turnMs = 0;// source.getMsToTurnToPos(target.position);
+    const enemyPositionAfterDelay = Vector2d.add(target.position, Vector2d.mul(eneVelocity, (castDelayMs + turnMs) / 1000));
     const collisionPos = intercept(source.position, enemyPositionAfterDelay, eneVelocity, projectileSpeed);
     if (!collisionPos) {
         return null;
@@ -90,7 +100,8 @@ export function opPredictionCircular(
 
     const latency = 0.1;
 
-    let goodPos = Vector2d.add(target.position, Vector2d.mul(eneVelocity, castDelayMs / 1000 + latency));
+    const turnMs = source.getMsToTurnToPos(target.position);
+    let goodPos = Vector2d.add(target.position, Vector2d.mul(eneVelocity, (castDelayMs + turnMs) / 1000 + latency));
 
     const eneMoveSpeed = target.getMoveSpeed(true);
     const actionTime = castDelayMs / 1000 + latency;

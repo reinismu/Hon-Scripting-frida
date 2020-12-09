@@ -1,24 +1,23 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { GRAPHICS } from "../graphics/Graphics";
-import { IEntityAbility, IHeroEntity, IFileChangeCallback } from "../honIdaStructs";
+import { IEntityAbility, IHeroEntity, IFileChangeCallback, IUnitEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
-import { TARGET_SELECTOR } from "./TargetSelector";
+import { getTroublePoints, TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { opPrediction, opPredictionCircular } from "./Prediction";
+import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
 import { tryUseAllItems } from "./Items";
-import { IllustionController } from "../logics/IllusionController";
+import { findBestCircularCast } from "../utils/BestCircularLocation";
+import { GRAPHICS } from "../graphics/Graphics";
 
-export class Bushwack extends Script {
-    private canCast = new DelayedCondition();
+export class Deadlift extends Script {
+    private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
-    private illusionController = new IllustionController(this.myHero);
 
     constructor() {
         super();
@@ -26,54 +25,37 @@ export class Bushwack extends Script {
     }
 
     doQLogic() {
-        if (!this.canCast.isTrue()) {
+        if (!this.justCasted.isTrue()) {
             return;
         }
+        const radius = 350;
+
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 20);
-        if (!enemyHero) {
+        const enemyHeros = OBJECT_MANAGER.heroes.filter(
+            (h) =>
+                h.health > 0 &&
+                h.isEnemy(this.myHero) &&
+                h.position.distance2d(this.myHero.position) < q.getDynamicRange() + radius
+        );
+
+        if (enemyHeros.length === 0) {
+            return;
+        }
+        const bestloc = findBestCircularCast(this.myHero, q.getDynamicRange(), radius, 300, enemyHeros);
+        if (!bestloc) {
             return;
         }
 
-        this.canCast.delay(250);
-        ACTION.castSpellEntity(this.myHero, 0, enemyHero);
-    }
-
-    doWLogic() {
-        if (!this.canCast.isTrue()) {
-            return;
-        }
-        const w = this.myHero.getTool(1) as IEntityAbility;
-        if (!w.canActivate() || w.level < 3) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if (!enemyHero) {
-            return;
-        }
-        const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
-        if (dist > 900) {
-            return;
-        }
-
-        const castLocation = IGAME.mysteriousStruct.mousePosition;
-        const distToCast = Vector2d.distance(castLocation, this.myHero.position);
-        if (distToCast < 200) {
-            return;
-        }
-
-        this.canCast.delay(250);
-        ACTION.castSpellPosition(this.myHero, 1, castLocation.x, castLocation.y);
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, bestloc.x, bestloc.y);
     }
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
-        this.illusionController.refreshHero(this.myHero);
-        this.illusionController.control(true);
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -84,11 +66,9 @@ export class Bushwack extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+        tryUseAllItems(this.myHero, this.justCasted);
 
         if (!INPUT.isControlDown()) return;
-        // console.log(`isButtonDown ${"A".charCodeAt(0)}:` + INPUT.isCharDown("A"));
-        // console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
-        // console.log(`getFinalMaxAttackDamage:` + this.myHero.getFinalMaxAttackDamage());
 
         // const spell = this.myHero.getTool(0) as IEntityAbility;
         // console.log(`typeName:` + this.myHero.typeName);
@@ -105,35 +85,27 @@ export class Bushwack extends Script {
         //     console.log(`isAlive: ${h.isAlive}`);
         // });
         // this.doWLogic();
+        // const r = this.myHero.getTool(3) as IEntityAbility;
+        // console.log("r.isToggled", r.isToggled);
 
         // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     // console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
         //     for (let i = 0; i < 80; i++) {
         //         const tool = h.getTool(i);
         //         if (tool == null) continue;
         //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
-
-        if (this.orbwalker.canAttack.isTrue()) {
-            tryUseAllItems(this.myHero, this.canCast);
-            this.doWLogic();
+        if (this.orbwalker.canMove.isTrue()) {
             this.doQLogic();
         }
-        // this.doQDemonHardLogic();
-        // this.doGhostMarchersLogic();
-        if (this.canCast.isTrue()) {
+
+        if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }
 
-    @Subscribe("DrawEvent")
-    onDraw() {
-        // const drawVec = Vector.extendDir(OBJECT_MANAGER.myHero.position, { ...OBJECT_MANAGER.myHero.facingVector(), z: 0}, 100);
-        // const screenpos = CLIENT.worldToScreen(drawVec);
-        // GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
-        // console.log("draw");
-    }
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
         // if (!INPUT.isControlDown()) return;
@@ -142,4 +114,26 @@ export class Bushwack extends Script {
         // const data = new Uint8Array(buffer.dataBuffer);
         // console.log(data);
     }
+
+    // @Subscribe("DrawEvent")
+    // onDraw() {
+    //     // console.log("draw");
+    //     const enemyHeros = OBJECT_MANAGER.heroes.filter(
+    //         (h) =>
+    //             h.health > 0 &&
+    //             h.isEnemy(this.myHero) &&
+    //             h.position.distance2d(this.myHero.position) < 500 + 350
+    //     );
+
+    //     if (enemyHeros.length === 0) {
+    //         return;
+    //     }
+    //     const bestloc = findBestCircularCast(this.myHero, 500, 350, 300, enemyHeros);
+    //     if (!bestloc) {
+    //         return;
+    //     }
+
+    //     const screenPos = CLIENT.worldToScreen({ ...bestloc, z: this.myHero.position.z });
+    //     GRAPHICS.drawRect(screenPos.x, screenPos.y, 10, 10);
+    // }
 }

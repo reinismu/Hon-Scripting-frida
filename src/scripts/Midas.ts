@@ -14,13 +14,20 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
-import { tryUseAllItems } from "./Items";
-import { throws } from "assert";
+import {
+    doGhostMarchersLogic,
+    doShrunkensLogic,
+    doSheepstickLogic,
+    doNullFireLogic,
+    doGrimoireOfPowerLogic,
+    doHellfireLogic,
+    tryUseAllItems,
+} from "./Items";
+import { findBestCircularCast, findBestCircularProjectileCast } from "../utils/BestCircularLocation";
 
-export class Pebbles extends Script {
+export class Midas extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
-    private target: IHeroEntity | undefined = undefined;
 
     constructor() {
         super();
@@ -28,84 +35,106 @@ export class Pebbles extends Script {
     }
 
     doQLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = this.target ? this.target : TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange());
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 100);
         if (!enemyHero) {
             return;
         }
-        const dist = this.myHero.position.distance2d(enemyHero.position);
-        const targetPos = opPredictionCircular(this.myHero, enemyHero, 100 + dist / 1200, q.getDynamicRange(), 1);
+
+        const turnTime = this.myHero.getMsToTurnToPos(enemyHero.position);
+        const targetPos = opPrediction(this.myHero, enemyHero, 1200, 350 + turnTime, q.getDynamicRange(), 50);
         if (!targetPos) {
             return;
         }
-        this.justCasted.delay(350);
+        this.justCasted.delay(150);
         ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
-        this.target = enemyHero;
-        setTimeout(() => {
-            this.target = undefined;
-        }, 2000);
     }
 
-    private getWDamage(): number {
-        const w = this.myHero.getTool(1) as IEntityAbility;
-        const damages = [0, 70, 140, 210, 280];
-        return damages[w.level] || 0;
-    }
-
-    private getWTarget() {
-        const slot = this.myHero.isStaffed() ? 3 : 1;
-        const w = this.myHero.getTool(slot) as IEntityAbility;
-        if (!w.canActivate()) {
-            return;
-        }
-        const throwable = this.myHero
-            .getAllOthersInRange(300)
-            .filter((e) => !e.isInvulnerable() && !e.isMagicImmune())
-            .sort((h1, h2) => h1.position.distance2d(this.myHero.position) - h2.position.distance2d(this.myHero.position))[0];
-        if (!throwable) {
-            return;
-        }
-
-        const enemyHero = this.target ? this.target : TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange());
-        if (!enemyHero) {
-            return;
-        }
-        const enemyHeroThrowable = (throwable instanceof IHeroEntity && this.myHero.isEnemy(throwable)) ? 1 : 0
-
-        const dist = this.myHero.position.distance2d(enemyHero.position);
-        if (dist < 300 || enemyHero.getCurrentMagicalHealth() < this.getWDamage() || enemyHero.getAlliesInRange(350).length >= 2 - enemyHeroThrowable) {
-            return enemyHero;
-        }
-        return undefined;
-    }
-
-    doWLogic() {
+    doQLogicSpam() {
         if (!this.justCasted.isTrue()) {
             return;
         }
-        const slot = this.myHero.isStaffed() ? 3 : 1;
-        const w = this.myHero.getTool(slot) as IEntityAbility;
+        const radius = 200;
+
+        const w = this.myHero.getTool(0) as IEntityAbility;
         if (!w.canActivate()) {
             return;
         }
+        const enemyHeroes = this.myHero
+            .getEnemiesInRange(w.getDynamicRange() + radius)
+            .filter((h) => !h.isMagicImmune() && !h.isInvulnerable());
 
-        const enemyHero = this.getWTarget();
+        if (enemyHeroes.length === 0) {
+            return;
+        }
+        const lowestHpPercent = enemyHeroes.map((h) => h.getHealthPercent()).sort((a, b) => a - b)[0];
+        if (enemyHeroes.length === 1 || lowestHpPercent < 30) {
+            this.doQLogic();
+            return;
+        }
+
+        const bestloc = findBestCircularProjectileCast(this.myHero, w.getDynamicRange(), radius, 400, 1200, enemyHeroes, 80, 2);
+        if (!bestloc) {
+            this.doQLogic();
+            return;
+        }
+
+        this.justCasted.delay(50);
+        ACTION.castSpellPosition(this.myHero, 0, bestloc.x, bestloc.y);
+    }
+
+    doWLogic() {
+        const w = this.myHero.getTool(1) as IEntityAbility;
+        if (!w.canActivate()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 100);
         if (!enemyHero) {
             return;
         }
-        this.target = enemyHero;
-        setTimeout(() => {
-            this.target = undefined;
-        }, 2000);
 
-        this.justCasted.delay(250);
-        ACTION.castSpellEntity(this.myHero, slot, enemyHero);
+        const turnTime = this.myHero.getMsToTurnToPos(enemyHero.position);
+        const targetPos = opPrediction(this.myHero, enemyHero, 1000, 400 + turnTime, w.getDynamicRange(), 50);
+        if (!targetPos) {
+            return;
+        }
+        this.justCasted.delay(50);
+        ACTION.castSpellPosition(this.myHero, 1, targetPos.x, targetPos.y);
+    }
+
+    doWLogicSpam() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const radius = 200;
+
+        const w = this.myHero.getTool(1) as IEntityAbility;
+        if (!w.canActivate()) {
+            return;
+        }
+        const enemyHeroes = this.myHero
+            .getEnemiesInRange(w.getDynamicRange() + radius)
+            .filter((h) => !h.isMagicImmune() && !h.isInvulnerable());
+
+        if (enemyHeroes.length === 0) {
+            return;
+        }
+        const lowestHpPercent = enemyHeroes.map((h) => h.getHealthPercent()).sort((a, b) => a - b)[0];
+        if (enemyHeroes.length === 1 || lowestHpPercent < 30) {
+            this.doWLogic();
+            return;
+        }
+        const bestloc = findBestCircularProjectileCast(this.myHero, w.getDynamicRange(), radius, 450, 1000, enemyHeroes, 80, 2);
+        if (!bestloc) {
+            this.doWLogic();
+            return;
+        }
+
+        this.justCasted.delay(50);
+        ACTION.castSpellPosition(this.myHero, 1, bestloc.x, bestloc.y);
     }
 
     @Subscribe("MainLoopEvent")
@@ -150,8 +179,9 @@ export class Pebbles extends Script {
         // });
 
         tryUseAllItems(this.myHero, this.justCasted);
-        this.doQLogic();
-        this.doWLogic();
+
+        this.doQLogicSpam();
+        this.doWLogicSpam();
 
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);

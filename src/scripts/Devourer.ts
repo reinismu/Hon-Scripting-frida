@@ -1,6 +1,6 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { IEntityAbility, IUnitEntity, Console } from "../honIdaStructs";
+import { IEntityAbility, IUnitEntity, Console, IHeroEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { TARGET_SELECTOR } from "./TargetSelector";
@@ -12,6 +12,9 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { tryUseAllItems } from "./Items";
 import { IllustionController } from "../logics/IllusionController";
+import { CLIENT } from "../game/Client";
+import { GRAPHICS } from "../graphics/Graphics";
+import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 
 export class Devourer extends Script {
     private orbwalker = new Orbwalker(this.myHero);
@@ -30,7 +33,7 @@ export class Devourer extends Script {
             return;
         }
         const range = q.getDynamicRange() + 20;
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(range);
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(range);
         if (!enemyHero) {
             return;
         }
@@ -50,9 +53,9 @@ export class Devourer extends Script {
                 const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
 
                 const collisionEntities = heroes
-                    .filter(h => !h.isEnemy(this.myHero))
+                    .filter((h) => !h.isEnemy(this.myHero))
                     .concat(creeps, neutrals)
-                    .filter(u => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
+                    .filter((u) => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
 
                 if (Vector2d.distance(castPos, caster.position) > hookRange) {
                     return false;
@@ -60,7 +63,7 @@ export class Devourer extends Script {
                 const startPos = caster.position;
                 if (
                     collisionEntities.some(
-                        u =>
+                        (u) =>
                             !u.ptr.equals(caster.ptr) &&
                             !u.ptr.equals(target.ptr) &&
                             Vector2d.distToSegmentSquared(u.position, startPos, castPos) <
@@ -85,14 +88,14 @@ export class Devourer extends Script {
         const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(300);
         if (!enemyHero) {
             if (this.myHero.hasTool("State_Devourer_Ability2_Self")) {
-                this.justCasted.delay(150);
+                this.justCasted.delay(250);
                 ACTION.castSpell2(this.myHero, 1);
             }
             return;
         }
 
         if (!this.myHero.hasTool("State_Devourer_Ability2_Self")) {
-            this.justCasted.delay(150);
+            this.justCasted.delay(250);
             ACTION.castSpell2(this.myHero, 1);
         }
     }
@@ -119,6 +122,17 @@ export class Devourer extends Script {
         this.orbwalker.refreshWalker(this.myHero);
         this.illusionController.refreshHero(this.myHero);
         this.illusionController.control();
+
+        if (INPUT.isCharDown("C")) {
+            this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
+        if (INPUT.isCharDown("V")) {
+            this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
         if (!INPUT.isControlDown()) return;
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
@@ -163,16 +177,28 @@ export class Devourer extends Script {
         // console.log(data);
     }
 
-    @Subscribe("DrawEvent")
-    onDraw() {
-        // console.log("draw");
-        // OBJECT_MANAGER.heroes.forEach(h => {
-        //     if (h.isIllusion()) {
-        //         const screenPos = CLIENT.worldToScreen(h.position);
-        //         GRAPHICS.drawRect(screenPos.x, screenPos.y, 10, 10);
-        //     }
-        // });
-    }
+    // @Subscribe("DrawEvent")
+    // onDraw() {
+    //     const getVelPos = (target: IHeroEntity, delayMS: number) => {
+    //         const eneVelocity = VELOCITY_UPDATER.getVelocity(target);
+    //         if (eneVelocity.x == 0 && eneVelocity.y == 0) {
+    //             return target.position;
+    //         }
+
+    //         const turnMs = 0; // source.getMsToTurnToPos(target.position);
+    //         const enemyPositionAfterDelay = Vector2d.add(target.position, Vector2d.mul(eneVelocity, (delayMS + turnMs) / 1000));
+    //         return enemyPositionAfterDelay;
+    //     };
+
+    //     // console.log("draw");
+    //     OBJECT_MANAGER.heroes.forEach((h) => {
+    //         if (!h.isIllusion()) {
+    //             const pos = getVelPos(h, 1000);
+    //             const screenPos = CLIENT.worldToScreen({x: pos.x, y: pos.y, z: h.position.z});
+    //             GRAPHICS.drawRect(screenPos.x, screenPos.y, 10, 10);
+    //         }
+    //     });
+    // }
 
     @Subscribe("RequestStartAnimEvent")
     onAnimationStart(args: NativePointer[]) {

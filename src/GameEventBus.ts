@@ -8,7 +8,7 @@ class SendGameDataEvent extends EventBus.Event<NativePointer[]> {}
 class SendClientSnapshotEvent extends EventBus.Event<NativePointer[]> {}
 class RequestStartAnimEvent extends EventBus.Event<NativePointer[]> {}
 
-const onMainLoop = K2_MODULE.base.add(0x5db470); //  CHost::Execute contains main loop in K2
+const onMainLoop = K2_MODULE.base.add(0x5e3320); //  CHost::Execute contains main loop in K2
 const onSceneRender = K2_MODULE.getExportByName("_ZN13CSceneManager6RenderEv");
 const sendGameData = K2_MODULE.getExportByName("_ZN11CHostClient12SendGameDataERK7IBufferb");
 const sendClientSnapshot = K2_MODULE.getExportByName("_ZN11CHostClient18SendClientSnapshotERK7IBuffer");

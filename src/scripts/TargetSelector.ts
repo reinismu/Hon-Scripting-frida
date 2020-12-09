@@ -64,7 +64,11 @@ export class TargetSelector {
         return null;
     }
 
-    getBestMagicalDisableInRange(range: number, from: IUnitEntity = OBJECT_MANAGER.myHero): IHeroEntity | null {
+    getBestMagicalDisableInRange(
+        range: number,
+        from: IUnitEntity = OBJECT_MANAGER.myHero,
+        customPredicate: (h: IHeroEntity) => boolean = () => true
+    ): IHeroEntity | null {
         const enemy = OBJECT_MANAGER.heroes
             .filter(
                 (h) =>
@@ -74,7 +78,8 @@ export class TargetSelector {
                     h.position.distance2d(from.position) < range &&
                     !h.isMagicImmune() &&
                     !h.isInvulnerable() &&
-                    !h.isDisabled()
+                    !h.isDisabled() &&
+                    customPredicate(h)
             )
             .sort((h1, h2) => h1.getMaxHealth() - h2.getMaxHealth())[0];
         if (enemy) {

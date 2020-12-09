@@ -13,6 +13,7 @@ import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
+import { tryUseAllItems } from "./Items";
 
 export class Slither extends Script {
     private canCast = new DelayedCondition();
@@ -35,7 +36,6 @@ export class Slither extends Script {
         }
         this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 100);
     }
-
 
     doWLogic() {
         if (!this.canCast.isTrue()) {
@@ -104,7 +104,8 @@ export class Slither extends Script {
             return;
         }
 
-        if (!INPUT.isControlDown()) return;
+        
+        if (!INPUT.isControlDown() || this.myHero.isDead()) return;
         // console.log(`isButtonDown ${"A".charCodeAt(0)}:` + INPUT.isCharDown("A"));
         // console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
         // console.log(`getFinalMaxAttackDamage:` + this.myHero.getFinalMaxAttackDamage());
@@ -133,9 +134,7 @@ export class Slither extends Script {
         //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
-
-        this.doShrunkensLogic();
-        this.doGhostMarchersLogic();
+        tryUseAllItems(this.myHero, this.canCast);
         if (this.orbwalker.canAttack.isTrue()) {
             this.doQLogic();
             this.doWLogic();

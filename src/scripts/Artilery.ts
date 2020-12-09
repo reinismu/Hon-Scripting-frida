@@ -33,7 +33,7 @@ export class Artilery extends Script {
             return;
         }
         const q = this.myHero.getTool(0) as IEntityAbility;
-        if (!q.canActivate()) {
+        if (!q.canActivate() || this.myHero.mana < 30) {
             return;
         }
         const qRange = q.getDynamicRange() + 50;
@@ -129,7 +129,7 @@ export class Artilery extends Script {
         tryUseAllItems(this.myHero, this.canCast);
         this.doQLogic();
         if (this.canCast.isTrue() && !this.isShooting()) {
-            this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition, true);
+            this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }
 

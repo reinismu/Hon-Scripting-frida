@@ -10,6 +10,9 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { tryUseAllItems } from "./Items";
 import { Vector2d } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { CLIENT } from "../game/Client";
+import { GRAPHICS } from "../graphics/Graphics";
+import { off } from "process";
 
 export class Accursed extends Script {
     private canCast = new DelayedCondition();
@@ -107,13 +110,38 @@ export class Accursed extends Script {
         //     }
         // });
 
-        this.doRLogic();
-        this.doWLogic();
-        this.doQLogic();
-        tryUseAllItems(this.myHero, this.canCast);
+        if (this.orbwalker.canMove.isTrue()) {
+            this.doRLogic();
+            this.doWLogic();
+            this.doQLogic();
+            tryUseAllItems(this.myHero, this.canCast);
+        }
 
         if (this.canCast.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }
+    // @Subscribe("DrawEvent")
+    // onDraw() {
+    //     // console.log("draw");
+
+    //     OBJECT_MANAGER.heroes.forEach((h) => {
+    //         if (h.ptr === this.myHero.ptr) {
+    //             return;
+    //         };
+    //         const angle = h.turnAngle(this.myHero.position);
+    //         const position1 = Vector2d.extendDir(h.position, h.facingVector(angle * 0.3), 80);
+    //         const position2 = Vector2d.extendDir(h.position, h.facingVector(-angle * 0.3), 80);
+
+    //         const position =
+    //             Vector2d.distance(position1, this.myHero.position) < Vector2d.distance(position2, this.myHero.position)
+    //                 ? position1
+    //                 : position2;
+
+    //         if (position) {
+    //             const screenPos = CLIENT.worldToScreen({ ...position, z: h.position.z });
+    //             GRAPHICS.drawRect(screenPos.x, screenPos.y, 10, 10);
+    //         }
+    //     });
+    // }
 }

@@ -29,6 +29,71 @@ export class Kinesis extends Script {
         EventBus.getDefault().register(this);
     }
 
+    private isShooting() {
+        return this.myHero.hasTool("State_Artillery_Ability1");
+    }
+
+    doArtileryQLogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate() || this.myHero.mana < 30) {
+            return;
+        }
+        const qRange = q.getDynamicRange() + 50;
+        const qRadius = 35;
+        //
+        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(qRange);
+        if (!enemyHero) {
+            if (this.isShooting()) {
+                ACTION.move(this.myHero.position);
+            }
+            return;
+        }
+        // 600 ms to do full shoot
+
+        const castLocation = opPrediction(this.myHero, enemyHero, q.getDynamicRange() / 0.75, 0, q.getDynamicRange() + 50, 1);
+        if (!castLocation) {
+            return;
+        }
+
+        const heroes = OBJECT_MANAGER.heroes as IUnitEntity[];
+        const creeps = OBJECT_MANAGER.creeps as IUnitEntity[];
+        const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
+
+        const collisionEntities = heroes
+            .filter((h) => !h.isEnemy(this.myHero))
+            .concat(creeps, neutrals)
+            .filter(
+                (u) =>
+                    !u.isDead() &&
+                    u.isEnemy(this.myHero) &&
+                    u.position.distance2dSqr(this.myHero.position) < qRange * qRange &&
+                    u.getHealthPercent() > 10 &&
+                    u.position.distance2dSqr(enemyHero.position) > 150 * 150
+            );
+
+        const startPos = this.myHero.position;
+        if (
+            collisionEntities.some(
+                (u) =>
+                    !u.ptr.equals(this.myHero.ptr) &&
+                    !u.ptr.equals(enemyHero.ptr) &&
+                    Vector2d.distToSegmentSquared(u.position, startPos, castLocation) <
+                        (qRadius + u.boundingRadius) * (qRadius + u.boundingRadius)
+            )
+        ) {
+            if (this.isShooting()) {
+                ACTION.move(this.myHero.position);
+            }
+            return;
+        }
+
+        this.justCasted.delay(50);
+        ACTION.castSpellPosition(this.myHero, 0, castLocation.x, castLocation.y);
+    }
+
     // Check for 3 weakest heroes
     doDevourerQLogic() {
         const q = this.myHero.getTool(0) as IEntityAbility;
@@ -56,9 +121,9 @@ export class Kinesis extends Script {
                 const neutrals = OBJECT_MANAGER.neutrals as IUnitEntity[];
 
                 const collisionEntities = heroes
-                    .filter(h => !h.isEnemy(this.myHero))
+                    .filter((h) => !h.isEnemy(this.myHero))
                     .concat(creeps, neutrals)
-                    .filter(u => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
+                    .filter((u) => !u.isDead() && u.position.distance2dSqr(caster.position) < hookRange * hookRange);
 
                 if (Vector2d.distance(castPos, caster.position) > hookRange) {
                     return false;
@@ -66,7 +131,7 @@ export class Kinesis extends Script {
                 const startPos = caster.position;
                 if (
                     collisionEntities.some(
-                        u =>
+                        (u) =>
                             !u.ptr.equals(caster.ptr) &&
                             !u.ptr.equals(target.ptr) &&
                             Vector2d.distToSegmentSquared(u.position, startPos, castPos) <
@@ -88,13 +153,17 @@ export class Kinesis extends Script {
         if (q.typeName == "Ability_Devourer1") {
             this.doDevourerQLogic();
             return;
+        } else if (q.typeName == "Ability_Artillery1") {
+            this.doArtileryQLogic();
+            return;
         } else if (q.typeName == "Ability_Kenisis1") {
             if (!this.justCasted.isTrue()) {
                 return;
             }
             const dev = OBJECT_MANAGER.heroes.find(
-                h => h.isEnemy(this.myHero) && 
-                    (h.typeName == "Hero_Devourer" || h.typeName == "Hero_Kunas") &&
+                (h) =>
+                    h.isEnemy(this.myHero) &&
+                    (h.typeName == "Hero_Devourer" || h.typeName == "Hero_Kunas" || h.typeName == "Hero_Artillery") &&
                     !h.isMagicImmune() &&
                     Vector2d.distance(h.position, this.myHero.position) + 20 < q.getDynamicRange()
             );
@@ -153,7 +222,6 @@ export class Kinesis extends Script {
         this.justCastedR.delay(1000);
         ACTION.castSpellEntity(this.myHero, 3, enemyHero);
     }
-    
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
@@ -168,7 +236,7 @@ export class Kinesis extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
-    
+
         if (!INPUT.isControlDown() || this.myHero.isDead()) return;
 
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
@@ -196,8 +264,9 @@ export class Kinesis extends Script {
         tryUseAllItems(this.myHero, this.justCasted);
         this.doWLogic();
         this.doQLogic();
-
-        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
+        if (!this.isShooting()) {
+            this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
+        }
     }
 
     @Subscribe("SendGameDataEvent")

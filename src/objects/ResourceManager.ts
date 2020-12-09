@@ -17,7 +17,6 @@ class ResourceManager {
 
     getAnimName(modelId: number, animId: number): string {
         const namePtr = getAnimName(this.resourceManagerPtr, modelId, animId) as NativePointer;
-        console.log(`Anim name ptr: ${namePtr}`);
         return namePtr.read32BitString();
     }
 }

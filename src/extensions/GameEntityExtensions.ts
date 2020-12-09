@@ -31,14 +31,16 @@ const magicImmunityStates = new Set([
     "State_Item3E" /* Shrunken*/,
     "State_Predator_Ability2",
     "State_Hiro_Ability1" /* Swiftblade Q */
+    // TODO add andro
 ]);
 
 const physicalImmunityStates = new Set(["State_Accursed_Ability4", "State_VoidTalisman"]);
 
 declare module "../honIdaStructs" {
     interface IUnitEntity {
-        facingVector(): Vec2;
+        facingVector(deltaAngle?: number): Vec2;
         getMsToTurnToPos(pos: Vec2): number;
+        turnAngle(pos: Vec2): number;
         isFacing(pos: Vec2 | IUnitEntity): boolean;
         getTool(index: number): ISlaveEntity | null;
         getItem(name: string): { index: number; item: IEntityItem } | null;
@@ -113,6 +115,11 @@ function turnAngle(entity: IUnitEntity, pos: Vec2) {
 function radianToDegree(rad: number): number {
     return (rad * 180) / Math.PI;
 }
+
+IUnitEntity.prototype.turnAngle = function(pos: Vec2): number {
+    const self = this as IUnitEntity;
+    return turnAngle(self, pos);
+};
 
 IUnitEntity.prototype.callFloatVTable = function(offset: number): number {
     const self = this as IUnitEntity;
@@ -605,9 +612,9 @@ IUnitEntity.prototype.getCanAttack = function(): boolean {
     )(self.ptr) as boolean;
 };
 
-IUnitEntity.prototype.facingVector = function(): { x: number; y: number } {
+IUnitEntity.prototype.facingVector = function(deltaAngle: number = 0): { x: number; y: number } {
     const self = this as IUnitEntity;
-    const radians = self.facingAngle * 0.01745329252 + Math.PI / 2;
+    const radians = (self.facingAngle + deltaAngle) * 0.01745329252 + Math.PI / 2;
     return { x: Math.cos(radians), y: Math.sin(radians) };
 };
 
@@ -621,13 +628,13 @@ IUnitEntity.prototype.getEnemiesFightingMe = function(range: number): IHeroEntit
 IUnitEntity.prototype.getAllAlliesInRange = function(range: number): IUnitEntity[] {
     const self = this as IUnitEntity;
     const heroEnemies = OBJECT_MANAGER.heroes.filter(
-        h => h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+        h => h !== self && h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
     )
     const creepEnemies = OBJECT_MANAGER.creeps.filter(
-        h => h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+        h => h !== self && h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
     )
     const neutralEnemies = OBJECT_MANAGER.neutrals.filter(
-        h => h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+        h => h !== self && h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
     )
     return [...heroEnemies,...creepEnemies, ...neutralEnemies];
 };
@@ -670,6 +677,6 @@ IUnitEntity.prototype.getEnemiesInRange = function(range: number): IHeroEntity[]
 IUnitEntity.prototype.getAlliesInRange = function(range: number): IHeroEntity[] {
     const self = this as IUnitEntity;
     return OBJECT_MANAGER.heroes.filter(
-        h => h.health > 0 && !h.isIllusion() && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+        h => self !== h && h.health > 0 && !h.isIllusion() && !h.isEnemy(self) && h.position.distance2d(self.position) < range
     )
 };
