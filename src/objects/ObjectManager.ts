@@ -21,6 +21,7 @@ export class ObjectManager {
     private cachedCreepMap: Map<number, ICreepEntity> = new Map();
     private cachedNeutralMap: Map<number, INeutralEntity> = new Map();
     private cachedGadgetMap: Map<number, IGadgetEntity> = new Map();
+    private cachedProjectileMap: Map<number, IProjectile> = new Map();
     /**
      * Idea is that lowest network id for same hero will be the real one.
      */
@@ -96,6 +97,7 @@ export class ObjectManager {
             this.cachedCreepMap.delete(index);
             this.cachedNeutralMap.delete(index);
             this.cachedGadgetMap.delete(index);
+            this.cachedProjectileMap.delete(index);
             return new EntityDespawnedEvent(index);
         }
         const cachedEntity = this.cachedEntityMap.get(index);
@@ -118,6 +120,8 @@ export class ObjectManager {
                     this.cachedNeutralMap.set(index, newEntity);
                 } else if (newEntity instanceof IGadgetEntity) {
                     this.cachedGadgetMap.set(index, newEntity);
+                } else if (newEntity instanceof IProjectile) {
+                    this.cachedProjectileMap.set(index, newEntity);
                 }
                 return new EntitySpawnedEvent(newEntity);
             } else {
@@ -126,6 +130,7 @@ export class ObjectManager {
                 this.cachedCreepMap.delete(index);
                 this.cachedNeutralMap.delete(index);
                 this.cachedGadgetMap.delete(index);
+                this.cachedProjectileMap.delete(index);
                 return new EntityDespawnedEvent(index);
             }
         }
@@ -182,6 +187,10 @@ export class ObjectManager {
 
     get gadgets(): IGadgetEntity[] {
         return Array.from(this.cachedGadgetMap.values());
+    }
+
+    get projectiles(): IProjectile[] {
+        return Array.from(this.cachedProjectileMap.values());
     }
 
     get myHero(): IHeroEntity {

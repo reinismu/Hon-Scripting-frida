@@ -14,10 +14,12 @@ import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
 import { opPrediction } from "./Prediction";
 
-export class Tarot extends Script {
+export class Sandwraith extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
+
+    private qTargetName: string | null = null;
 
     constructor() {
         super();
@@ -32,70 +34,34 @@ export class Tarot extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
-            q.getDynamicRange(),
-            this.myHero.position,
-            (h) => h.getAllAlliesInRange(450).length !== 0
-        );
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange());
         if (!enemyHero) {
             return;
         }
-        enemyHero.getMoveSpeed
-        this.justCasted.delay(200);
+        this.justCasted.delay(400);
+        this.qTargetName = enemyHero.typeName;
+        setTimeout(() => {
+            this.qTargetName = null;
+        }, 2000)
         ACTION.castSpellEntity(this.myHero, 0, enemyHero);
-    }
-
-    doWLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const w = this.myHero.getTool(1) as IEntityAbility;
-        if (!w.canActivate()) {
-            return;
-        }
-        const enemyProxyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.myHero.getAttackRange() + 50);
-        if (!enemyProxyHero) {
-            return;
-        }
-
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
-            w.getDynamicRange(),
-            this.myHero.position,
-            (h) => Vector2d.distance(h.position, enemyProxyHero.position) < 800
-        );
-        if (!enemyHero) {
-            return;
-        }
-        this.justCasted.delay(200);
-        ACTION.castSpellEntity(this.myHero, 1, enemyHero);
-    }
-
-    doELogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const e = this.myHero.getTool(2) as IEntityAbility;
-        if (!e.canActivate()) {
-            return;
-        }
-
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(
-            e.getDynamicRange(),
-            this.myHero,
-            (h) => h.getAlliesInRange(400).length !== 0
-        );
-        if (!enemyHero) {
-            return;
-        }
-        this.justCasted.delay(200);
-        ACTION.castSpellEntity(this.myHero, 2, enemyHero);
     }
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
+        const qTarget = OBJECT_MANAGER.heroes.find(
+            (h) => !h.isDead() && h.isEnemy(this.myHero) && (h.hasTool("State_SandWraith_Ability1_Sticky") || h.typeName === this.qTargetName)
+        );
+
         this.orbwalker.refreshWalker(this.myHero);
         this.illusionController.refreshHero(this.myHero);
-        this.illusionController.control(this.myHero.level > 12);
+        this.illusionController.control(true, (illusion, orbwalker) => {
+            if (!qTarget) {
+                return false;
+            }
+            const followPosition = Vector2d.extendDir(qTarget.position, qTarget.facingVector(), 70);
+            orbwalker.orbwalk(followPosition);
+            return true;
+        });
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -109,7 +75,7 @@ export class Tarot extends Script {
 
         if (!INPUT.isControlDown()) return;
 
-        // OBJECT_MANAGER.heroes.forEach(h => {
+        // OBJECT_MANAGER.heroes.forEach((h) => {
         //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
         //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
         //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
@@ -123,8 +89,6 @@ export class Tarot extends Script {
         tryUseAllItems(this.myHero, this.justCasted);
 
         this.doQLogic();
-        this.doELogic();
-        this.doWLogic();
         // this.doWLogic();
 
         if (this.justCasted.isTrue()) {

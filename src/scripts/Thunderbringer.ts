@@ -125,8 +125,8 @@ export class Thunderbringer extends Script {
         //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
-        this.doQLogic();
         this.doWLogic();
+        this.doQLogic();
         tryUseAllItems(this.myHero, this.canCast);
 
         if (!this.canCast.isTrue()) {

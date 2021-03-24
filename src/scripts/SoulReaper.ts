@@ -75,7 +75,7 @@ export class SoulReaper extends Script {
         if (dmgOneEnemy < enemyHero.getCurrentMagicalHealth()) {
             return;
         }
-        this.canCast.delay(500);
+        this.canCast.delay(600);
         ACTION.castSpellEntity(this.myHero, 3, enemyHero);
     }
 

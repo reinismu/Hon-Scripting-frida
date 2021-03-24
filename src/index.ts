@@ -43,6 +43,9 @@ import { Magebane } from "./scripts/Magebane";
 import { Shadowblade } from "./scripts/Shadowblade";
 import { Tarot } from "./scripts/Tarot";
 import { Midas } from "./scripts/Midas";
+import { Prisoner } from "./scripts/Prisoner";
+import { Sandwraith } from "./scripts/Sandwraith";
+import { Berserk } from "./scripts/Berserk";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -52,12 +55,22 @@ console.log("Hello from typescript. Process id: " + Process.id);
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Midas();
+    const testScript23 = new Calamity();
+
+
+
+
+
 
 
 
 
 }, 200);
+
+// FIx object manager going nuts after a while
+
+// Investigate champion turn rate
+// Create account https://www.guerrillamail.com
 
 // Fade immune to target attacks/spells target
 // Pebbles throw to team most dangerous
@@ -69,8 +82,6 @@ setTimeout(() => {
 
 // add rage in items
 //  Add pebble + pk in get 3+
-
-
 
 // const testScript = new Armadon();
 // const testScript = new Andromeda();

@@ -43,7 +43,7 @@ export class Devourer extends Script {
             this.myHero,
             enemyHero,
             1600,
-            55,
+            35,
             (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => {
                 const hookRange = spell.getDynamicRange() + 20;
                 const hookRadius = 75;

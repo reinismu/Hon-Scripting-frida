@@ -149,7 +149,7 @@ export class Orbwalker {
                 this.isNotAttacking.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
                 if (this.canAttack.isTrue()) {
                     this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown() + this.getAttackSlowTime() + 100);
-                    this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 220);
+                    this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
                     this.attack(target);
                     return;
                 }

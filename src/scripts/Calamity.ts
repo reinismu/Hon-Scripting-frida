@@ -1,22 +1,26 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { GRAPHICS } from "../graphics/Graphics";
-import { IEntityAbility, IHeroEntity, IFileChangeCallback, CSocket } from "../honIdaStructs";
+import { IEntityAbility, IUnitEntity, IVisualEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
-import { CLIENT } from "../game/Client";
 import { TARGET_SELECTOR } from "./TargetSelector";
-import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
-import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { opPrediction, opPredictionCircular } from "./Prediction";
 import { tryUseAllItems } from "./Items";
+import { Vector2d, Vec2 } from "../utils/Vector";
+import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { StoppableLineSpell } from "../utils/StoppableLineSpell";
+import { IllustionController } from "../logics/IllusionController";
+import { opPrediction, opPredictionCircular } from "./Prediction";
+import { findBestCircularCast } from "../utils/BestCircularLocation";
+
+type DragonState = 1 | 2 | 3;
 
 export class Calamity extends Script {
-    private canCast = new DelayedCondition();
+    private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
+    private illusionController = new IllustionController(this.myHero);
 
     constructor() {
         super();
@@ -24,72 +28,113 @@ export class Calamity extends Script {
     }
 
     doQLogic() {
-        if (!this.canCast.isTrue()) {
-            return;
-        }
         const q = this.myHero.getTool(0) as IEntityAbility;
-        if (!q.canActivate()) {
+        if (!q.canActivate() || q.level < 3 || this.myHero.getManaPercent() < 50) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(q.getDynamicRange() + 20);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 100);
         if (!enemyHero) {
             return;
         }
 
-        this.canCast.delay(q.getAdjustedActionTime());
-        ACTION.castSpellEntity(this.myHero, 0, enemyHero);
+        const targetPos = opPrediction(this.myHero, enemyHero, 1250, 500, q.getDynamicRange(), 200);
+        if (!targetPos) {
+            return;
+        }
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
     }
 
-    doELogic() {
-        if (!this.canCast.isTrue() || this.myHero.isStaffed()) {
-            return;
+    private getCurrentDragonState(): DragonState | null {
+        const dragon = OBJECT_MANAGER.projectiles.find((p) => p.typeName == "Projectile_Calamity_Ability2_Orbit");
+        if (!dragon) {
+            return null;
         }
-        const e = this.myHero.getTool(2) as IEntityAbility;
-        if (!e.canActivate()) {
-            return;
-        }
-        const bulldozerRange = this.myHero.getAttackRange() + (this.isInBulldozer() ? 0 : 150);
-        const cheetahRange = this.myHero.getAttackRange() + (this.isInBulldozer() ? -150 : 0);
+        const distance = Vector2d.distance(dragon.position, this.myHero.position);
 
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(bulldozerRange + 20);
-        if (!enemyHero) {
-            return;
+        if (distance < 300) {
+            return 1;
+        }
+        if (distance < 500) {
+            return 2;
         }
 
-        if (this.isInBulldozer() && Vector2d.distance(enemyHero.position, this.myHero.position) <= cheetahRange) {
-            this.canCast.delay(50);
-            ACTION.castSpell2(this.myHero, 2);
+        return 3;
+    }
+
+    // 584 -> 434 -> 284
+    // 200 - 350
+    // 350 - 500
+    // 500 - 650
+    doDragonLogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const dragonIn = this.myHero.getTool(5) as IEntityAbility;
+        const dragonOut = this.myHero.getTool(6) as IEntityAbility;
+        const dragonState = this.getCurrentDragonState();
+
+        if (!dragonOut.canActivate() || !dragonState) {
             return;
         }
 
-        if (!this.isInBulldozer() && Vector2d.distance(enemyHero.position, this.myHero.position) > cheetahRange) {
-            this.canCast.delay(50);
-            ACTION.castSpell2(this.myHero, 2);
+        const reachableEnemiesCount = this.myHero.getEnemiesInRange(660).length;
+        if (reachableEnemiesCount === 0) {
             return;
+        }
+
+        const nearEnemiesCount = this.myHero.getEnemiesInRange(350).length;
+        const middleEnemiesCount = this.myHero.getEnemiesInRange(500).length - nearEnemiesCount;
+        const farEnemiesCount = reachableEnemiesCount - nearEnemiesCount - middleEnemiesCount;
+
+        const getBestDragonState = (): DragonState => {
+            if (nearEnemiesCount > middleEnemiesCount && nearEnemiesCount > farEnemiesCount) {
+                return 1;
+            }
+            if (middleEnemiesCount > farEnemiesCount) {
+                return 2;
+            }
+            return 3;
+        };
+        const bestState = getBestDragonState();
+
+        if (bestState < dragonState) {
+            this.justCasted.delay(200);
+            ACTION.castSpell2(this.myHero, 5);
+        } else {
+            this.justCasted.delay(200);
+            ACTION.castSpell2(this.myHero, 6);
         }
     }
 
     doRLogic() {
-        if (!this.canCast.isTrue()) {
+        if (!this.justCasted.isTrue()) {
             return;
         }
         const r = this.myHero.getTool(3) as IEntityAbility;
+        const range = Math.min(r.getDynamicRange(), 2000);
         if (!r.canActivate()) {
             return;
         }
 
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if (!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
+        const enemies = this.myHero.getEnemiesInRange(range + 500);
+        if (enemies.length < 4) {
+            return;
+        }
+        const pos = findBestCircularCast(this.myHero, range, 450, 200, enemies, 100, 4);
+        if (!pos) {
             return;
         }
 
-        this.canCast.delay(50);
-        ACTION.castSpellEntity(this.myHero, 3, this.myHero,);
+        this.justCasted.delay(450);
+        ACTION.castSpellPosition(this.myHero, 3, pos.x, pos.y);
     }
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+        this.illusionController.refreshHero(this.myHero);
+        this.illusionController.control(this.myHero.level > 12);
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -101,10 +146,14 @@ export class Calamity extends Script {
             return;
         }
 
+        this.doDragonLogic();
+
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
+        //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
+        //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
         //     for (let i = 0; i < 80; i++) {
         //         const tool = h.getTool(i);
         //         if (tool == null) continue;
@@ -112,37 +161,25 @@ export class Calamity extends Script {
         //     }
         // });
 
-        tryUseAllItems(this.myHero, this.canCast);
+        tryUseAllItems(this.myHero, this.justCasted);
 
-        if (this.orbwalker.canAttack.isTrue()) {
-            // this.doQLogic();
-            // this.doRLogic();
-            // this.doELogic();
-        }
+        this.doQLogic();
+        this.doRLogic();
+        // this.doWLogic();
+        // this.doELogic();
+        // this.doWLogic();
 
-
-        if (this.canCast.isTrue()) {
+        if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }
 
-    isInBulldozer() {
-        return this.myHero.getAttackRange() >= 650;
-    }
+    // @Subscribe("SendGameDataEvent")
+    // onSendGameDataEvent(args: NativePointer[]) {
+    //     // if (!INPUT.isControlDown()) return;
 
-    @Subscribe("DrawEvent")
-    onDraw() {
-        // const drawVec = Vector.extendDir(OBJECT_MANAGER.myHero.position, { ...OBJECT_MANAGER.myHero.facingVector(), z: 0}, 100);
-        // const screenpos = CLIENT.worldToScreen(drawVec);
-        // GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
-        // console.log("draw");
-    }
-    @Subscribe("SendGameDataEvent")
-    onSendGameDataEvent(args: NativePointer[]) {
-        // if (!INPUT.isControlDown()) return;
-        // // Dont update state if we are shooting
-        // const buffer = new MyBuffer(args[1]);
-        // const data = new Uint8Array(buffer.dataBuffer);
-        // console.log(data);
-    }
+    //     const buffer = new MyBuffer(args[1]);
+    //     const data = new Uint8Array(buffer.dataBuffer);
+    //     console.log(data);
+    // }
 }

@@ -21,7 +21,7 @@ export class IllustionController {
         this.mainHero = mainHero;
     }
 
-    public control(justAttack: boolean = false) {
+    public control(justAttack: boolean = false, customAction: (illusion: IUnitEntity, orbwalker: Orbwalker) => boolean = () => false) {
         const illusions = this.getIllusions();
 
         illusions.forEach((ilus) => {
@@ -31,6 +31,9 @@ export class IllustionController {
                 this.illusionOrbwalkers.set(ilus.networkId, orbwalker);
             }
             orbwalker.refreshWalker(ilus);
+            if (customAction(ilus, orbwalker)) {
+                return;
+            }
             orbwalker.useBrain(justAttack);
         });
 
@@ -113,9 +116,11 @@ class IllusionOrbwalker extends Orbwalker {
     }
 
     private attackWeakest() {
-        if (!this.followedHero || this.followedHero.isDead) {
+        if (!this.followedHero || this.followedHero.isDead()) {
             this.followedHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 800, this.walker.position);
-            this.orbwalk(OBJECT_MANAGER.myHero.position);
+
+            const followPosition = Vector2d.extendDir(OBJECT_MANAGER.myHero.position, OBJECT_MANAGER.myHero.facingVector(), 200);
+            this.orbwalk(followPosition);
         } else {
             const followPosition = Vector2d.extendDir(this.followedHero.position, this.followedHero.facingVector(), 70);
 

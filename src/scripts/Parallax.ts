@@ -15,6 +15,7 @@ import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 import { tryUseAllItems } from "./Items";
+import { findBestLinearCast } from "../utils/BestLinearCastLocation";
 
 export class Parallax extends Script {
     private justCasted = new DelayedCondition();
@@ -39,6 +40,26 @@ export class Parallax extends Script {
             return;
         }
         const castPos = opPrediction(this.gadget, enemyHero, 2000, this.myHero.getMsToTurnToPos(enemyHero.position), 4000, 50);
+        if (!castPos || Vector2d.distance(this.myHero.position, castPos) > q.getDynamicRange()) {
+            return;
+        }
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, castPos.x, castPos.y);
+    }
+
+    doQMaxHitLogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate()) {
+            return;
+        }
+        if (!this.gadget) {
+            return;
+        }
+        const goodEnemies = this.myHero.getEnemiesInRange(q.getDynamicRange()).filter( (ene) => !ene.isMagicImmune() && !ene.isInvulnerable());
+        const castPos = findBestLinearCast(this.gadget, 4000, 40, 100, 2000, goodEnemies, 1);
         if (!castPos || Vector2d.distance(this.myHero.position, castPos) > q.getDynamicRange()) {
             return;
         }
@@ -73,7 +94,7 @@ export class Parallax extends Script {
         this.orbwalker.refreshWalker(this.myHero);
         this.gadget = OBJECT_MANAGER.gadgets.find(g => g.typeName == "Gadget_Parallax_Ability1") || null;
         if (INPUT.isCharDown("C")) {
-            this.doQLogic();
+            this.doQMaxHitLogic();
             if (this.justCasted.isTrue()) {
                 this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
             }

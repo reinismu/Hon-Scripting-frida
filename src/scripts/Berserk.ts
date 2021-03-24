@@ -1,6 +1,6 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { IEntityAbility, IUnitEntity } from "../honIdaStructs";
+import { CSocket, IEntityAbility, IUnitEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { TARGET_SELECTOR } from "./TargetSelector";
@@ -14,7 +14,7 @@ import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
 import { opPrediction } from "./Prediction";
 
-export class Tarot extends Script {
+export class Berserk extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
@@ -32,16 +32,37 @@ export class Tarot extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
-            q.getDynamicRange(),
-            this.myHero.position,
-            (h) => h.getAllAlliesInRange(450).length !== 0
-        );
+
+        const hasChainedEnemy = this.myHero.hasTool("State_Berzerker_Ability1_Self");
+        if (hasChainedEnemy) {
+            const chainedEnemy = OBJECT_MANAGER.heroes.find((h) => h.hasTool("State_Berzerker_Ability1_Enemy"));
+            if (!chainedEnemy || chainedEnemy.isDisabled()) {
+                return;
+            }
+
+            const canKill = () => {
+                if (chainedEnemy.getCurrentPhysicalHealth() < 40 * q.level) {
+                    return true;
+                }
+                if (this.myHero.isStaffed() && chainedEnemy.getHealthPercent() < 20) {
+                    return true;
+                }
+                return false;
+            };
+
+            if (chainedEnemy.isFacing(this.myHero) || chainedEnemy.position.distance2d(this.myHero.position) > 700 || canKill()) {
+                this.justCasted.delay(150);
+                ACTION.castSpell2(this.myHero, 0);
+            }
+            return;
+        }
+
+        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(q.getDynamicRange());
         if (!enemyHero) {
             return;
         }
-        enemyHero.getMoveSpeed
-        this.justCasted.delay(200);
+
+        this.justCasted.delay(250 + this.myHero.getMsToTurnToPos(enemyHero.position));
         ACTION.castSpellEntity(this.myHero, 0, enemyHero);
     }
 
@@ -53,20 +74,11 @@ export class Tarot extends Script {
         if (!w.canActivate()) {
             return;
         }
-        const enemyProxyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.myHero.getAttackRange() + 50);
-        if (!enemyProxyHero) {
-            return;
-        }
-
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
-            w.getDynamicRange(),
-            this.myHero.position,
-            (h) => Vector2d.distance(h.position, enemyProxyHero.position) < 800
-        );
+        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(750);
         if (!enemyHero) {
             return;
         }
-        this.justCasted.delay(200);
+        this.justCasted.delay(150 + this.myHero.getMsToTurnToPos(enemyHero.position));
         ACTION.castSpellEntity(this.myHero, 1, enemyHero);
     }
 
@@ -79,16 +91,11 @@ export class Tarot extends Script {
             return;
         }
 
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(
-            e.getDynamicRange(),
-            this.myHero,
-            (h) => h.getAlliesInRange(400).length !== 0
-        );
-        if (!enemyHero) {
+        if (this.myHero.getEnemiesInRange(600).length < 2) {
             return;
         }
         this.justCasted.delay(200);
-        ACTION.castSpellEntity(this.myHero, 2, enemyHero);
+        ACTION.castSpell2(this.myHero, 2);
     }
 
     @Subscribe("MainLoopEvent")
@@ -109,7 +116,7 @@ export class Tarot extends Script {
 
         if (!INPUT.isControlDown()) return;
 
-        // OBJECT_MANAGER.heroes.forEach(h => {
+        // OBJECT_MANAGER.heroes.forEach((h) => {
         //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
         //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
         //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
@@ -122,9 +129,9 @@ export class Tarot extends Script {
 
         tryUseAllItems(this.myHero, this.justCasted);
 
+        this.doWLogic();
         this.doQLogic();
         this.doELogic();
-        this.doWLogic();
         // this.doWLogic();
 
         if (this.justCasted.isTrue()) {

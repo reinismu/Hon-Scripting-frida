@@ -59,13 +59,31 @@ export class Accursed extends Script {
             return;
         }
         const ally = TARGET_SELECTOR.getAllyInTrouble(w.getDynamicRange(), 15);
-        if (!ally || ally.getEnemiesFightingMe(400).length == 0) {
+        if (!ally || ally.getEnemiesFightingMe(500).length == 0) {
             return;
         }
 
         this.canCast.delay(250);
         ACTION.castSpellEntity(this.myHero, 1, ally);
     }
+
+    doELogic() {
+        if (!this.canCast.isTrue()) {
+            return;
+        }
+        const e = this.myHero.getTool(2) as IEntityAbility;
+        if (!e.canActivate()) {
+            return;
+        }
+        const ene = TARGET_SELECTOR.getEasiestPhysicalKillInRange(200);
+        if (!ene) {
+            return;
+        }
+
+        this.canCast.delay(250);
+        ACTION.castSpell(this.myHero, 2);
+    }
+
 
     doRLogic() {
         if (!this.canCastR.isTrue()) {
@@ -99,6 +117,11 @@ export class Accursed extends Script {
             return;
         }
 
+        tryUseAllItems(this.myHero, this.canCast);
+        this.doWLogic();
+        this.doRLogic();
+
+
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach(h => {
@@ -111,10 +134,11 @@ export class Accursed extends Script {
         // });
 
         if (this.orbwalker.canMove.isTrue()) {
-            this.doRLogic();
-            this.doWLogic();
             this.doQLogic();
-            tryUseAllItems(this.myHero, this.canCast);
+            // this.doELogic();
+
+
+
         }
 
         if (this.canCast.isTrue()) {

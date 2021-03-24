@@ -12,12 +12,14 @@ import { Vector2d, Vec2 } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
-import { opPrediction } from "./Prediction";
+import { opPrediction, opPredictionCircular } from "./Prediction";
+import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
 
-export class Tarot extends Script {
+export class Prisoner extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
+    private stoppableQ = new StoppableCircularSpell(this.justCasted);
 
     constructor() {
         super();
@@ -25,24 +27,15 @@ export class Tarot extends Script {
     }
 
     doQLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
-            q.getDynamicRange(),
-            this.myHero.position,
-            (h) => h.getAllAlliesInRange(450).length !== 0
-        );
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(q.getDynamicRange());
         if (!enemyHero) {
             return;
         }
-        enemyHero.getMoveSpeed
-        this.justCasted.delay(200);
-        ACTION.castSpellEntity(this.myHero, 0, enemyHero);
+        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 50, 1000);
     }
 
     doWLogic() {
@@ -53,42 +46,16 @@ export class Tarot extends Script {
         if (!w.canActivate()) {
             return;
         }
-        const enemyProxyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.myHero.getAttackRange() + 50);
-        if (!enemyProxyHero) {
-            return;
-        }
 
         const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
             w.getDynamicRange(),
-            this.myHero.position,
-            (h) => Vector2d.distance(h.position, enemyProxyHero.position) < 800
+            this.myHero.position
         );
         if (!enemyHero) {
             return;
         }
         this.justCasted.delay(200);
         ACTION.castSpellEntity(this.myHero, 1, enemyHero);
-    }
-
-    doELogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const e = this.myHero.getTool(2) as IEntityAbility;
-        if (!e.canActivate()) {
-            return;
-        }
-
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(
-            e.getDynamicRange(),
-            this.myHero,
-            (h) => h.getAlliesInRange(400).length !== 0
-        );
-        if (!enemyHero) {
-            return;
-        }
-        this.justCasted.delay(200);
-        ACTION.castSpellEntity(this.myHero, 2, enemyHero);
     }
 
     @Subscribe("MainLoopEvent")
@@ -123,7 +90,6 @@ export class Tarot extends Script {
         tryUseAllItems(this.myHero, this.justCasted);
 
         this.doQLogic();
-        this.doELogic();
         this.doWLogic();
         // this.doWLogic();
 

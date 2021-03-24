@@ -39,11 +39,10 @@ export class General extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
-
-        tryUseAllItems(this.myHero, this.justCasted);
-
         
         if (!INPUT.isControlDown()) return;
+        tryUseAllItems(this.myHero, this.justCasted);
+
 
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);

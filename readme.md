@@ -3,6 +3,16 @@ Tool to easily interact with game
 
 ## Setup
 
+### Running
+
+* Install frida
+* `npm install`
+* `sudo ./inject.sh <pid>`
+* `npm run frida-watch` <-- auto hot reload
+
+#### For garena 
+* You will need to use https://github.com/theli-ua/garenahon
+
 ### Ida function names (Used for better stacktrace logging)
 * Get **IDA BinExport** (https://github.com/google/binexport)
 * Export needed files based on **idaExpoertGetNeeded.ts** file
@@ -14,11 +24,6 @@ Tool to easily interact with game
 * Requires `Clang` and `Python`
 * Run `npm run generate-ida-structs`
 
-### Running
-
-* `npm install`
-* `sudo ./inject.sh <pid>`
-* `sudo npm run frida-watch` <-- auto hot reload
 
 ## Version update
 

@@ -82,7 +82,8 @@ export class Midas extends Script {
             return;
         }
 
-        this.justCasted.delay(50);
+        const turnTime = this.myHero.getMsToTurnToPos(bestloc);
+        this.justCasted.delay(150 + turnTime);
         ACTION.castSpellPosition(this.myHero, 0, bestloc.x, bestloc.y);
     }
 
@@ -101,7 +102,7 @@ export class Midas extends Script {
         if (!targetPos) {
             return;
         }
-        this.justCasted.delay(50);
+        this.justCasted.delay(150 + turnTime);
         ACTION.castSpellPosition(this.myHero, 1, targetPos.x, targetPos.y);
     }
 

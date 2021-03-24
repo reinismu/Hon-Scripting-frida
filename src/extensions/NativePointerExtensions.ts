@@ -1,5 +1,6 @@
 declare interface NativePointer {
     read32BitString(): string;
+    read32BitString(size: number): string;
 }
 
 NativePointer.prototype.read32BitString = function(byteSize: number = 200): string {

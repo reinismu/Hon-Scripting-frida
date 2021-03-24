@@ -23,7 +23,7 @@ export class Client {
     iGame: IGame;
     // Only method in cgame that calls CHostClient::SendClientSnapshot
     //  [actual address in first opcode] E8 ? ? ? ? 40 84 ED 74 16 
-    private sendClientSnapshot = new NativeFunction(GAME_MODULE.base.add(0x1FCF30), "void", ["pointer", "pointer"], {
+    private sendClientSnapshot = new NativeFunction(GAME_MODULE.base.add(0x1fcfe0), "void", ["pointer", "pointer"], {
         scheduling: "exclusive"
     });
 

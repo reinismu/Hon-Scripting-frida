@@ -45,6 +45,7 @@ declare module "../honIdaStructs" {
         getTool(index: number): ISlaveEntity | null;
         getItem(name: string): { index: number; item: IEntityItem } | null;
         isEnemy(entity: IUnitEntity): boolean;
+        hasModifier(name: string): boolean;
         isDead(): boolean;
         getArmor(): number;
         getArmorPercentage(): number;
@@ -172,6 +173,7 @@ IUnitEntity.prototype.getMaxAttackDamage = function(): number {
 
 IUnitEntity.prototype.getMsToTurnToPos = function(pos: Vec2): number {
     const angle = turnAngle(this as IUnitEntity, pos);
+    // TODO: implement turn rate
     return angle * 0.8; // Magic number TODO fix (Works okish)
 };
 
@@ -239,6 +241,13 @@ const isEnemy = new NativeFunction(SHARED_MODULE.getExportByName("_ZNK11IUnitEnt
 IUnitEntity.prototype.isEnemy = function(entity: IUnitEntity): boolean {
     const self = this as IUnitEntity;
     return isEnemy(self.ptr, entity.ptr) as boolean;
+};
+
+const hasModifier = new NativeFunction(SHARED_MODULE.getExportByName("_ZNK11IGameEntity11HasModifierERKNSt3__112basic_stringIwNS0_11char_traitsIwEE17K2StringAllocatorIwEEE"), "bool", ["pointer", "pointer"]);
+
+IUnitEntity.prototype.hasModifier = function(name: string): boolean {
+    const self = this as IUnitEntity;
+    return hasModifier(self.ptr, Memory.allocUtf8String(name)) as boolean;
 };
 
 IUnitEntity.prototype.hasTool = function(name: string): boolean {

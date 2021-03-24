@@ -61,14 +61,14 @@ export function doInsantariusLogic(unit: IUnitEntity, justCasted: DelayedConditi
         if (insantariusOnCooldown.isTrue()) {
             if (unit.getEnemiesInRange(850).length == 0) {
                 justCasted.delay(50);
-                insantariusOnCooldown.delay(100);
+                insantariusOnCooldown.delay(200);
                 ACTION.castSpell2(unit, insantarius.index);
                 return;
             }
 
             if (unit.health < 150) {
                 justCasted.delay(50);
-                insantariusOnCooldown.delay(100);
+                insantariusOnCooldown.delay(200);
                 ACTION.castSpell2(unit, insantarius.index);
                 ACTION.castSpell2(unit, insantarius.index);
                 return;
