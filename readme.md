@@ -3,6 +3,12 @@ Tool to easily interact with game
 
 ## Setup
 
+### Linux Hon
+
+* Download http://dl.heroesofnewerth.com/installers/linux/HoNClient.sh
+* https://www.reddit.com/r/HeroesofNewerth/comments/fbrnbx/heroes_of_newerth_still_works_on_linux/
+* Delete `libs-x86_64/libfreetype.so.6`
+
 ### Running
 
 * Install frida
