@@ -14,4 +14,8 @@ export class Script {
     get myHero() {
         return OBJECT_MANAGER.myHero;
     }
+
+    get myBase() {
+        return OBJECT_MANAGER.myBase;
+    }
 }

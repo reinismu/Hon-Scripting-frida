@@ -39,7 +39,6 @@ export class Thunderbringer extends Script {
         ACTION.castSpellEntity(this.myHero, 0, enemyHero);
     }
     
-
     doQFarm() {
         if (!this.canCast.isTrue()) {
             return;
@@ -50,6 +49,23 @@ export class Thunderbringer extends Script {
             return;
         }
         const creep = this.getQKillableCreep(q.getDynamicRange() + 20);
+        if (!creep) {
+            return;
+        }
+        this.canCast.delay(100);
+        ACTION.castSpellEntity(this.myHero, 0, creep);
+    }
+
+    doQClear() {
+        if (!this.canCast.isTrue()) {
+            return;
+        }
+        const q = this.myHero.getTool(0) as IEntityAbility;
+
+        if (!q.canActivate()) {
+            return;
+        }
+        const creep = this.getQCreep(q.getDynamicRange() + 10);
         if (!creep) {
             return;
         }
@@ -67,7 +83,22 @@ export class Thunderbringer extends Script {
     private getQKillableCreep(qRange: number): IUnitEntity | null {
         const closestKillableCreep = OBJECT_MANAGER.creeps
             .filter(c => !c.isDead() && c.isEnemy(this.myHero) && c.getCurrentMagicalHealth() <= this.getQDamage())
-            .sort((h1, h2) => h1.position.distance2d(this.myHero.position) - h2.position.distance2d(this.myHero.position))[0];
+            .sort((h1, h2) => h2.getAlliesInRange(400).length - h1.getAlliesInRange(400).length)[0];
+        if (!closestKillableCreep) {
+            return null;
+        }
+        const dist = Vector2d.distance(closestKillableCreep.position, this.myHero.position);
+        if (dist > qRange) {
+            return null;
+        }
+
+        return closestKillableCreep;
+    }
+
+    private getQCreep(qRange: number): IUnitEntity | null {
+        const closestKillableCreep = OBJECT_MANAGER.creeps
+            .filter(c => !c.isDead() && c.isEnemy(this.myHero))
+            .sort((h1, h2) => h2.getAlliesInRange(400).length - h1.getAlliesInRange(400).length)[0];
         if (!closestKillableCreep) {
             return null;
         }
@@ -103,6 +134,11 @@ export class Thunderbringer extends Script {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+        if (INPUT.isCharDown("V")) {
+            this.doQClear();
+            this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
         if (!INPUT.isControlDown()) return;
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
@@ -123,6 +159,9 @@ export class Thunderbringer extends Script {
         //         const tool = h.getTool(i);
         //         if (tool == null) continue;
         //         console.log(`tool ${i}: ${tool.typeName}`);
+        //         if(tool instanceof IEntityAbility) {
+        //             console.log(`->>> canActivate2: ${tool.canActivate()}`);
+        //         }
         //     }
         // });
         this.doWLogic();

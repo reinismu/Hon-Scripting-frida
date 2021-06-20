@@ -5537,7 +5537,7 @@ export class IUnitEntity extends IVisualEntity {
 
 // facingAngle -> type: float 
 	get facingAngle(): number {
-		return this.align(0x6a0).readFloat();
+		return this.align(0x6a8).readFloat();
 	}
 
 // unitAnglesDunno3 -> type: int 
@@ -10924,7 +10924,7 @@ export class CEntityChest extends CObj {
 }
 
 // inheritence: CObj
-export class CPlayerView extends CObj {
+export class CPlayerView extends IVisualEntity {
 
 }
 

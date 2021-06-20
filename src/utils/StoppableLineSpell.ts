@@ -37,14 +37,13 @@ export class StoppableLineSpell {
         noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean = () => true,
         extendRange: number | null = null,
         rangeOverride: number | null = null,
-        tryStop: boolean = true
+        tryStop: boolean = true,
     ) {
         this.caster = caster;
         if (!spell.canActivate()) {
             return;
         }
         const spellActivationTime = spell.getCastActionTime() + 50; // make sure this is correct for other heroes!
-        console.log(`getCastActionTime: ${spellActivationTime}`);
         if (tryStop && !this.canNotStop.isTrue() && this.canStopCheck.isTrue() && this.castPosition && this.castTarget) {
             this.canStopCheck.delay(50);
             if (this.castTargetAnimationIndex != this.castTarget.animation) {
@@ -90,6 +89,7 @@ export class StoppableLineSpell {
         if (!targetPos) {
             return;
         }
+
         if (extendRange) {
             const extendPos = Vector2d.extendTo(caster.position, targetPos, extendRange);
             ACTION.castSpellPosition(caster, spellIndex, extendPos.x, extendPos.y);

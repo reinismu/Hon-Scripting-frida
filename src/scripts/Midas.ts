@@ -57,7 +57,7 @@ export class Midas extends Script {
         if (!this.justCasted.isTrue()) {
             return;
         }
-        const radius = 200;
+        const radius = 100;
 
         const w = this.myHero.getTool(0) as IEntityAbility;
         if (!w.canActivate()) {
@@ -76,7 +76,7 @@ export class Midas extends Script {
             return;
         }
 
-        const bestloc = findBestCircularProjectileCast(this.myHero, w.getDynamicRange(), radius, 400, 1200, enemyHeroes, 80, 2);
+        const bestloc = findBestCircularProjectileCast(this.myHero, w.getDynamicRange(), radius, 200, 1200, enemyHeroes, 80, 2);
         if (!bestloc) {
             this.doQLogic();
             return;
@@ -98,7 +98,7 @@ export class Midas extends Script {
         }
 
         const turnTime = this.myHero.getMsToTurnToPos(enemyHero.position);
-        const targetPos = opPrediction(this.myHero, enemyHero, 1000, 400 + turnTime, w.getDynamicRange(), 50);
+        const targetPos = opPrediction(this.myHero, enemyHero, 1000, 200 + turnTime, w.getDynamicRange(), 50);
         if (!targetPos) {
             return;
         }
@@ -110,7 +110,7 @@ export class Midas extends Script {
         if (!this.justCasted.isTrue()) {
             return;
         }
-        const radius = 200;
+        const radius = 150;
 
         const w = this.myHero.getTool(1) as IEntityAbility;
         if (!w.canActivate()) {
@@ -128,7 +128,7 @@ export class Midas extends Script {
             this.doWLogic();
             return;
         }
-        const bestloc = findBestCircularProjectileCast(this.myHero, w.getDynamicRange(), radius, 450, 1000, enemyHeroes, 80, 2);
+        const bestloc = findBestCircularProjectileCast(this.myHero, w.getDynamicRange(), radius, 250, 1000, enemyHeroes, 80, 2);
         if (!bestloc) {
             this.doWLogic();
             return;

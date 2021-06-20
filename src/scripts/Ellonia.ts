@@ -157,6 +157,7 @@ export class Ellonia extends Script {
             return;
         }
 
+        tryUseAllItems(this.myHero, this.justCasted);
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach((h) => {
@@ -170,7 +171,6 @@ export class Ellonia extends Script {
         //     }
         // });
 
-        tryUseAllItems(this.myHero, this.justCasted);
 
         if (this.orbwalker.canMove.isTrue()) {
             this.doRLogic();

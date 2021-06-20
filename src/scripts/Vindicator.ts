@@ -11,9 +11,10 @@ import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { tryUseAllItems } from "./Items";
-import { opPrediction } from "./Prediction";
+import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
 import { IllustionController } from "../logics/IllusionController";
+import { findBestCircularCast } from "../utils/BestCircularLocation";
 
 export class Vindicator extends Script {
     private orbwalker = new Orbwalker(this.myHero);
@@ -35,19 +36,71 @@ export class Vindicator extends Script {
         if (!enemyHero) {
             return;
         }
-        this.stoppableW.cast(q, 0, this.myHero, enemyHero, 150, 300, () => true);
+
+        const targetPos = opPredictionCircular(this.myHero, enemyHero, 250, q.getDynamicRange(), 170);
+        if (!targetPos) {
+            return;
+        }
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
+    }
+
+    doQLogicSpam() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const radius = 250;
+
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate()) {
+            return;
+        }
+        const enemyHeroes = this.myHero
+            .getEnemiesInRange(q.getDynamicRange() + radius)
+            .filter((h) => !h.isMagicImmune() && !h.isInvulnerable() && !h.isDisabled());
+
+        if (enemyHeroes.length === 0) {
+            return;
+        }
+        const lowestHpPercent = enemyHeroes.map((h) => h.getHealthPercent()).sort((a, b) => a - b)[0];
+        if (enemyHeroes.length === 1 || lowestHpPercent < 15) {
+            this.doQLogic();
+            return;
+        }
+        const bestloc = findBestCircularCast(this.myHero, q.getDynamicRange(), radius, 250, enemyHeroes);
+        if (!bestloc) {
+            return;
+        }
+
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, bestloc.x, bestloc.y);
     }
 
     doELogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const radius = 250;
+
         const e = this.myHero.getTool(2) as IEntityAbility;
         if (!e.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(e.getDynamicRange() + 90);
-        if (!enemyHero) {
+        const enemyHeroes = this.myHero
+            .getEnemiesInRange(e.getDynamicRange() + radius)
+            .filter((h) => !h.isMagicImmune() && !h.isInvulnerable() && !h.isDisabled() && !h.isSilenced());
+
+        if (enemyHeroes.length === 0) {
             return;
         }
-        this.stoppableW.cast(e, 2, this.myHero, enemyHero, 150, 300, () => true);
+
+        const bestloc = findBestCircularCast(this.myHero, e.getDynamicRange(), radius, 150, enemyHeroes);
+        if (!bestloc) {
+            return;
+        }
+
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 2, bestloc.x, bestloc.y);
     }
 
     doRLogic() {
@@ -108,10 +161,12 @@ export class Vindicator extends Script {
         // });
         // this.doRLogic();
         tryUseAllItems(this.myHero, this.justCasted);
+        this.doQLogicSpam();
         this.doELogic();
-        this.doQLogic();
         // this.doQLogic();
-        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
+        if (this.justCasted.isTrue()) {
+            this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
+        }
     }
 
     @Subscribe("SendGameDataEvent")

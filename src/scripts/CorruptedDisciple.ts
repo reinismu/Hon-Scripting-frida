@@ -1,6 +1,6 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { IEntityAbility, IUnitEntity } from "../honIdaStructs";
+import { IEntityAbility, IUnitEntity, IVisualEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { TARGET_SELECTOR } from "./TargetSelector";
@@ -12,9 +12,12 @@ import { Vector2d, Vec2 } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
-import { opPrediction } from "./Prediction";
+import { opPrediction, opPredictionCircular } from "./Prediction";
+import { findBestCircularCast } from "../utils/BestCircularLocation";
 
-export class General extends Script {
+type DragonState = 1 | 2 | 3;
+
+export class CorruptedDisciple extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
@@ -24,11 +27,37 @@ export class General extends Script {
         EventBus.getDefault().register(this);
     }
 
-    @Subscribe("MainLoopEvent")
+    doQLogic() {
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate() || this.myHero.getEnemiesInRange(750).length < 3) {
+            return;
+        }
+
+        this.justCasted.delay(250);
+        ACTION.castSpell(this.myHero, 0);
+    }
+
+    doWLogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const w = this.myHero.getTool(1) as IEntityAbility;
+        if (!w.canActivate()) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(this.myHero.getAttackRange() + 50);
+        if (!enemyHero) {
+            return;
+        }
+
+        ACTION.castSpellEntity(this.myHero, 1, enemyHero);
+    }
+
+    @Subscribe("MainLoopEvent")  
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
         this.illusionController.refreshHero(this.myHero);
-        this.illusionController.control(this.myHero.level > 2);
+        this.illusionController.control(this.myHero.level > 12);
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -39,10 +68,27 @@ export class General extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
-        
-        tryUseAllItems(this.myHero, this.justCasted);
+
+
         if (!INPUT.isControlDown()) return;
 
+        // OBJECT_MANAGER.heroes.forEach(h => {
+        //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
+        //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
+        //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
+        //     for (let i = 0; i < 80; i++) {
+        //         const tool = h.getTool(i);
+        //         if (tool == null) continue;
+        //         console.log(`tool ${i}: ${tool.typeName}`);
+        //     }
+        // });
+
+        tryUseAllItems(this.myHero, this.justCasted);
+
+        this.doQLogic();
+        this.doWLogic();
+        // this.doELogic();
+        // this.doWLogic();
 
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);

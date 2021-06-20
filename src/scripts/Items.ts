@@ -231,7 +231,7 @@ export function doHypercrownLogic(unit: IUnitEntity, justCasted: DelayedConditio
 }
 
 export function doElderParasite(unit: IUnitEntity, justCasted: DelayedCondition) {
-    if (!justCasted.isTrue()) {
+    if (!justCasted.isTrue() || unit.isDead()) {
         return;
     }
     const elder = unit.getItem("Item_ElderParasite");
@@ -359,6 +359,11 @@ export function doCodexLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
     if (!enemyHero) {
         return;
     }
+
+    if (enemyHero.getCurrentMagicalHealth() > 200 + codex.item.level * 150) {
+        return;
+    }
+
     justCasted.delay(150);
     ACTION.castSpellEntity(unit, codex.index, enemyHero);
 }

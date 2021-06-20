@@ -68,7 +68,7 @@ export class Blacksmith extends Script {
         }
 
         const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
-        if (dist > 950) {
+        if (dist > 1950) {
             return;
         }
 
@@ -110,6 +110,7 @@ export class Blacksmith extends Script {
             return;
         }
 
+        tryUseAllItems(this.myHero, this.canCast);
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach(h => {
@@ -122,7 +123,6 @@ export class Blacksmith extends Script {
         // });
 
 
-        tryUseAllItems(this.myHero, this.canCast);
         this.doWLogic();
         this.doQLogic();
         this.doRLogic();

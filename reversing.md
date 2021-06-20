@@ -34,3 +34,14 @@ struct __cppobj __attribute__((aligned(8))) className : parentClassName
 * IHeroEntity -> 0x15A8
 * ICreepEntity -> 0x1520
 * IBuildingEntity -> 0x15B8
+
+
+## Range indicator
+
+Try to debug player position access
+
+## Scene entities
+
+CSceneEntity
+
+* How to iterate them?

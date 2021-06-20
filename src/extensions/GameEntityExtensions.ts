@@ -210,7 +210,7 @@ IHeroEntity.prototype.isIllusion = function(): boolean {
 
 IUnitEntity.prototype.getTool = function(index: number): ISlaveEntity | null {
     const self = this as IUnitEntity;
-    const ptr = self.ptr.add(0x400 + index * 8).readPointer();
+    const ptr = self.ptr.add(0x408 + index * 8).readPointer();
     if (ptr.isNull()) return null;
     const type = tryGetTypeInfo(ptr);
     if (type) {
@@ -289,7 +289,8 @@ IUnitEntity.prototype.isDisabled = function(): boolean {
             "State_Item4K",
             "State_Maliken_Ability4_Fear",
             "State_Kenisis_Ability4_Modifier",
-            "State_WitchSlayer_Ability2"
+            "State_WitchSlayer_Ability2",
+            "State_DoctorRepulsor_Ability2",
         ])
     );
 };
@@ -341,7 +342,7 @@ IUnitEntity.prototype.isInvulnerable = function(): boolean {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x9c8)
+            .add(0x9D8)
             .readPointer(),
         "bool",
         ["pointer"]
@@ -440,7 +441,7 @@ IUnitEntity.prototype.getHealthPercent = function(): number {
         (new NativeFunction(
             self.ptr
                 .readPointer()
-                .add(0xa88)
+                .add(0xa98)
                 .readPointer(),
             "float",
             ["pointer"]
@@ -477,7 +478,7 @@ IUnitEntity.prototype.getMana = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0xaa8)
+            .add(0xab8)
             .readPointer(),
         "float",
         ["pointer"]
@@ -530,7 +531,7 @@ IUnitEntity.prototype.getEvasionMelee = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x978)
+            .add(0x988)
             .readPointer(),
         "float",
         ["pointer"]
@@ -542,7 +543,7 @@ IUnitEntity.prototype.getEvasionRanged = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x968)
+            .add(0x978)
             .readPointer(),
         "float",
         ["pointer"]
@@ -578,7 +579,7 @@ IUnitEntity.prototype.getAdjustedAttackCooldown = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x10d0)
+            .add(0x10E0)
             .readPointer(),
         "float",
         ["pointer"]
@@ -590,7 +591,7 @@ IUnitEntity.prototype.getAdjustedAttackActionTime = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x10c0)
+            .add(0x10D0)
             .readPointer(),
         "float",
         ["pointer"]
@@ -602,7 +603,7 @@ IUnitEntity.prototype.getAdjustedAttackDuration = function(): number {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0x10c8)
+            .add(0x10D8)
             .readPointer(),
         "float",
         ["pointer"]
@@ -614,7 +615,7 @@ IUnitEntity.prototype.getCanAttack = function(): boolean {
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0xdf8)
+            .add(0xdf8) // wrong
             .readPointer(),
         "bool",
         ["pointer"]

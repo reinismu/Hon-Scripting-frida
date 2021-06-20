@@ -140,6 +140,10 @@ export class Orbwalker {
         return 0;
     }
 
+    // protected getMoveDist(): number {
+    //     return this.walker.ran() ?;
+    // }
+    
     private orbwalkTarget(target: IUnitEntity | null, position: Vec2, justWalk: boolean = false) {
         // this.orbwalkTargetNew(target, position, justWalk);
         // // return;
@@ -226,6 +230,10 @@ export class Orbwalker {
             this.canMove.delay(140 + this.getMoveSlowTime());
             this.move(position);
         }
+    }
+
+    resetAttackCooldown() {
+        this.canAttack.restart();
     }
 
     private attack(target: IUnitEntity) {

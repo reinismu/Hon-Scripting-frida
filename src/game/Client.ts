@@ -1,6 +1,7 @@
 import { IGame, CClientState } from "../honIdaStructs";
 import { GAME_MODULE, IGAME } from "./Globals";
 import { Vec3 } from "../utils/Vector";
+import { SEND_CLIENT_SNAPSHOT_OFFSET } from "../offests";
 
 class WritableClientState extends CClientState {
     // mousePosX -> type: float
@@ -23,7 +24,7 @@ export class Client {
     iGame: IGame;
     // Only method in cgame that calls CHostClient::SendClientSnapshot
     //  [actual address in first opcode] E8 ? ? ? ? 40 84 ED 74 16 
-    private sendClientSnapshot = new NativeFunction(GAME_MODULE.base.add(0x1fcfe0), "void", ["pointer", "pointer"], {
+    private sendClientSnapshot = new NativeFunction(GAME_MODULE.base.add(SEND_CLIENT_SNAPSHOT_OFFSET), "void", ["pointer", "pointer"], {
         scheduling: "exclusive"
     });
 

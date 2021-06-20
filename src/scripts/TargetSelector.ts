@@ -120,7 +120,7 @@ export function getTroublePoints(unit: IUnitEntity): number {
         return 0;
     }
     const isDisabledPoints = unit.isDisabled() ? 20 : 0;
-    return unit.getEnemiesFightingMe(550).length * 10 + isDisabledPoints + getHealthTroubleScore(unit.getHealthPercent());
+    return unit.getEnemiesFightingMe(600).length * 10 + isDisabledPoints + getHealthTroubleScore(unit.getHealthPercent());
 }
 
 // https://www.desmos.com/calculator/dqrus8v1xk

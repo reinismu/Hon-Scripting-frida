@@ -1,4 +1,15 @@
-import { CClientEntity, IGameEntity, IHeroEntity, IUnitEntity, IGame, ICreepEntity, INeutralEntity, IProjectile, IGadgetEntity } from "../honIdaStructs";
+import {
+    CClientEntity,
+    IGameEntity,
+    IHeroEntity,
+    IUnitEntity,
+    IGame,
+    ICreepEntity,
+    INeutralEntity,
+    IProjectile,
+    IGadgetEntity,
+    IBuildingEntity,
+} from "../honIdaStructs";
 import { tryGetTypeInfo } from "./RTTI";
 import { CLIENT_ENTITY_ARRAY, CLIENT_ENTITY_ARRAY_SIZE, IGAME } from "../game/Globals";
 import { EventBus } from "eventbus-ts";
@@ -18,6 +29,7 @@ export class ObjectManager {
 
     private cachedEntityMap: Map<number, IGameEntity> = new Map();
     private cachedHeroMap: Map<number, IHeroEntity> = new Map();
+    private cachedBuildingMap: Map<number, IBuildingEntity> = new Map();
     private cachedCreepMap: Map<number, ICreepEntity> = new Map();
     private cachedNeutralMap: Map<number, INeutralEntity> = new Map();
     private cachedGadgetMap: Map<number, IGadgetEntity> = new Map();
@@ -32,38 +44,38 @@ export class ObjectManager {
             "11IHeroEntity",
             (ptr: NativePointer): IGameEntity => {
                 return new IHeroEntity(ptr);
-            }
+            },
         ],
         [
             "15IBuildingEntity",
             (ptr: NativePointer): IGameEntity => {
-                return new IUnitEntity(ptr);
-            }
+                return new IBuildingEntity(ptr);
+            },
         ],
         [
             "12ICreepEntity",
             (ptr: NativePointer): IGameEntity => {
                 return new ICreepEntity(ptr);
-            }
+            },
         ],
         [
             "14INeutralEntity",
             (ptr: NativePointer): IGameEntity => {
                 return new INeutralEntity(ptr);
-            }
+            },
         ],
         [
             "11IProjectile",
             (ptr: NativePointer): IGameEntity => {
                 return new IProjectile(ptr);
-            }
+            },
         ],
         [
             "13IGadgetEntity",
             (ptr: NativePointer): IGameEntity => {
                 return new IGadgetEntity(ptr);
-            }
-        ]
+            },
+        ],
     ]);
 
     constructor(arrayPtr: NativePointer, arraySizePtr: NativePointer, iGame: IGame) {
@@ -81,12 +93,12 @@ export class ObjectManager {
         const events = [];
         for (const clientEntity of this.clientEntities()) {
             const event = this.checkEntity(clientEntity, index);
-            if(event) {
+            if (event) {
                 events.push(event);
             }
             index++;
         }
-        events.forEach(e => EventBus.getDefault().post(e));
+        events.forEach((e) => EventBus.getDefault().post(e));
     }
 
     public checkEntity(clientEntity: CClientEntity, index: number): Event<any> | null {
@@ -94,6 +106,7 @@ export class ObjectManager {
         if (gameEntityPtr.isNull()) {
             this.cachedEntityMap.delete(index);
             this.cachedHeroMap.delete(index);
+            this.cachedBuildingMap.delete(index);
             this.cachedCreepMap.delete(index);
             this.cachedNeutralMap.delete(index);
             this.cachedGadgetMap.delete(index);
@@ -122,6 +135,8 @@ export class ObjectManager {
                     this.cachedGadgetMap.set(index, newEntity);
                 } else if (newEntity instanceof IProjectile) {
                     this.cachedProjectileMap.set(index, newEntity);
+                } else if (newEntity instanceof IBuildingEntity) {
+                    this.cachedBuildingMap.set(index, newEntity);
                 }
                 return new EntitySpawnedEvent(newEntity);
             } else {
@@ -131,6 +146,7 @@ export class ObjectManager {
                 this.cachedNeutralMap.delete(index);
                 this.cachedGadgetMap.delete(index);
                 this.cachedProjectileMap.delete(index);
+                this.cachedBuildingMap.delete(index);
                 return new EntityDespawnedEvent(index);
             }
         }
@@ -191,6 +207,19 @@ export class ObjectManager {
 
     get projectiles(): IProjectile[] {
         return Array.from(this.cachedProjectileMap.values());
+    }
+
+    get buildings(): IBuildingEntity[] {
+        return Array.from(this.cachedBuildingMap.values());
+    }
+
+    get myBase(): IBuildingEntity {
+        const baseNames = ['Building_LegionWell_Midwars', 'Building_HellbourneWell', 'Building_LegionWell'];
+        const store = this.buildings.find((b) => !b.isEnemy(this.myHero) && baseNames.includes(b.typeName));
+        if (!store) {
+            throw Error("My store not found");
+        }
+        return store;
     }
 
     get myHero(): IHeroEntity {

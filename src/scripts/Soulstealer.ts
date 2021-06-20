@@ -11,11 +11,14 @@ import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
+import { tryUseAllItems } from "./Items";
+import { IllustionController } from "../logics/IllusionController";
 
 export class Soulstealer extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private demonHands = [{ index: 7, range: 700 }, { index: 6, range: 450 }, { index: 5, range: 200 }];
+    private illusionController = new IllustionController(this.myHero);
 
      constructor() {
         super();
@@ -87,6 +90,21 @@ export class Soulstealer extends Script {
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
+        this.orbwalker.refreshWalker(this.myHero);
+        this.illusionController.refreshHero(this.myHero);
+        this.illusionController.control(this.myHero.level > 12);
+        tryUseAllItems(this.myHero, this.justCasted);
+        
+        if (INPUT.isCharDown("C")) {
+            this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
+        if (INPUT.isCharDown("V")) {
+            this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
+            return;
+        }
+
         if (!INPUT.isControlDown()) return;
         this.orbwalker.refreshWalker(this.myHero);
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
@@ -110,9 +128,7 @@ export class Soulstealer extends Script {
         //     }
         // });
 
-        this.doShrunkensLogic();
         this.doQDemonHardLogic();
-        this.doGhostMarchersLogic();
         if(this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }

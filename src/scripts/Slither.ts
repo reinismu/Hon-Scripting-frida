@@ -105,6 +105,7 @@ export class Slither extends Script {
         }
 
         
+        tryUseAllItems(this.myHero, this.canCast);
         if (!INPUT.isControlDown() || this.myHero.isDead()) return;
         // console.log(`isButtonDown ${"A".charCodeAt(0)}:` + INPUT.isCharDown("A"));
         // console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
@@ -134,7 +135,6 @@ export class Slither extends Script {
         //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
-        tryUseAllItems(this.myHero, this.canCast);
         if (this.orbwalker.canAttack.isTrue()) {
             this.doQLogic();
             this.doWLogic();

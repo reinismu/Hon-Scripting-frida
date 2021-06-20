@@ -22,6 +22,7 @@ declare module "../honIdaStructs" {
         getAdjustedCastTime(): number;
         getCastActionTime(): number;
         getAdjustedActionTime(): number;
+        getCharges(): number;
     }
 }
 
@@ -34,13 +35,13 @@ IEntityTool.prototype.isActive = function(): boolean {
     const self = this as IEntityTool;
     return (self.allign & 1) === 1;
 };
-
+// 0x15C58E8 - 
 IEntityTool.prototype.canActivate = function(): boolean {
     const self = this as IEntityTool;
     return new NativeFunction(
         self.ptr
             .readPointer()
-            .add(0xe00)
+            .add(0xe18)
             .readPointer(),
         "bool",
         ["pointer"]
@@ -126,6 +127,19 @@ IEntityTool.prototype.getAdjustedActionTime = function(): number {
         self.ptr
             .readPointer()
             .add(0x9E0)
+            .readPointer(),
+        "int",
+        ["pointer"]
+    )(self.ptr) as number;
+};
+
+
+IEntityTool.prototype.getCharges = function(): number {
+    const self = this as IEntityTool;
+    return new NativeFunction(
+        self.ptr
+            .readPointer()
+            .add(0x4E0)
             .readPointer(),
         "int",
         ["pointer"]

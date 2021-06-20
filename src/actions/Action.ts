@@ -241,7 +241,7 @@ export class Action {
         this.send(true);
     }
 
-    public castSpell2(entity: IGameEntity, slot: number) {
+    public castSpell2(entity: IGameEntity, slot: number, queueCommand: boolean = false) {
         this.myBuffer.size = 0x6;
         this.myBuffer.allocatedSize = 0x6;
         this.myBuffer.currentOffset = 0;
@@ -250,7 +250,7 @@ export class Action {
         this.buffer[0] = 27;
         this.buffer.writeUInt16LE(entity.networkId, 1);
         this.buffer[3] = slot;
-        this.buffer[4] = 0;
+        this.buffer[4] = queueCommand ? 1 : 0;
         this.buffer[5] = 0;
 
         this.rawBuffer.writeByteArray(this.toArray(this.buffer));
@@ -258,7 +258,7 @@ export class Action {
         this.send(true);
     }
 
-    public castSpellPosition(entity: IGameEntity, slot: number, x: number, y: number) {
+    public castSpellPosition(entity: IGameEntity, slot: number, x: number, y: number, queueCommand: boolean = false) {
         this.myBuffer.size = 14;
         this.myBuffer.allocatedSize = 14;
         this.myBuffer.currentOffset = 0;
@@ -267,7 +267,7 @@ export class Action {
         this.buffer[0] = 28;
         this.buffer.writeUInt16LE(entity.networkId, 1);
         this.buffer[3] = slot;
-        this.buffer[4] = 0; //Modifier if shift or ctr pressed
+        this.buffer[4] = queueCommand ? 1 : 0;
         this.buffer[5] = 0; //dunno
         this.buffer.writeFloatLE(x, 6);
         this.buffer.writeFloatLE(y, 10);

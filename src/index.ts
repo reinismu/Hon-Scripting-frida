@@ -46,6 +46,12 @@ import { Midas } from "./scripts/Midas";
 import { Prisoner } from "./scripts/Prisoner";
 import { Sandwraith } from "./scripts/Sandwraith";
 import { Berserk } from "./scripts/Berserk";
+import { CorruptedDisciple } from "./scripts/CorruptedDisciple";
+import { Chronos } from "./scripts/Chronos";
+import { Artesia } from "./scripts/Artesia";
+import { PuppetMaster } from "./scripts/PuppetMaster";
+import { LordSalfuris } from "./scripts/LordSalfuris";
+import { DoctorRepulsor } from "./scripts/DoctorRepulsor";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -55,17 +61,28 @@ console.log("Hello from typescript. Process id: " + Process.id);
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Calamity();
+    const testScript23 = new DoctorRepulsor();
 
 
 
 
 
+
+
+
+
+
+
+    
 
 
 
 
 }, 200);
+
+
+
+// Add dr repulso
 
 // FIx object manager going nuts after a while
 

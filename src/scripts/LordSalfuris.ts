@@ -14,15 +14,21 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "./Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
-import { tryUseAllItems } from "./Items";
-import { IllustionController } from "../logics/IllusionController";
+import {
+    doGhostMarchersLogic,
+    doShrunkensLogic,
+    doSheepstickLogic,
+    doNullFireLogic,
+    doGrimoireOfPowerLogic,
+    doHellfireLogic,
+    tryUseAllItems,
+} from "./Items";
+import { findBestCircularCast } from "../utils/BestCircularLocation";
 
-export class Pyromancer extends Script {
+export class LordSalfuris extends Script {
     private justCasted = new DelayedCondition();
-    private stoppableQ = new StoppableLineSpell(this.justCasted);
-    private stoppableW = new StoppableCircularSpell(this.justCasted);
+    private stoppableQ = new StoppableCircularSpell(this.justCasted);
     private orbwalker = new Orbwalker(this.myHero);
-    private illusionController = new IllustionController(this.myHero);
 
     constructor() {
         super();
@@ -34,97 +40,76 @@ export class Pyromancer extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 200);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 100);
         if (!enemyHero) {
             return;
         }
-        this.stoppableQ.cast(q, 0, this.myHero, enemyHero, 1600, 100);
+
+        const targetPos = opPredictionCircular(this.myHero, enemyHero, 750, q.getDynamicRange(), 200);
+        if (!targetPos) {
+            return;
+        }
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
+    }
+
+    doQLogicSpam() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const radius = 200;
+
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate()) {
+            return;
+        }
+        const enemyHeroes = this.myHero
+            .getEnemiesInRange(q.getDynamicRange() + radius)
+            .filter((h) => !h.isMagicImmune() && !h.isInvulnerable());
+
+        if (enemyHeroes.length === 0) {
+            return;
+        }
+        const lowestHpPercent = enemyHeroes.map((h) => h.getHealthPercent()).sort((a, b) => a - b)[0];
+        if (enemyHeroes.length === 1 || lowestHpPercent < 30) {
+            this.doQLogic();
+            return;
+        }
+        const bestloc = findBestCircularCast(this.myHero, q.getDynamicRange(), radius, 750, enemyHeroes);
+        if (!bestloc) {
+            return;
+        }
+
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, bestloc.x, bestloc.y);
     }
 
     doWLogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
         const w = this.myHero.getTool(1) as IEntityAbility;
         if (!w.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(w.getDynamicRange() + 200);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(400);
         if (!enemyHero) {
-            return;
-        }
-        this.stoppableW.cast(w, 1, this.myHero, enemyHero, 150, 500);
-    }
-
-    doRLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const r = this.myHero.getTool(3) as IEntityAbility;
-        if (!r.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(r.getDynamicRange() + 20);
-        if (!enemyHero) {
-            return;
-        }
-        if (enemyHero.getCurrentMagicalHealth() > this.getRDamage()) {
-            return;
-        }
-        this.justCasted.delay(r.getAdjustedActionTime());
-        ACTION.castSpellEntity(this.myHero, 3, enemyHero);
-    }
-
-    private getRDamage(): number {
-        const r = this.myHero.getTool(3) as IEntityAbility;
-        const boosted = this.myHero.hasTool("State_Pyromancer_Ult_Boost_Art");
-        const damages = [0, 450, 650, 850];
-        let damage = damages[r.level];
-        if (boosted) {
-            damage += 200;
-        }
-        return damage;
-    }
-
-    doGhostMarchersLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const boots = this.myHero.getItem("Item_EnhancedMarchers");
-        if (!boots) {
-            return;
-        }
-        if (!boots.item.canActivate()) {
+            if (this.myHero.hasTool("State_Oogie_Ability2")) {
+                this.justCasted.delay(150);
+                ACTION.castSpell2(this.myHero, 1);
+            }
             return;
         }
 
-        this.justCasted.delay(50);
-        ACTION.castSpell2(this.myHero, boots.index);
-    }
-
-    doShrunkensLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
+        if (!this.myHero.hasTool("State_Oogie_Ability2")) {
+            this.justCasted.delay(150);
+            ACTION.castSpell2(this.myHero, 1);
         }
-        const shrunken = this.myHero.getItem("Item_Immunity");
-        if (!shrunken) {
-            return;
-        }
-        if (!shrunken.item.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if (!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
-            return;
-        }
-
-        this.justCasted.delay(50);
-        ACTION.castSpell2(this.myHero, shrunken.index);
     }
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
-        this.illusionController.refreshHero(this.myHero);
-        this.illusionController.control();
-
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
             return;
@@ -134,7 +119,9 @@ export class Pyromancer extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+
         tryUseAllItems(this.myHero, this.justCasted);
+
         if (!INPUT.isControlDown()) return;
 
         // const spell = this.myHero.getTool(0) as IEntityAbility;
@@ -154,7 +141,8 @@ export class Pyromancer extends Script {
         // this.doWLogic();
 
         // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     // console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     console.log(`${h.typeName} isInvulnerable: ${h.isInvulnerable()}`);
         //     for (let i = 0; i < 80; i++) {
         //         const tool = h.getTool(i);
         //         if (tool == null) continue;
@@ -162,25 +150,16 @@ export class Pyromancer extends Script {
         //     }
         // });
 
-        this.doRLogic();
-        // this.doShrunkensLogic();
-        // this.doGhostMarchersLogic();
-        this.doQLogic();
-        this.doWLogic();
-        // this.doQDemonHardLogic();
-        // this.doGhostMarchersLogic();
+        // this.doWLogic();
+        if (this.orbwalker.canAttack.isTrue()) {
+            this.doQLogicSpam();
+        }
+
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }
 
-    @Subscribe("DrawEvent")
-    onDraw() {
-        // const drawVec = Vector.extendDir(OBJECT_MANAGER.myHero.position, { ...OBJECT_MANAGER.myHero.facingVector(), z: 0}, 100);
-        // const screenpos = CLIENT.worldToScreen(drawVec);
-        // GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
-        // console.log("draw");
-    }
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
         // if (!INPUT.isControlDown()) return;

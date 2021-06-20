@@ -19,7 +19,7 @@ export class Jeraziah extends Script {
         EventBus.getDefault().register(this);
     }
 
-    doQLogic() {
+    doQLogic(killOnly: boolean = false) {
         if (!this.canCast.isTrue()) {
             return;
         }
@@ -42,7 +42,7 @@ export class Jeraziah extends Script {
         const bestHeal =
             getTroublePoints(alliesInRange[0]) > 40 && alliesInRange[0].getEnemiesFightingMe(600).length ? alliesInRange[0] : null;
 
-        if (!allyToKillEnemy && !bestHeal) {
+        if (!allyToKillEnemy && (!bestHeal || killOnly)) {
             return;
         }
 
@@ -102,7 +102,9 @@ export class Jeraziah extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
-
+        this.doQLogic(true);
+        tryUseAllItems(this.myHero, this.canCast);
+        
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach(h => {
@@ -117,7 +119,6 @@ export class Jeraziah extends Script {
         // this.doRLogic();
         this.doQLogic();
         this.doWLogic();
-        tryUseAllItems(this.myHero, this.canCast);
 
         if (this.canCast.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);

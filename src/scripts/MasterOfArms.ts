@@ -100,6 +100,7 @@ export class MasterOfArms extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+        tryUseAllItems(this.myHero, this.canCast);
 
         if (!INPUT.isControlDown()) return;
 
@@ -114,7 +115,6 @@ export class MasterOfArms extends Script {
 
         if (this.orbwalker.canAttack.isTrue()) {
             this.doQLogic();
-            tryUseAllItems(this.myHero, this.canCast);
             this.doRLogic();
             this.doELogic();
         }
