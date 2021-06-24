@@ -2,7 +2,7 @@ import { IEntityAbility, IUnitEntity } from "../honIdaStructs";
 import { DelayedCondition } from "./DelayedCondition";
 import { Vec2, Vector2d } from "./Vector";
 import { ACTION } from "../actions/Action";
-import { opPrediction, opPredictionCircular } from "../scripts/Prediction";
+import { opPrediction, opPredictionCircular } from "./Prediction";
 
 export class StoppableCircularSpell {
     private caster: IUnitEntity | null = null;

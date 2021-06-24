@@ -5,13 +5,13 @@ import { IEntityAbility, IHeroEntity, IFileChangeCallback } from "../honIdaStruc
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
-import { TARGET_SELECTOR } from "./TargetSelector";
+import { TARGET_SELECTOR } from "../logics/TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { opPrediction, opPredictionCircular } from "./Prediction";
+import { opPrediction, opPredictionCircular } from "../utils/Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
 import {
@@ -22,7 +22,7 @@ import {
     doGrimoireOfPowerLogic,
     doHellfireLogic,
     tryUseAllItems,
-} from "./Items";
+} from "../logics/Items";
 import { findBestCircularCast } from "../utils/BestCircularLocation";
 
 export class Oogie extends Script {

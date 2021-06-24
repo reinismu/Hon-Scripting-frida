@@ -5,15 +5,16 @@ import { IEntityAbility, IHeroEntity, IFileChangeCallback } from "../honIdaStruc
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
-import { TARGET_SELECTOR } from "./TargetSelector";
+import { TARGET_SELECTOR } from "../logics/TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { opPrediction, opPredictionCircular } from "./Prediction";
-import { tryUseAllItems } from "./Items";
+import { opPrediction, opPredictionCircular, unitPositionPrediction } from "../utils/Prediction";
+import { tryUseAllItems } from "../logics/Items";
 import { IllustionController } from "../logics/IllusionController";
+import { circleIntersection } from "../utils/Circle";
 
 export class Bushwack extends Script {
     private canCast = new DelayedCondition();
@@ -38,6 +39,11 @@ export class Bushwack extends Script {
             return;
         }
 
+        const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
+        if (!this.orbwalker.canMove.isTrue() && dist < this.myHero.getAttackRange() + 30) {
+            return;
+        }
+
         this.canCast.delay(250);
         ACTION.castSpellEntity(this.myHero, 0, enemyHero);
     }
@@ -47,7 +53,7 @@ export class Bushwack extends Script {
             return;
         }
         const w = this.myHero.getTool(1) as IEntityAbility;
-        if (!w.canActivate() || w.level < 3) {
+        if (!w.canActivate() || w.level < 3 || !this.orbwalker.canMove.isTrue()) {
             return;
         }
         const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
@@ -55,18 +61,69 @@ export class Bushwack extends Script {
             return;
         }
         const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
+
+        if (this.orbwalker.canAttack.isTrue() && dist < this.myHero.getAttackRange() + 30) {
+            return;
+        }
         if (dist > 900) {
             return;
         }
 
-        const castLocation = IGAME.mysteriousStruct.mousePosition;
-        const distToCast = Vector2d.distance(castLocation, this.myHero.position);
+        // Extend to mouse pos 400
+        // Predict all enemy hero locations 400 ms
+        // Draw circle of my attack range around them
+        // Draw E circle around me
+        // Find all crosspoints
+        // Filter if it is in allowed angle
+        // Find safest point
+        // If yes jump there
+        // Otherwiae jump dirrectly to mouse
+
+        const mousePosition = IGAME.mysteriousStruct.mousePosition;
+
+        const distToCast = Vector2d.distance(mousePosition, this.myHero.position);
         if (distToCast < 200) {
             return;
         }
 
-        this.canCast.delay(250);
-        ACTION.castSpellPosition(this.myHero, 1, castLocation.x, castLocation.y);
+        const enemyHeroes = this.myHero.getEnemiesInRange(1000);
+        const wCircle = {
+            center: this.myHero.position,
+            radius: w.getDynamicRange(),
+        };
+
+        const bestJumpPoint: Vec2 | undefined = enemyHeroes
+            .map((h) => {
+                const predPos = unitPositionPrediction(h, 300);
+                const enemyAttackCircle = {
+                    center: predPos,
+                    radius: this.myHero.getAttackRange(),
+                };
+
+                return circleIntersection(wCircle, enemyAttackCircle);
+            })
+            .flat()
+            .sort((p1, p2) => Vector2d.distanceSqr(p1, mousePosition) - Vector2d.distanceSqr(p2, mousePosition))[0];
+
+        const jumpTo = (pos: Vec2) => {
+            this.canCast.delay(100 + this.myHero.getMsToTurnToPos(pos));
+            ACTION.castSpellPosition(this.myHero, 1, pos.x, pos.y);
+        };
+
+        if (!bestJumpPoint) {
+            jumpTo(mousePosition);
+            return;
+        }
+        const mouseAfterCastPosition = Vector2d.extendTo(this.myHero.position, mousePosition, w.getDynamicRange());
+
+        const posDist = Vector2d.distance(bestJumpPoint, mouseAfterCastPosition);
+        console.log(`posDist ${posDist}`);
+        if (posDist > 250) {
+            jumpTo(mousePosition);
+            return;
+        }
+
+        jumpTo(bestJumpPoint);
     }
 
     @Subscribe("MainLoopEvent")
@@ -87,8 +144,8 @@ export class Bushwack extends Script {
 
         if (!INPUT.isControlDown()) return;
         // console.log(`isButtonDown ${"A".charCodeAt(0)}:` + INPUT.isCharDown("A"));
-        // console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
-        // console.log(`getFinalMaxAttackDamage:` + this.myHero.getFinalMaxAttackDamage());
+        console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
+        console.log(`getFinalMaxAttackDamage:` + this.myHero.getFinalMaxAttackDamage());
 
         // const spell = this.myHero.getTool(0) as IEntityAbility;
         // console.log(`typeName:` + this.myHero.typeName);
@@ -114,12 +171,10 @@ export class Bushwack extends Script {
         //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
+        tryUseAllItems(this.myHero, this.canCast);
+        this.doQLogic();
+        this.doWLogic();
 
-        if (this.orbwalker.canAttack.isTrue()) {
-            tryUseAllItems(this.myHero, this.canCast);
-            this.doWLogic();
-            this.doQLogic();
-        }
         // this.doQDemonHardLogic();
         // this.doGhostMarchersLogic();
         if (this.canCast.isTrue()) {
@@ -129,17 +184,38 @@ export class Bushwack extends Script {
 
     @Subscribe("DrawEvent")
     onDraw() {
+        const w = this.myHero.getTool(1) as IEntityAbility;
+        const mousePosition = IGAME.mysteriousStruct.mousePosition;
+        const enemyHeroes = this.myHero.getEnemiesInRange(1000);
+        const wCircle = {
+            center: this.myHero.position,
+            radius: w.getDynamicRange(),
+        };
+
+        const bestJumpPoints = enemyHeroes
+            .map((h) => {
+                const predPos = unitPositionPrediction(h, 400);
+                const enemyAttackCircle = {
+                    center: predPos,
+                    radius: this.myHero.getAttackRange() + 40,
+                };
+
+                return circleIntersection(wCircle, enemyAttackCircle);
+            })
+            .flat();
+        // .sort((p1, p2) => Vector2d.distanceSqr(p1, mousePosition) - Vector2d.distanceSqr(p2, mousePosition))[0];
+        bestJumpPoints.forEach((point) => {
+            const screenpos = CLIENT.worldToScreen({ ...point, z: this.myHero.position.z });
+            GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
+        });
         // const drawVec = Vector.extendDir(OBJECT_MANAGER.myHero.position, { ...OBJECT_MANAGER.myHero.facingVector(), z: 0}, 100);
-        // const screenpos = CLIENT.worldToScreen(drawVec);
-        // GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
+
         // console.log("draw");
     }
+
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
-        // if (!INPUT.isControlDown()) return;
-        // Dont update state if we are shooting
-        // const buffer = new MyBuffer(args[1]);
-        // const data = new Uint8Array(buffer.dataBuffer);
-        // console.log(data);
+        // Delay automatic actions if manual was preformed
+        this.canCast.delay(100);
     }
 }

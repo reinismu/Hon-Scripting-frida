@@ -5,7 +5,7 @@ import { Orbwalker } from "./Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { Vector2d, Vec2 } from "../utils/Vector";
-import { TARGET_SELECTOR } from "../scripts/TargetSelector";
+import { TARGET_SELECTOR } from "./TargetSelector";
 
 export class IllustionController {
     private mainHero: IUnitEntity;

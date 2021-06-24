@@ -89,6 +89,9 @@ export class ObjectManager {
     }
 
     public refreshCache() {
+        // TODO check if this solves issues after a while with entities
+        this.clearCache();
+
         let index = 0;
         const events = [];
         for (const clientEntity of this.clientEntities()) {
@@ -99,6 +102,17 @@ export class ObjectManager {
             index++;
         }
         events.forEach((e) => EventBus.getDefault().post(e));
+    }
+
+    public clearCache() {
+        this.cachedEntityMap.clear();
+        this.cachedHeroMap.clear();
+        this.cachedBuildingMap.clear();
+        this.cachedCreepMap.clear();
+        this.cachedNeutralMap.clear();
+        this.cachedNeutralMap.clear();
+        this.cachedGadgetMap.clear();
+        this.cachedProjectileMap.clear();
     }
 
     public checkEntity(clientEntity: CClientEntity, index: number): Event<any> | null {

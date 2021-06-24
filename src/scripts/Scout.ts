@@ -5,14 +5,14 @@ import { IEntityAbility, IHeroEntity, IFileChangeCallback, IGadgetEntity } from 
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
-import { TARGET_SELECTOR } from "./TargetSelector";
+import { TARGET_SELECTOR } from "../logics/TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { opPrediction, opPredictionCircular } from "./Prediction";
-import { tryUseAllItems } from "./Items";
+import { opPrediction, opPredictionCircular } from "../utils/Prediction";
+import { tryUseAllItems } from "../logics/Items";
 
 export class Scout extends Script {
     private canCast = new DelayedCondition();

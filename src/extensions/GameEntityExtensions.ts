@@ -140,8 +140,8 @@ IUnitEntity.prototype.getFinalMinAttackDamage = function(): number {
     const baseMaxAttackDmg = self.getMaxAttackDamage();
     const avgBaseAttackDmg = (baseMinAttackDmg + baseMaxAttackDmg) / 2;
     const additonalAttackDamage = self.getAdditionalAttackDamage();
-    const baseAttackDmgModifier = self.callFloatVTable(0x838);
-    const allAttackDmgModifier = self.callFloatVTable(0x848);
+    const baseAttackDmgModifier = self.callFloatVTable(0x848);
+    const allAttackDmgModifier = self.callFloatVTable(0x858);
     return (avgBaseAttackDmg * baseAttackDmgModifier + additonalAttackDamage) * allAttackDmgModifier - avgBaseAttackDmg + baseMinAttackDmg;
 };
 
@@ -151,24 +151,24 @@ IUnitEntity.prototype.getFinalMaxAttackDamage = function(): number {
     const baseMaxAttackDmg = self.getMaxAttackDamage();
     const avgBaseAttackDmg = (baseMinAttackDmg + baseMaxAttackDmg) / 2;
     const additonalAttackDamage = self.getAdditionalAttackDamage();
-    const baseAttackDmgModifier = self.callFloatVTable(0x838);
-    const allAttackDmgModifier = self.callFloatVTable(0x848);
+    const baseAttackDmgModifier = self.callFloatVTable(0x848);
+    const allAttackDmgModifier = self.callFloatVTable(0x858);
     return (avgBaseAttackDmg * baseAttackDmgModifier + additonalAttackDamage) * allAttackDmgModifier - avgBaseAttackDmg + baseMaxAttackDmg;
 };
 
 IUnitEntity.prototype.getMinAttackDamage = function(): number {
     const self = this as IUnitEntity;
-    return self.callFloatVTable(0xcf8);
+    return self.callFloatVTable(0xd08);
 };
 
 IUnitEntity.prototype.getAdditionalAttackDamage = function(): number {
     const self = this as IUnitEntity;
-    return self.callFloatVTable(0x858);
+    return self.callFloatVTable(0x868);
 };
 
 IUnitEntity.prototype.getMaxAttackDamage = function(): number {
     const self = this as IUnitEntity;
-    return self.callFloatVTable(0xd00);
+    return self.callFloatVTable(0xd10);
 };
 
 IUnitEntity.prototype.getMsToTurnToPos = function(pos: Vec2): number {

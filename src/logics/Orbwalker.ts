@@ -3,10 +3,11 @@ import { IGameEntity, IUnitEntity, IProjectile, CConsoleElement } from "../honId
 import { Vec2, Vector2d, Vector } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { ACTION } from "../actions/Action";
-import { TARGET_SELECTOR } from "../scripts/TargetSelector";
+import { TARGET_SELECTOR } from "./TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { CLIENT } from "../game/Client";
 import { INPUT } from "../input/Input";
+import { fauxBowTargetMap } from "./Items";
 
 const MIN_MOVE_DIST = 30;
 
@@ -19,9 +20,6 @@ export class Orbwalker {
 
     private canFaceTheEnemy = new DelayedCondition();
 
-    private previousAnimation = 0;
-    private previousTarget: IUnitEntity | null = null;
-
     constructor(walker: IUnitEntity) {
         EventBus.getDefault().register(this);
         this.walker = walker;
@@ -33,7 +31,22 @@ export class Orbwalker {
 
     public orbwalk(position: Vec2, justWalk: boolean = false) {
         if (!this.walker.isMelee()) {
-            const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.walker.getAttackRange() + 30, this.walker.position);
+            const fauxBowTargetNetworkId = fauxBowTargetMap[this.walker.networkId];
+
+            const target = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
+                this.walker.getAttackRange() + 30,
+                this.walker.position,
+                () => true,
+                (h, currentRange) => {
+                    if (!fauxBowTargetNetworkId) {
+                        return currentRange;
+                    }
+                    if (h.networkId === fauxBowTargetNetworkId) {
+                        return currentRange;
+                    }
+                    return currentRange - 20000;
+                }
+            );
             this.orbwalkTarget(target, position, justWalk);
             return;
         }
@@ -47,11 +60,7 @@ export class Orbwalker {
             const angle = wantedTarget.turnAngle(this.walker.position);
 
             if (angle > 45) {
-                const wantedFuturePos = Vector2d.extendDir(
-                    wantedTarget.position,
-                    wantedTarget.facingVector(),
-                    70
-                );
+                const wantedFuturePos = Vector2d.extendDir(wantedTarget.position, wantedTarget.facingVector(), 70);
                 const position1 = Vector2d.extendDir(wantedFuturePos, wantedTarget.facingVector(angle * 0.5), 80);
                 const position2 = Vector2d.extendDir(wantedFuturePos, wantedTarget.facingVector(-angle * 0.5), 80);
 
@@ -140,13 +149,7 @@ export class Orbwalker {
         return 0;
     }
 
-    // protected getMoveDist(): number {
-    //     return this.walker.ran() ?;
-    // }
-    
     private orbwalkTarget(target: IUnitEntity | null, position: Vec2, justWalk: boolean = false) {
-        // this.orbwalkTargetNew(target, position, justWalk);
-        // // return;
         if (!justWalk && this.canAttack.isTrue(500)) {
             if (target) {
                 const turnTime = this.walker.getMsToTurnToPos(target.position);
@@ -175,63 +178,6 @@ export class Orbwalker {
         }
     }
 
-    private orbwalkTargetNew(target: IUnitEntity | null, position: Vec2, justWalk: boolean = false) {
-        if (this.previousAnimation != this.walker.animation) {
-            // Started attacking
-            if ([1,2].includes(this.walker.animation)) {
-                this.canAttack.delay(this.walker.getAdjustedAttackCooldown() + this.getAttackSlowTime() + 100);
-                this.canMove.delay(this.walker.getAdjustedAttackActionTime() + 220);
-                this.isNotAttacking.delay(this.walker.getAdjustedAttackActionTime() + 250);
-            } else if(!this.isNotAttacking.isTrue()) {
-                // this.canAttack.delay(200);
-                // this.canMove.delay(200);
-                // if (target) {
-                //     this.attack(target);
-                // }
-            }
-        }
-        this.previousAnimation = this.walker.animation;
-
-
-        // if (!this.previousTarget?.isAlive && !this.isNotAttacking.isTrue()) {
-        //     this.canAttack.delay(200);
-        //     this.canMove.delay(200);
-        //     if (target) {
-        //         this.attack(target);
-        //     }
-        // }
-
-        this.previousTarget = target;
-
-
-        if (!justWalk && this.canAttack.isTrue(500)) {
-            if (target) {
-                const turnTime = this.walker.getMsToTurnToPos(target.position);
-                this.isNotAttacking.delay(turnTime + 250);
-                if (this.canAttack.isTrue()) {
-                    this.canAttack.delay(turnTime + 200);
-                    this.canMove.delay(turnTime + 200);
-                    this.attack(target);
-                    return;
-                }
-                if (this.canAttack.isTrue(turnTime)) {
-                    if (this.canFaceTheEnemy.isTrue()) {
-                        this.canFaceTheEnemy.delay(turnTime + 250);
-                        this.attack(target);
-                    }
-                    return;
-                }
-            }
-        }
-        if (this.canMove.isTrue()) {
-            if (Vector2d.distance(position, this.walker.position) < MIN_MOVE_DIST) {
-                return;
-            }
-            this.canMove.delay(140 + this.getMoveSlowTime());
-            this.move(position);
-        }
-    }
-
     resetAttackCooldown() {
         this.canAttack.restart();
     }
@@ -241,29 +187,6 @@ export class Orbwalker {
     }
 
     private move(position: Vec2) {
-        // ACTION.select(this.walker);
-        // CLIENT.sendFakeMousePosToServer(position.x, position.y, this.walker.position.z);
         ACTION.move(position, 0x2, this.walker);
     }
-
-    // @Subscribe("EntitySpawnedEvent")
-    // onGameEntitySpawned(entity: IGameEntity) {
-    //     if (!(entity instanceof IProjectile)) {
-    //         return;
-    //     }
-    //     // console.log(`myAnim: ${this.walker.animation}`);
-    //     // console.log(`type: ${entity.typeName}`);
-    //     if (entity.typeName === "Projectile_ShadowBlade_Ability3" && !this.isNotAttacking.isTrue()) {
-    //         this.canMove.delay(0);
-    //         this.isNotAttacking.delay(0);
-    //         this.canAttack.delay(this.walker.getAdjustedAttackCooldown() + this.getAttackSlowTime() - this.walker.getAdjustedAttackActionTime());
-    //     }
-    // }
-
-    // @Subscribe("RequestStartAnimEvent")
-    // onAnimationStart(args: NativePointer[]) {
-    //     // Dont update state if we are shooting
-    //     console.log(`Skeleton: ${this.walker.skeleton.ptr} anim: ${this.walker.animation}`);
-    //     // console.log(`RequestStartAnimEvent: ${args[0]} ${args[1]} ${args[2]} ${args[3]}  ${args[4]}  ${args[5]}`);
-    // }
 }

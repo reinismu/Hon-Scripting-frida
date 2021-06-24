@@ -3,7 +3,7 @@ import { EventBus, Subscribe } from "eventbus-ts";
 import { IEntityAbility } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
-import { getTroublePoints, TARGET_SELECTOR } from "./TargetSelector";
+import { getTroublePoints, TARGET_SELECTOR } from "../logics/TargetSelector";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
@@ -12,7 +12,7 @@ import { IllustionController } from "../logics/IllusionController";
 import { CLIENT } from "../game/Client";
 import { GRAPHICS } from "../graphics/Graphics";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
-import { tryUseAllItems } from "./Items";
+import { tryUseAllItems } from "../logics/Items";
 
 export class DoctorRepulsor extends Script {
     private justCasted = new DelayedCondition();
@@ -125,19 +125,20 @@ export class DoctorRepulsor extends Script {
             return;
         }
         const r = this.myHero.getTool(3) as IEntityAbility;
-        if (!r.canActivate()) {
+        if (!r.canActivate() || this.myHero.getManaPercent() < 20) {
             return;
         }
         const troublePoints = getTroublePoints(this.myHero);
         const enemiesInRange = this.myHero.getEnemiesInRange(800).length;
 
         if (troublePoints > 65 && enemiesInRange > 0) {
-            const castLocation = this.myBase.position;
+            const castLocation = Vector2d.extendTo(this.myHero.position, this.myBase.position, 1200);
 
             this.justCasted.delay(130);
             ACTION.castSpellPosition(this.myHero, 3, castLocation.x, castLocation.y);
         }
     }
+
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
@@ -160,11 +161,12 @@ export class DoctorRepulsor extends Script {
         this.tryEscape();
         tryUseAllItems(this.myHero, this.justCasted);
 
-        
         if (!INPUT.isControlDown()) return;
 
         // const facingAngle = this.myHero.facingAngle;
-        // console.log(`facingAngle ${facingAngle}`);
+        // console.log(`getAttackReadyValue1 ${this.myHero.getAttackReadyValue1()}`);
+        // console.log(`field_76C ${this.myHero.field_76C}`);
+
         // console.log(`heroPtrs ${this.myHero.ptr.add(0x6b0)}`);
 
         // OBJECT_MANAGER.heroes.forEach(h => {
@@ -208,9 +210,5 @@ export class DoctorRepulsor extends Script {
     onSendGameDataEvent(args: NativePointer[]) {
         // Delay automatic actions if manual was preformed
         this.justCasted.delay(100);
-
-        // const buffer = new MyBuffer(args[1]);
-        // const data = new Uint8Array(buffer.dataBuffer);
-        // console.log(data);
     }
 }

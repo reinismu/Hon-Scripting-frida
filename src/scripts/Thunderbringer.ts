@@ -5,13 +5,13 @@ import { IEntityAbility, IUnitEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
-import { TARGET_SELECTOR } from "./TargetSelector";
+import { TARGET_SELECTOR } from "../logics/TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { Vector, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { tryUseAllItems } from "./Items";
+import { tryUseAllItems } from "../logics/Items";
 
 export class Thunderbringer extends Script {
     private canCast = new DelayedCondition();

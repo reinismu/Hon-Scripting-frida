@@ -1,5 +1,5 @@
 import { IUnitEntity } from "../honIdaStructs";
-import { goodPrediction } from "../scripts/Prediction";
+import { goodPrediction } from "./Prediction";
 import { Vec2, Vector2d } from "./Vector";
 
 export const findBestLinearCast = (

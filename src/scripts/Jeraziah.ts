@@ -3,11 +3,11 @@ import { EventBus, Subscribe } from "eventbus-ts";
 import { IEntityAbility, IHeroEntity, IUnitEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
-import { TARGET_SELECTOR, getTroublePoints } from "./TargetSelector";
+import { TARGET_SELECTOR, getTroublePoints } from "../logics/TargetSelector";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { tryUseAllItems } from "./Items";
+import { tryUseAllItems } from "../logics/Items";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 
 export class Jeraziah extends Script {

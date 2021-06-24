@@ -5,16 +5,16 @@ import { IEntityAbility, IUnitEntity, Console } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
-import { TARGET_SELECTOR } from "./TargetSelector";
+import { TARGET_SELECTOR } from "../logics/TargetSelector";
 import { OBJECT_MANAGER, ObjectManager } from "../objects/ObjectManager";
 import { Vec2, Vector, Vector2d } from "../utils/Vector";
-import { shitPrediction, goodPrediction, opPrediction } from "./Prediction";
+import { shitPrediction, goodPrediction, opPrediction } from "../utils/Prediction";
 import { RESOURCE_MANAGER } from "../objects/ResourceManager";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
-import { doSheepstickLogic, tryUseAllItems } from "./Items";
+import { doSheepstickLogic, tryUseAllItems } from "../logics/Items";
 
 export class Kinesis extends Script {
     private orbwalker = new Orbwalker(this.myHero);

@@ -3,16 +3,16 @@ import { EventBus, Subscribe } from "eventbus-ts";
 import { IEntityAbility, IUnitEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
-import { TARGET_SELECTOR } from "./TargetSelector";
+import { TARGET_SELECTOR } from "../logics/TargetSelector";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { tryUseAllItems } from "./Items";
+import { fauxBowTargetMap, tryUseAllItems } from "../logics/Items";
 import { Vector2d, Vec2 } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
-import { opPrediction } from "./Prediction";
+import { opPrediction } from "../utils/Prediction";
 
 export class Tarot extends Script {
     private justCasted = new DelayedCondition();
@@ -109,16 +109,16 @@ export class Tarot extends Script {
 
         if (!INPUT.isControlDown()) return;
 
-        // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
-        //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
-        //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
-        //     for (let i = 0; i < 80; i++) {
-        //         const tool = h.getTool(i);
-        //         if (tool == null) continue;
-        //         console.log(`tool ${i}: ${tool.typeName}`);
-        //     }
-        // });
+        OBJECT_MANAGER.heroes.forEach(h => {
+            console.log(`${h.typeName} fauxBow: ${fauxBowTargetMap[h.networkId]}`);
+            // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
+            // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
+            for (let i = 0; i < 80; i++) {
+                const tool = h.getTool(i);
+                if (tool == null) continue;
+                console.log(`tool ${i}: ${tool.typeName}`);
+            }
+        });
 
         tryUseAllItems(this.myHero, this.justCasted);
 

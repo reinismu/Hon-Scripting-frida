@@ -1,5 +1,5 @@
 import { IUnitEntity } from "../honIdaStructs";
-import { unitPositionPrediction } from "../scripts/Prediction";
+import { unitPositionPrediction } from "./Prediction";
 import { Vec2, Vector2d } from "./Vector";
 
 export const findBestCircularCast = (

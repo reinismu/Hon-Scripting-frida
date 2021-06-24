@@ -4,12 +4,14 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { TARGET_SELECTOR } from "./TargetSelector";
 import { Vector2d } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { Orbwalker } from "./Orbwalker";
 
 export function tryUseAllItems(unit: IUnitEntity, justCasted: DelayedCondition) {
     doShrunkensLogic(unit, justCasted);
     doInsantariusLogic(unit, justCasted);
     doExcruciatorLogic(unit, justCasted);
     doSheepstickLogic(unit, justCasted);
+    doFauxBowLogic(unit, justCasted);
     doBarrierIdolLogic(unit, justCasted);
     doAstrolabeLogic(unit, justCasted);
     doArmorOfTheMadMage(unit, justCasted);
@@ -23,6 +25,35 @@ export function tryUseAllItems(unit: IUnitEntity, justCasted: DelayedCondition) 
     doHypercrownLogic(unit, justCasted);
     doGhostMarchersLogic(unit, justCasted);
     doElderParasite(unit, justCasted);
+}
+
+export const fauxBowTargetMap: { [k: number]: number | undefined} = {};
+
+export function doFauxBowLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
+    if (!justCasted.isTrue()) {
+        return;
+    }
+
+    if (!unit.hasTool("State_FauxBow")) {
+        fauxBowTargetMap[unit.networkId] = undefined;
+    }
+
+    const fausBow = unit.getItem("Item_FauxBow");
+    if (!fausBow) {
+        return;
+    }
+
+    if (!fausBow.item.canActivate()) {
+        return;
+    }
+
+    const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(fausBow.item.getDynamicRange());
+    if (!enemyHero) {
+        return;
+    }
+    fauxBowTargetMap[unit.networkId] = enemyHero.networkId;
+    justCasted.delay(50);
+    ACTION.castSpellEntity(unit, fausBow.index, enemyHero);
 }
 
 export function doGhostMarchersLogic(unit: IUnitEntity, justCasted: DelayedCondition) {

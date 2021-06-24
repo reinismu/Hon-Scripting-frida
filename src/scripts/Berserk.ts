@@ -3,16 +3,16 @@ import { EventBus, Subscribe } from "eventbus-ts";
 import { CSocket, IEntityAbility, IUnitEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
-import { TARGET_SELECTOR } from "./TargetSelector";
+import { TARGET_SELECTOR } from "../logics/TargetSelector";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { tryUseAllItems } from "./Items";
+import { tryUseAllItems } from "../logics/Items";
 import { Vector2d, Vec2 } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
-import { opPrediction } from "./Prediction";
+import { opPrediction } from "../utils/Prediction";
 
 export class Berserk extends Script {
     private justCasted = new DelayedCondition();

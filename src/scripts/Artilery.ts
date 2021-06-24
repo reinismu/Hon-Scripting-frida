@@ -5,15 +5,15 @@ import { IEntityAbility, IUnitEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { CLIENT } from "../game/Client";
-import { TARGET_SELECTOR } from "./TargetSelector";
+import { TARGET_SELECTOR } from "../logics/TargetSelector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { IGAME } from "../game/Globals";
 import { Vec3, Vector, Vector2d } from "../utils/Vector";
-import { shitPrediction, opPrediction, goodPrediction } from "./Prediction";
+import { shitPrediction, opPrediction, goodPrediction } from "../utils/Prediction";
 import { Orbwalker } from "../logics/Orbwalker";
 import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { tryUseAllItems } from "./Items";
+import { tryUseAllItems } from "../logics/Items";
 
 export class Artilery extends Script {
     private orbwalker = new Orbwalker(this.myHero);

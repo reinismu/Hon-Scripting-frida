@@ -1,5 +1,5 @@
 import { IUnitEntity } from "../honIdaStructs";
-import { Vec3, Vector, Vec2, Vector2d } from "../utils/Vector";
+import { Vec3, Vector, Vec2, Vector2d } from "./Vector";
 import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 
 export function shitPrediction(enemy: IUnitEntity, extendBy: number = 50): Vec3 {

@@ -3,12 +3,12 @@ import { EventBus, Subscribe } from "eventbus-ts";
 import { IEntityAbility } from "../honIdaStructs";
 import { ACTION } from "../actions/Action";
 import { INPUT } from "../input/Input";
-import { TARGET_SELECTOR } from "./TargetSelector";
+import { TARGET_SELECTOR } from "../logics/TargetSelector";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { opPredictionCircular } from "./Prediction";
-import { tryUseAllItems } from "./Items";
+import { opPredictionCircular } from "../utils/Prediction";
+import { tryUseAllItems } from "../logics/Items";
 import { findBestCircularCast } from "../utils/BestCircularLocation";
 import { IllustionController } from "../logics/IllusionController";
 

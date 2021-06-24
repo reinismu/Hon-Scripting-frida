@@ -9,7 +9,7 @@ export class TargetSelector {
         const me = OBJECT_MANAGER.myHero;
         const enemy = OBJECT_MANAGER.heroes
             .filter((h) => !h.isDead() && h.isEnemy(me))
-            .sort((h1, h2) => h1.position.distance2d(me.position) - h2.position.distance2d(me.position))[0];
+            .sort((h1, h2) => h1.position.distance2dSqr(me.position) - h2.position.distance2dSqr(me.position))[0];
         if (enemy) {
             return enemy;
         }
@@ -19,7 +19,8 @@ export class TargetSelector {
     getEasiestPhysicalKillInRange(
         range: number,
         fromPosition: Vec2 = OBJECT_MANAGER.myHero.position,
-        customPredicate: (h: IHeroEntity) => boolean = () => true
+        customPredicate: (h: IHeroEntity) => boolean = () => true,
+        rangeOverride: (h: IHeroEntity, currentRange: number) => number = (h: IHeroEntity, currentRange: number) => currentRange
     ): IHeroEntity | null {
         const enemy = OBJECT_MANAGER.heroes
             .filter(
@@ -27,7 +28,7 @@ export class TargetSelector {
                     h.health > 0 &&
                     !h.isIllusion() &&
                     h.isEnemy(OBJECT_MANAGER.myHero) &&
-                    h.position.distance2d(fromPosition) < range &&
+                    h.position.distance2d(fromPosition) < rangeOverride(h, range) &&
                     !h.isPhysicalImmune() &&
                     !h.isInvulnerable() &&
                     !isBarbedWithHp(h) &&

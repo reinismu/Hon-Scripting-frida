@@ -61,14 +61,7 @@ console.log("Hello from typescript. Process id: " + Process.id);
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new DoctorRepulsor();
-
-
-
-
-
-
-
+    const testScript23 = new Tarot();
 
 
 
@@ -77,10 +70,10 @@ setTimeout(() => {
 
 
 
-
 }, 200);
 
 
+// Test out new items!!
 
 // Add dr repulso
 
