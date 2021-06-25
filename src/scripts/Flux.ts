@@ -73,6 +73,7 @@ export class Flux extends Script {
             return;
         }
 
+        tryUseAllItems(this.myHero, this.canCast);
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach(h => {
@@ -87,7 +88,6 @@ export class Flux extends Script {
 
         this.doWLogic();
         this.doQLogic();
-        tryUseAllItems(this.myHero, this.canCast);
         // if (this.orbwalker.isNotAttacking.isTrue()) {
         //     this.doQLogic();
         // }

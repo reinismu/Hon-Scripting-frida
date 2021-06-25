@@ -5014,6 +5014,10 @@ export class IVisualEntity extends IGameEntity {
 		return new CVec3(this.align(0xe8));
 	}
 
+	get projectileAngle(): number {
+		return this.align(0xf4).readFloat();
+	}
+
 // field_F8 -> type: int 
 	get field_F8(): number {
 		return this.align(0xf8).readS32();

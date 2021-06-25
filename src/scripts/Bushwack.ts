@@ -15,9 +15,10 @@ import { opPrediction, opPredictionCircular, unitPositionPrediction } from "../u
 import { tryUseAllItems } from "../logics/Items";
 import { IllustionController } from "../logics/IllusionController";
 import { circleIntersection } from "../utils/Circle";
+import { tryEvade } from "../logics/Evade";
 
 export class Bushwack extends Script {
-    private canCast = new DelayedCondition();
+    private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
 
@@ -27,7 +28,7 @@ export class Bushwack extends Script {
     }
 
     doQLogic() {
-        if (!this.canCast.isTrue()) {
+        if (!this.justCasted.isTrue()) {
             return;
         }
         const q = this.myHero.getTool(0) as IEntityAbility;
@@ -44,12 +45,12 @@ export class Bushwack extends Script {
             return;
         }
 
-        this.canCast.delay(250);
+        this.justCasted.delay(250);
         ACTION.castSpellEntity(this.myHero, 0, enemyHero);
     }
 
     doWLogic() {
-        if (!this.canCast.isTrue()) {
+        if (!this.justCasted.isTrue()) {
             return;
         }
         const w = this.myHero.getTool(1) as IEntityAbility;
@@ -106,7 +107,7 @@ export class Bushwack extends Script {
             .sort((p1, p2) => Vector2d.distanceSqr(p1, mousePosition) - Vector2d.distanceSqr(p2, mousePosition))[0];
 
         const jumpTo = (pos: Vec2) => {
-            this.canCast.delay(100 + this.myHero.getMsToTurnToPos(pos));
+            this.justCasted.delay(100 + this.myHero.getMsToTurnToPos(pos));
             ACTION.castSpellPosition(this.myHero, 1, pos.x, pos.y);
         };
 
@@ -142,10 +143,20 @@ export class Bushwack extends Script {
             return;
         }
 
+        tryEvade(this.myHero, this.orbwalker, this.justCasted, (proj) => {
+            const w = this.myHero.getTool(1) as IEntityAbility;
+            if (!w.canActivate()) {
+                return;
+            }
+            this.justCasted.delay(200);
+            const pos = this.myBase.position;
+            ACTION.castSpellPosition(this.myHero, 1, pos.x, pos.y);
+        });
+
         if (!INPUT.isControlDown()) return;
         // console.log(`isButtonDown ${"A".charCodeAt(0)}:` + INPUT.isCharDown("A"));
-        console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
-        console.log(`getFinalMaxAttackDamage:` + this.myHero.getFinalMaxAttackDamage());
+        // console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
+        // console.log(`getFinalMaxAttackDamage:` + this.myHero.getFinalMaxAttackDamage());
 
         // const spell = this.myHero.getTool(0) as IEntityAbility;
         // console.log(`typeName:` + this.myHero.typeName);
@@ -164,20 +175,24 @@ export class Bushwack extends Script {
         // this.doWLogic();
 
         // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName} isPhysicalImmune: ${h.isPhysicalImmune()}`);
+        //     console.log(`${h.typeName} ownerId: ${h.ownerId}`);
         //     for (let i = 0; i < 80; i++) {
         //         const tool = h.getTool(i);
         //         if (tool == null) continue;
         //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
-        tryUseAllItems(this.myHero, this.canCast);
+
+        // OBJECT_MANAGER.projectiles.forEach((h) => {
+        //     console.log(`${h.typeName} - ${h.ownerId}`);
+        // });
+        tryUseAllItems(this.myHero, this.justCasted);
         this.doQLogic();
         this.doWLogic();
 
         // this.doQDemonHardLogic();
         // this.doGhostMarchersLogic();
-        if (this.canCast.isTrue()) {
+        if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }
@@ -208,14 +223,27 @@ export class Bushwack extends Script {
             const screenpos = CLIENT.worldToScreen({ ...point, z: this.myHero.position.z });
             GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
         });
-        // const drawVec = Vector.extendDir(OBJECT_MANAGER.myHero.position, { ...OBJECT_MANAGER.myHero.facingVector(), z: 0}, 100);
+        // Projectile_Devourer_Ability1
+        // Projectile_Prisoner_Ability1
+        // Projectile_Prisoner_Ability1_Return_Art
+        // Projectile_Valkyrie_Ability2
+        // Projectile_Gauntlet_Ability2
 
+        // OBJECT_MANAGER.projectiles.forEach((p) => {
+        //     if (p.typeName === "Projectile_Valkyrie_Ability2") {
+        //         const toPosDir = Vector2d.extendDir(p.position, p.facingVector(), 400);
+        //         const screenpos = CLIENT.worldToScreen({ ...toPosDir, z: p.position.z });
+        //         // console.log(`vec: ${p.ptr}`);
+        //         GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
+        //     }
+        // });
+        // const drawVec = Vector.extendDir(OBJECT_MANAGER.myHero.position, { ...OBJECT_MANAGER.myHero.facingVector(), z: 0}, 100)
         // console.log("draw");
     }
 
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
         // Delay automatic actions if manual was preformed
-        this.canCast.delay(100);
+        this.justCasted.delay(100);
     }
 }

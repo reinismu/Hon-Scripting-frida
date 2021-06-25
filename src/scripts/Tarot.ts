@@ -127,6 +127,8 @@ export class Tarot extends Script {
         this.doWLogic();
         // this.doWLogic();
 
+
+
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }

@@ -1,4 +1,4 @@
-import { IUnitEntity, IEntityItem, IEntityState, IEntityAbility, ISlaveEntity, IHeroEntity, IVisualEntity } from "../honIdaStructs";
+import { IUnitEntity, IEntityItem, IEntityState, IEntityAbility, ISlaveEntity, IHeroEntity, IVisualEntity, IProjectile } from "../honIdaStructs";
 import { tryGetTypeInfo } from "../objects/RTTI";
 import { SHARED_MODULE, IGAME } from "../game/Globals";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
@@ -105,6 +105,10 @@ declare module "../honIdaStructs" {
     interface IVisualEntity {
         getModelId(): number;
     }
+
+    interface IProjectile {
+        facingVector(): Vec2;
+    }
 }
 
 function turnAngle(entity: IUnitEntity, pos: Vec2) {
@@ -116,6 +120,13 @@ function turnAngle(entity: IUnitEntity, pos: Vec2) {
 function radianToDegree(rad: number): number {
     return (rad * 180) / Math.PI;
 }
+
+
+IProjectile.prototype.facingVector = function(deltaAngle: number = 0): { x: number; y: number } {
+    const self = this as IUnitEntity;
+    const radians = (self.projectileAngle + deltaAngle) * 0.01745329252 + Math.PI / 2;
+    return { x: Math.cos(radians), y: Math.sin(radians) };
+};
 
 IUnitEntity.prototype.turnAngle = function(pos: Vec2): number {
     const self = this as IUnitEntity;

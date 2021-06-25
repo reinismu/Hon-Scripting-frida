@@ -139,6 +139,8 @@ export class Thunderbringer extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+        tryUseAllItems(this.myHero, this.canCast);
+        
         if (!INPUT.isControlDown()) return;
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
@@ -166,7 +168,6 @@ export class Thunderbringer extends Script {
         // });
         this.doWLogic();
         this.doQLogic();
-        tryUseAllItems(this.myHero, this.canCast);
 
         if (!this.canCast.isTrue()) {
             return;

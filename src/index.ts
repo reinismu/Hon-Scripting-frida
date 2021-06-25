@@ -61,7 +61,7 @@ console.log("Hello from typescript. Process id: " + Process.id);
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Tarot();
+    const testScript23 = new Bushwack();
 
 
 
@@ -70,14 +70,14 @@ setTimeout(() => {
 
 
 
+
+
+
+
 }, 200);
 
+// try evade?
 
-// Test out new items!!
-
-// Add dr repulso
-
-// FIx object manager going nuts after a while
 
 // Investigate champion turn rate
 // Create account https://www.guerrillamail.com

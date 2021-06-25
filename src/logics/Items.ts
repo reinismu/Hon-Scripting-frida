@@ -5,6 +5,7 @@ import { TARGET_SELECTOR } from "./TargetSelector";
 import { Vector2d } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "./Orbwalker";
+import { INPUT } from "../input/Input";
 
 export function tryUseAllItems(unit: IUnitEntity, justCasted: DelayedCondition) {
     doShrunkensLogic(unit, justCasted);
@@ -57,7 +58,7 @@ export function doFauxBowLogic(unit: IUnitEntity, justCasted: DelayedCondition) 
 }
 
 export function doGhostMarchersLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
-    if (!justCasted.isTrue()) {
+    if (!justCasted.isTrue() || INPUT.isShiftDown()) {
         return;
     }
     const boots = unit.getItem("Item_EnhancedMarchers");
