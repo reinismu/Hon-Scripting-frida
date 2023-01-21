@@ -13,6 +13,7 @@ import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
 import { opPrediction } from "../utils/Prediction";
+import { tryEvade } from "../logics/Evade";
 
 export class Berserk extends Script {
     private justCasted = new DelayedCondition();
@@ -50,7 +51,7 @@ export class Berserk extends Script {
                 return false;
             };
 
-            if (chainedEnemy.isFacing(this.myHero) || chainedEnemy.position.distance2d(this.myHero.position) > 700 || canKill()) {
+            if (this.myHero.getHealthPercent() < 30|| chainedEnemy.position.distance2d(this.myHero.position) > 700 || canKill()) {
                 this.justCasted.delay(150);
                 ACTION.castSpell2(this.myHero, 0);
             }
@@ -58,7 +59,7 @@ export class Berserk extends Script {
         }
 
         const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(q.getDynamicRange());
-        if (!enemyHero) {
+        if (!enemyHero || (enemyHero.isFacing(this.myHero) && enemyHero.getHealthPercent() > 35)) {
             return;
         }
 
@@ -104,6 +105,9 @@ export class Berserk extends Script {
         this.illusionController.refreshHero(this.myHero);
         this.illusionController.control(this.myHero.level > 12);
 
+        tryEvade(this.myHero, this.orbwalker, this.justCasted);
+        tryUseAllItems(this.myHero, this.justCasted);
+
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
             return;
@@ -114,10 +118,11 @@ export class Berserk extends Script {
             return;
         }
 
+
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach((h) => {
-        //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
+        //     console.log(`${h.typeName} isStealth: ${h.isStealth()}`);
         //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
         //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
         //     for (let i = 0; i < 80; i++) {
@@ -127,7 +132,6 @@ export class Berserk extends Script {
         //     }
         // });
 
-        tryUseAllItems(this.myHero, this.justCasted);
 
         this.doWLogic();
         this.doQLogic();
@@ -139,6 +143,11 @@ export class Berserk extends Script {
         }
     }
 
+    @Subscribe("SendGameDataEvent")
+    onSendGameDataEvent(args: NativePointer[]) {
+        // Delay automatic actions if manual was preformed
+        this.justCasted.delay(100);
+    }
     // @Subscribe("SendGameDataEvent")
     // onSendGameDataEvent(args: NativePointer[]) {
     //     // if (!INPUT.isControlDown()) return;

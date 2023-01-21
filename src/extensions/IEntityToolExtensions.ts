@@ -28,7 +28,7 @@ declare module "../honIdaStructs" {
 
 IEntityTool.prototype.isReady = function(): boolean {
     const self = this as IEntityTool;
-    return isReady(self.ptr) as boolean;
+    return isReady(self.ptr)  as unknown as boolean;
 };
 
 IEntityTool.prototype.isActive = function(): boolean {
@@ -45,7 +45,7 @@ IEntityTool.prototype.canActivate = function(): boolean {
             .readPointer(),
         "bool",
         ["pointer"]
-    )(self.ptr) as boolean;
+    )(self.ptr)  as unknown as boolean;
 };
 
 IEntityTool.prototype.getOwner = function(): IGameEntity | null {

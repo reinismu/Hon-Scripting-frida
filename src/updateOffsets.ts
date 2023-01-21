@@ -1,4 +1,4 @@
-import { GAME_MODULE, K2_MODULE } from "./game/Globals";
+import { GAME_MODULE, K2_MODULE, SHARED_MODULE } from "./game/Globals";
 
 const findOnMainLoop = () => {
     const onMainLoopCall = Memory.scanSync(K2_MODULE.base, K2_MODULE.size / 2, "E8 ?? ?? ?? ?? E9 ?? ?? ?? ?? EB 00 48 89 D5 48 89 C3")[0]
@@ -28,9 +28,18 @@ const findClientEntityArrayOffset = () => {
     return usageInst.add(clientEntityArrayOffset).add(7).sub(GAME_MODULE.base);
 };
 
+const findMaxZoomOffset = () => {
+    // ZoomOut function
+    const zoomOutMaxSetInst = Memory.scanSync(SHARED_MODULE.base, SHARED_MODULE.size / 1.4, "F3 0F 11 05 ?? ?? ?? ?? C3 0F 1F 44 00 00 F3 0F 10 8F")[0].address;
+
+    const zoomOutOffsetOffset = zoomOutMaxSetInst.add(4).readS32();
+
+    return zoomOutMaxSetInst.add(zoomOutOffsetOffset).add(8).sub(SHARED_MODULE.base);
+};
+
 const findIGame = () => {
     // sendCastSpellLocation function
-    //  [actual address in first opcode] E9 ? ? ? ? 48 39 F5 
+    //  [actual address in first opcode] E9 ?? ?? ?? ?? 48 39 F5 
     const sendCastSpellLocationCall = Memory.scanSync(GAME_MODULE.base, GAME_MODULE.size / 2, "E9 ?? ?? ?? ?? 48 39 F5")[0].address;
     const callOffset = sendCastSpellLocationCall.add(1).readS32() + 5;
     const sendCastSpellLocationFunc = sendCastSpellLocationCall.add(callOffset);
@@ -46,4 +55,5 @@ export const updateOffsets = () => {
     console.log("sendClientSnapshot", findSendClientSnapshot());
     console.log("clientEntityArrayOffset", findClientEntityArrayOffset());
     console.log("iGame", findIGame());
+    console.log("maxZoom", findMaxZoomOffset());
 };

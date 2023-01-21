@@ -11,6 +11,7 @@ import { tryUseAllItems } from "../logics/Items";
 import { Vector2d } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { IllustionController } from "../logics/IllusionController";
+import { tryEvade } from "../logics/Evade";
 
 export class Flux extends Script {
     private canCast = new DelayedCondition();
@@ -73,6 +74,7 @@ export class Flux extends Script {
             return;
         }
 
+        tryEvade(this.myHero, this.orbwalker, this.canCast);
         tryUseAllItems(this.myHero, this.canCast);
         if (!INPUT.isControlDown()) return;
 

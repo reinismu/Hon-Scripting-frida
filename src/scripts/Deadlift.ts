@@ -49,7 +49,9 @@ export class Deadlift extends Script {
             return;
         }
 
-        this.justCasted.delay(250);
+
+        
+        this.justCasted.delay(350);
         ACTION.castSpellPosition(this.myHero, 0, bestloc.x, bestloc.y);
     }
 

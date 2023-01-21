@@ -16,6 +16,7 @@ import { opPrediction } from "../utils/Prediction";
 import { CLIENT } from "../game/Client";
 import { GRAPHICS } from "../graphics/Graphics";
 import { tryGetTypeInfo } from "../objects/RTTI";
+import { tryEvade } from "../logics/Evade";
 
 export class Shadowblade extends Script {
     private justCasted = new DelayedCondition();
@@ -44,9 +45,12 @@ export class Shadowblade extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
-
+        tryEvade(this.myHero, this.orbwalker, this.justCasted)
         tryUseAllItems(this.myHero, this.justCasted);
 
+
+
+        
         
         if (!INPUT.isControlDown()) return;
         // const typeNames = new Set();

@@ -4630,8 +4630,12 @@ export class IGameEntity extends CObj {
 	}
 
 // field_80 -> type: long long 
-	get field_80(): Int64 {
-		return this.align(0x80).readS64();
+	get field_80(): number {
+		return this.align(0x80).readFloat();
+	}
+
+	get field_84(): number {
+		return this.align(0x84).readFloat();
 	}
 
 // field_88 -> type: int 
@@ -6104,6 +6108,12 @@ export class CPlayer extends IGameEntity {
 		return this.align(0x128).readFloat();
 	}
 
+
+    set currentCameraZoom(v: number) {
+        this.align(0x128).writeFloat(v);
+    }
+
+
 // field_12C -> type: int 
 	get field_12C(): number {
 		return this.align(0x12c).readS32();
@@ -6111,7 +6121,12 @@ export class CPlayer extends IGameEntity {
 
 // nextCameraZoom -> type: int 
 	get nextCameraZoom(): number {
-		return this.align(0x130).readS32();
+		return this.align(0x130).readFloat();
+	}
+
+// nextCameraZoom -> type: int 
+	get smthZoomTick(): number {
+		return this.align(0x134).readS32();
 	}
 
 // field_134 -> type: int 
@@ -8016,6 +8031,7 @@ export class CClientState extends CObj {
 		return this.align(0x2c).readFloat();
 	}
 
+
 // field_30 -> type: float 
 	get field_30(): number {
 		return this.align(0x30).readFloat();
@@ -8100,6 +8116,10 @@ export class IGame extends CObj {
 // teamInfo -> type: CTeamInfo * 
 	get teamInfo(): CTeamInfo {
 		return new CTeamInfo(this.align(0x298).readPointer());
+	}
+
+	get field_270(): number {
+		return this.align(0x270).readS32();
 	}
 
 // gap_2A0 -> type: uint8 [72] 

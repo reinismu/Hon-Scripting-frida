@@ -2,8 +2,8 @@ import { Nitro } from "./scripts/Nitro";
 import { initEventListener } from "./GameEventBus";
 import { Thunderbringer } from "./scripts/Thunderbringer";
 import { Soulstealer } from "./scripts/Soulstealer";
-import { monitor } from "./utils/MemoryAccessUtil";
-import { IGAME } from "./game/Globals";
+import { monitor, toReadableAddress } from "./utils/MemoryAccessUtil";
+import { IGAME, SHARED_MODULE } from "./game/Globals";
 import { Devourer } from "./scripts/Devourer";
 import { Kinesis } from "./scripts/Kinesis";
 import { Pyromancer } from "./scripts/Pyromancer";
@@ -52,6 +52,13 @@ import { Artesia } from "./scripts/Artesia";
 import { PuppetMaster } from "./scripts/PuppetMaster";
 import { LordSalfuris } from "./scripts/LordSalfuris";
 import { DoctorRepulsor } from "./scripts/DoctorRepulsor";
+import { Revenant } from "./scripts/Revenant";
+import { Klanx } from "./scripts/Klanx";
+import { Engineer } from "./scripts/Engineer";
+import { GraveKeeper } from "./scripts/GraveKeeper";
+import { Tundra } from "./scripts/Tundra";
+import { Adrenaline } from "./scripts/Adrenaline";
+import { KingKlout } from "./scripts/KingKolout";
 
 console.log("Hello from typescript. Process id: " + Process.id);
 
@@ -61,23 +68,38 @@ console.log("Hello from typescript. Process id: " + Process.id);
 initEventListener();
 // have to delay to get hero cache
 setTimeout(() => {
-    const testScript23 = new Bushwack();
-
-
-
+    const testScript23 = new MasterOfArms();
 
     
 
 
-
-
-
+    // hatcher shit
+    // aa test at speed
 
 
 }, 200);
 
-// try evade?
+// Detected. Try usint only zoomhack. cant as because of hash
 
+// It tires to use recipes even if not in inventory
+// pebble throw\
+
+// Add mk?
+
+//items when attacking. dont cancel!
+// orb off
+
+// Evade dont move to static point
+
+//HGatchet kill stuff saph pris
+
+// insantarius active debugff
+
+// evade myrm fish
+
+// Evade rar/ chip
+
+// point wards
 
 // Investigate champion turn rate
 // Create account https://www.guerrillamail.com
@@ -92,30 +114,6 @@ setTimeout(() => {
 
 // add rage in items
 //  Add pebble + pk in get 3+
-
-// const testScript = new Armadon();
-// const testScript = new Andromeda();
-// const testScript = new Bushwack();
-// const testScript = new Gauntlet();
-// const testScript = new Goldenveil();
-// const testScript = new Blacksmith();
-// const testScript = new Jeraziah();
-// const testScript = new Devourer();
-// const testScript = new Gauntlet();
-// const testScript = new MasterOfArms();
-// const testScript = new Maliken();
-// const testScript = new Predator();
-// const testScript = new Slither();
-// const testScript = new Oogie();
-// const testScript = new Parallax();
-// const testScript = new WitchSlayer();
-// const testScript = new Scout();
-// const testScript = new Kinesis();
-// const testScript = new Pyromancer();
-// const testScript = new SoulReaper();
-// const testScript = new Thunderbringer();
-// const testScript = new Nitro();
-// const testScript = new Soulstealer(); // <-- pretty shit
 
 // console.log(`watch: ${IGAME.mysteriousStruct.ptr.add(0x2b8)}`);
 

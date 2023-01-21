@@ -14,13 +14,15 @@ import { GRAPHICS } from "../graphics/Graphics";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { tryUseAllItems } from "../logics/Items";
 import { tryEvade } from "../logics/Evade";
+import { findBestLinearCast } from "../utils/BestLinearCastLocation";
+import { opPrediction } from "../utils/Prediction";
 
-export class DoctorRepulsor extends Script {
+export class Adrenaline extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
 
-    private electricFenzyOnCooldown = false;
+    private emberShardOnCooldown = false;
 
     constructor() {
         super();
@@ -32,83 +34,71 @@ export class DoctorRepulsor extends Script {
             return;
         }
         const q = this.myHero.getTool(0) as IEntityAbility;
-        // console.log(q.canActivate);
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(515);
-        if (!enemyHero) {
-            return;
-        }
-        const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
+        const goodEnemies = this.myHero
+            .getEnemiesInRange(q.getDynamicRange())
+            .filter((ene) => !ene.isMagicImmune() && !ene.isInvulnerable());
 
-        if (this.goodTimeToResetAttack()) {
-            this.justCasted.delay(100);
-            ACTION.castSpell2(this.myHero, 0);
+        if (goodEnemies.length < 2) {
+            this.doQAcurateLogic();
+            return;
+        }
+        const castPos = findBestLinearCast(this.myHero, q.getDynamicRange() + 20, 90, 100, 2200, goodEnemies, 2, 80);
+
+        if (!castPos) {
+            this.doQAcurateLogic();
             return;
         }
 
-        if (this.isSpeeding() && dist < 260) {
-            this.justCasted.delay(100);
-            ACTION.castSpell2(this.myHero, 0);
-            return;
-        }
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, castPos.x, castPos.y);
     }
 
-    doWLogic() {
+    doQAcurateLogic() {
         if (!this.justCasted.isTrue()) {
             return;
         }
-        const w = this.myHero.getTool(1) as IEntityAbility;
-        if (!w.canActivate()) {
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(w.getDynamicRange() + 30);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 20);
         if (!enemyHero) {
             return;
         }
-        this.justCasted.delay(300);
-        ACTION.castSpellEntity(this.myHero, 1, enemyHero);
+
+        const turnMs = this.myHero.getMsToTurnToPos(enemyHero.position);
+
+        const castLocation = opPrediction(this.myHero.position, enemyHero, 2200, 100 + turnMs, q.getDynamicRange(), 70);
+        if (!castLocation) {
+            return;
+        }
+
+        this.justCasted.delay(250);
+        ACTION.castSpellPosition(this.myHero, 0, castLocation.x, castLocation.y);
+    }
+
+    doELogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const e = this.myHero.getTool(2) as IEntityAbility;
+        if (!e.canActivate()) {
+            return;
+        }
+
+        this.justCasted.delay(50);
+        ACTION.castSpell2(this.myHero, 2);
     }
 
     doEAAResetCheck() {
         const e = this.myHero.getTool(2) as IEntityAbility;
-        if (!e.isReady() && !this.electricFenzyOnCooldown) {
+        if (!e.isReady() && !this.emberShardOnCooldown) {
             this.orbwalker.resetAttackCooldown();
         }
-        this.electricFenzyOnCooldown = !e.isReady();
-    }
-
-    doRLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const r = this.myHero.getTool(3) as IEntityAbility;
-        if (!r.canActivate() || this.myHero.getManaPercent() < 48) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(700);
-        if (!enemyHero) {
-            return;
-        }
-
-        const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
-        if (enemyHero.isDisabled() && dist < 500) {
-            return;
-        }
-
-        // if (dist > 450 || this.goodTimeToResetAttack()) {
-        const castLocation = Vector2d.extendTo(enemyHero.position, this.myHero.position, -250);
-        // const castLocation = Vector2d.extendTo(this.myHero.position, enemyHero.position, Math.max(dist - 250, 50));
-        // const castLocation = enemyHero.position;
-
-        this.justCasted.delay(130);
-        ACTION.castSpellPosition(this.myHero, 3, castLocation.x, castLocation.y);
-        // }
-    }
-
-    private isSpeeding() {
-        return this.myHero.hasTool("State_DoctorRepulsor_Ability4");
+        this.emberShardOnCooldown = !e.isReady();
     }
 
     private goodTimeToResetAttack() {
@@ -116,30 +106,6 @@ export class DoctorRepulsor extends Script {
         const goodTimeToReset = !this.orbwalker.canAttack.isTrue(280) && this.orbwalker.canMove.isTrue();
         return canResetAttack && goodTimeToReset;
     }
-
-    private tryEscape() {
-        // const troublePoints = getTroublePoints(this.myHero);
-
-        // console.log(`getTroublePoints ${troublePoints}`);
-
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const r = this.myHero.getTool(3) as IEntityAbility;
-        if (!r.canActivate() || this.myHero.getManaPercent() < 20) {
-            return;
-        }
-        const troublePoints = getTroublePoints(this.myHero);
-        const enemiesInRange = this.myHero.getEnemiesInRange(800).length;
-
-        if (troublePoints > 65 && enemiesInRange > 0) {
-            const castLocation = Vector2d.extendTo(this.myHero.position, this.myBase.position, 1200);
-
-            this.justCasted.delay(130);
-            ACTION.castSpellPosition(this.myHero, 3, castLocation.x, castLocation.y);
-        }
-    }
-
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
@@ -159,8 +125,15 @@ export class DoctorRepulsor extends Script {
             return;
         }
 
-        this.tryEscape();
-        tryEvade(this.myHero, this.orbwalker, this.justCasted);
+        tryEvade(this.myHero, this.orbwalker, this.justCasted, () => {
+            const w = this.myHero.getTool(1) as IEntityAbility;
+            if (!w.canActivate()) {
+                return;
+            }
+            this.justCasted.delay(200);
+            const pos = Vector2d.extendTo(this.myHero.position, this.myBase.position, 450);
+            ACTION.castSpellPosition(this.myHero, 1, pos.x, pos.y);
+        });
         tryUseAllItems(this.myHero, this.justCasted);
 
         if (!INPUT.isControlDown()) return;
@@ -182,10 +155,12 @@ export class DoctorRepulsor extends Script {
         //     }
         // });
 
-        this.doQLogic();
-        this.doWLogic();
-        if (this.orbwalker.canMove.isTrue()) {
-            this.doRLogic();
+        if (this.goodTimeToResetAttack()) {
+            this.doELogic();
+        }
+
+        if (this.orbwalker.isNotAttacking.isTrue()) {
+            this.doQLogic();
         }
 
         if (this.justCasted.isTrue()) {
@@ -211,6 +186,6 @@ export class DoctorRepulsor extends Script {
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
         // Delay automatic actions if manual was preformed
-        this.justCasted.delay(100);
+        this.justCasted.delay(50);
     }
 }

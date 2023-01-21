@@ -6,15 +6,16 @@ import { Vector2d } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { Orbwalker } from "./Orbwalker";
 import { INPUT } from "../input/Input";
+import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 
 export function tryUseAllItems(unit: IUnitEntity, justCasted: DelayedCondition) {
     doShrunkensLogic(unit, justCasted);
+    doAstrolabeLogic(unit, justCasted);
     doInsantariusLogic(unit, justCasted);
     doExcruciatorLogic(unit, justCasted);
     doSheepstickLogic(unit, justCasted);
-    doFauxBowLogic(unit, justCasted);
+    // doFauxBowLogic(unit, justCasted);
     doBarrierIdolLogic(unit, justCasted);
-    doAstrolabeLogic(unit, justCasted);
     doArmorOfTheMadMage(unit, justCasted);
     doCodexLogic(unit, justCasted);
     doDreamCatcherLogic(unit, justCasted);
@@ -31,7 +32,7 @@ export function tryUseAllItems(unit: IUnitEntity, justCasted: DelayedCondition) 
 export const fauxBowTargetMap: { [k: number]: number | undefined} = {};
 
 export function doFauxBowLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
-    if (!justCasted.isTrue()) {
+    if (!justCasted.isTrue() || unit.isStealth()) {
         return;
     }
 
@@ -48,7 +49,7 @@ export function doFauxBowLogic(unit: IUnitEntity, justCasted: DelayedCondition) 
         return;
     }
 
-    const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(fausBow.item.getDynamicRange());
+    const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(fausBow.item.getDynamicRange() + 30);
     if (!enemyHero) {
         return;
     }
@@ -58,7 +59,11 @@ export function doFauxBowLogic(unit: IUnitEntity, justCasted: DelayedCondition) 
 }
 
 export function doGhostMarchersLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
-    if (!justCasted.isTrue() || INPUT.isShiftDown()) {
+    if (!justCasted.isTrue() || INPUT.isShiftDown()  || unit.isStealth()) {
+        return;
+    }
+    const velo = VELOCITY_UPDATER.getVelocity(unit);
+    if (velo.x == 0 && velo.y == 0) {
         return;
     }
     const boots = unit.getItem("Item_EnhancedMarchers");
@@ -75,7 +80,7 @@ export function doGhostMarchersLogic(unit: IUnitEntity, justCasted: DelayedCondi
 
 const insantariusOnCooldown = new DelayedCondition();
 export function doInsantariusLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
-    if (!justCasted.isTrue()) {
+    if (!justCasted.isTrue() || unit.isStealth()) {
         return;
     }
     const insantarius = unit.getItem("Item_Insanitarius");
@@ -91,7 +96,7 @@ export function doInsantariusLogic(unit: IUnitEntity, justCasted: DelayedConditi
     }
     if (isInsantariusActive()) {
         if (insantariusOnCooldown.isTrue()) {
-            if (unit.getEnemiesInRange(850).length == 0) {
+            if (unit.getEnemiesInRange(950).length == 0) {
                 justCasted.delay(50);
                 insantariusOnCooldown.delay(200);
                 ACTION.castSpell2(unit, insantarius.index);
@@ -123,7 +128,7 @@ export function doInsantariusLogic(unit: IUnitEntity, justCasted: DelayedConditi
 }
 
 export function doShrunkensLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
-    if (!justCasted.isTrue()) {
+    if (!justCasted.isTrue() || unit.isStealth()) {
         return;
     }
     const shrunken = unit.getItem("Item_Immunity");
@@ -210,7 +215,7 @@ export function doArmorOfTheMadMage(unit: IUnitEntity, justCasted: DelayedCondit
     if (!armor) {
         return;
     }
-    if (!armor.item.canActivate()) {
+    if (!armor.item.canActivate() || unit.getHealthPercent() > 75) {
         return;
     }
     const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
@@ -243,7 +248,7 @@ export function doGrimoireOfPowerLogic(unit: IUnitEntity, justCasted: DelayedCon
 }
 
 export function doHypercrownLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
-    if (!justCasted.isTrue()) {
+    if (!justCasted.isTrue() || unit.isStealth()) {
         return;
     }
     const hypercrown = unit.getItem("Item_Hypercrown");
@@ -263,9 +268,12 @@ export function doHypercrownLogic(unit: IUnitEntity, justCasted: DelayedConditio
 }
 
 export function doElderParasite(unit: IUnitEntity, justCasted: DelayedCondition) {
-    if (!justCasted.isTrue() || unit.isDead()) {
+    if (!justCasted.isTrue() || unit.isDead() || unit.isStealth() ) {
         return;
     }
+
+    if (!INPUT.isControlDown()) return;
+    
     const elder = unit.getItem("Item_ElderParasite");
     if (!elder) {
         return;
@@ -283,7 +291,7 @@ export function doElderParasite(unit: IUnitEntity, justCasted: DelayedCondition)
 }
 
 export function doLexTalionisLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
-    if (!justCasted.isTrue()) {
+    if (!justCasted.isTrue() || unit.isStealth()) {
         return;
     }
     const nullfire = unit.getItem("Item_LexTalionis");
@@ -367,7 +375,7 @@ export function doDreamCatcherLogic(unit: IUnitEntity, justCasted: DelayedCondit
         OBJECT_MANAGER.myHero,
         (hero) => !hero.hasTool("State_Dreamcatcher_Enemy")
     );
-    if (!enemyHero) {
+    if (!enemyHero || enemyHero.getHealthPercent() > 75) {
         return;
     }
     justCasted.delay(150);
@@ -392,7 +400,7 @@ export function doCodexLogic(unit: IUnitEntity, justCasted: DelayedCondition) {
         return;
     }
 
-    if (enemyHero.getCurrentMagicalHealth() > 200 + codex.item.level * 150) {
+    if (enemyHero.getCurrentMagicalHealth() > 170 + codex.item.level * 150) {
         return;
     }
 

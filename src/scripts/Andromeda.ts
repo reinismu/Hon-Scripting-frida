@@ -13,6 +13,7 @@ import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
 import { opPrediction } from "../utils/Prediction";
+import { tryEvade } from "../logics/Evade";
 
 export class Andromeda extends Script {
     private justCasted = new DelayedCondition();
@@ -53,7 +54,7 @@ export class Andromeda extends Script {
             return;
         }
 
-        const castLocation = opPrediction(this.myHero, enemyHero, 1400, 0, w.getDynamicRange() + 50, 250);
+        const castLocation = opPrediction(this.myHero.position, enemyHero, 1400, 0, w.getDynamicRange() + 50, 250);
         if (!castLocation) {
             return;
         }
@@ -98,7 +99,7 @@ export class Andromeda extends Script {
         const teleAllies = this.myHero
             .getAlliesInRange(r.getDynamicRange())
             .filter(
-                h => h.getHealthPercent() > this.myHero.getHealthPercent() && enemiesFightingMeCount < h.getEnemiesFightingMe(650).length
+                (h) => h.getHealthPercent() > this.myHero.getHealthPercent() && enemiesFightingMeCount < h.getEnemiesFightingMe(650).length
             );
 
         if (teleAllies.length > 0) {
@@ -113,7 +114,7 @@ export class Andromeda extends Script {
         this.illusionController.refreshHero(this.myHero);
         this.illusionController.control(this.myHero.level > 12);
 
-
+        tryEvade(this.myHero, this.orbwalker, this.justCasted);
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
             return;
@@ -127,8 +128,6 @@ export class Andromeda extends Script {
         if (this.myHero.isStaffed()) {
             this.doRLogic();
         }
-
-
 
         if (!INPUT.isControlDown()) return;
 
@@ -156,12 +155,9 @@ export class Andromeda extends Script {
         }
     }
 
-    // @Subscribe("SendGameDataEvent")
-    // onSendGameDataEvent(args: NativePointer[]) {
-    //     // if (!INPUT.isControlDown()) return;
-
-    //     const buffer = new MyBuffer(args[1]);
-    //     const data = new Uint8Array(buffer.dataBuffer);
-    //     console.log(data);
-    // }
+    @Subscribe("SendGameDataEvent")
+    onSendGameDataEvent(args: NativePointer[]) {
+        // Delay automatic actions if manual was preformed
+        this.justCasted.delay(100);
+    }
 }

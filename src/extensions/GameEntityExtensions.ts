@@ -1,4 +1,13 @@
-import { IUnitEntity, IEntityItem, IEntityState, IEntityAbility, ISlaveEntity, IHeroEntity, IVisualEntity, IProjectile } from "../honIdaStructs";
+import {
+    IUnitEntity,
+    IEntityItem,
+    IEntityState,
+    IEntityAbility,
+    ISlaveEntity,
+    IHeroEntity,
+    IVisualEntity,
+    IProjectile,
+} from "../honIdaStructs";
 import { tryGetTypeInfo } from "../objects/RTTI";
 import { SHARED_MODULE, IGAME } from "../game/Globals";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
@@ -9,20 +18,20 @@ const toolInitMap = new Map([
         "11IEntityItem",
         (ptr: NativePointer): ISlaveEntity => {
             return new IEntityItem(ptr);
-        }
+        },
     ],
     [
         "12IEntityState",
         (ptr: NativePointer): ISlaveEntity => {
             return new IEntityState(ptr);
-        }
+        },
     ],
     [
         "14IEntityAbility",
         (ptr: NativePointer): ISlaveEntity => {
             return new IEntityAbility(ptr);
-        }
-    ]
+        },
+    ],
 ]);
 
 const magicImmunityStates = new Set([
@@ -30,11 +39,11 @@ const magicImmunityStates = new Set([
     "State_Jereziah_Ability2",
     "State_Item3E" /* Shrunken*/,
     "State_Predator_Ability2",
-    "State_Hiro_Ability1" /* Swiftblade Q */
-    // TODO add andro
+    "State_Hiro_Ability1" /* Swiftblade Q */,
+    "State_Rhapsody_Ability4_Buff" /* Rhapsody ult Q */,
 ]);
 
-const physicalImmunityStates = new Set(["State_Accursed_Ability4", "State_VoidTalisman"]);
+const physicalImmunityStates = new Set(["State_Accursed_Ability4", "State_VoidTalisman", "State_Rhapsody_Ability4_Buff"]);
 
 declare module "../honIdaStructs" {
     interface IUnitEntity {
@@ -86,16 +95,18 @@ declare module "../honIdaStructs" {
         isBarbed(): boolean;
         isStaffed(): boolean;
         isDisabled(): boolean;
+        isDisarmed(): boolean;
         isSilenced(): boolean;
         isMelee(): boolean;
+        isStealth(): boolean;
         hasTool(name: string): boolean;
         hasAnyOfTool(names: Set<string>): boolean;
-        getEnemiesFightingMe(range: number): IHeroEntity[]
-        getEnemiesInRange(range: number): IHeroEntity[]
-        getAlliesInRange(range: number): IHeroEntity[]
-        getAllAlliesInRange(range: number): IUnitEntity[]
-        getAllEnemiesInRange(range: number): IUnitEntity[]
-        getAllOthersInRange(range: number): IUnitEntity[]
+        getEnemiesFightingMe(range: number): IHeroEntity[];
+        getEnemiesInRange(range: number): IHeroEntity[];
+        getAlliesInRange(range: number): IHeroEntity[];
+        getAllAlliesInRange(range: number): IUnitEntity[];
+        getAllEnemiesInRange(range: number): IUnitEntity[];
+        getAllOthersInRange(range: number): IUnitEntity[];
     }
 
     interface IHeroEntity {
@@ -121,31 +132,23 @@ function radianToDegree(rad: number): number {
     return (rad * 180) / Math.PI;
 }
 
-
-IProjectile.prototype.facingVector = function(deltaAngle: number = 0): { x: number; y: number } {
+IProjectile.prototype.facingVector = function (deltaAngle: number = 0): { x: number; y: number } {
     const self = this as IUnitEntity;
     const radians = (self.projectileAngle + deltaAngle) * 0.01745329252 + Math.PI / 2;
     return { x: Math.cos(radians), y: Math.sin(radians) };
 };
 
-IUnitEntity.prototype.turnAngle = function(pos: Vec2): number {
+IUnitEntity.prototype.turnAngle = function (pos: Vec2): number {
     const self = this as IUnitEntity;
     return turnAngle(self, pos);
 };
 
-IUnitEntity.prototype.callFloatVTable = function(offset: number): number {
+IUnitEntity.prototype.callFloatVTable = function (offset: number): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(offset)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(offset).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getFinalMinAttackDamage = function(): number {
+IUnitEntity.prototype.getFinalMinAttackDamage = function (): number {
     const self = this as IUnitEntity;
     const baseMinAttackDmg = self.getMinAttackDamage();
     const baseMaxAttackDmg = self.getMaxAttackDamage();
@@ -156,7 +159,7 @@ IUnitEntity.prototype.getFinalMinAttackDamage = function(): number {
     return (avgBaseAttackDmg * baseAttackDmgModifier + additonalAttackDamage) * allAttackDmgModifier - avgBaseAttackDmg + baseMinAttackDmg;
 };
 
-IUnitEntity.prototype.getFinalMaxAttackDamage = function(): number {
+IUnitEntity.prototype.getFinalMaxAttackDamage = function (): number {
     const self = this as IUnitEntity;
     const baseMinAttackDmg = self.getMinAttackDamage();
     const baseMaxAttackDmg = self.getMaxAttackDamage();
@@ -167,50 +170,43 @@ IUnitEntity.prototype.getFinalMaxAttackDamage = function(): number {
     return (avgBaseAttackDmg * baseAttackDmgModifier + additonalAttackDamage) * allAttackDmgModifier - avgBaseAttackDmg + baseMaxAttackDmg;
 };
 
-IUnitEntity.prototype.getMinAttackDamage = function(): number {
+IUnitEntity.prototype.getMinAttackDamage = function (): number {
     const self = this as IUnitEntity;
     return self.callFloatVTable(0xd08);
 };
 
-IUnitEntity.prototype.getAdditionalAttackDamage = function(): number {
+IUnitEntity.prototype.getAdditionalAttackDamage = function (): number {
     const self = this as IUnitEntity;
     return self.callFloatVTable(0x868);
 };
 
-IUnitEntity.prototype.getMaxAttackDamage = function(): number {
+IUnitEntity.prototype.getMaxAttackDamage = function (): number {
     const self = this as IUnitEntity;
     return self.callFloatVTable(0xd10);
 };
 
-IUnitEntity.prototype.getMsToTurnToPos = function(pos: Vec2): number {
+IUnitEntity.prototype.getMsToTurnToPos = function (pos: Vec2): number {
     const angle = turnAngle(this as IUnitEntity, pos);
     // TODO: implement turn rate
     return angle * 0.8; // Magic number TODO fix (Works okish)
 };
 
-IUnitEntity.prototype.isFacing = function(pos: Vec2 | IUnitEntity): boolean {
+IUnitEntity.prototype.isFacing = function (pos: Vec2 | IUnitEntity): boolean {
     const angle = turnAngle(this as IUnitEntity, pos instanceof IUnitEntity ? pos.position : pos);
-    return angle < 75; 
+    return angle < 75;
 };
 
-IUnitEntity.prototype.isMelee = function(): boolean {
+IUnitEntity.prototype.isMelee = function (): boolean {
     const self = this as IUnitEntity;
-    return self.getAttackRange() < 210; 
+    return self.getAttackRange() < 210;
 };
 
-IVisualEntity.prototype.getModelId = function(): number {
+IVisualEntity.prototype.getModelId = function (): number {
     const self = this as IVisualEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x4c8)
-            .readPointer(),
-        "int",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x4c8).readPointer(), "int", ["pointer"])(self.ptr) as number;
 };
 
-IHeroEntity.prototype.isIllusion = function(): boolean {
+IHeroEntity.prototype.isIllusion = function (): boolean {
     const self = this as IHeroEntity;
     const lowestNetId = OBJECT_MANAGER.getLowestHeroEntityId(self.typeName);
     if (!lowestNetId) {
@@ -219,7 +215,7 @@ IHeroEntity.prototype.isIllusion = function(): boolean {
     return self.networkId > lowestNetId;
 };
 
-IUnitEntity.prototype.getTool = function(index: number): ISlaveEntity | null {
+IUnitEntity.prototype.getTool = function (index: number): ISlaveEntity | null {
     const self = this as IUnitEntity;
     const ptr = self.ptr.add(0x408 + index * 8).readPointer();
     if (ptr.isNull()) return null;
@@ -233,7 +229,7 @@ IUnitEntity.prototype.getTool = function(index: number): ISlaveEntity | null {
     return new ISlaveEntity(ptr);
 };
 
-IUnitEntity.prototype.getItem = function(name: string): { index: number; item: IEntityItem } | null {
+IUnitEntity.prototype.getItem = function (name: string): { index: number; item: IEntityItem } | null {
     const self = this as IUnitEntity;
     for (let i = 48; i < 66; i++) {
         const tool = self.getTool(i);
@@ -247,21 +243,25 @@ IUnitEntity.prototype.getItem = function(name: string): { index: number; item: I
     return null;
 };
 
-const isEnemy = new NativeFunction(SHARED_MODULE.getExportByName("_ZNK11IUnitEntity7IsEnemyEPS_"), "bool", ["pointer", "pointer"]);
+const isEnemyNative = new NativeFunction(SHARED_MODULE.getExportByName("_ZNK11IUnitEntity7IsEnemyEPS_"), "bool", ["pointer", "pointer"]);
 
-IUnitEntity.prototype.isEnemy = function(entity: IUnitEntity): boolean {
+IUnitEntity.prototype.isEnemy = function (entity: IUnitEntity): boolean {
     const self = this as IUnitEntity;
-    return isEnemy(self.ptr, entity.ptr) as boolean;
+    return isEnemyNative(self.ptr, entity.ptr) as unknown as boolean;
 };
 
-const hasModifier = new NativeFunction(SHARED_MODULE.getExportByName("_ZNK11IGameEntity11HasModifierERKNSt3__112basic_stringIwNS0_11char_traitsIwEE17K2StringAllocatorIwEEE"), "bool", ["pointer", "pointer"]);
+const hasModifier = new NativeFunction(
+    SHARED_MODULE.getExportByName("_ZNK11IGameEntity11HasModifierERKNSt3__112basic_stringIwNS0_11char_traitsIwEE17K2StringAllocatorIwEEE"),
+    "bool",
+    ["pointer", "pointer"]
+);
 
-IUnitEntity.prototype.hasModifier = function(name: string): boolean {
+IUnitEntity.prototype.hasModifier = function (name: string): boolean {
     const self = this as IUnitEntity;
-    return hasModifier(self.ptr, Memory.allocUtf8String(name)) as boolean;
+    return hasModifier(self.ptr, Memory.allocUtf8String(name)) as unknown as boolean;
 };
 
-IUnitEntity.prototype.hasTool = function(name: string): boolean {
+IUnitEntity.prototype.hasTool = function (name: string): boolean {
     const self = this as IUnitEntity;
     for (let i = 0; i < 80; i++) {
         const tool = self.getTool(i);
@@ -273,7 +273,7 @@ IUnitEntity.prototype.hasTool = function(name: string): boolean {
     return false;
 };
 
-IUnitEntity.prototype.hasAnyOfTool = function(names: Set<string>): boolean {
+IUnitEntity.prototype.hasAnyOfTool = function (names: Set<string>): boolean {
     const self = this as IUnitEntity;
     for (let i = 0; i < 80; i++) {
         const tool = self.getTool(i);
@@ -285,13 +285,13 @@ IUnitEntity.prototype.hasAnyOfTool = function(names: Set<string>): boolean {
     return false;
 };
 
-IUnitEntity.prototype.isStaffed = function(): boolean {
+IUnitEntity.prototype.isStaffed = function (): boolean {
     const self = this as IUnitEntity;
     // TODO check for buff
     return self.hasAnyOfTool(new Set(["Item_Intelligence7", "Item_MastersLegacy", "State_MastersLegacy"]));
 };
 
-IUnitEntity.prototype.isDisabled = function(): boolean {
+IUnitEntity.prototype.isDisabled = function (): boolean {
     const self = this as IUnitEntity;
     // TODO check for buff
     return self.hasAnyOfTool(
@@ -306,13 +306,19 @@ IUnitEntity.prototype.isDisabled = function(): boolean {
     );
 };
 
-IUnitEntity.prototype.isSilenced = function(): boolean {
+IUnitEntity.prototype.isDisarmed = function (): boolean {
+    const self = this as IUnitEntity;
+    // TODO check for buff
+    return self.hasAnyOfTool(new Set(["State_SpikedBola", "State_Vindicator_Ability1_Enemy"]));
+};
+
+IUnitEntity.prototype.isSilenced = function (): boolean {
     const self = this as IUnitEntity;
     // TODO check for buff
     return self.hasAnyOfTool(new Set(["State_Item5K"]));
 };
 
-IUnitEntity.prototype.isMagicImmune = function(): boolean {
+IUnitEntity.prototype.isMagicImmune = function (): boolean {
     const self = this as IUnitEntity;
     for (let i = 0; i < 80; i++) {
         const tool = self.getTool(i);
@@ -324,7 +330,7 @@ IUnitEntity.prototype.isMagicImmune = function(): boolean {
     return false;
 };
 
-IUnitEntity.prototype.isPhysicalImmune = function(): boolean {
+IUnitEntity.prototype.isPhysicalImmune = function (): boolean {
     const self = this as IUnitEntity;
     for (let i = 0; i < 80; i++) {
         const tool = self.getTool(i);
@@ -336,7 +342,7 @@ IUnitEntity.prototype.isPhysicalImmune = function(): boolean {
     return false;
 };
 
-IUnitEntity.prototype.isBarbed = function(): boolean {
+IUnitEntity.prototype.isBarbed = function (): boolean {
     const self = this as IUnitEntity;
     for (let i = 0; i < 80; i++) {
         const tool = self.getTool(i);
@@ -348,57 +354,37 @@ IUnitEntity.prototype.isBarbed = function(): boolean {
     return false;
 };
 
-IUnitEntity.prototype.isInvulnerable = function(): boolean {
+IUnitEntity.prototype.isInvulnerable = function (): boolean {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x9D8)
-            .readPointer(),
-        "bool",
-        ["pointer"]
-    )(self.ptr) as boolean;
+    return new NativeFunction(self.ptr.readPointer().add(0x9d8).readPointer(), "bool", ["pointer"])(self.ptr) as unknown as boolean;
 };
 
-IUnitEntity.prototype.isDead = function(): boolean {
+IUnitEntity.prototype.isDead = function (): boolean {
     const self = this as IUnitEntity;
     return self.isAlive != 1;
 };
 
-IUnitEntity.prototype.getArmor = function(): number {
+IUnitEntity.prototype.isStealth = function (): boolean {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x720)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0xae0).readPointer(), "bool", ["pointer", "long"])(
+        self.ptr,
+        1
+    ) as unknown as boolean;
 };
 
-IUnitEntity.prototype.getArmorPercentage = function(): number {
+IUnitEntity.prototype.getArmor = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x700)
-            .readPointer(),
-        "int",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x720).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getMagicArmorPercentage = function(): number {
+IUnitEntity.prototype.getArmorPercentage = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x710)
-            .readPointer(),
-        "int",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x700).readPointer(), "int", ["pointer"])(self.ptr) as number;
+};
+
+IUnitEntity.prototype.getMagicArmorPercentage = function (): number {
+    const self = this as IUnitEntity;
+    return new NativeFunction(self.ptr.readPointer().add(0x710).readPointer(), "int", ["pointer"])(self.ptr) as number;
 };
 
 const getArmorDamageAdjustment = new NativeFunction(
@@ -407,221 +393,117 @@ const getArmorDamageAdjustment = new NativeFunction(
     ["pointer", "int", "float"]
 );
 
-IUnitEntity.prototype.getPhysicalResistance = function(): number {
+IUnitEntity.prototype.getPhysicalResistance = function (): number {
     const self = this as IUnitEntity;
     return getArmorDamageAdjustment(IGAME.gameMechanics.ptr, self.getArmorPercentage(), self.getArmor()) as number;
 };
 
-IUnitEntity.prototype.getMagicalResistance = function(): number {
+IUnitEntity.prototype.getMagicalResistance = function (): number {
     const self = this as IUnitEntity;
     return getArmorDamageAdjustment(IGAME.gameMechanics.ptr, self.getMagicArmorPercentage(), self.getMagicArmor()) as number;
 };
 
-IUnitEntity.prototype.getMagicArmor = function(): number {
+IUnitEntity.prototype.getMagicArmor = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x728)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x728).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
 // Gets how much physical damage must be done to kill
-IUnitEntity.prototype.getCurrentPhysicalHealth = function(): number {
+IUnitEntity.prototype.getCurrentPhysicalHealth = function (): number {
     const self = this as IUnitEntity;
     return self.health / (1 - self.getPhysicalResistance());
 };
 
 // Gets how much physical damage must be done to kill
-IUnitEntity.prototype.getCurrentMagicalHealth = function(): number {
+IUnitEntity.prototype.getCurrentMagicalHealth = function (): number {
     const self = this as IUnitEntity;
     return self.health / (1 - self.getMagicalResistance());
 };
 
-IUnitEntity.prototype.getCurrentHealth = function(): number {
+IUnitEntity.prototype.getCurrentHealth = function (): number {
     const self = this as IUnitEntity;
     return self.health;
 };
 
-IUnitEntity.prototype.getHealthPercent = function(): number {
+IUnitEntity.prototype.getHealthPercent = function (): number {
     const self = this as IUnitEntity;
-    return (
-        (new NativeFunction(
-            self.ptr
-                .readPointer()
-                .add(0xa98)
-                .readPointer(),
-            "float",
-            ["pointer"]
-        )(self.ptr) as number) * 100
-    );
+    return (new NativeFunction(self.ptr.readPointer().add(0xa98).readPointer(), "float", ["pointer"])(self.ptr) as number) * 100;
 };
 
-IUnitEntity.prototype.getMaxHealth = function(): number {
+IUnitEntity.prototype.getMaxHealth = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x680)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x680).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getHealthRegen = function(): number {
+IUnitEntity.prototype.getHealthRegen = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x6a0)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x6a0).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getMana = function(): number {
+IUnitEntity.prototype.getMana = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0xab8)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0xab8).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getMaxMana = function(): number {
+IUnitEntity.prototype.getMaxMana = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x6c0)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x6c0).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getManaPercent = function(): number {
+IUnitEntity.prototype.getManaPercent = function (): number {
     const self = this as IUnitEntity;
-    return self.getMana() * 100 / self.getMaxMana();
+    return (self.getMana() * 100) / self.getMaxMana();
 };
 
-IUnitEntity.prototype.getManaRegen = function(): number {
+IUnitEntity.prototype.getManaRegen = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x6e0)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x6e0).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getMoveSpeed = function(smth: boolean = true): number {
+IUnitEntity.prototype.getMoveSpeed = function (smth: boolean = true): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x780)
-            .readPointer(),
-        "float",
-        ["pointer", "char"]
-    )(self.ptr, smth ? 1 : 0) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x780).readPointer(), "float", ["pointer", "char"])(
+        self.ptr,
+        smth ? 1 : 0
+    ) as number;
 };
 
-IUnitEntity.prototype.getEvasionMelee = function(): number {
+IUnitEntity.prototype.getEvasionMelee = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x988)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x988).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getEvasionRanged = function(): number {
+IUnitEntity.prototype.getEvasionRanged = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x978)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x978).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getAttackSpeed = function(): number {
+IUnitEntity.prototype.getAttackSpeed = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x7c8)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x7c8).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getAttackRange = function(): number {
+IUnitEntity.prototype.getAttackRange = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x7a8)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x7a8).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getAdjustedAttackCooldown = function(): number {
+IUnitEntity.prototype.getAdjustedAttackCooldown = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x10E0)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x10e0).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getAdjustedAttackActionTime = function(): number {
+IUnitEntity.prototype.getAdjustedAttackActionTime = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x10D0)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x10d0).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getAdjustedAttackDuration = function(): number {
+IUnitEntity.prototype.getAdjustedAttackDuration = function (): number {
     const self = this as IUnitEntity;
-    return new NativeFunction(
-        self.ptr
-            .readPointer()
-            .add(0x10D8)
-            .readPointer(),
-        "float",
-        ["pointer"]
-    )(self.ptr) as number;
+    return new NativeFunction(self.ptr.readPointer().add(0x10d8).readPointer(), "float", ["pointer"])(self.ptr) as number;
 };
 
-IUnitEntity.prototype.getCanAttack = function(): boolean {
+IUnitEntity.prototype.getCanAttack = function (): boolean {
     const self = this as IUnitEntity;
     return new NativeFunction(
         self.ptr
@@ -630,74 +512,72 @@ IUnitEntity.prototype.getCanAttack = function(): boolean {
             .readPointer(),
         "bool",
         ["pointer"]
-    )(self.ptr) as boolean;
+    )(self.ptr) as unknown as boolean;
 };
 
-IUnitEntity.prototype.facingVector = function(deltaAngle: number = 0): { x: number; y: number } {
+IUnitEntity.prototype.facingVector = function (deltaAngle: number = 0): { x: number; y: number } {
     const self = this as IUnitEntity;
     const radians = (self.facingAngle + deltaAngle) * 0.01745329252 + Math.PI / 2;
     return { x: Math.cos(radians), y: Math.sin(radians) };
 };
 
-IUnitEntity.prototype.getEnemiesFightingMe = function(range: number): IHeroEntity[] {
+IUnitEntity.prototype.getEnemiesFightingMe = function (range: number): IHeroEntity[] {
     const self = this as IUnitEntity;
-    return self.getEnemiesInRange(range).filter(
-        h => h.isFacing(self)
-    )
+    return self.getEnemiesInRange(range).filter((h) => h.isFacing(self));
 };
 
-IUnitEntity.prototype.getAllAlliesInRange = function(range: number): IUnitEntity[] {
+IUnitEntity.prototype.getAllAlliesInRange = function (range: number): IUnitEntity[] {
     const self = this as IUnitEntity;
     const heroEnemies = OBJECT_MANAGER.heroes.filter(
-        h => h !== self && h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
-    )
+        (h) => h !== self && h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+    );
     const creepEnemies = OBJECT_MANAGER.creeps.filter(
-        h => h !== self && h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
-    )
+        (h) => h !== self && h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+    );
     const neutralEnemies = OBJECT_MANAGER.neutrals.filter(
-        h => h !== self && h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
-    )
-    return [...heroEnemies,...creepEnemies, ...neutralEnemies];
+        (h) => h !== self && h.health > 0 && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+    );
+    return [...heroEnemies, ...creepEnemies, ...neutralEnemies];
 };
 
-IUnitEntity.prototype.getAllEnemiesInRange = function(range: number): IUnitEntity[] {
+IUnitEntity.prototype.getAllEnemiesInRange = function (range: number): IUnitEntity[] {
     const self = this as IUnitEntity;
     const heroEnemies = OBJECT_MANAGER.heroes.filter(
-        h => h.health > 0 && h.isEnemy(self) && h.position.distance2d(self.position) < range
-    )
+        (h) => h.health > 0 && h.isEnemy(self) && h.position.distance2d(self.position) < range
+    );
     const creepEnemies = OBJECT_MANAGER.creeps.filter(
-        h => h.health > 0 && h.isEnemy(self) && h.position.distance2d(self.position) < range
-    )
+        (h) => h.health > 0 && h.isEnemy(self) && h.position.distance2d(self.position) < range
+    );
     const neutralEnemies = OBJECT_MANAGER.neutrals.filter(
-        h => h.health > 0 && h.isEnemy(self) && h.position.distance2d(self.position) < range
-    )
-    return [...heroEnemies,...creepEnemies, ...neutralEnemies];
+        (h) => h.health > 0 && h.isEnemy(self) && h.position.distance2d(self.position) < range
+    );
+    return [...heroEnemies, ...creepEnemies, ...neutralEnemies];
 };
 
-IUnitEntity.prototype.getAllOthersInRange = function(range: number): IUnitEntity[] {
+IUnitEntity.prototype.getAllOthersInRange = function (range: number): IUnitEntity[] {
     const self = this as IUnitEntity;
     const heroEnemies = OBJECT_MANAGER.heroes.filter(
-        h => h.ptr != self.ptr && h.health > 0 && !h.isIllusion() && h.position.distance2d(self.position) < range
-    )
+        (h) => h.ptr != self.ptr && h.health > 0 && !h.isIllusion() && h.position.distance2d(self.position) < range
+    );
     const creepEnemies = OBJECT_MANAGER.creeps.filter(
-        h => h.ptr != self.ptr && h.health > 0 && h.position.distance2d(self.position) < range
-    )
+        (h) => h.ptr != self.ptr && h.health > 0 && h.position.distance2d(self.position) < range
+    );
     const neutralEnemies = OBJECT_MANAGER.neutrals.filter(
-        h => h.ptr != self.ptr && h.health > 0 && h.position.distance2d(self.position) < range
-    )
-    return [...heroEnemies,...creepEnemies, ...neutralEnemies];
+        (h) => h.ptr != self.ptr && h.health > 0 && h.position.distance2d(self.position) < range
+    );
+    return [...heroEnemies, ...creepEnemies, ...neutralEnemies];
 };
 
-IUnitEntity.prototype.getEnemiesInRange = function(range: number): IHeroEntity[] {
+IUnitEntity.prototype.getEnemiesInRange = function (range: number): IHeroEntity[] {
     const self = this as IUnitEntity;
     return OBJECT_MANAGER.heroes.filter(
-        h => h.health > 0 && !h.isIllusion() && h.isEnemy(self) && h.position.distance2d(self.position) < range
-    )
+        (h) => h.health > 0 && !h.isIllusion() && h.isEnemy(self) && h.position.distance2d(self.position) < range
+    );
 };
 
-IUnitEntity.prototype.getAlliesInRange = function(range: number): IHeroEntity[] {
+IUnitEntity.prototype.getAlliesInRange = function (range: number): IHeroEntity[] {
     const self = this as IUnitEntity;
     return OBJECT_MANAGER.heroes.filter(
-        h => self !== h && h.health > 0 && !h.isIllusion() && !h.isEnemy(self) && h.position.distance2d(self.position) < range
-    )
+        (h) => self !== h && h.health > 0 && !h.isIllusion() && !h.isEnemy(self) && h.position.distance2d(self.position) < range
+    );
 };

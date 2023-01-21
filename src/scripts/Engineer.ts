@@ -1,6 +1,6 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { IEntityAbility } from "../honIdaStructs";
+import { IEntityAbility, IGadgetEntity } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
 import { getTroublePoints, TARGET_SELECTOR } from "../logics/TargetSelector";
@@ -14,8 +14,9 @@ import { GRAPHICS } from "../graphics/Graphics";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { tryUseAllItems } from "../logics/Items";
 import { tryEvade } from "../logics/Evade";
+import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 
-export class DoctorRepulsor extends Script {
+export class Engineer extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
@@ -25,34 +26,6 @@ export class DoctorRepulsor extends Script {
     constructor() {
         super();
         EventBus.getDefault().register(this);
-    }
-
-    doQLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
-        const q = this.myHero.getTool(0) as IEntityAbility;
-        // console.log(q.canActivate);
-        if (!q.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(515);
-        if (!enemyHero) {
-            return;
-        }
-        const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
-
-        if (this.goodTimeToResetAttack()) {
-            this.justCasted.delay(100);
-            ACTION.castSpell2(this.myHero, 0);
-            return;
-        }
-
-        if (this.isSpeeding() && dist < 260) {
-            this.justCasted.delay(100);
-            ACTION.castSpell2(this.myHero, 0);
-            return;
-        }
     }
 
     doWLogic() {
@@ -71,83 +44,74 @@ export class DoctorRepulsor extends Script {
         ACTION.castSpellEntity(this.myHero, 1, enemyHero);
     }
 
-    doEAAResetCheck() {
-        const e = this.myHero.getTool(2) as IEntityAbility;
-        if (!e.isReady() && !this.electricFenzyOnCooldown) {
-            this.orbwalker.resetAttackCooldown();
-        }
-        this.electricFenzyOnCooldown = !e.isReady();
-    }
-
-    doRLogic() {
+    doELogic() {
         if (!this.justCasted.isTrue()) {
             return;
         }
-        const r = this.myHero.getTool(3) as IEntityAbility;
-        if (!r.canActivate() || this.myHero.getManaPercent() < 48) {
+        const e = this.myHero.getTool(2) as IEntityAbility;
+        if (!e.canActivate() || this.getMines().length >= this.getMaxPlacedMines()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(700);
+        const mine = this.findClosestMine(e.getDynamicRange() + 30);
+        if (!mine) {
+            return;
+        }
+        this.justCasted.delay(100);
+        ACTION.castSpellPosition(this.myHero, 2, mine.position.x, mine.position.y);
+    }
+
+    doTabletLogic() {
+        if (!this.justCasted.isTrue()) {
+            return;
+        }
+        const tablet = this.myHero.getItem("Item_PushStaff");
+        if (!tablet) {
+            return;
+        }
+        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(tablet.item.getDynamicRange() + 30, this.myHero, (hero) => {
+            const eneVelocity = VELOCITY_UPDATER.getVelocity(hero);
+            const enemyPositionAfterDelay = Vector2d.add(hero.position, Vector2d.mul(eneVelocity, 1000));
+            const jumpPosition = Vector2d.extendTo(hero.position, enemyPositionAfterDelay, 500);
+            return !!this.getMines().find((m) => m.position.distance2d(jumpPosition) < 200);
+        });
+        // const mine = this.findClosestMine(e.getDynamicRange());
         if (!enemyHero) {
             return;
         }
-
-        const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
-        if (enemyHero.isDisabled() && dist < 500) {
-            return;
-        }
-
-        // if (dist > 450 || this.goodTimeToResetAttack()) {
-        const castLocation = Vector2d.extendTo(enemyHero.position, this.myHero.position, -250);
-        // const castLocation = Vector2d.extendTo(this.myHero.position, enemyHero.position, Math.max(dist - 250, 50));
-        // const castLocation = enemyHero.position;
-
-        this.justCasted.delay(130);
-        ACTION.castSpellPosition(this.myHero, 3, castLocation.x, castLocation.y);
-        // }
+        this.justCasted.delay(100);
+        ACTION.castSpellEntity(this.myHero, tablet.index, enemyHero);
     }
 
-    private isSpeeding() {
-        return this.myHero.hasTool("State_DoctorRepulsor_Ability4");
+    getMaxPlacedMines() {
+        const e = this.myHero.getTool(2) as IEntityAbility;
+        const minesPerLevel = [0, 3, 3, 4, 5];
+        return minesPerLevel[e.level];
     }
 
-    private goodTimeToResetAttack() {
-        const canResetAttack = (this.myHero.getTool(2) as IEntityAbility).isReady();
-        const goodTimeToReset = !this.orbwalker.canAttack.isTrue(280) && this.orbwalker.canMove.isTrue();
-        return canResetAttack && goodTimeToReset;
+    getMines() {
+        const me = this.myHero;
+        const mines = OBJECT_MANAGER.gadgets.filter(
+            (gadget) => !gadget.isDead() && gadget.typeName === "Gadget_Engineer_Ability3" && !gadget.isEnemy(me)
+        );
+        return mines;
     }
 
-    private tryEscape() {
-        // const troublePoints = getTroublePoints(this.myHero);
-
-        // console.log(`getTroublePoints ${troublePoints}`);
-
-        if (!this.justCasted.isTrue()) {
-            return;
+    findClosestMine(range: number): IGadgetEntity | null {
+        const me = this.myHero;
+        const mine = this.getMines()
+            .filter((mine) => mine.position.distance2d(me.position) < range)
+            .sort((h1, h2) => h1.position.distance2dSqr(me.position) - h2.position.distance2dSqr(me.position))[0];
+        if (mine) {
+            return mine;
         }
-        const r = this.myHero.getTool(3) as IEntityAbility;
-        if (!r.canActivate() || this.myHero.getManaPercent() < 20) {
-            return;
-        }
-        const troublePoints = getTroublePoints(this.myHero);
-        const enemiesInRange = this.myHero.getEnemiesInRange(800).length;
-
-        if (troublePoints > 65 && enemiesInRange > 0) {
-            const castLocation = Vector2d.extendTo(this.myHero.position, this.myBase.position, 1200);
-
-            this.justCasted.delay(130);
-            ACTION.castSpellPosition(this.myHero, 3, castLocation.x, castLocation.y);
-        }
+        return null;
     }
-
 
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
         this.illusionController.refreshHero(this.myHero);
         this.illusionController.control(this.myHero.level > 12);
-
-        this.doEAAResetCheck();
 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
@@ -159,9 +123,9 @@ export class DoctorRepulsor extends Script {
             return;
         }
 
-        this.tryEscape();
         tryEvade(this.myHero, this.orbwalker, this.justCasted);
         tryUseAllItems(this.myHero, this.justCasted);
+        this.doTabletLogic();
 
         if (!INPUT.isControlDown()) return;
 
@@ -171,7 +135,7 @@ export class DoctorRepulsor extends Script {
 
         // console.log(`heroPtrs ${this.myHero.ptr.add(0x6b0)}`);
 
-        // OBJECT_MANAGER.heroes.forEach(h => {
+        // OBJECT_MANAGER.heroes.forEach((h) => {
         //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
         //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
         //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
@@ -182,11 +146,7 @@ export class DoctorRepulsor extends Script {
         //     }
         // });
 
-        this.doQLogic();
-        this.doWLogic();
-        if (this.orbwalker.canMove.isTrue()) {
-            this.doRLogic();
-        }
+        this.doELogic();
 
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);

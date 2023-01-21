@@ -12,6 +12,7 @@ import { Vector, Vec2, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
 import { tryUseAllItems } from "../logics/Items";
+import { tryEvade } from "../logics/Evade";
 
 export class DementedShaman extends Script {
     private justCasted = new DelayedCondition();
@@ -112,6 +113,8 @@ export class DementedShaman extends Script {
             return;
         }
 
+        tryUseAllItems(this.myHero, this.justCasted);
+        tryEvade(this.myHero, this.orbwalker, this.justCasted)
         if (!INPUT.isControlDown()) return;
 
         // const spell = this.myHero.getTool(0) as IEntityAbility;
@@ -142,7 +145,6 @@ export class DementedShaman extends Script {
         //     }
         // });
 
-        tryUseAllItems(this.myHero, this.justCasted);
 
         this.doWLogic();
         this.doQLogic();

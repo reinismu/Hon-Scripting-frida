@@ -14,6 +14,7 @@ import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
 import { opPrediction, opPredictionCircular } from "../utils/Prediction";
 import { findBestCircularCast } from "../utils/BestCircularLocation";
+import { tryEvade } from "../logics/Evade";
 
 type DragonState = 1 | 2 | 3;
 
@@ -37,7 +38,7 @@ export class Calamity extends Script {
             return;
         }
 
-        const targetPos = opPrediction(this.myHero, enemyHero, 1250, 500, q.getDynamicRange(), 200);
+        const targetPos = opPrediction(this.myHero.position, enemyHero, 1250, 500, q.getDynamicRange(), 200);
         if (!targetPos) {
             return;
         }
@@ -148,6 +149,9 @@ export class Calamity extends Script {
 
         this.doDragonLogic();
 
+        tryEvade(this.myHero, this.orbwalker, this.justCasted);
+        tryUseAllItems(this.myHero, this.justCasted);
+
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach(h => {
@@ -161,7 +165,6 @@ export class Calamity extends Script {
         //     }
         // });
 
-        tryUseAllItems(this.myHero, this.justCasted);
 
         this.doQLogic();
         this.doRLogic();

@@ -11,6 +11,7 @@ import { tryUseAllItems } from "../logics/Items";
 import { Vector2d, Vec2 } from "../utils/Vector";
 import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
+import { tryEvade } from "../logics/Evade";
 
 export class Predator extends Script {
     private justCasted = new DelayedCondition();
@@ -62,6 +63,9 @@ export class Predator extends Script {
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
 
+        tryEvade(this.myHero, this.orbwalker, this.justCasted);
+        tryUseAllItems(this.myHero, this.justCasted);
+
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
             return;
@@ -71,7 +75,6 @@ export class Predator extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
-
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach(h => {
@@ -86,7 +89,6 @@ export class Predator extends Script {
         // });
 
         this.doWLogic();
-        tryUseAllItems(this.myHero, this.justCasted);
         // this.doRLogic();
         this.doQLogic();
         // this.doWLogic();

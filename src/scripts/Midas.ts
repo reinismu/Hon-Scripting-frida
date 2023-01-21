@@ -45,7 +45,7 @@ export class Midas extends Script {
         }
 
         const turnTime = this.myHero.getMsToTurnToPos(enemyHero.position);
-        const targetPos = opPrediction(this.myHero, enemyHero, 1200, 350 + turnTime, q.getDynamicRange(), 50);
+        const targetPos = opPrediction(this.myHero.position, enemyHero, 1200, 350 + turnTime, q.getDynamicRange(), 50);
         if (!targetPos) {
             return;
         }
@@ -98,7 +98,7 @@ export class Midas extends Script {
         }
 
         const turnTime = this.myHero.getMsToTurnToPos(enemyHero.position);
-        const targetPos = opPrediction(this.myHero, enemyHero, 1000, 200 + turnTime, w.getDynamicRange(), 50);
+        const targetPos = opPrediction(this.myHero.position, enemyHero, 1000, 200 + turnTime, w.getDynamicRange(), 50);
         if (!targetPos) {
             return;
         }

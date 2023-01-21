@@ -12,6 +12,7 @@ import { IGAME } from "../game/Globals";
 import { Vector, Vector2d } from "../utils/Vector";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { tryUseAllItems } from "../logics/Items";
+import { tryEvade } from "../logics/Evade";
 
 export class Thunderbringer extends Script {
     private canCast = new DelayedCondition();
@@ -139,6 +140,8 @@ export class Thunderbringer extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+
+        tryEvade(this.myHero, this.orbwalker, this.canCast);
         tryUseAllItems(this.myHero, this.canCast);
         
         if (!INPUT.isControlDown()) return;
@@ -148,6 +151,7 @@ export class Thunderbringer extends Script {
         // console.log(`getAdjustedAttackCooldown:` +  OBJECT_MANAGER.myHero.getAdjustedAttackCooldown());
         // console.log(`getAdjustedAttackActionTime:` +  OBJECT_MANAGER.myHero.getAdjustedAttackActionTime());
         // console.log(`getAdjustedAttackDuration:` +  OBJECT_MANAGER.myHero.getAdjustedAttackDuration());
+        // console.log(`getMinAttackDamage:` +  OBJECT_MANAGER.myHero.getMinAttackDamage());
         // // console.log(`getCanAttack:` +  OBJECT_MANAGER.myHero.getCanAttack());
         // OBJECT_MANAGER.heroes.forEach(h => {
         //     console.log(`isAlive: ${h.isAlive}`);

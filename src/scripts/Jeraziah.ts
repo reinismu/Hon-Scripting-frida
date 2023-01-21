@@ -105,6 +105,8 @@ export class Jeraziah extends Script {
         this.doQLogic(true);
         tryUseAllItems(this.myHero, this.canCast);
         
+        this.doQLogic();
+        this.doWLogic();
         if (!INPUT.isControlDown()) return;
 
         // OBJECT_MANAGER.heroes.forEach(h => {
@@ -117,8 +119,6 @@ export class Jeraziah extends Script {
         // });
 
         // this.doRLogic();
-        this.doQLogic();
-        this.doWLogic();
 
         if (this.canCast.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);

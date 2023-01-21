@@ -14,6 +14,7 @@ import { DelayedCondition } from "../utils/DelayedCondition";
 import { opPrediction, opPredictionCircular } from "../utils/Prediction";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { tryUseAllItems } from "../logics/Items";
+import { tryEvade } from "../logics/Evade";
 
 export class Slither extends Script {
     private canCast = new DelayedCondition();
@@ -51,43 +52,8 @@ export class Slither extends Script {
         }
         const castLocation = enemyHero.position;
 
+        this.canCast.delay(100);
         ACTION.castSpellPosition(this.myHero, 1, castLocation.x, castLocation.y);
-    }
-
-    doGhostMarchersLogic() {
-        if (!this.canCast.isTrue()) {
-            return;
-        }
-        const boots = this.myHero.getItem("Item_EnhancedMarchers");
-        if (!boots) {
-            return;
-        }
-        if (!boots.item.canActivate()) {
-            return;
-        }
-
-        this.canCast.delay(50);
-        ACTION.castSpell2(this.myHero, boots.index);
-    }
-
-    doShrunkensLogic() {
-        if (!this.canCast.isTrue()) {
-            return;
-        }
-        const shrunken = this.myHero.getItem("Item_Immunity");
-        if (!shrunken) {
-            return;
-        }
-        if (!shrunken.item.canActivate()) {
-            return;
-        }
-        const enemyHero = TARGET_SELECTOR.getClosestEnemyHero();
-        if (!enemyHero || Vector2d.distance(enemyHero.position, this.myHero.position) > 550) {
-            return;
-        }
-
-        this.canCast.delay(50);
-        ACTION.castSpell2(this.myHero, shrunken.index);
     }
 
     @Subscribe("MainLoopEvent")
@@ -104,7 +70,7 @@ export class Slither extends Script {
             return;
         }
 
-        
+        tryEvade(this.myHero, this.orbwalker, this.canCast);
         tryUseAllItems(this.myHero, this.canCast);
         if (!INPUT.isControlDown() || this.myHero.isDead()) return;
         // console.log(`isButtonDown ${"A".charCodeAt(0)}:` + INPUT.isCharDown("A"));
@@ -153,12 +119,10 @@ export class Slither extends Script {
         // GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
         // console.log("draw");
     }
+
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
-        // if (!INPUT.isControlDown()) return;
-        // Dont update state if we are shooting
-        // const buffer = new MyBuffer(args[1]);
-        // const data = new Uint8Array(buffer.dataBuffer);
-        // console.log(data);
+        // Delay automatic actions if manual was preformed
+        this.canCast.delay(100);
     }
 }

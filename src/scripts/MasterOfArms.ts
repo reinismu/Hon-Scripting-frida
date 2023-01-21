@@ -57,13 +57,13 @@ export class MasterOfArms extends Script {
         }
 
         if (this.isInBulldozer() && Vector2d.distance(enemyHero.position, this.myHero.position) <= cheetahRange) {
-            this.canCast.delay(50);
+            this.canCast.delay(100);
             ACTION.castSpell2(this.myHero, 2);
             return;
         }
 
         if (!this.isInBulldozer() && Vector2d.distance(enemyHero.position, this.myHero.position) > cheetahRange) {
-            this.canCast.delay(50);
+            this.canCast.delay(100);
             ACTION.castSpell2(this.myHero, 2);
             return;
         }

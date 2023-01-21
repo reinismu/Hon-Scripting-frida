@@ -73,6 +73,7 @@ export class Prisoner extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+        tryUseAllItems(this.myHero, this.justCasted);
 
         if (!INPUT.isControlDown()) return;
 
@@ -87,7 +88,6 @@ export class Prisoner extends Script {
         //     }
         // });
 
-        tryUseAllItems(this.myHero, this.justCasted);
 
         this.doQLogic();
         this.doWLogic();

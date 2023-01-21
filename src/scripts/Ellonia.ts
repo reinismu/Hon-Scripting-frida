@@ -38,7 +38,7 @@ export class Ellonia extends Script {
             return;
         }
 
-        const castLocation = opPrediction(this.myHero, enemyHero, 1100, 150, q.getDynamicRange(), 30);
+        const castLocation = opPrediction(this.myHero.position, enemyHero, 1100, 150, q.getDynamicRange(), 30);
         if (!castLocation) {
             return;
         }

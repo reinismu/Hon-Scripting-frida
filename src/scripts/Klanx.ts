@@ -13,8 +13,12 @@ import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { IllustionController } from "../logics/IllusionController";
 import { opPrediction } from "../utils/Prediction";
+import { CLIENT } from "../game/Client";
+import { GRAPHICS } from "../graphics/Graphics";
+import { tryEvade } from "../logics/Evade";
+import { findBestCircularCast, findBestCircularProjectileCast } from "../utils/BestCircularLocation";
 
-export class Moraxus extends Script {
+export class Klanx extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
@@ -24,41 +28,58 @@ export class Moraxus extends Script {
         EventBus.getDefault().register(this);
     }
 
+
     doQLogic() {
-        if (!this.justCasted.isTrue()) {
-            return;
-        }
         const q = this.myHero.getTool(0) as IEntityAbility;
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(q.getDynamicRange() + 20);
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(q.getDynamicRange() + 100);
         if (!enemyHero) {
             return;
         }
-        this.justCasted.delay(200);
-        ACTION.castSpell2(this.myHero, 0);
+
+        const turnTime = this.myHero.getMsToTurnToPos(enemyHero.position);
+        const targetPos = opPrediction(this.myHero.position, enemyHero, 999999999, 1000 + turnTime, q.getDynamicRange(), 200);
+        if (!targetPos) {
+            return;
+        }
+        this.justCasted.delay(150);
+        ACTION.castSpellPosition(this.myHero, 0, targetPos.x, targetPos.y);
     }
 
-    doELogic() {
+    doQLogicSpam() {
         if (!this.justCasted.isTrue()) {
             return;
         }
-        const e = this.myHero.getTool(2) as IEntityAbility;
-        if (!e.canActivate()) {
+        const radius = 300;
+
+        const q = this.myHero.getTool(0) as IEntityAbility;
+        if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(e.getDynamicRange());
-        if (!enemyHero) {
+        const enemyHeroes = this.myHero
+            .getEnemiesInRange(q.getDynamicRange() + radius)
+            .filter((h) => !h.isMagicImmune() && !h.isInvulnerable());
+
+        if (enemyHeroes.length === 0) {
+            return;
+        }
+        const lowestHpPercent = enemyHeroes.map((h) => h.getHealthPercent()).sort((a, b) => a - b)[0];
+        if (lowestHpPercent < 30) {
+            this.doQLogic();
             return;
         }
 
-        const castLocation = opPrediction(this.myHero.position, enemyHero, 1200, 100, e.getDynamicRange() - 50, 20);
-        if (!castLocation) {
+        const bestloc = findBestCircularCast(this.myHero, q.getDynamicRange(), radius, 1200, enemyHeroes, 40, 2);
+        if (!bestloc) {
+            this.doQLogic();
             return;
         }
-        this.justCasted.delay(200);
-        ACTION.castSpellPosition(this.myHero, 2, castLocation.x, castLocation.y);
+
+        const turnTime = this.myHero.getMsToTurnToPos(bestloc);
+        this.justCasted.delay(150 + turnTime);
+        ACTION.castSpellPosition(this.myHero, 0, bestloc.x, bestloc.y);
     }
 
     @Subscribe("MainLoopEvent")
@@ -77,26 +98,11 @@ export class Moraxus extends Script {
             return;
         }
 
+        tryEvade(this.myHero, this.orbwalker, this.justCasted);
+        tryUseAllItems(this.myHero, this.justCasted);
         if (!INPUT.isControlDown()) return;
 
-        // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
-        //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
-        //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
-        //     for (let i = 0; i < 80; i++) {
-        //         const tool = h.getTool(i);
-        //         if (tool == null) continue;
-        //         console.log(`tool ${i}: ${tool.typeName}`);
-        //     }
-        // });
-
-        tryUseAllItems(this.myHero, this.justCasted);
-
-        if (this.orbwalker.canMove.isTrue()) {
-            // this.doQLogic();
-            this.doELogic();
-            // this.doWLogic();
-        }
+        this.doQLogicSpam();
 
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
@@ -111,4 +117,14 @@ export class Moraxus extends Script {
     //     const data = new Uint8Array(buffer.dataBuffer);
     //     console.log(data);
     // }
+    @Subscribe("DrawEvent")
+    onDraw() {
+        // const screenpos = CLIENT.worldToScreen(this.myHero.position);
+        // const screenpos2 = CLIENT.worldToScreen(IGAME.mysteriousStruct.mousePosition);
+        // // GRAPHICS.drawRect(screenpos.x, screenpos.y, 10, 10);
+
+        // for (let i = 0; i < 80; i++) {
+        //     GRAPHICS.drawLine2d(screenpos, screenpos2);
+        // }
+    }
 }

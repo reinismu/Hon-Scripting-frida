@@ -38,7 +38,7 @@ export class Gauntlet extends Script {
             2,
             this.myHero,
             enemyHero,
-            1600,
+            1800,
             50,
             (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => {
                 const hookRange = spell.getDynamicRange() + 20;
@@ -120,6 +120,7 @@ export class Gauntlet extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+        tryUseAllItems(this.myHero, this.justCasted);
 
         if (!INPUT.isControlDown()) return;
 
@@ -134,7 +135,6 @@ export class Gauntlet extends Script {
         //     }
         // });
 
-        tryUseAllItems(this.myHero, this.justCasted);
         // this.doRLogic();
         this.doQLogic();
         if (this.orbwalker.canAttack.isTrue()) {

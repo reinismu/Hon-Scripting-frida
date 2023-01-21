@@ -53,7 +53,7 @@ export class Kinesis extends Script {
         }
         // 600 ms to do full shoot
 
-        const castLocation = opPrediction(this.myHero, enemyHero, q.getDynamicRange() / 0.75, 0, q.getDynamicRange() + 50, 1);
+        const castLocation = opPrediction(this.myHero.position, enemyHero, q.getDynamicRange() / 0.75, 0, q.getDynamicRange() + 50, 1);
         if (!castLocation) {
             return;
         }
@@ -236,6 +236,7 @@ export class Kinesis extends Script {
             this.orbwalker.laneClear(IGAME.mysteriousStruct.mousePosition);
             return;
         }
+        tryUseAllItems(this.myHero, this.justCasted);
 
         if (!INPUT.isControlDown() || this.myHero.isDead()) return;
 
@@ -261,7 +262,6 @@ export class Kinesis extends Script {
         //     }
         // });
         this.doRLogic();
-        tryUseAllItems(this.myHero, this.justCasted);
         this.doWLogic();
         this.doQLogic();
         if (!this.isShooting()) {
@@ -271,12 +271,10 @@ export class Kinesis extends Script {
 
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
-        // if (!INPUT.isControlDown()) return;
-        // Dont update state if we are shooting
-        // const buffer = new MyBuffer(args[1]);
-        // const data = new Uint8Array(buffer.dataBuffer);
-        // console.log(data);
+        // Delay automatic actions if manual was preformed
+        this.justCasted.delay(50);
     }
+
 
     @Subscribe("DrawEvent")
     onDraw() {

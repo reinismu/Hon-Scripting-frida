@@ -40,7 +40,7 @@ export class Nitro extends Script {
             return;
         }
 
-        const castLocation = opPrediction(this.myHero, enemyHero, q.getDynamicRange() * 2, 0, q.getDynamicRange() + 50, 1);
+        const castLocation = opPrediction(this.myHero.position, enemyHero, q.getDynamicRange() * 2, 0, q.getDynamicRange() + 50, 1);
         if(!castLocation) {
             return;
         }

@@ -39,7 +39,7 @@ export class Parallax extends Script {
         if (!enemyHero || !this.gadget) {
             return;
         }
-        const castPos = opPrediction(this.gadget, enemyHero, 2000, this.myHero.getMsToTurnToPos(enemyHero.position), 4000, 50);
+        const castPos = opPrediction(this.gadget.position, enemyHero, 2000, this.myHero.getMsToTurnToPos(enemyHero.position), 4000, 50);
         if (!castPos || Vector2d.distance(this.myHero.position, castPos) > q.getDynamicRange()) {
             return;
         }

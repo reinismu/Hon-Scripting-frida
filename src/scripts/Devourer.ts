@@ -7,7 +7,7 @@ import { TARGET_SELECTOR } from "../logics/TargetSelector";
 import { OBJECT_MANAGER, ObjectManager } from "../objects/ObjectManager";
 import { Vec2, Vector2d } from "../utils/Vector";
 import { Orbwalker } from "../logics/Orbwalker";
-import { IGAME } from "../game/Globals";
+import { IGAME, SHARED_MODULE } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { StoppableLineSpell } from "../utils/StoppableLineSpell";
 import { tryUseAllItems } from "../logics/Items";
@@ -15,6 +15,7 @@ import { IllustionController } from "../logics/IllusionController";
 import { CLIENT } from "../game/Client";
 import { GRAPHICS } from "../graphics/Graphics";
 import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
+import { tryEvade } from "../logics/Evade";
 
 export class Devourer extends Script {
     private orbwalker = new Orbwalker(this.myHero);
@@ -95,6 +96,7 @@ export class Devourer extends Script {
         }
 
         if (!this.myHero.hasTool("State_Devourer_Ability2_Self")) {
+            console.log(`Cast w:`);
             this.justCasted.delay(250);
             ACTION.castSpell2(this.myHero, 1);
         }
@@ -133,8 +135,14 @@ export class Devourer extends Script {
             return;
         }
 
+        // IGAME.myPlayer.currentCameraZoom = 1420.0;
+        tryEvade(this.myHero, this.orbwalker, this.justCasted);
         if (!INPUT.isControlDown()) return;
-        // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
+
+        // console.log(`currentCameraZoom:` + IGAME.myPlayer.currentCameraZoom);
+        // console.log(`nextCameraZoom:` + IGAME.myPlayer.nextCameraZoom);
+        // console.log(`cameraZoom:` + IGAME.clientState1.cameraZoom);
+
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
         // console.log(`myHero: ` + OBJECT_MANAGER.myHero.ptr);
 
@@ -162,6 +170,7 @@ export class Devourer extends Script {
         }
         tryUseAllItems(this.myHero, this.justCasted);
         this.doRLogic();
+        
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
@@ -170,11 +179,8 @@ export class Devourer extends Script {
 
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
-        // if (!INPUT.isControlDown()) return;
-        // Dont update state if we are shooting
-        // const buffer = new MyBuffer(args[1]);
-        // const data = new Uint8Array(buffer.dataBuffer);
-        // console.log(data);
+        // Delay automatic actions if manual was preformed
+        // this.justCasted.delay(100);
     }
 
     // @Subscribe("DrawEvent")
@@ -199,10 +205,4 @@ export class Devourer extends Script {
     //         }
     //     });
     // }
-
-    @Subscribe("RequestStartAnimEvent")
-    onAnimationStart(args: NativePointer[]) {
-        // Dont update state if we are shooting
-        // console.log(`RequestStartAnimEvent: ${args[1]} ${args[1].read32BitString()}`);
-    }
 }

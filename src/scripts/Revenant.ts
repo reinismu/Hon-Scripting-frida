@@ -1,21 +1,21 @@
 import { Script } from "./Scripts";
 import { EventBus, Subscribe } from "eventbus-ts";
-import { IEntityAbility, IUnitEntity } from "../honIdaStructs";
+import { IEntityAbility } from "../honIdaStructs";
 import { ACTION, MyBuffer } from "../actions/Action";
 import { INPUT } from "../input/Input";
-import { TARGET_SELECTOR } from "../logics/TargetSelector";
+import { getTroublePoints, TARGET_SELECTOR } from "../logics/TargetSelector";
 import { Orbwalker } from "../logics/Orbwalker";
 import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
-import { fauxBowTargetMap, tryUseAllItems } from "../logics/Items";
-import { Vector2d, Vec2 } from "../utils/Vector";
-import { OBJECT_MANAGER } from "../objects/ObjectManager";
-import { StoppableLineSpell } from "../utils/StoppableLineSpell";
+import { Vector, Vector2d } from "../utils/Vector";
 import { IllustionController } from "../logics/IllusionController";
-import { opPrediction } from "../utils/Prediction";
+import { CLIENT } from "../game/Client";
+import { GRAPHICS } from "../graphics/Graphics";
+import { OBJECT_MANAGER } from "../objects/ObjectManager";
+import { tryUseAllItems } from "../logics/Items";
 import { tryEvade } from "../logics/Evade";
 
-export class Tarot extends Script {
+export class Revenant extends Script {
     private justCasted = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
     private illusionController = new IllustionController(this.myHero);
@@ -33,17 +33,13 @@ export class Tarot extends Script {
         if (!q.canActivate()) {
             return;
         }
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
-            q.getDynamicRange(),
-            this.myHero.position,
-            (h) => h.getAllAlliesInRange(450).length !== 0
-        );
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(this.myHero.getAttackRange() + 40);
         if (!enemyHero) {
             return;
         }
-        enemyHero.getMoveSpeed
-        this.justCasted.delay(200);
-        ACTION.castSpellEntity(this.myHero, 0, enemyHero);
+
+        this.justCasted.delay(50);
+        ACTION.castSpellEntity(this.myHero, 0, this.myHero);
     }
 
     doWLogic() {
@@ -54,42 +50,40 @@ export class Tarot extends Script {
         if (!w.canActivate()) {
             return;
         }
-        const enemyProxyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(this.myHero.getAttackRange() + 50);
-        if (!enemyProxyHero) {
-            return;
-        }
-
-        const enemyHero = TARGET_SELECTOR.getEasiestPhysicalKillInRange(
-            w.getDynamicRange(),
-            this.myHero.position,
-            (h) => Vector2d.distance(h.position, enemyProxyHero.position) < 800
-        );
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(w.getDynamicRange() + 30);
         if (!enemyHero) {
             return;
         }
-        this.justCasted.delay(200);
+        this.justCasted.delay(100);
         ACTION.castSpellEntity(this.myHero, 1, enemyHero);
     }
 
-    doELogic() {
+    doRLogic() {
         if (!this.justCasted.isTrue()) {
             return;
         }
-        const e = this.myHero.getTool(2) as IEntityAbility;
-        if (!e.canActivate()) {
+        const r = this.myHero.getTool(3) as IEntityAbility;
+        if (!r.canActivate() || this.myHero.getManaPercent() < 48) {
             return;
         }
-
-        const enemyHero = TARGET_SELECTOR.getBestMagicalDisableInRange(
-            e.getDynamicRange(),
-            this.myHero,
-            (h) => h.getAlliesInRange(400).length !== 0
-        );
+        const enemyHero = TARGET_SELECTOR.getEasiestMagicalKillInRange(700);
         if (!enemyHero) {
             return;
         }
-        this.justCasted.delay(200);
-        ACTION.castSpellEntity(this.myHero, 2, enemyHero);
+
+        const dist = Vector2d.distance(enemyHero.position, this.myHero.position);
+        if (enemyHero.isDisabled() && dist < 500) {
+            return;
+        }
+
+        // if (dist > 450 || this.goodTimeToResetAttack()) {
+        const castLocation = Vector2d.extendTo(enemyHero.position, this.myHero.position, -250);
+        // const castLocation = Vector2d.extendTo(this.myHero.position, enemyHero.position, Math.max(dist - 250, 50));
+        // const castLocation = enemyHero.position;
+
+        this.justCasted.delay(130);
+        ACTION.castSpellPosition(this.myHero, 3, castLocation.x, castLocation.y);
+        // }
     }
 
     @Subscribe("MainLoopEvent")
@@ -98,8 +92,6 @@ export class Tarot extends Script {
         this.illusionController.refreshHero(this.myHero);
         this.illusionController.control(this.myHero.level > 12);
 
-        tryEvade(this.myHero, this.orbwalker, this.justCasted);
-        
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
             return;
@@ -110,11 +102,19 @@ export class Tarot extends Script {
             return;
         }
 
+        tryEvade(this.myHero, this.orbwalker, this.justCasted);
+        tryUseAllItems(this.myHero, this.justCasted);
 
         if (!INPUT.isControlDown()) return;
 
+        // const facingAngle = this.myHero.facingAngle;
+        // console.log(`getAttackReadyValue1 ${this.myHero.getAttackReadyValue1()}`);
+        // console.log(`field_76C ${this.myHero.field_76C}`);
+
+        // console.log(`heroPtrs ${this.myHero.ptr.add(0x6b0)}`);
+
         // OBJECT_MANAGER.heroes.forEach(h => {
-        //     console.log(`${h.typeName} fauxBow: ${fauxBowTargetMap[h.networkId]}`);
+        //     console.log(`${h.typeName} isStaffed: ${h.isStaffed()}`);
         //     // console.log(`${h.typeName} isBarbed: ${h.isBarbed()}`);
         //     // console.log(`${h.typeName} stateFlags: ${h.stateFlags}`);
         //     for (let i = 0; i < 80; i++) {
@@ -124,26 +124,17 @@ export class Tarot extends Script {
         //     }
         // });
 
-        tryUseAllItems(this.myHero, this.justCasted);
-
-        this.doQLogic();
-        this.doELogic();
         this.doWLogic();
-        // this.doWLogic();
-
-
+        this.doQLogic();
 
         if (this.justCasted.isTrue()) {
             this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
         }
     }
 
-    // @Subscribe("SendGameDataEvent")
-    // onSendGameDataEvent(args: NativePointer[]) {
-    //     // if (!INPUT.isControlDown()) return;
-
-    //     const buffer = new MyBuffer(args[1]);
-    //     const data = new Uint8Array(buffer.dataBuffer);
-    //     console.log(data);
-    // }
+    @Subscribe("SendGameDataEvent")
+    onSendGameDataEvent(args: NativePointer[]) {
+        // Delay automatic actions if manual was preformed
+        this.justCasted.delay(100);
+    }
 }

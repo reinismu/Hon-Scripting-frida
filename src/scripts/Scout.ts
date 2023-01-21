@@ -101,6 +101,7 @@ export class Scout extends Script {
         }
 
         if (!INPUT.isControlDown()) return;
+        tryUseAllItems(this.myHero, this.canCast);
         // console.log(`isButtonDown ${"A".charCodeAt(0)}:` + INPUT.isCharDown("A"));
         // console.log(`getFinalMinAttackDamage:` + this.myHero.getFinalMinAttackDamage());
         // console.log(`getFinalMaxAttackDamage:` + this.myHero.getFinalMaxAttackDamage());
@@ -141,7 +142,10 @@ export class Scout extends Script {
         // }
         this.doELogic();
         this.doWLogic();
-        this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
+        
+        if (this.canCast.isTrue()) {
+            this.orbwalker.orbwalk(IGAME.mysteriousStruct.mousePosition);
+        }
     }
 
     @Subscribe("DrawEvent")

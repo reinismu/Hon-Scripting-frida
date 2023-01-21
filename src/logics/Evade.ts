@@ -11,6 +11,7 @@ type DangerousProjectileInfo = {
     speed: number;
     width: number;
     heroName: string;
+    isMagic: boolean;
 };
 type DangerousProjectile = {
     info: DangerousProjectileInfo;
@@ -24,26 +25,31 @@ const dangerousProjectileInfo: { [k: string]: DangerousProjectileInfo | undefine
         speed: 1600,
         width: 80,
         heroName: "Hero_Devourer",
+        isMagic: false,
     },
     Projectile_Prisoner_Ability1: {
         speed: 1600,
         width: 100,
         heroName: "Hero_Prisoner",
+        isMagic: false,
     },
     Projectile_Prisoner_Ability1_Return_Art: {
         speed: 1600,
         width: 100,
         heroName: "Hero_Prisoner",
+        isMagic: false,
     },
     Projectile_Valkyrie_Ability2: {
         speed: 857.14,
         width: 80,
         heroName: "Hero_Valkyrie",
+        isMagic: true,
     },
     Projectile_Gauntlet_Ability2: {
         speed: 1600,
         width: 80,
         heroName: "Hero_Gauntlet",
+        isMagic: false,
     },
 };
 
@@ -78,7 +84,7 @@ export const tryEvade = (
     const exitingDangerousProjectiles: DangerousProjectile[] = OBJECT_MANAGER.projectiles
         .map((projectile) => {
             const info = dangerousProjectileInfo[projectile.typeName];
-            if (!info || allyHeroes.has(info.heroName)) {
+            if (!info || allyHeroes.has(info.heroName) || (evader.isMagicImmune() && info.isMagic)) {
                 return undefined;
             }
             return {
@@ -90,7 +96,7 @@ export const tryEvade = (
 
     const projectileEffectingMe = exitingDangerousProjectiles.find((projectile) => isEffectingEntity(evader, projectile));
 
-    if (!projectileEffectingMe) {
+    if (!projectileEffectingMe || evader.isDisabled()) {
         return false;
     }
 
@@ -101,9 +107,8 @@ export const tryEvade = (
     const from = evader.position;
     const escapeTimeInSeconds = secTillCatch(evader, projectileEffectingMe);
     const maxMoveDistance = escapeTimeInSeconds * evader.getMoveSpeed(true);
-    console.log(`maxMoveDistance ${maxMoveDistance}`);
 
-    const evadeRange = maxMoveDistance + 30;
+    const evadeRange = maxMoveDistance + 300;
     const evadeRangeStep = evadeRange / 5;
 
     const goodRunPoints: Vec2[] = [];

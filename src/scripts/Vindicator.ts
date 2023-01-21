@@ -15,6 +15,7 @@ import { opPrediction, opPredictionCircular } from "../utils/Prediction";
 import { StoppableCircularSpell } from "../utils/StoppableCircularSpell";
 import { IllustionController } from "../logics/IllusionController";
 import { findBestCircularCast } from "../utils/BestCircularLocation";
+import { tryEvade } from "../logics/Evade";
 
 export class Vindicator extends Script {
     private orbwalker = new Orbwalker(this.myHero);
@@ -133,6 +134,9 @@ export class Vindicator extends Script {
             return;
         }
 
+        tryUseAllItems(this.myHero, this.justCasted);
+        tryEvade(this.myHero, this.orbwalker, this.justCasted);
+
         if (!INPUT.isControlDown()) return;
         // console.log(`cachedHeroes:` + OBJECT_MANAGER.heroes.length);
         // console.log(`cachedEntities:` + OBJECT_MANAGER.heroes.length);
@@ -160,7 +164,6 @@ export class Vindicator extends Script {
         //     console.log(`creep:${h.typeName} ${h.boundingRadius}`);
         // });
         // this.doRLogic();
-        tryUseAllItems(this.myHero, this.justCasted);
         this.doQLogicSpam();
         this.doELogic();
         // this.doQLogic();
@@ -171,12 +174,10 @@ export class Vindicator extends Script {
 
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
-        // if (!INPUT.isControlDown()) return;
-        // Dont update state if we are shooting
-        // const buffer = new MyBuffer(args[1]);
-        // const data = new Uint8Array(buffer.dataBuffer);
-        // console.log(data);
+        // Delay automatic actions if manual was preformed
+        this.justCasted.delay(50);
     }
+
 
     @Subscribe("DrawEvent")
     onDraw() {

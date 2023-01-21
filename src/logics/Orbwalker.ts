@@ -8,6 +8,7 @@ import { OBJECT_MANAGER } from "../objects/ObjectManager";
 import { CLIENT } from "../game/Client";
 import { INPUT } from "../input/Input";
 import { fauxBowTargetMap } from "./Items";
+import console from "console";
 
 const MIN_MOVE_DIST = 30;
 
@@ -17,6 +18,7 @@ export class Orbwalker {
     canMove = new DelayedCondition();
     canAttack = new DelayedCondition();
     isNotAttacking = new DelayedCondition();
+    isNotPreparingAttack = new DelayedCondition();
 
     private canFaceTheEnemy = new DelayedCondition();
 
@@ -30,6 +32,9 @@ export class Orbwalker {
     }
 
     public orbwalk(position: Vec2, justWalk: boolean = false) {
+        if (this.walker.isDisabled()) {
+            return;
+        }
         if (!this.walker.isMelee()) {
             const fauxBowTargetNetworkId = fauxBowTargetMap[this.walker.networkId];
 
@@ -136,7 +141,6 @@ export class Orbwalker {
 
     protected getAttackSlowTime(): number {
         if (this.walker.hasAnyOfTool(new Set(["State_Gauntlet_Ability1"]))) {
-            console.log("slowed attack");
             return 300;
         }
         if (this.walker.isMelee()) {
@@ -150,13 +154,22 @@ export class Orbwalker {
     }
 
     private orbwalkTarget(target: IUnitEntity | null, position: Vec2, justWalk: boolean = false) {
+        // Stun check to reset attack
+        if (!this.isNotPreparingAttack.isTrue() && (this.walker.isDisabled() || this.walker.isDisarmed())) {
+            this.canAttack.delay(100);
+            this.canMove.delay(100);
+            this.isNotPreparingAttack.restart();
+            console.log("Reste afsdsfasgdsdg")
+        }
+
         if (!justWalk && this.canAttack.isTrue(500)) {
-            if (target) {
+            if (target && !this.walker.isDisarmed()) {
                 const turnTime = this.walker.getMsToTurnToPos(target.position);
                 this.isNotAttacking.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
                 if (this.canAttack.isTrue()) {
                     this.canAttack.delay(turnTime + this.walker.getAdjustedAttackCooldown() + this.getAttackSlowTime() + 100);
                     this.canMove.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
+                    this.isNotPreparingAttack.delay(turnTime + this.walker.getAdjustedAttackActionTime() + 250);
                     this.attack(target);
                     return;
                 }
@@ -170,7 +183,7 @@ export class Orbwalker {
             }
         }
         if (this.canMove.isTrue()) {
-            if (Vector2d.distance(position, this.walker.position) < MIN_MOVE_DIST) {
+            if (Vector2d.distance(position, this.walker.position) <  (this.walker.isMelee() ? MIN_MOVE_DIST : 60)) {
                 return;
             }
             this.canMove.delay(140 + this.getMoveSlowTime());

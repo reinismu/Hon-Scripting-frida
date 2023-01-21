@@ -66,6 +66,7 @@ export class Chronos extends Script {
         }
         tryUseAllItems(this.myHero, this.justCasted);
 
+        this.doRLogic();
 
         if (!INPUT.isControlDown()) return;
 
@@ -79,8 +80,6 @@ export class Chronos extends Script {
         //         console.log(`tool ${i}: ${tool.typeName}`);
         //     }
         // });
-
-        this.doRLogic();
 
         // this.doWLogic();
         // this.doELogic();

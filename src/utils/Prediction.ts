@@ -15,7 +15,7 @@ export function unitPositionPrediction(target: IUnitEntity, delayMS: number) {
 }
 
 export function goodPrediction(
-    source: IUnitEntity,
+    sourcePos: Vec2,
     target: IUnitEntity,
     projectileSpeed: number,
     castDelayMs: number,
@@ -23,7 +23,7 @@ export function goodPrediction(
 ): Vec2 | null {
     const eneVelocity = VELOCITY_UPDATER.getVelocity(target);
     if (eneVelocity.x == 0 && eneVelocity.y == 0) {
-        if (Vector2d.distance(target.position, source.position) <= range) {
+        if (Vector2d.distance(target.position, sourcePos) <= range) {
             return target.position;
         }
         return null;
@@ -31,18 +31,18 @@ export function goodPrediction(
     
     const turnMs = 0;// source.getMsToTurnToPos(target.position);
     const enemyPositionAfterDelay = Vector2d.add(target.position, Vector2d.mul(eneVelocity, (castDelayMs + turnMs) / 1000));
-    const collisionPos = intercept(source.position, enemyPositionAfterDelay, eneVelocity, projectileSpeed);
+    const collisionPos = intercept(sourcePos, enemyPositionAfterDelay, eneVelocity, projectileSpeed);
     if (!collisionPos) {
         return null;
     }
-    if (Vector2d.distance(collisionPos, source.position) <= range) {
+    if (Vector2d.distance(collisionPos, sourcePos) <= range) {
         return collisionPos;
     }
     return null;
 }
 
 export function opPrediction(
-    source: IUnitEntity,
+    sourcePos: Vec2,
     target: IUnitEntity,
     projectileSpeed: number,
     castDelayMs: number,
@@ -51,23 +51,23 @@ export function opPrediction(
 ): Vec2 | null {
     const eneVelocity = VELOCITY_UPDATER.getVelocity(target);
     if (eneVelocity.x == 0 && eneVelocity.y == 0) {
-        if (Vector2d.distance(target.position, source.position) <= range) {
+        if (Vector2d.distance(target.position, sourcePos) <= range) {
             return target.position;
         }
         return null;
     }
 
-    const goodPos = goodPrediction(source, target, projectileSpeed, castDelayMs, range);
+    const goodPos = goodPrediction(sourcePos, target, projectileSpeed, castDelayMs, range);
     if (!goodPos) {
         return null;
     }
     const latency = 0.1;
     const eneMoveSpeed = target.getMoveSpeed(true);
     const boundingRadius = 50; // target.boundingRadius broken
-    const actionTime = Vector2d.distance(source.position, goodPos) / projectileSpeed + castDelayMs / 1000 + latency;
+    const actionTime = Vector2d.distance(sourcePos, goodPos) / projectileSpeed + castDelayMs / 1000 + latency;
     const possibilityRadius = actionTime * eneMoveSpeed - boundingRadius- radius;
 
-    const destTillStart = Vector2d.distToSegment(target.position, source.position, goodPos);
+    const destTillStart = Vector2d.distToSegment(target.position, sourcePos, goodPos);
     const delta = destTillStart - possibilityRadius;
 
     // console.log(`delta  ${delta} `);

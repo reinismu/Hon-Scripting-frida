@@ -11,23 +11,23 @@ export class Input {
     private buttonToStringFunc = new NativeFunction(K2_MODULE.getExportByName("_ZN6CInput8ToStringE7EButton"), "pointer", ["pointer", "char"]);
 
     public isControlDown(): boolean {
-        return this.ctrlDown(this.input.ptr) as boolean;
+        return this.ctrlDown(this.input.ptr)  as unknown as boolean;
     }
 
     public isShiftDown(): boolean {
-        return this.shiftDown(this.input.ptr) as boolean;
+        return this.shiftDown(this.input.ptr)  as unknown as boolean;
     }
 
     public isButtonDown(button: number): boolean {
-        return this.inputDown(this.input.ptr, button) as boolean;
+        return this.inputDown(this.input.ptr, button)  as unknown as boolean;
     }
 
     public isCharDown(char: string): boolean {
-        return this.inputDown(this.input.ptr, char.charCodeAt(0)) as boolean;
+        return this.inputDown(this.input.ptr, char.charCodeAt(0))  as unknown as boolean;
     }
 
     public isSpaceDown(): boolean {
-        return this.inputDown(this.input.ptr, 32) as boolean;
+        return this.inputDown(this.input.ptr, 32)  as unknown as boolean;
     }
 
     public buttonToString(button: number): string {

@@ -15,6 +15,7 @@ import { VELOCITY_UPDATER } from "../objects/VelocityUpdater";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { tryUseAllItems } from "../logics/Items";
 
+import { tryEvade } from "../logics/Evade";
 export class Artilery extends Script {
     private orbwalker = new Orbwalker(this.myHero);
     private canCast = new DelayedCondition();
@@ -48,7 +49,7 @@ export class Artilery extends Script {
         }
         // 600 ms to do full shoot
 
-        const castLocation = opPrediction(this.myHero, enemyHero, q.getDynamicRange() / 0.75, 0, q.getDynamicRange() + 50, 1);
+        const castLocation = opPrediction(this.myHero.position, enemyHero, q.getDynamicRange() / 0.75, 0, q.getDynamicRange() + 50, 1);
         if (!castLocation) {
             return;
         }
@@ -100,6 +101,7 @@ export class Artilery extends Script {
             return;
         }
 
+        tryEvade(this.myHero, this.orbwalker, this.canCast);
         // IGAME.mysteriousStruct.drawIndicatorFlag = 1;
         if (!INPUT.isControlDown()) return;
         // console.log(`drawIndicatorFlag:` + IGAME.mysteriousStruct.drawIndicatorFlag);

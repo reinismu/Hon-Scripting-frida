@@ -9,8 +9,8 @@ import { IGAME } from "../game/Globals";
 import { DelayedCondition } from "../utils/DelayedCondition";
 import { tryUseAllItems } from "../logics/Items";
 import { Vector2d } from "../utils/Vector";
-import { OBJECT_MANAGER } from "../objects/ObjectManager";
-
+import { OBJECT_MANAGER } from "../objects/ObjectManager";;
+import { tryEvade } from "../logics/Evade";
 export class Blacksmith extends Script {
     private canCast = new DelayedCondition();
     private orbwalker = new Orbwalker(this.myHero);
@@ -110,6 +110,7 @@ export class Blacksmith extends Script {
             return;
         }
 
+        tryEvade(this.myHero, this.orbwalker, this.canCast);
         tryUseAllItems(this.myHero, this.canCast);
         if (!INPUT.isControlDown()) return;
 

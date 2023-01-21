@@ -143,7 +143,7 @@ export class Bushwack extends Script {
             return;
         }
 
-        tryEvade(this.myHero, this.orbwalker, this.justCasted, (proj) => {
+        tryEvade(this.myHero, this.orbwalker, this.justCasted, () => {
             const w = this.myHero.getTool(1) as IEntityAbility;
             if (!w.canActivate()) {
                 return;

@@ -24,6 +24,7 @@ import {
     tryUseAllItems,
 } from "../logics/Items";
 import { findBestCircularCast } from "../utils/BestCircularLocation";
+import { tryEvade } from "../logics/Evade";
 
 export class Oogie extends Script {
     private justCasted = new DelayedCondition();
@@ -110,6 +111,8 @@ export class Oogie extends Script {
     @Subscribe("MainLoopEvent")
     onMainLoop() {
         this.orbwalker.refreshWalker(this.myHero);
+
+        tryEvade(this.myHero, this.orbwalker, this.justCasted); 
         if (INPUT.isCharDown("C")) {
             this.orbwalker.lastHit(IGAME.mysteriousStruct.mousePosition);
             return;
@@ -162,10 +165,7 @@ export class Oogie extends Script {
 
     @Subscribe("SendGameDataEvent")
     onSendGameDataEvent(args: NativePointer[]) {
-        // if (!INPUT.isControlDown()) return;
-        // Dont update state if we are shooting
-        // const buffer = new MyBuffer(args[1]);
-        // const data = new Uint8Array(buffer.dataBuffer);
-        // console.log(data);
+        // Delay automatic actions if manual was preformed
+        this.justCasted.delay(100);
     }
 }

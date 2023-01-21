@@ -119,7 +119,7 @@ export class StoppableLineSpell {
         noCollisionCheck: (spell: IEntityAbility, caster: IUnitEntity, target: IUnitEntity, castPos: Vec2) => boolean,
         range: number
     ): Vec2 | null {
-        const targetPos = opPrediction(caster, target, projectileSpeed, delay, range, projectileRadius);
+        const targetPos = opPrediction(caster.position, target, projectileSpeed, delay, range, projectileRadius);
         if (!targetPos) {
             return null;
         }
@@ -135,7 +135,7 @@ export class StoppableLineSpell {
         if (!this.caster) {
             return;
         }
-        console.log("Stop cast");
+        // console.log("Stop cast");
         ACTION.stop(this.caster);
         this.justCasted.restart();
         this.turnToTargetDelay = 0;

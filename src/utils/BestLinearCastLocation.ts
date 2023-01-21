@@ -9,9 +9,10 @@ export const findBestLinearCast = (
     delayMS: number,
     projectileSpeed: number,
     targets: IUnitEntity[],
-    minEnemyHit: number = 0
+    minEnemyHit: number = 0,
+    offsetToFront: number = 0,
 ): Vec2 | undefined => {
-    const targetPredictions = targets.map((t) => goodPrediction(caster, t, projectileSpeed, delayMS, range)).filter((p): p is Vec2 => !!p);
+    const targetPredictions = targets.map((t) => goodPrediction(caster.position, t, projectileSpeed, delayMS, range)).filter((p): p is Vec2 => !!p);
 
     const shootExtremes = targetPredictions
         .map((p) => Vector2d.calcTangentPoints(caster.position, p, radius * 0.9))
@@ -21,7 +22,7 @@ export const findBestLinearCast = (
     let bestCount = minEnemyHit;
 
     for (const extreme of shootExtremes) {
-        const hitCount = targetPredictions.filter((p) => Vector2d.distToSegmentSquared(p, caster.position, extreme) <= radius * radius)
+        const hitCount = targetPredictions.filter((p) => Vector2d.distToSegmentSquared(p, Vector2d.extendTo(caster.position, extreme, offsetToFront), extreme) <= radius * radius)
             .length;
         if (bestCount <= hitCount) {
             bestCount = hitCount;
